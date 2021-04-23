@@ -1,0 +1,9 @@
+.wrapper-carousel-landing {
+    cursor: pointer;
+}
+
+.wrapper-carousel-landing  img{
+    object-fit: cover;
+}
+
+
