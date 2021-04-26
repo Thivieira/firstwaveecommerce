@@ -8,6 +8,8 @@ import modeloLado from "../assets/modelo2.png";
 
 import ProductsSlider from "../components/landing/ProductsSlider";
 
+import { getLayout } from "../layouts/SiteLayout";
+
 const Index = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -82,5 +84,7 @@ const Index = () => {
     </div>
   );
 };
+
+Index.getLayout = getLayout;
 
 export default Index;

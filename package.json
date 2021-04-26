@@ -35,5 +35,8 @@
     "sweetalert2-react-content": "^3.3.2",
     "yup": "^0.32.9"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-plugin-inline-react-svg": "^2.0.1"
+  }
 }

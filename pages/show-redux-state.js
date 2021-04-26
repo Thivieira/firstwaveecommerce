@@ -1,16 +1,16 @@
-import { useSelector } from 'react-redux'
-import Link from 'next/link'
+import { useSelector } from "react-redux";
+import Link from "next/link";
 
 const codeStyle = {
-  background: '#ebebeb',
+  background: "#ebebeb",
   width: 400,
   padding: 10,
-  border: '1px solid grey',
+  border: "1px solid grey",
   marginBottom: 10,
-}
+};
 
 const ShowReduxState = () => {
-  const state = useSelector((state) => state)
+  const state = useSelector((state) => state);
 
   return (
     <>
@@ -21,7 +21,7 @@ const ShowReduxState = () => {
         <a>Go Back Home</a>
       </Link>
     </>
-  )
-}
+  );
+};
 
-export default ShowReduxState
+export default ShowReduxState;

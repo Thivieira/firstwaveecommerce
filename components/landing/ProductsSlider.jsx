@@ -126,9 +126,11 @@ export default function ProductsSlider(props) {
                         />
                       </span>
                     </h5>
-                    <Link to={`/detailsProducts/${p.codigo}`}>
-                      <button>VER DETALHES</button>
-                    </Link>
+                    <button type="button">
+                      <Link href={`/detailsProducts/${p.codigo}`}>
+                        VER DETALHES
+                      </Link>
+                    </button>
                   </div>
                 </div>
               </div>
