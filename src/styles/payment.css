@@ -1,0 +1,150 @@
+.payment-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 5rem;
+}
+
+.cart-footer-payment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payment-top-container {
+    display: flex;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.payment-top-container .column {
+    margin: 0rem 1rem;
+}
+
+@media (max-width: 576px) {
+    .payment-container {
+        padding: 0px;
+    }
+
+    .payment-top-container {
+        flex-direction: column;
+    }
+
+    .payment-top-container .column {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .cart-payment-container {
+        padding: 0.25rem !important;
+    }
+
+    .sub-price {
+        top: 0px !important;
+    }
+
+    .cart-payment__details {
+        width: 100% !important;
+    }
+}
+
+.payment-box-data {
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.payment-data {
+    display: flex;
+    align-items: flex-start;
+}
+
+.white-background {
+    background-color: rgba(255, 165, 0, 0.5);
+}
+
+.line-input {
+    display: flex;
+}
+
+.first-line-input {
+    width: 35%;
+    margin-right: 1rem;
+}
+
+.cart-payment-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #e5e5e5;
+    border: 1px solid #0080a8;
+    border-radius: 6px;
+    padding: 1rem;
+    height: 27rem;
+}
+
+.cart-payment {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    overflow-y: auto;
+}
+
+.thumb-cart-pay {
+    height: auto;
+    width: 5rem;
+    height: 5rem;
+    margin-right: 0.5rem;
+}
+
+.cart-payment__details {
+    display: flex;
+    font-size: 1rem;
+    margin: 1rem 0;
+    width: 375px;
+}
+
+.cart-payment__details h3.title-cart {
+    color: #0080a8;
+    margin: 0;
+}
+
+.cart-payment__details .desc {
+    color: #5b5a5e;
+    margin: 0px 1rem;
+}
+
+.color-size {
+    display: flex;
+    justify-content: space-around;
+}
+
+.cart-payment__details .desc p {
+    margin: 0;
+    color: #333;
+}
+
+.sub-price {
+    position: relative;
+    top: 10px;
+    /* bottom: 0px;
+    right: 0px; */
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sub-price p {
+    margin-bottom: 0px;
+}
+
+.payment-bottom-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}

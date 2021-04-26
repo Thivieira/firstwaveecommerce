@@ -1,7 +1,8 @@
 import { Provider } from "react-redux";
 import { useStore } from "../store/index";
 import { PersistGate } from "redux-persist/integration/react";
-import "../styles/Global.css";
+
+import "../styles/global.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../styles/Landing.css";
