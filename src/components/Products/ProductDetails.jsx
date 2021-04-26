@@ -1,16 +1,14 @@
 import React, { useState, useEffect, Fragment, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { addToCart, changeIsOpen } from "../../actions/products";
-import { ReactComponent as Cart } from "../../assets/shopping-cart-solid.svg";
+// import { addToCart, changeIsOpen } from "../../actions/products";
+// import { ReactComponent as Cart } from "../../../public/shopping-cart-solid.svg";
 
-import ProductSlider from "../ProductsSlider";
-import "./productDetails.css";
-import Select from "react-select";
+// import ProductSlider from "../ProductsSlider";
 
-import image1 from "../../assets/image1.jpg";
-import image2 from "../../assets/image2.jpg";
-import image3 from "../../assets/imaage3.jpg";
-import image4 from "../../assets/image4.jpg";
+import image1 from "../../../public/image1.jpg";
+import image2 from "../../../public/image2.jpg";
+import image3 from "../../../public/imaage3.jpg";
+import image4 from "../../../public/image4.jpg";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -20,7 +18,6 @@ const MySwal = withReactContent(Swal);
 
 const ProductDetails = ({ product }) => {
     const dispatch = useDispatch()
-    console.log(product)
 
     const [selectedColor, setSelectedColor] = useState("")
     const [selectedSize, setSelectedSize] = useState("")
@@ -180,8 +177,9 @@ const ProductDetails = ({ product }) => {
                             disabled={estoqueAtual === 0 ? true : false}
                             title={estoqueAtual === 0 ? "Este produto não tem esta quantidade disponível." : null}
                         >
-                            ADICIONAR AO{" "}
-                            {<Cart height="20" width="20" color="#fff" />}
+                            ADICIONAR AO
+                            <img className='cart-btn' src="/shopping-cart-solid.svg" alt="Carrinho de compras"/>
+                            {/* {<Cart height="20" width="20" color="#fff" />} */}
                         </button>
                     </div>
 

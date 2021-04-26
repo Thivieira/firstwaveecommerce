@@ -1,19 +1,19 @@
 import React, { useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
-import { getLoading, getProduct } from "../../selectors/products"
-import { clearProduct, openProduct, setLoading } from "../../actions/products"
+// import { useParams } from "react-router-dom"
+// import { getLoading, getProduct } from "../../selectors/products"
+// import { clearProduct, openProduct, setLoading } from "../../actions/products"
 
 import FadeLoader from "react-spinners/FadeLoader"
 import api from "../../services/api"
 
-import ProductDetails from "../Products/ProductDetails"
+import ProductDetails from "../../components/Products/ProductDetails"
 
-const DetailsProduct = () => {
+const DetailsProduct = ({product}) => {
     const dispatch = useDispatch()
-    const loading = useSelector(getLoading)
+    // const loading = useSelector(getLoading)
 
-    const paramId = useParams()
+    // const paramId = useParams()
 
     // const product = useSelector(getProduct)
 
@@ -40,7 +40,7 @@ const DetailsProduct = () => {
    
     return (
         <div>
-            {loading || product.length == 0 ? (
+            {/* {loading || product.length == 0 ? (
                 <div className="details-wrapper">
                     <div className="spinner-product">
                         <FadeLoader
@@ -55,22 +55,41 @@ const DetailsProduct = () => {
                 </div>
             ) : (
                 <ProductDetails product={product} />
-            )}
+            )} */}
+            <ProductDetails product={product} />
         </div>
     );
 };
 
 export default DetailsProduct;
 
+export const getStaticPaths = async () => {
+    const res = await api.get('/produtos/categoria?genero=masculino')
+
+    const prod = res.data.map(el => el.produto)
+  
+    const pathsSelected = prod.map(p => {
+      return {
+        params: {
+          codigo: p.codigo
+        }
+      }
+    })
+  
+    return {
+      paths: pathsSelected,
+      fallback: 'blocking' //incremental static regeneration | só redireciona para a página quando ela for carregada
+    }
+}
+
 export const getStaticProps = async (ctx) => {
   const { codigo } = ctx.params
-  const res = await api.get(`produto/${codigo}`)
+  const res = await api.get(`/produto/${codigo}`)
   
-    const product = res.data.produto
-    console.log(product)
+  const product = res.data.produto
   
     return {
       props: { product },
       revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
     }
-  }
+}

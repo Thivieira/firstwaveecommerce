@@ -7,7 +7,7 @@ import api from "../../services/api";
 
 import Slider from "react-slick";
 
-import { Link } from "next/link";
+import Link from "next/link";
 import { sliderProducts } from "../../store/actions/products";
 import NumberFormat from "react-number-format";
 
@@ -124,9 +124,9 @@ export default function ProductsSlider({prod}) {
                         />
                       </span>
                     </h5>
-                    {/* <Link href={`/detailsProducts/${p.codigo}`}>
+                    <Link href={`/produto/${p.codigo}`}>
                       <button>VER DETALHES</button>
-                    </Link> */}
+                    </Link>
                   </div>
                 </div>
               </div>

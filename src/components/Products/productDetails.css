@@ -94,7 +94,6 @@
     color: #fff;
     cursor: pointer;
     border: none;
-    font-size: 1rem;
     font-weight: 700;
     margin-right: 15px;
     transition: all ease-in-out 0.3s;
@@ -197,6 +196,12 @@
 .colors-thumb img.active {
     opacity: 1;
     border: 1px solid rgb(16, 179, 238);
+}
+
+.cart-btn {
+    width: 270px;
+    height: 20px;
+    color: #fff;
 }
 
 @media (max-width: 768px) {

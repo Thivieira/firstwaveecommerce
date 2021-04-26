@@ -82,7 +82,7 @@ const Index = ({prod}) => {
 export default Index;
 
 export const getStaticProps = async () => {
-  const res = await api.get('/produtos/categoria?tamanho=M')
+  const res = await api.get('/produtos/categoria?genero=masculino')
 
   const prod = res.data
 
