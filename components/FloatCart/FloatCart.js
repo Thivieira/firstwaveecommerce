@@ -6,7 +6,7 @@ import {
   getCartState,
   getIsOpen,
 } from "../../store/selectors/products";
-import { ReactComponent as Cart } from "../../assets/shopping-cart-solid.svg";
+import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
 import Link from "next/link";
 import { Badge } from "antd";
 
@@ -112,17 +112,17 @@ function FloatCart() {
             </div>
             <div className="buy-btn">
               {authorized ? (
-                <Link
+                <a
                   href={total !== 0 ? "/payment" : ""}
                   className="logado"
                   onClick={authorizedCart}
                 >
                   FINALIZAR
-                </Link>
+                </a>
               ) : (
-                <Link href="/login" className="Nlogado" onClick={noAuthorized}>
+                <a href="/login" className="Nlogado" onClick={noAuthorized}>
                   FINALIZAR
-                </Link>
+                </a>
               )}
             </div>
           </div>

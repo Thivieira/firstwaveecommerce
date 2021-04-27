@@ -1,4 +1,12 @@
+const withPlugins = require("next-compose-plugins");
 const withImages = require("next-images");
-module.exports = withImages({
+
+const imagesPlugin = withImages({
   esModule: true,
+});
+
+module.exports = withPlugins([imagesPlugin], {
+  images: {
+    domains: ["storage.googleapis.com"],
+  },
 });

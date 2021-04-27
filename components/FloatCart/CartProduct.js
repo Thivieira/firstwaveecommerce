@@ -7,8 +7,6 @@ import {
   decrementFromCart,
 } from "../../store/actions/products";
 
-import image1 from "../../assets/image1.jpg";
-
 function CartProduct({ product }) {
   const [isMouseOver, setIsMouseOver] = useState(false);
 
@@ -34,7 +32,7 @@ function CartProduct({ product }) {
           onClick={() => dispatch(removeFromCart(product.codigoVariacao))}
         />
 
-        <Thumb src={image1} alt={product.descricao} />
+        <Thumb src={"/image1.jpg"} alt={product.descricao} />
 
         <div className="shelf-item__details">
           <p className="title-cart">{product.descricao}</p>
