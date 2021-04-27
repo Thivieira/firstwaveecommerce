@@ -13,6 +13,14 @@ import "../components/FloatCart/floatcart.css";
 import "../partials/header.css";
 import "../partials/footer.css";
 import "../components/Products/productDetails.css";
+import './login/login.css'
+import '../Utils/Box/box.css'
+import '../Utils/ButtonsContainer/buttonsContainer.css';
+import '../Utils/Separation/separation.css';
+import '../Utils/InputContainer/inputContainer.css';
+import '../Utils/Container/container.css';
+import '../Utils/Title/title.css';
+import "../pages/form/form.css";
 
 export default function App({ Component, pageProps }) {
   const store = useStore(pageProps.initialReduxState);

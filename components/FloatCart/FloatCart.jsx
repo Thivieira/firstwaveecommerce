@@ -1,16 +1,17 @@
-import React, { useState, Fragment } from "react";
-import Link from "next/link";
-import CartProduct from "./CartProduct";
-
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { getCartTotal, getCartState, getIsOpen, } from "../../selectors/products";
-// import { changeIsOpen } from "../../actions/products";
-
-// import { ReactComponent as Cart } from "../../assets/shopping-cart-solid.svg";
+import CartProduct from "./CartProduct";
+import {
+  getCartTotal,
+  getCartState,
+  getIsOpen,
+} from "../../store/selectors/products";
+import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
+import Link from "next/link";
 import { Badge } from "antd";
-import { CloseSquareOutlined } from "@ant-design/icons";
 
-// import "./style.css";
+import { changeIsOpen } from "../../store/actions/products";
+import { CloseSquareOutlined } from "@ant-design/icons";
 
 function FloatCart() {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ function FloatCart() {
   }
 
   return (
-    <Fragment>
+    <>
       <div className={classes.join(" ")}>
         {isOpen && (
           <div onClick={closeFloatCart} className="float-cart__close-btn">
@@ -127,7 +128,7 @@ function FloatCart() {
           </div>
         </div>
       </div>
-    </Fragment>
+    </>
   );
 }
 

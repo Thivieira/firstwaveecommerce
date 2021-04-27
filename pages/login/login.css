@@ -1,0 +1,44 @@
+.wrapper-login {
+    width: 70vw;
+    margin-left: 15vw;
+    margin-right: 15vw;
+    height: 100vh;
+    padding: 1rem 0;
+}
+
+.wrapper-login {
+    padding: 4rem 1rem;
+}
+
+.wrapper-login h1 {
+    color: #0080a8;
+    padding-bottom: 3rem;
+}
+
+
+.sign-up {
+    width: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.forget-password {
+    width: 100%;
+    border-top: 1px solid #0080a8;
+    padding: 1rem;
+    text-align: center;
+}
+
+.forget-password a {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+@media(max-width: 850px) {
+    .sign-up {
+        margin: 2rem 0;
+    }
+}
