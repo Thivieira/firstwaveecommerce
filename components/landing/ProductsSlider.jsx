@@ -132,7 +132,7 @@ export default function ProductsSlider({ prod }) {
                         </span>
                       </h5>
                       <button type="button">
-                        <a href={`/produtos/${p.codigo}`}>VER DETALHES</a>
+                        <a href={`/produto/${p.codigo}`}>VER DETALHES</a>
                       </button>
                     </div>
                   </div>

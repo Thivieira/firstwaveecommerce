@@ -11,7 +11,7 @@ function Product({ product }) {
     <div className="card-grid" key={product.id}>
       <div className="img-content">
         <img src={image1} alt={product.title} />
-        <a to={`/produtos/${product.codigo}`}>
+        <a to={`/produto/${product.codigo}`}>
           <button>Ver detalhes</button>
         </a>
       </div>
