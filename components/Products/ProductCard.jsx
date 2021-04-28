@@ -1,7 +1,4 @@
-import React, { useEffect } from "react";
-import "./productCard.css";
-import { Link } from "react-router-dom";
-import image1 from "../../assets/image1.jpg";
+import Link from "next/link";
 import FavoriteBtn from "../FavoriteBtn";
 
 function Product({ product }) {
@@ -10,10 +7,10 @@ function Product({ product }) {
   return (
     <div className="card-grid" key={product.id}>
       <div className="img-content">
-        <img src={image1} alt={product.title} />
-        <a to={`/produto/${product.codigo}`}>
+        <img src='/image1.jpg' alt={product.title} />
+        <Link href={`/produto/${product.codigo}`}>
           <button>Ver detalhes</button>
-        </a>
+        </Link>
       </div>
       <div className="content">
         <div className="title-and-heart">

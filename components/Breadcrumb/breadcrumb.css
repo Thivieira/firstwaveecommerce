@@ -1,0 +1,14 @@
+.path-prod-wrapper {
+    margin-top: -1rem;
+}
+
+.path-prod {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #0080A8;
+    transition: all ease-in-out 0.3s;
+}
+
+.path-prod:hover {
+    color: #ff8b00;
+}

@@ -1,0 +1,122 @@
+.products-wrapper {
+    display: flex;
+    width: 75vw;
+    min-height: 100vh;
+    margin: auto;
+    flex-direction: column;
+}
+
+.filter-sort {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 85%;
+    margin: 1rem 15%;
+}
+
+.filter-sort select {
+    padding: 0.2rem;
+    outline: none;
+    border: 1px solid #ff8b00;
+    border-radius: 4px;
+}
+
+.products-wrapper .spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10rem;
+}
+
+.products-wrapper .products {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin-left: 7rem;
+}
+
+.products-wrapper .filter {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    margin-top: 35px;
+    left: 0;
+}
+
+.paginationsBttn {
+    width: 80%;
+    height: 100px;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.paginationsBttn a {
+    padding: 10px;
+    margin: 8px;
+    border-radius: 5px;
+    border: 1px solid #0080a8;
+    color: #0080a8;
+    cursor: pointer;
+    transition: all ease-in 0.4s;
+}
+
+.paginationsBttn a:hover {
+    color: white;
+    background-color: #0080a8;
+    transition: all ease-in-out 0.4s;
+}
+
+.paginationActive a {
+    color: white;
+    background-color: #0080a8;
+}
+
+.filter-mobile .filter {
+    width: 100%;
+}
+
+@media (max-width: 1280px) {
+    .products-wrapper {
+        width: 90vw;
+    }
+    .products {
+        margin-left: 0px !important;
+    }
+
+    .filter-sort {
+        width: auto !important;
+    }
+
+    .btn-filter-mobile {
+        position: fixed !important;
+        left: 10px !important;
+        top: 11rem !important;
+        background-color: rgba(255, 139, 0, 0.5);
+        width: 5rem;
+        height: 1.5rem;
+        border-radius: 1rem;
+        font-weight: 800;
+    }
+
+    .float-cart .bag--float-cart-closed {
+        left: -65px !important;
+    }
+
+    .paginationsBttn {
+        width: 100% !important;
+    }
+
+    .paginationsBttn li a {
+        padding: 5px !important;
+        margin: 5px !important;
+    }
+}
+
+@media (max-width: 800px) {
+    .btn-filter-mobile {
+        top: 6rem !important;
+    }
+}

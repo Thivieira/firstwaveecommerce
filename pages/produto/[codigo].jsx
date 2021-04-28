@@ -16,10 +16,6 @@ const DetailsProduct = ({ product }) => {
   const dispatch = useDispatch();
   const loading = useSelector(getLoading);
 
-  // const paramId = useParams();
-
-  // const product = useSelector(getProduct);
-
   useMemo(() => {
     const fetchProducts = async () => {
       dispatch(clearProduct());
