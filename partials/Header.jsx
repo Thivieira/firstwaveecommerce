@@ -11,6 +11,7 @@ import { FaBars } from "react-icons/fa";
 import FloatCart from "../components/FloatCart/FloatCart";
 
 import api from "../services/api";
+import NavLink from "../components/NavLink";
 
 function Header({ name }) {
   const [search, setSearch] = useState("");
@@ -25,11 +26,13 @@ function Header({ name }) {
 
   api.defaults.headers.common["Authorization"] = "Bearer " + token;
 
-  // async function getUserData() {
-  //   await api.get("/usuario").then((res) => );
-  // }
+  async function getUserData() {
+    await api.get("/usuario").then((res) => {
+      setUserName(res.data.nomeCompleto);
+    });
+  }
 
-  useEffect(() => setUserName(name), [authorized]);
+  useEffect(() => getUserData(), [authorized]);
 
   function switchFilter() {
     switch (showFilter) {
@@ -37,39 +40,54 @@ function Header({ name }) {
         return (
           <div className="wrapper-surf-options">
             <div className="surf-options">
-              <a href="/produtos/Surf/Wetsuit" className="surf-options-link">
+              <NavLink
+                href="/produtos/Surf/Wetsuit"
+                className="surf-options-link"
+              >
                 WETSUITS
-              </a>
-              <a href="/produtos/Surf/Quilha" className="surf-options-link">
+              </NavLink>
+              <NavLink
+                href="/produtos/Surf/Quilha"
+                className="surf-options-link"
+              >
                 QUILHA
-              </a>
-              <a href="/produtos/Surf/Leash" className="surf-options-link">
+              </NavLink>
+              <NavLink
+                href="/produtos/Surf/Leash"
+                className="surf-options-link"
+              >
                 LEASH
-              </a>
-              <a href="/produtos/Surf/Lycra" className="surf-options-link">
+              </NavLink>
+              <NavLink
+                href="/produtos/Surf/Lycra"
+                className="surf-options-link"
+              >
                 LYCRA
-              </a>
-              <a href="/produtos/Surf/Prancha" className="surf-options-link">
+              </NavLink>
+              <NavLink
+                href="/produtos/Surf/Prancha"
+                className="surf-options-link"
+              >
                 PRANCHA
-              </a>
-              <a href="/produtos/Surf/Capa" className="surf-options-link">
+              </NavLink>
+              <NavLink href="/produtos/Surf/Capa" className="surf-options-link">
                 CAPA
-              </a>
-              <a href="/produtos/Surf/Deck" className="surf-options-link">
+              </NavLink>
+              <NavLink href="/produtos/Surf/Deck" className="surf-options-link">
                 DECK
-              </a>
-              <a href="/produtos/Surf/Bone" className="surf-options-link">
+              </NavLink>
+              <NavLink href="/produtos/Surf/Bone" className="surf-options-link">
                 BONÉS
-              </a>
+              </NavLink>
             </div>
 
-            <a href="/produtos/Surf">
+            <NavLink href="/produtos/Surf">
               <img
                 className="surf-image"
                 src="https://images.tcdn.com.br/img/img_prod/812998/1612288585_wetsuits-01-min.jpg"
                 alt="imagem de surf"
               />
-            </a>
+            </NavLink>
           </div>
         );
       case 2:
@@ -77,121 +95,121 @@ function Header({ name }) {
           <div className="wrapper-content-genre">
             <div className="wrapper-genre">
               <div className="header-genre">
-                <a
+                <NavLink
                   href="/produtos/Masculino/Vestuario"
                   className="header-genre"
                 >
                   VESTUÁRIO
-                </a>
+                </NavLink>
               </div>
               <div className="subtitle-vest">
-                <a
+                <NavLink
                   href="/produtos/Masculino/Vestuario/Bermuda"
                   className="subtitle-vest-link"
                 >
                   BERMUDAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Masculino/Vestuario/Camiseta"
                   className="subtitle-vest-link"
                 >
                   CAMISETAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Masculino/Vestuario/Camisa"
                   className="subtitle-vest-link"
                 >
                   CAMISAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Masculino/Vestuario/Regata"
                   className="subtitle-vest-link"
                 >
                   REGATAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Masculino/Vestuario/Calca"
                   className="subtitle-vest-link"
                 >
                   CALÇAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Masculino/Vestuario/Jaqueta"
                   className="subtitle-vest-link"
                 >
                   JAQUETAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Masculino/Vestuario/Sunga"
                   className="subtitle-vest-link"
                 >
                   SUNGAS
-                </a>
+                </NavLink>
               </div>
             </div>
 
             <div className="wrapper-genre">
               <div className="header-genre">
-                <a
+                <NavLink
                   href="/produtos/Masculino/Acessorio"
                   className="header-genre"
                 >
                   ACESSÓRIOS
-                </a>
+                </NavLink>
               </div>
               <div className="subtitle-vest">
-                <a
+                <NavLink
                   href="/produtos/Masculino/Acessorio/Bone"
                   className="subtitle-vest-link"
                 >
                   BONÉS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Masculino/Acessorio/Mochila"
                   className="subtitle-vest-link"
                 >
                   MOCHILAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Masculino/Acessorio/Carteira"
                   className="subtitle-vest-link"
                 >
                   CARTEIRAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Masculino/Acessorio/Cinto"
                   className="subtitle-vest-link"
                 >
                   CINTOS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Masculino/Acessorio/Pochete"
                   className="subtitle-vest-link"
                 >
                   POCHETES
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Masculino/Acessorio/Gorro"
                   className="subtitle-vest-link"
                 >
                   GORROS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Masculino/Acessorio/Meia"
                   className="subtitle-vest-link"
                 >
                   MEIAS
-                </a>
+                </NavLink>
               </div>
             </div>
 
-            <a href="/produtos/Masculino">
+            <NavLink href="/produtos/Masculino">
               <img
                 className="img-genre"
                 src={"/headerMasc.jpg"}
                 alt="img-genre"
               />
-            </a>
+            </NavLink>
           </div>
         );
       case 3:
@@ -199,139 +217,145 @@ function Header({ name }) {
           <div className="wrapper-content-genre">
             <div className="wrapper-genre">
               <div className="header-genre">
-                <a href="/produtos/Feminino/Vestuario" className="header-genre">
+                <NavLink
+                  href="/produtos/Feminino/Vestuario"
+                  className="header-genre"
+                >
                   VESTUÁRIO
-                </a>
+                </NavLink>
               </div>
               <div className="subtitle-vest">
-                <a
+                <NavLink
                   href="/produtos/Feminino/Vestuario/Short"
                   className="subtitle-vest-link"
                 >
                   SHORTS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Vestuario/Saia"
                   className="subtitle-vest-link"
                 >
                   SAIAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Vestuario/Calca"
                   className="subtitle-vest-link"
                 >
                   CALÇAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Vestuario/Camiseta"
                   className="subtitle-vest-link"
                 >
                   CAMISETAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Vestuario/Regata"
                   className="subtitle-vest-link"
                 >
                   REGATAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Vestuario/Vestido"
                   className="subtitle-vest-link"
                 >
                   VESTIDOS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Vestuario/Macaquinho"
                   className="subtitle-vest-link"
                 >
                   MACAQUINHOS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Vestuario/Body"
                   className="subtitle-vest-link"
                 >
                   BODYS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Vestuario/Jaqueta"
                   className="subtitle-vest-link"
                 >
                   JAQUETA
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Vestuario/Biquini"
                   className="subtitle-vest-link"
                 >
                   BIQUINIS
-                </a>
+                </NavLink>
               </div>
             </div>
 
             <div className="wrapper-genre">
               <div className="header-genre">
-                <a href="/produtos/Feminino/Acessorio" className="header-genre">
+                <NavLink
+                  href="/produtos/Feminino/Acessorio"
+                  className="header-genre"
+                >
                   ACESSÓRIOS
-                </a>
+                </NavLink>
               </div>
               <div className="subtitle-vest">
-                <a
+                <NavLink
                   href="/produtos/Feminino/Acessorio/Pochete"
                   className="subtitle-vest-link"
                 >
                   POCHETES
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Acessorio/Mochila"
                   className="subtitle-vest-link"
                 >
                   MOCHILAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Acessorio/Bone"
                   className="subtitle-vest-link"
                 >
                   BONÉS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Acessorio/Cinto"
                   className="subtitle-vest-link"
                 >
                   CINTOS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Acessorio/Carteira"
                   className="subtitle-vest-link"
                 >
                   CARTEIRAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Acessorio/Gorro"
                   className="subtitle-vest-link"
                 >
                   GORROS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Acessorio/Necessaire"
                   className="subtitle-vest-link"
                 >
                   NECESSAIRES
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Feminino/Acessorio/Meia"
                   className="subtitle-vest-link"
                 >
                   MEIAS
-                </a>
+                </NavLink>
               </div>
             </div>
 
-            <a href="/produtos/Feminino">
+            <NavLink href="/produtos/Feminino">
               <img
                 className="img-genre"
                 src={"/headerFem.jpg"}
                 alt="img-genre"
               />
-            </a>
+            </NavLink>
           </div>
         );
       case 4:
@@ -339,51 +363,54 @@ function Header({ name }) {
           <div className="wrapper-content-genre">
             <div className="wrapper-genre">
               <div className="header-genre">
-                <a href="/produtos/Juvenil/Vestuario" className="header-genre">
+                <NavLink
+                  href="/produtos/Juvenil/Vestuario"
+                  className="header-genre"
+                >
                   VESTUÁRIO
-                </a>
+                </NavLink>
               </div>
               <div className="subtitle-vest">
-                <a
+                <NavLink
                   href="/produtos/Juvenil/Vestuario/Camiseta"
                   className="subtitle-vest-link"
                 >
                   CAMISETAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Juvenil/Vestuario/Regata"
                   className="subtitle-vest-link"
                 >
                   REGATAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Juvenil/Vestuario/Bermuda"
                   className="subtitle-vest-link"
                 >
                   BERMUDAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Juvenil/Vestuario/Calca"
                   className="subtitle-vest-link"
                 >
                   CALÇAS
-                </a>
-                <a
+                </NavLink>
+                <NavLink
                   href="/produtos/Juvenil/Vestuario/Jaqueta"
                   className="subtitle-vest-link"
                 >
                   JAQUETAS
-                </a>
+                </NavLink>
               </div>
             </div>
 
-            <a href="/produtos/Juvenil">
+            <NavLink href="/produtos/Juvenil">
               <img
                 className="img-genre"
                 src={"/headerKidd.jpg"}
                 alt="img-genre"
               />
-            </a>
+            </NavLink>
           </div>
         );
       case 5:
@@ -391,31 +418,31 @@ function Header({ name }) {
       //     <div className='wrapper-content-calcado'>
       //         <div className='wrapper-calcado'>
       //                 <div className='header-calcado'>
-      //                     <a href='/produtos/Masculino/Calcados' className='header-calcado'>MASCULINO</a>
+      //                     <NavLink href='/produtos/Masculino/Calcados' className='header-calcado'>MASCULINO</NavLink>
       //                 </div>
       //                 <div className='subtitle-calc'>
-      //                     <a href='/produtos/Masculino/Calcados/Tenis' className='subtitle-calc-link'>TÊNIS</a>
-      //                     <a href='/produtos/Masculino/Calcados/Chinelo' className='subtitle-calc-link'>CHINELOS</a>
+      //                     <NavLink href='/produtos/Masculino/Calcados/Tenis' className='subtitle-calc-link'>TÊNIS</NavLink>
+      //                     <NavLink href='/produtos/Masculino/Calcados/Chinelo' className='subtitle-calc-link'>CHINELOS</NavLink>
       //                 </div>
       //         </div>
 
       //         <div className='wrapper-calcado'>
       //             <div className='header-calcado'>
-      //                 <a href='/produtos/Feminino/Calcados' className='header-calcado'>FEMININO</a>
+      //                 <NavLink href='/produtos/Feminino/Calcados' className='header-calcado'>FEMININO</NavLink>
       //             </div>
       //             <div className='subtitle-calc'>
-      //                 <a href='/produtos/Feminino/Calcados/Tenis' className='subtitle-calc-link'>TÊNIS</a>
-      //                 <a href='/produtos/Feminino/Calcados/Chinelo' className='subtitle-calc-link'>CHINELOS</a>
+      //                 <NavLink href='/produtos/Feminino/Calcados/Tenis' className='subtitle-calc-link'>TÊNIS</NavLink>
+      //                 <NavLink href='/produtos/Feminino/Calcados/Chinelo' className='subtitle-calc-link'>CHINELOS</NavLink>
       //             </div>
       //         </div>
 
       //         <div className='wrapper-calcado'>
       //             <div className='header-calcado'>
-      //                 <a href='/produtos/Juvenil/Calcados' className='header-calcado'>JUVENIL</a>
+      //                 <NavLink href='/produtos/Juvenil/Calcados' className='header-calcado'>JUVENIL</NavLink>
       //             </div>
       //             <div className='subtitle-calc'>
-      //                 <a href='/produtos/Juvenil/Calcados/Tenis' className='subtitle-calc-link'>TÊNIS</a>
-      //                 <a href='/produtos/Juvenil/Calcados/Chinelo' className='subtitle-calc-link'>CHINELOS</a>
+      //                 <NavLink href='/produtos/Juvenil/Calcados/Tenis' className='subtitle-calc-link'>TÊNIS</NavLink>
+      //                 <NavLink href='/produtos/Juvenil/Calcados/Chinelo' className='subtitle-calc-link'>CHINELOS</NavLink>
       //             </div>
       //         </div>
       //     </div>
@@ -450,9 +477,9 @@ function Header({ name }) {
         <div onClick={showSideBar} className="navbar">
           <FaBars />
         </div>
-        <Link href="/" passHref>
-          <a className="header-logo">Molokai</a>
-        </Link>
+        <NavLink href="/" className="header-logo">
+          Molokai
+        </NavLink>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -479,7 +506,7 @@ function Header({ name }) {
           />
         </form>
         <nav className="nav-container">
-          <a href={authorized ? "/dash" : "/login"} className="nav-item">
+          <NavLink href={authorized ? "/dash" : "/login"} className="nav-item">
             <div>
               {authorized ? (
                 <Dropdown.Button
@@ -497,7 +524,7 @@ function Header({ name }) {
                 </Button>
               )}
             </div>
-          </a>
+          </NavLink>
           <div className="nav-item">
             <FloatCart />
           </div>
@@ -509,17 +536,20 @@ function Header({ name }) {
           className={sidebar ? "menu-container active" : "menu-container"}
         >
           <div className="sidebar-top">
-            <a href={authorized ? "/dash" : "/login"} className="sidebar-item">
+            <NavLink
+              href={authorized ? "/dash" : "/login"}
+              className="sidebar-item"
+            >
               <>
                 <AccountCircle fontSize="large" />
                 <p className="nav-item-legenda">
                   {authorized ? userName : "Entre ou cadastre-se"}
                 </p>
               </>
-            </a>
+            </NavLink>
           </div>
 
-          <a
+          <NavLink
             href="/produtos/Surf"
             className={
               showFilter === 1 ? "menu-item menu-item-active" : "menu-item"
@@ -527,9 +557,9 @@ function Header({ name }) {
             onMouseEnter={() => setShowFilter(1)}
           >
             Surf
-          </a>
+          </NavLink>
 
-          <a
+          <NavLink
             href="/produtos/Masculino"
             className={
               showFilter === 2 ? "menu-item menu-item-active" : "menu-item"
@@ -537,9 +567,9 @@ function Header({ name }) {
             onMouseEnter={() => setShowFilter(2)}
           >
             Masculino
-          </a>
+          </NavLink>
 
-          <a
+          <NavLink
             href="/produtos/Feminino"
             className={
               showFilter === 3 ? "menu-item menu-item-active" : "menu-item"
@@ -547,9 +577,9 @@ function Header({ name }) {
             onMouseEnter={() => setShowFilter(3)}
           >
             Feminino
-          </a>
+          </NavLink>
 
-          <a
+          <NavLink
             href="/produtos/Juvenil"
             className={
               showFilter === 4 ? "menu-item menu-item-active" : "menu-item"
@@ -557,9 +587,9 @@ function Header({ name }) {
             onMouseEnter={() => setShowFilter(4)}
           >
             Juvenil
-          </a>
+          </NavLink>
 
-          <a
+          <NavLink
             href="/produtos/Calcado"
             className={
               showFilter === 5 ? "menu-item menu-item-active" : "menu-item"
@@ -567,9 +597,9 @@ function Header({ name }) {
             onMouseEnter={() => setShowFilter(0)}
           >
             Calçados
-          </a>
+          </NavLink>
 
-          <a
+          <NavLink
             href="/produtos/Acessorio"
             className={
               showFilter === 6 ? "menu-item menu-item-active" : "menu-item"
@@ -577,9 +607,9 @@ function Header({ name }) {
             onMouseEnter={() => setShowFilter(0)}
           >
             Acessórios
-          </a>
+          </NavLink>
 
-          <a
+          <NavLink
             href="/produtos/Acessorio/Oculos"
             className={
               showFilter === 7 ? "menu-item menu-item-active" : "menu-item"
@@ -587,9 +617,9 @@ function Header({ name }) {
             onMouseEnter={() => setShowFilter(0)}
           >
             Óculos
-          </a>
+          </NavLink>
 
-          <a
+          <NavLink
             href="/produtos/Acessorio/Relogio"
             className={
               showFilter === 8 ? "menu-item menu-item-active" : "menu-item"
@@ -597,9 +627,9 @@ function Header({ name }) {
             onMouseEnter={() => setShowFilter(0)}
           >
             Relógio
-          </a>
+          </NavLink>
 
-          <a
+          <NavLink
             href="/produtos/"
             className={
               showFilter === 9 ? "menu-item menu-item-active" : "menu-item"
@@ -607,7 +637,7 @@ function Header({ name }) {
             onMouseEnter={() => setShowFilter(0)}
           >
             Outlet
-          </a>
+          </NavLink>
         </nav>
         <div
           className={
