@@ -21,11 +21,13 @@
     border-radius: 4px;
 }
 
-.products-wrapper .spinner {
+.spinner-produtos {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 10rem;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
 }
 
 .products-wrapper .products {

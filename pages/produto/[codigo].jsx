@@ -19,16 +19,7 @@ const DetailsProduct = ({ product }) => {
   useMemo(() => {
     const fetchProducts = async () => {
       dispatch(clearProduct());
-      dispatch(setLoading(true));
-
-      // const res = await api.get(`/produto/${paramId.codigo}`, {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     accept: "application/json",
-      //   },
-      // });
-      // console.log(res.data.produto);
-      // const prod = res.data.produto;
+      dispatch(setLoading(true))
 
       dispatch(openProduct(product));
       dispatch(setLoading(false));
@@ -76,7 +67,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths: pathsSelected,
-    fallback: "blocking", //incremental static regeneration | só redireciona para a página quando ela for carregada
+    fallback: 'blocking', 
   };
 };
 

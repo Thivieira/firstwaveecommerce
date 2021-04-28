@@ -22,9 +22,24 @@ import {
 } from "../../store/actions/products";
 
 const Produtos = ({ produtos }) => {
-  const dispatch = useDispatch();
-
   const router = useRouter();
+
+  if (router.isFallback) {
+    return (
+      <div className="spinner-produtos">
+        <FadeLoader
+          color={"#0080A8"}
+          loading={loading}
+          height={35}
+          width={7.5}
+          radius={5}
+          margin={15}
+        />
+      </div>
+    )
+  }
+
+  const dispatch = useDispatch();
 
   const categoria = router.query.param[0];
   const subcategoria = router.query.param[1];
@@ -145,13 +160,12 @@ const Produtos = ({ produtos }) => {
     return products;
   };
 
-  const removeIdDuplicate = (id) => id + String(Math.random());
+  const removeIdDuplicate = (id) => id + String(Math.random()); 
 
   return (
     <>
       <div className="products-wrapper">
         <div className="filter-sort">
-          {loading === false && products.length > 0 && (
             <>
               <p>{products.length} Produtos Encontrados</p>
 
@@ -161,7 +175,6 @@ const Produtos = ({ produtos }) => {
                 <option value="maior">Maior para menor</option>
               </select>
             </>
-          )}
         </div>
 
         {loading === true ? (
@@ -270,42 +283,34 @@ export const getStaticPaths = async (ctx) => {
 
   return {
     paths: pathsSelected,
-    fallback: "blocking", //incremental static regeneration | só redireciona para a página quando ela for carregada
+    fallback: true
   };
 };
 
 export const getStaticProps = async (ctx) => {
-  const categoria = ctx.params.param[0];
-  const subcategoria = ctx.params.param[1];
-  const tipo = ctx.params.param[2];
+  const categoria = ctx.params.param[0]
+  const subcategoria = ctx.params.param[1]
+  const tipo = ctx.params.param[2]
 
-  let produtos;
-  let res;
+  let produtos
+  let res
 
   if (subcategoria !== undefined && tipo !== undefined) {
-    res = await api.get(
-      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`
-    );
-    produtos = res.data.map((el) => el.produto);
+    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`)
+    produtos = res.data.map((el) => el.produto)
   } else if (subcategoria !== undefined && tipo === undefined) {
-    res = await api.get(
-      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`
-    );
-    produtos = res.data.map((el) => el.produto);
-  } else if (
-    subcategoria === undefined &&
-    tipo === undefined &&
-    categoria !== undefined
-  ) {
-    res = await api.get(`/produtos/categoria?categoria=${categoria}`);
-    produtos = res.data.map((el) => el.produto);
+    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`)
+    produtos = res.data.map((el) => el.produto)
+  } else if (subcategoria === undefined && tipo === undefined) {
+    res = await api.get(`/produtos/categoria?categoria=${categoria}`)
+    produtos = res.data.map((el) => el.produto)
   } else {
-    res = await api.get(`/produtos`);
-    produtos = res.data.map((el) => el.produto);
+    res = await api.get(`/produtos`)
+    produtos = res.data.map((el) => el.produto)
   }
 
   return {
     props: { produtos },
-    revalidate: 60 * 60 * 8,
+    revalidate: 1,
   };
 };
