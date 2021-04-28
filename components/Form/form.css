@@ -1,0 +1,41 @@
+.form-title {
+    width: 100%;
+    border-bottom: 1px solid #0080A8;
+    font-size: 1.9rem;
+    color: #0080A8;
+    padding-bottom: 1.5rem;
+}
+
+.form {
+    margin-bottom: 3rem;
+}
+
+.input-container-form, .navigation-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.margin-form {
+    margin-right: 1rem;
+    width: 100%;
+}
+
+.inline-input {
+    width: 100%;
+}
+
+.edit-button {
+    justify-content: flex-end;
+}
+
+@media(max-width: 500px) {
+    .input-container-form {
+        flex-direction: column;
+    }
+
+    .margin-form {
+        margin-right: 0;
+    }
+}

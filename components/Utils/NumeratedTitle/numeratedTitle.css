@@ -1,0 +1,13 @@
+.numerated-title-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.numerated-title-title {
+    color: #0080a8;
+    font-size: 1.5rem;
+    margin-left: 0.5rem;
+    border-bottom: 2px solid #0080a8;
+    font-weight: bold;
+}
