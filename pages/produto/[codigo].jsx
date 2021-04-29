@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoading, getProduct } from "../../store/selectors/products";
 import {
@@ -13,7 +14,24 @@ import api from "../../services/api";
 import ProductDetails from "../../components/Products/ProductDetails";
 
 const DetailsProduct = ({ product }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
+
+  if (router.isFallback) {
+    return (
+      <div className="spinner-produtos">
+        <FadeLoader
+          color={"#0080A8"}
+          loading={loading}
+          height={35}
+          width={7.5}
+          radius={5}
+          margin={15}
+        />
+      </div>
+    )
+  }
+
   const loading = useSelector(getLoading);
 
   useMemo(() => {
@@ -53,21 +71,29 @@ const DetailsProduct = ({ product }) => {
 export default DetailsProduct;
 
 export const getStaticPaths = async () => {
-  const res = await api.get("/produtos/categoria?genero=masculino");
+  const resMasc = await api.get("/produtos/categoria?genero=masculino");
+  const prodMasc = resMasc.data.map((el) => el.produto);
 
-  const prod = res.data.map((el) => el.produto);
+  // const resFem = await api.get("/produtos/categoria?genero=feminino");
+  // const prodFem = resFem.data.map((el) => el.produto);
 
-  const pathsSelected = prod.map((p) => {
+  // const prodFeminino = prodFem.map((p) => {
+  //   return {
+  //     params: { codigo: p.codigo },
+  //   };
+  // });
+
+  const prodMasculino = prodMasc.map((p) => {
     return {
       params: {
-        codigo: p.codigo,
+         codigo: p.codigo 
       },
     };
   });
 
   return {
-    paths: pathsSelected,
-    fallback: 'blocking', 
+    paths: prodMasculino,
+    fallback: true 
   };
 };
 

@@ -12,15 +12,16 @@ import { getProducts, clearProducts, setLoading } from "../../store/actions/prod
 
 function Filter() {
     const dispatch = useDispatch();
-
     const router = useRouter()
-    // console.log(router)
 
-    const categoria = router.query.categoria;
-    const subcategoria = router.query.subcategoria;
-    const tipo = router.query.tipo;
+    const categoria = router.query.param[0];
+    const subcategoria = router.query.param[1];
+    const tipo = router.query.param[2];
+
+    console.log(categoria, subcategoria, tipo)
 
     const products = useSelector(getAllProducts);
+    console.log(products)
 
     const [selectedSize, setSelectedSize] = useState([]);
     const [selectedColor, setSelectedColor] = useState([]);
@@ -41,58 +42,28 @@ function Filter() {
         dispatch(clearProducts());
         dispatch(setLoading(true));
 
-        if (
-            subcategoria !== undefined &&
-            tipo !== undefined &&
-            categoria !== undefined
-        ) {
-            const res = await api.get(
-                `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}&tamanho=${filtersSize}&cor=${filtersColor}&marca=${filtersBrand}&precoMax=${selectedPriceMax}&precoMin=${selectedPriceMin}`
-            );
+        if (subcategoria !== undefined && tipo !== undefined && categoria !== undefined) {
+            const res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}&tamanho=${filtersSize}&cor=${filtersColor}&marca=${filtersBrand}&precoMax=${selectedPriceMax}&precoMin=${selectedPriceMin}`);
             const prod = res.data.map((el) => el.produto);
             dispatch(getProducts(prod));
             dispatch(setLoading(false));
-        } else if (
-            subcategoria !== undefined &&
-            tipo === undefined &&
-            categoria !== undefined
-        ) {
-            const res = await api.get(
-                `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tamanho=${filtersSize}&cor=${filtersColor}&marca=${filtersBrand}&precoMax=${selectedPriceMax}&precoMin=${selectedPriceMin}`
-            );
+        } else if (subcategoria !== undefined && tipo === undefined && categoria !== undefined) {
+            const res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tamanho=${filtersSize}&cor=${filtersColor}&marca=${filtersBrand}&precoMax=${selectedPriceMax}&precoMin=${selectedPriceMin}`);
             const prod = res.data.map((el) => el.produto);
             dispatch(getProducts(prod));
             dispatch(setLoading(false));
-        } else if (
-            subcategoria === undefined &&
-            tipo === undefined &&
-            categoria !== undefined
-        ) {
-            const res = await api.get(
-                `/produtos/categoria?categoria=${categoria}&tamanho=${filtersSize}&cor=${filtersColor}&marca=${filtersBrand}&precoMax=${selectedPriceMax}&precoMin=${selectedPriceMin}`
-            );
+        } else if (subcategoria === undefined && tipo === undefined && categoria !== undefined) {
+            const res = await api.get(`/produtos/categoria?categoria=${categoria}&tamanho=${filtersSize}&cor=${filtersColor}&marca=${filtersBrand}&precoMax=${selectedPriceMax}&precoMin=${selectedPriceMin}`);
             const prod = res.data.map((el) => el.produto);
             dispatch(getProducts(prod));
             dispatch(setLoading(false));
         } else {
-            //CONDIÇÃO APENAS PARA TESTES
-            const res = await api.get(
-                `/produtos/categoria?tamanho=${filtersSize}&cor=${filtersColor}&marca=${filtersBrand}&precoMax=${selectedPriceMax}&precoMin=${selectedPriceMin}`
-            );
+            const res = await api.get(`/produtos/categoria?tamanho=${filtersSize}&cor=${filtersColor}&marca=${filtersBrand}&precoMax=${selectedPriceMax}&precoMin=${selectedPriceMin}`);
             const prod = res.data.map((el) => el.produto);
             dispatch(getProducts(prod));
             dispatch(setLoading(false));
         }
-    }, [
-        dispatch,
-        products,
-        filtersColor,
-        filtersSize,
-        filtersBrand,
-        categoria,
-        subcategoria,
-        tipo,
-    ]);
+    }, [dispatch, products, filtersColor, filtersSize, filtersBrand, categoria, subcategoria, tipo]);
 
     const animatedComponents = makeAnimated();
 

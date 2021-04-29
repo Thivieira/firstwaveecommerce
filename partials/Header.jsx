@@ -554,16 +554,15 @@ function Header({ name }) {
             </NavLink>
           </div>
 
-          <a
-            href="/produtos/Surf"
-            className={
-              showFilter === 1 ? "menu-item menu-item-active" : "menu-item"
-            }
+          <div
+            className={showFilter === 1 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(1)}
           >
-            Surf
-          </a>
-
+            <Link href="/produtos/Surf">
+              Surf
+            </Link>
+          </div>
+          
           <NavLink
             href="/produtos/Masculino"
             className={

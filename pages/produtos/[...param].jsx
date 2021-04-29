@@ -24,6 +24,12 @@ import {
 const Produtos = ({ produtos }) => {
   const router = useRouter();
 
+  useEffect(() => {
+    dispatch(clearProducts());
+    dispatch(setLoading(false));
+    dispatch(getProducts(produtos));
+  }, [produtos]);
+
   if (router.isFallback) {
     return (
       <div className="spinner-produtos">
@@ -46,6 +52,8 @@ const Produtos = ({ produtos }) => {
   const tipo = router.query.param[2];
 
   const products = useSelector(getAllProducts);
+  console.log(products)
+
   const loading = useSelector(getLoading);
 
   const [sort, setSort] = useState("");
@@ -69,12 +77,6 @@ const Produtos = ({ produtos }) => {
   useEffect(() => {
     width < 1280 ? setShowFilter(false) : setShowFilter(true);
   });
-
-  useEffect(() => {
-    dispatch(clearProducts());
-    dispatch(setLoading(false));
-    dispatch(getProducts(produtos));
-  }, [produtos]);
 
   const showDrawerFilters = () => setVisible(true);
   const onCloseFilters = () => setVisible(false);
@@ -166,8 +168,9 @@ const Produtos = ({ produtos }) => {
     <>
       <div className="products-wrapper">
         <div className="filter-sort">
+          {loading === false && products.length > 0 && (
             <>
-              <p>{products.length} Produtos Encontrados</p>
+              <p>{products.length} Produto(s) Encontrados</p>
 
               <select value={sort} onChange={handleChangeSort}>
                 <option value="">Ordenar por preço</option>
@@ -175,10 +178,11 @@ const Produtos = ({ produtos }) => {
                 <option value="maior">Maior para menor</option>
               </select>
             </>
+          )}
         </div>
 
         {loading === true ? (
-          <div className="spinner">
+          <div className="spinner-produtos">
             <FadeLoader
               color={"#0080A8"}
               loading={loading}
@@ -190,9 +194,9 @@ const Produtos = ({ produtos }) => {
           </div>
         ) : (
           <div className="products">
-            {produtos.length > 0 ? (
+            {products.length > 0 ? (
               <>
-                {produtos.map((product) => (
+                {products.map((product) => (
                   <Product
                     product={product}
                     key={removeIdDuplicate(product.id)}
@@ -279,7 +283,7 @@ export const getStaticPaths = async () => {
       // { params: { param: ['acessorio','oculos'] } },
       // { params: { param: ['acessorio', 'relogio'] } },
     ],
-    fallback: 'blocking'
+    fallback: true
   }
 }
 
@@ -307,6 +311,6 @@ export const getStaticProps = async (ctx) => {
 
   return {
     props: { produtos },
-    revalidate: 1,
+    revalidate: 60 * 60 * 8,
   };
 };

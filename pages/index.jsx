@@ -1,3 +1,4 @@
+import Link from "next/link";
 import api from "../services/api";
 
 import CarouselImage from "../components/landing/CarouselImage";
@@ -41,6 +42,7 @@ const Index = ({ prod }) => {
         <h3 className="products-carousel-title">Novidades</h3>
         <ProductsSlider prod={prod} />
       </div>
+
       <div className="images-container">
         <img
           className="left-image"
@@ -53,28 +55,44 @@ const Index = ({ prod }) => {
             src="https://dafitistatic-a.akamaihd.net/dynamic_yield/cms/static/kanui/images/129656a67616__banner_homesurf-BERMUDAS-SURF.jpg"
             alt="Surfistas"
           />
-          <img className="right-image" src="/modelo2.png" alt="Surfistas" />
+          <img 
+            className="right-image" 
+            src="/modelo2.png" 
+            alt="Surfistas" 
+          />
         </div>
       </div>
+
       <div className="products-carousel-container">
         <h3 className="products-carousel-title">Mais vendidos</h3>
         <ProductsSlider prod={prod} />
       </div>
-      <div className="images-container">
-        <img
-          className="equal-images"
-          src="https://d2e5mvjndnxyoo.cloudfront.net/Custom/Content/Banners/50/50_banner637335224265250393.jpg"
-          alt="roupa billabong"
-        />
-        <img
-          className="equal-images"
-          src="https://d2e5mvjndnxyoo.cloudfront.net/Custom/Content/Banners/51/51_banner637335222001214070.jpg"
-          alt="roupa billabong"
-        />
+
+      <div className="images-container-two">
+        <div className='wrapper-equal-images'>
+          <img
+            src="https://d2e5mvjndnxyoo.cloudfront.net/Custom/Content/Banners/50/50_banner637335224265250393.jpg"
+            alt="roupa billabong"
+          />
+          <Link href=''>
+            <button type='button' className='btn-acess'>ACESSORIOS</button>
+          </Link>
+        </div>
+
+        <div className='wrapper-equal-images'>
+          <img
+            src="https://d2e5mvjndnxyoo.cloudfront.net/Custom/Content/Banners/51/51_banner637335222001214070.jpg"
+            alt="roupa billabong"
+          />
+          <Link href=''>
+            <button type='button' className='btn-infa'>INFANTIL</button>
+          </Link>
+        </div>
       </div>
+
     </div>
-  );
-};
+  )
+}
 
 Index.getLayout = getLayout;
 

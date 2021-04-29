@@ -101,19 +101,6 @@
     margin-bottom: 1rem;
 }
 
-.equal-images {
-    width: 50%;
-    height: 100%;
-    object-fit: cover;
-    box-shadow: 2px 8px 20px #ddd;
-    cursor: pointer;
-    transition: all ease-in-out 0.4s;
-}
-
-.equal-images:first-child {
-    margin-right: 1.6rem;
-}
-
 .left-image:hover {
     transform: scale(1.02);
     box-shadow: 2px 8px 20px #bee3ee;
@@ -127,11 +114,56 @@
     opacity: 0.5;
 }
 
-.equal-images:hover {
-    transform: scale(1.02);
-    box-shadow: 2px 8px 20px #bee3ee;
-    opacity: 0.5;
+
+
+.images-container-two .wrapper-equal-images {
+    position: relative;
 }
+
+.images-container-two {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 45rem;
+    width: 80vw;
+    transition: all ease-in-out 0.4s;
+}
+
+.wrapper-equal-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    box-shadow: 2px 8px 20px #ddd;
+    cursor: pointer;
+    transition: all ease-in-out 0.4s;
+}
+
+.wrapper-equal-images button {
+    position: absolute;
+    top: 50%;
+    right: 40%;
+    font-weight: 700;
+    border: none;
+    padding: 1rem 3rem;
+    cursor: pointer;
+    transition: all 0.35s ease-in-out;
+    opacity: 0;
+}
+
+.wrapper-equal-images img:hover {
+    transform: scale(1.015);
+    box-shadow: 2px 8px 20px #bee3ee;
+    opacity: 0.8;
+}
+
+.wrapper-equal-images:first-child:hover .btn-acess {
+    opacity: 1;
+}
+
+.wrapper-equal-images:last-child:hover .btn-infa {
+    opacity: 1;
+}
+
 
 @media (max-width: 860px) {
     .slick-slider {
