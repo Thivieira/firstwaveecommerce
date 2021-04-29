@@ -268,24 +268,20 @@ const Produtos = ({ produtos }) => {
 
 export default Produtos;
 
-export const getStaticPaths = async (ctx) => {
-  const categoria = ctx.params;
-  const res = await api.get(`/produtos/categoria?categoria=${categoria}`);
-  const produtos = res.data.map((el) => el.produto);
-
-  const pathsSelected = produtos.map((p) => {
-    return {
-      params: {
-        param: p.codigo,
-      },
-    };
-  });
-
+export const getStaticPaths = async () => {
   return {
-    paths: pathsSelected,
-    fallback: true
-  };
-};
+    paths: [
+      { params: { param: ['masculino'] } },
+      // { params: { param: ['feminino'] } },
+      // { params: { param: ['juvenil'] } },
+      // { params: { param: ['calcado'] } },
+      // { params: { param: ['acessorio'] } },
+      // { params: { param: ['acessorio','oculos'] } },
+      // { params: { param: ['acessorio', 'relogio'] } },
+    ],
+    fallback: 'blocking'
+  }
+}
 
 export const getStaticProps = async (ctx) => {
   const categoria = ctx.params.param[0]

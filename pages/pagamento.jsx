@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { TextField } from "@material-ui/core";
+
+import { getCartState, getCartTotal } from "../store/selectors/products";
+
 import NumeratedTitled from "../components/Utils/NumeratedTitle";
 import PaymentBox from "../components/Utils/PaymentBox";
-import { Button, TextField, Select } from "@material-ui/core";
 import PaypalButton from "../components/PaypalButton";
 import api from "../services/api";
-
-import "../styles/payment.css";
-import { useSelector } from "react-redux";
-import { getCartState, getCartTotal } from "../selectors/products";
-import Thumb from "../components/Thumb";
 
 function Payment() {
     const cart = useSelector(getCartState);

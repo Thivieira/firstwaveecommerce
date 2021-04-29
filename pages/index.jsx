@@ -1,18 +1,13 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import api from "../services/api";
 
 import CarouselImage from "../components/landing/CarouselImage";
 import { Payment, LocalShipping, AttachMoney } from "@material-ui/icons";
-// import modeloPe from "../assets/modelo.png";
-// import modeloLado from "../assets/modelo2.png";
 
 import ProductsSlider from "../components/landing/ProductsSlider";
 
 import { getLayout } from "../layouts/SiteLayout";
 
 const Index = ({ prod }) => {
-  console.log("PROD", prod);
   return (
     <div className="landing-container">
       <CarouselImage />

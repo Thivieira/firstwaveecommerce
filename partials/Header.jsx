@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 
 import { TextField, InputAdornment } from "@material-ui/core";
@@ -14,6 +15,7 @@ import api from "../services/api";
 import NavLink from "../components/NavLink";
 
 function Header({ name }) {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [sidebar, setSidebar] = useState(false);
   const [showFilter, setShowFilter] = useState(0);
@@ -458,7 +460,7 @@ function Header({ name }) {
 
   const logOut = async () => {
     sessionStorage.clear();
-    window.location.reload();
+    router.replace("/");
   };
 
   const menuLoginOn = (
@@ -470,7 +472,10 @@ function Header({ name }) {
         Sair
       </Menu.Item>
     </Menu>
-  );
+  )
+
+  console.log(showFilter)
+
   return (
     <header id="header">
       <nav className="header-top">
@@ -483,7 +488,6 @@ function Header({ name }) {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            // console.log(search)
           }}
         >
           <TextField
@@ -506,7 +510,7 @@ function Header({ name }) {
           />
         </form>
         <nav className="nav-container">
-          <NavLink href={authorized ? "/dash" : "/login"} className="nav-item">
+          <NavLink href={authorized ? "/dashboard" : "/login"} className="nav-item">
             <div>
               {authorized ? (
                 <Dropdown.Button
@@ -530,6 +534,7 @@ function Header({ name }) {
           </div>
         </nav>
       </nav>
+
       <div onMouseLeave={() => setShowFilter(0)}>
         <nav
           onClick={showSideBar}
@@ -537,7 +542,7 @@ function Header({ name }) {
         >
           <div className="sidebar-top">
             <NavLink
-              href={authorized ? "/dash" : "/login"}
+              href={authorized ? "/dashboard" : "/login"}
               className="sidebar-item"
             >
               <>
@@ -549,7 +554,7 @@ function Header({ name }) {
             </NavLink>
           </div>
 
-          <NavLink
+          <a
             href="/produtos/Surf"
             className={
               showFilter === 1 ? "menu-item menu-item-active" : "menu-item"
@@ -557,7 +562,7 @@ function Header({ name }) {
             onMouseEnter={() => setShowFilter(1)}
           >
             Surf
-          </NavLink>
+          </a>
 
           <NavLink
             href="/produtos/Masculino"
@@ -631,36 +636,30 @@ function Header({ name }) {
 
           <NavLink
             href="/produtos/"
-            className={
-              showFilter === 9 ? "menu-item menu-item-active" : "menu-item"
-            }
+            className={showFilter === 9 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(0)}
           >
             Outlet
           </NavLink>
         </nav>
-        <div
-          className={
-            showFilter === 0
-              ? "menu-filter-container filter-hide"
-              : "menu-filter-container"
-          }
-        >
+
+        <div className={showFilter === 0 ? "menu-filter-container filter-hide" : "menu-filter-container"}>
           {switchFilter()}
         </div>
+
       </div>
     </header>
   );
 }
 
-export const getStaticProps = async () => {
-  const res = await api.get("/usuario");
+export const getServerSideProps = async () => {
+  let name
 
-  const name = res.data.nomeCompleto;
-
+  await api.get("/usuario")
+    .then(res => name = res.data)
+  
   return {
     props: { name },
-    revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
   };
 };
 

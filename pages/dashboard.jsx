@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import Title from "../components/Utils/Title";
+import api from "../services/api";
+import { Button } from "@material-ui/core";
+
 import UserData from "../components/Form/UserData";
 import AddressData from "../components/Form/AddressData";
-import { Button } from "@material-ui/core";
-import api from "../services/api";
-
 import TableOrdered from "../components/TableOrdered";
-
-import Link from "next/link";
 import Favorites from "../components/Favorites";
+import Title from "../components/Utils/Title";
 
-function EditAccount() {
+function Dashboard() {
   const [formOption, setFormOption] = useState(1);
   const router = useRouter();
   const [personalData, setPersonalData] = useState([]);
@@ -177,4 +176,4 @@ function EditAccount() {
   );
 }
 
-export default EditAccount;
+export default Dashboard;

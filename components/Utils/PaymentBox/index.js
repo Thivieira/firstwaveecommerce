@@ -1,8 +1,6 @@
 import React from 'react'
 import {Button} from '@material-ui/core'
 
-import './paymentBox.css'
-
 function PaymentBox(props) {
     return (
         <div {...props} className={props.type === 2 ? 'payment-box-container space' : 'payment-box-container'}>

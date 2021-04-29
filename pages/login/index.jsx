@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import api from "../../services/api";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -12,6 +13,7 @@ import InputContainer from "../../Utils/InputContainer";
 import ButtonsContainer from "../../Utils/ButtonsContainer";
 
 function Login() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -28,10 +30,10 @@ function Login() {
         sessionStorage.setItem("key", res.data.token);
         sessionStorage.setItem("authorized", true);
         MySwal.fire("Usuário logado com sucesso!");
-
-        window.location.reload();
+        router.replace("/");
+        // window.location.reload();
       })
-      .catch(() => alert("Usuário ou senha incorretos!"));
+      .catch(() => MySwal.fire("Usuário ou senha incorretos!"));
   }
 
   return (

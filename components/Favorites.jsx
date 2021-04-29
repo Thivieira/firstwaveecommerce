@@ -1,12 +1,11 @@
 import React from "react";
+import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { getFavoritesProd } from "../store/selectors/products";
 import { removeFromFavorites } from "../store/actions/products";
 import { List, Avatar, Empty } from "antd";
 import { CloseCircleTwoTone } from "@ant-design/icons";
-import Link from "next/link";
 
-import image1 from "../public/image1.jpg";
 export default function Favorites() {
   const dispatch = useDispatch();
   const productsFavorites = useSelector(getFavoritesProd);
@@ -35,7 +34,7 @@ export default function Favorites() {
           ]}
         >
           <List.Item.Meta
-            avatar={<Avatar shape="square" size={64} src={image1} />}
+            avatar={<Avatar shape="square" size={64} src='/image1.jpg' />}
             title={
               <Link href={`/detailsProducts/${item.codigo}`}>
                 {" " + item.descricao + " "}
