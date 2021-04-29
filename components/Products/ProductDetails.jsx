@@ -24,8 +24,6 @@ const ProductDetails = ({ product }) => {
   const [availableVariations, setAvailableVariations] = useState([]);
   const [codigoVariacao, setCodigoVariacao] = useState("");
   const [estoqueAtual, setEstoqueAtual] = useState("");
-  const [sizes, setSizes] = useState([]);
-
   const [imageThumbs, setImageThumbs] = useState([
     image1,
     image2,
@@ -42,16 +40,16 @@ const ProductDetails = ({ product }) => {
 
   const variacoes = product.variacoes.map((el) => el.variacao);
 
-  useEffect(() => {
-    let tamanhos = variacoes.map(
-      (el) => el.nome.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]
-    );
+  const tamanhos = variacoes.map(
+    (el) => el.nome.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]
+  );
 
-    const sizesNoRepeat = [...new Set(tamanhos)];
-    setSizes(sizesNoRepeat);
-    let size = sizesNoRepeat[0];
+  const sizesNoRepeat = [...new Set(tamanhos)];
+  const size = sizesNoRepeat[0];
+
+  useEffect(() => {
     onSelectedSizeChange(size);
-  }, []);
+  }, [product]);
 
   const onSelectedSizeChange = (value) => {
     setSelectedSize(value);
@@ -69,19 +67,19 @@ const ProductDetails = ({ product }) => {
       .split(":")
       .slice(1, 2)[0];
 
-    onSelectedColorChange(color);
+    setSelectedColor(color);
   };
 
+  useEffect(() => {
+    onSelectedColorChange(selectedColor);
+  }, [selectedColor]);
+
   const onSelectedColorChange = (value) => {
-    setSelectedColor(value);
+    // setSelectedColor(value);
+
+    console.log("availableVariations", availableVariations);
 
     let cor = availableVariations.filter((el) => {
-      console.log({
-        condition:
-          el.nome.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] == value,
-        nome: el.nome,
-        value: value,
-      });
       return (
         el.nome.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] == value
       );
@@ -118,6 +116,7 @@ const ProductDetails = ({ product }) => {
             color: selectedColor,
             codigoVariacao: codigoVariacao,
             estoqueAtual: estoqueAtual,
+            imagemVariacao: featuredImage,
           })
         );
         dispatch(changeIsOpen(true));
@@ -135,6 +134,7 @@ const ProductDetails = ({ product }) => {
             color: selectedColor,
             codigoVariacao: codigoVariacao,
             estoqueAtual: estoqueAtual,
+            imagemVariacao: featuredImage,
           })
         );
         dispatch(changeIsOpen(true));
@@ -188,7 +188,7 @@ const ProductDetails = ({ product }) => {
           {codigoProduto ? (
             <div className="sizes-btn">
               <ul>
-                {sizes.map((value) => (
+                {sizesNoRepeat.map((value) => (
                   <li
                     onClick={() => onSelectedSizeChange(value)}
                     key={value}
@@ -218,10 +218,9 @@ const ProductDetails = ({ product }) => {
                     .slice(0, 1)[0]
                     .split(":")
                     .slice(1, 2)[0];
-                  console.log(variacao);
                   return (
                     <img
-                      onClick={() => onSelectedColorChange(color)}
+                      onClick={() => setSelectedColor(color)}
                       className={color === selectedColor ? "active" : ""}
                       key={variacao.nome}
                       src={

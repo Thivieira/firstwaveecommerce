@@ -22,6 +22,8 @@ function CartProduct({ product }) {
     classes.push("shelf-item--mouseover");
   }
 
+  console.log("OII PRODUTO", product);
+
   return (
     <>
       <div className={classes.join(" ")}>
@@ -32,7 +34,7 @@ function CartProduct({ product }) {
           onClick={() => dispatch(removeFromCart(product.codigoVariacao))}
         />
 
-        <Thumb src={"/image1.jpg"} alt={product.descricao} />
+        <Thumb src={product.imagemVariacao} alt={product.descricao} />
 
         <div className="shelf-item__details">
           <p className="title-cart">{product.descricao}</p>
