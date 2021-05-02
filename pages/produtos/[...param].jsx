@@ -23,6 +23,18 @@ import {
 
 const Produtos = ({ produtos }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const products = useSelector(getAllProducts);
+  // console.log(products)
+
+  const loading = useSelector(getLoading);
+
+  const [sort, setSort] = useState("");
+
+  const [showFilter, setShowFilter] = useState(true);
+  const [visible, setVisible] = useState(false);
+
+  const [width, setWindowWidth] = useState(0);
 
   useEffect(() => {
     dispatch(clearProducts());
@@ -45,23 +57,9 @@ const Produtos = ({ produtos }) => {
     );
   }
 
-  const dispatch = useDispatch();
-
   const categoria = router.query.param[0];
   const subcategoria = router.query.param[1];
   const tipo = router.query.param[2];
-
-  const products = useSelector(getAllProducts);
-  // console.log(products)
-
-  const loading = useSelector(getLoading);
-
-  const [sort, setSort] = useState("");
-
-  const [showFilter, setShowFilter] = useState(true);
-  const [visible, setVisible] = useState(false);
-
-  const [width, setWindowWidth] = useState(0);
 
   useEffect(() => {
     updateDimensions();
@@ -311,6 +309,12 @@ export const getStaticProps = async (ctx) => {
   } else {
     res = await api.get(`/produtos`);
     produtos = res.data.map((el) => el.produto);
+  }
+
+  if (!produtos) {
+    return {
+      notFound: true,
+    };
   }
 
   return {

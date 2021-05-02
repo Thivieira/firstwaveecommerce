@@ -13,9 +13,10 @@ import {
 } from "../store/actions/products";
 
 import { getFavoritesProd } from "../store/selectors/products";
+import { useRouter } from "next/router";
 
 export default function FavoriteBtn({ product }) {
-  // const history = useHistory();
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const productsFavorites = useSelector(getFavoritesProd);
@@ -49,7 +50,7 @@ export default function FavoriteBtn({ product }) {
         showCancelButton: true,
       }).then((res) => {
         if (res.isConfirmed) {
-          history.push("/login");
+          router.push("/login");
         }
       });
     }

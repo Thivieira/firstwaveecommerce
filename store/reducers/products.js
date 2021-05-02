@@ -20,17 +20,17 @@ const productsReducer = (state = productsDefaultState, action) => {
           (product) => product.id === element.id
         );
 
-        if (favorite) {
-          return {
-            ...element,
-            favorite: favorite.favorite,
-          };
-        } else {
+        if (!favorite) {
           return {
             ...element,
             favorite: false,
           };
         }
+
+        return {
+          ...element,
+          favorite: favorite.favorite,
+        };
       });
 
       return {

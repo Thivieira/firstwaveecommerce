@@ -2,18 +2,19 @@ import Link from "next/link";
 import FavoriteBtn from "../FavoriteBtn";
 
 function Product({ product }) {
-  product.quantity = 1;
-
+  console.log("product");
+  const image = product.variacoes.map((el) => el.variacao)[0].imagem[0]
+    ? product.variacoes.map((el) => el.variacao)[0].imagem[0].link
+    : "/image1.jpg";
   return (
     <div className="card-grid" key={product.id}>
-
       <div className="img-content">
-        <img src='/image1.jpg' alt={product.title} />
+        <img src={image} alt={product.title} />
         <Link href={`/produto/${product.codigo}`}>
           <button>Ver detalhes</button>
         </Link>
       </div>
-      
+
       <div className="content">
         <div className="title-and-heart">
           <h4>{product.descricao}</h4>
