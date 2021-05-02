@@ -29,7 +29,7 @@ function Form() {
     state: "",
   });
 
-  console.log(collectedData.neighborhood);
+  // console.log(collectedData.neighborhood);
 
   async function signUpUser({ name, password, email, cpf, phone }) {
     setCollectedData((prevState) => ({

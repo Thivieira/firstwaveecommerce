@@ -472,9 +472,9 @@ function Header({ name }) {
         Sair
       </Menu.Item>
     </Menu>
-  )
+  );
 
-  console.log(showFilter)
+  // console.log(showFilter)
 
   return (
     <header id="header">
@@ -510,7 +510,10 @@ function Header({ name }) {
           />
         </form>
         <nav className="nav-container">
-          <NavLink href={authorized ? "/dashboard" : "/login"} className="nav-item">
+          <NavLink
+            href={authorized ? "/dashboard" : "/login"}
+            className="nav-item"
+          >
             <div>
               {authorized ? (
                 <Dropdown.Button
@@ -555,14 +558,14 @@ function Header({ name }) {
           </div>
 
           <div
-            className={showFilter === 1 ? "menu-item menu-item-active" : "menu-item"}
+            className={
+              showFilter === 1 ? "menu-item menu-item-active" : "menu-item"
+            }
             onMouseEnter={() => setShowFilter(1)}
           >
-            <Link href="/produtos/Surf">
-              Surf
-            </Link>
+            <Link href="/produtos/Surf">Surf</Link>
           </div>
-          
+
           <NavLink
             href="/produtos/Masculino"
             className={
@@ -635,28 +638,34 @@ function Header({ name }) {
 
           <NavLink
             href="/produtos/"
-            className={showFilter === 9 ? "menu-item menu-item-active" : "menu-item"}
+            className={
+              showFilter === 9 ? "menu-item menu-item-active" : "menu-item"
+            }
             onMouseEnter={() => setShowFilter(0)}
           >
             Outlet
           </NavLink>
         </nav>
 
-        <div className={showFilter === 0 ? "menu-filter-container filter-hide" : "menu-filter-container"}>
+        <div
+          className={
+            showFilter === 0
+              ? "menu-filter-container filter-hide"
+              : "menu-filter-container"
+          }
+        >
           {switchFilter()}
         </div>
-
       </div>
     </header>
   );
 }
 
 export const getServerSideProps = async () => {
-  let name
+  let name;
 
-  await api.get("/usuario")
-    .then(res => name = res.data)
-  
+  await api.get("/usuario").then((res) => (name = res.data));
+
   return {
     props: { name },
   };

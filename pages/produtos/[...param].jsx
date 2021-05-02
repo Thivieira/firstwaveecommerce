@@ -42,7 +42,7 @@ const Produtos = ({ produtos }) => {
           margin={15}
         />
       </div>
-    )
+    );
   }
 
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const Produtos = ({ produtos }) => {
   const tipo = router.query.param[2];
 
   const products = useSelector(getAllProducts);
-  console.log(products)
+  // console.log(products)
 
   const loading = useSelector(getLoading);
 
@@ -162,7 +162,7 @@ const Produtos = ({ produtos }) => {
     return products;
   };
 
-  const removeIdDuplicate = (id) => id + String(Math.random()); 
+  const removeIdDuplicate = (id) => id + String(Math.random());
 
   return (
     <>
@@ -275,7 +275,7 @@ export default Produtos;
 export const getStaticPaths = async () => {
   return {
     paths: [
-      { params: { param: ['masculino'] } },
+      { params: { param: ["masculino"] } },
       // { params: { param: ['feminino'] } },
       // { params: { param: ['juvenil'] } },
       // { params: { param: ['calcado'] } },
@@ -283,30 +283,34 @@ export const getStaticPaths = async () => {
       // { params: { param: ['acessorio','oculos'] } },
       // { params: { param: ['acessorio', 'relogio'] } },
     ],
-    fallback: true
-  }
-}
+    fallback: true,
+  };
+};
 
 export const getStaticProps = async (ctx) => {
-  const categoria = ctx.params.param[0]
-  const subcategoria = ctx.params.param[1]
-  const tipo = ctx.params.param[2]
+  const categoria = ctx.params.param[0];
+  const subcategoria = ctx.params.param[1];
+  const tipo = ctx.params.param[2];
 
-  let produtos
-  let res
+  let produtos;
+  let res;
 
   if (subcategoria !== undefined && tipo !== undefined) {
-    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`)
-    produtos = res.data.map((el) => el.produto)
+    res = await api.get(
+      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`
+    );
+    produtos = res.data.map((el) => el.produto);
   } else if (subcategoria !== undefined && tipo === undefined) {
-    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`)
-    produtos = res.data.map((el) => el.produto)
+    res = await api.get(
+      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`
+    );
+    produtos = res.data.map((el) => el.produto);
   } else if (subcategoria === undefined && tipo === undefined) {
-    res = await api.get(`/produtos/categoria?categoria=${categoria}`)
-    produtos = res.data.map((el) => el.produto)
+    res = await api.get(`/produtos/categoria?categoria=${categoria}`);
+    produtos = res.data.map((el) => el.produto);
   } else {
-    res = await api.get(`/produtos`)
-    produtos = res.data.map((el) => el.produto)
+    res = await api.get(`/produtos`);
+    produtos = res.data.map((el) => el.produto);
   }
 
   return {

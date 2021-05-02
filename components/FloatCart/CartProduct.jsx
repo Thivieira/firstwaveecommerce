@@ -22,7 +22,7 @@ function CartProduct({ product }) {
     classes.push("shelf-item--mouseover");
   }
 
-  console.log("OII PRODUTO", product);
+  // console.log("OII PRODUTO", product);
 
   return (
     <>

@@ -77,7 +77,7 @@ const ProductDetails = ({ product }) => {
   const onSelectedColorChange = (value) => {
     // setSelectedColor(value);
 
-    console.log("availableVariations", availableVariations);
+    // console.log("availableVariations", availableVariations);
 
     let cor = availableVariations.filter((el) => {
       return (

@@ -33,7 +33,7 @@ export default function ProductsSlider({ prod }) {
     // fetchProducts();
 
     products.length > 0 ? setLoading(false) : setLoading(true);
-    console.log(prod);
+    // console.log(prod);
     setProducts(prod);
   }, [products]);
 

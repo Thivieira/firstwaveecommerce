@@ -179,7 +179,7 @@ const productsReducer = (state = productsDefaultState, action) => {
         addedProduct.imagemVariacao = imagemVariacao;
 
         const newTotal = state.total + parseFloat(addedProduct.preco);
-        console.log(addedProduct);
+        // console.log(addedProduct);
 
         return {
           ...state,
