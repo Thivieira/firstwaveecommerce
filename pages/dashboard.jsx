@@ -6,8 +6,8 @@ import { Button } from "@material-ui/core";
 
 import UserData from "../components/Form/UserData";
 import AddressData from "../components/Form/AddressData";
-import TableOrdered from "../components/TableOrdered";
-import Favorites from "../components/Favorites";
+import TableOrdered from "../components/dashboard/TableOrdered";
+import Favorites from "../components/dashboard/Favorites";
 import Title from "../components/Utils/Title";
 import { saveAddress } from "../store/actions/user";
 import { useDispatch } from "react-redux";

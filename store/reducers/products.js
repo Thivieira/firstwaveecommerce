@@ -15,6 +15,10 @@ const productsReducer = (state = productsDefaultState, action) => {
     case "GET_API_ALL_PRODUCTS":
       let apiProducts = action.payload;
 
+      if (!apiProducts) {
+        return state;
+      }
+
       apiProducts = apiProducts.map((element) => {
         const favorite = state.favoritesProducts.find(
           (product) => product.id === element.id

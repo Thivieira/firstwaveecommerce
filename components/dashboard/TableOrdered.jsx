@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Empty, Table } from "antd";
-import api from "../services/api";
+import api from "../../services/api";
 import { useSelector } from "react-redux";
-import { getCartState, getCartTotal } from "../store/selectors/products";
+import { getCartState, getCartTotal } from "../../store/selectors/products";
 
 function TableOrdered() {
   const [userName, setUserName] = useState("");

@@ -14,6 +14,7 @@ import {
 
 import { getFavoritesProd } from "../store/selectors/products";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function FavoriteBtn({ product }) {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function FavoriteBtn({ product }) {
 
   const authorized = sessionStorage.getItem("authorized");
   const MySwal = withReactContent(Swal);
+  const [favorite, setFavoriteState] = useState(product.favorite);
 
   const toggleFavorites = () => {
     const existingProductInFavorites = productsFavorites.find(
@@ -59,14 +61,15 @@ export default function FavoriteBtn({ product }) {
   return (
     <Tooltip
       placement="bottom"
-      title={
-        product.favorite ? "Remover dos favoritos" : "Adicionar aos favoritos"
-      }
+      title={favorite ? "Remover dos favoritos" : "Adicionar aos favoritos"}
     >
       <HeartTwoTone
         className="heart"
-        twoToneColor={product.favorite ? "#ff0000" : "#0080A8"}
-        onClick={toggleFavorites}
+        twoToneColor={favorite ? "#ff0000" : "#0080A8"}
+        onClick={() => {
+          setFavoriteState(!favorite);
+          toggleFavorites();
+        }}
       />
     </Tooltip>
   );

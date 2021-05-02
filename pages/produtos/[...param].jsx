@@ -293,17 +293,17 @@ export const getStaticProps = async (ctx) => {
   let produtos;
   let res;
 
-  if (subcategoria !== undefined && tipo !== undefined) {
+  if (categoria && subcategoria && tipo) {
     res = await api.get(
       `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`
     );
     produtos = res.data.map((el) => el.produto);
-  } else if (subcategoria !== undefined && tipo === undefined) {
+  } else if (categoria && subcategoria && !tipo) {
     res = await api.get(
       `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`
     );
     produtos = res.data.map((el) => el.produto);
-  } else if (subcategoria === undefined && tipo === undefined) {
+  } else if (categoria && !subcategoria && !tipo) {
     res = await api.get(`/produtos/categoria?categoria=${categoria}`);
     produtos = res.data.map((el) => el.produto);
   } else {
