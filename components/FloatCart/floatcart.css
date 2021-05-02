@@ -275,6 +275,10 @@
   background-color: #000;
 }
 
+.float-cart__footer .buy-btn a {
+  color: white;
+}
+
 .float-cart__content {
   height: 100%;
   overflow-y: scroll;
