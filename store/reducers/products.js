@@ -7,6 +7,7 @@ const productsDefaultState = {
   total: 0,
   isOpen: false,
   loading: false,
+  activePreferenceId: null,
 };
 
 const productsReducer = (state = productsDefaultState, action) => {
@@ -269,6 +270,11 @@ const productsReducer = (state = productsDefaultState, action) => {
         ...state,
         cart: [],
         total: 0,
+      };
+    case "SET_ACTIVE_PREFERENCE_ID":
+      return {
+        ...state,
+        activePreferenceId: action.payload,
       };
 
     default:

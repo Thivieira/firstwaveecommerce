@@ -29,7 +29,7 @@ function Login() {
       .then((res) => {
         sessionStorage.setItem("key", res.data.token);
         sessionStorage.setItem("authorized", true);
-        MySwal.fire("Usuário logado com sucesso!");
+        // MySwal.fire("Usuário logado com sucesso!");
         router.replace("/");
         // window.location.reload();
       })

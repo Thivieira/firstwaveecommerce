@@ -9,6 +9,8 @@ import AddressData from "../components/Form/AddressData";
 import TableOrdered from "../components/TableOrdered";
 import Favorites from "../components/Favorites";
 import Title from "../components/Utils/Title";
+import { saveAddress } from "../store/actions/user";
+import { useDispatch } from "react-redux";
 
 function Dashboard() {
   const [formOption, setFormOption] = useState(1);
@@ -16,6 +18,7 @@ function Dashboard() {
   const [personalData, setPersonalData] = useState([]);
   const [addressData, setAddressData] = useState([]);
   const [json, setJson] = useState({});
+  const dispatch = useDispatch();
   const token = sessionStorage.getItem("key");
   api.defaults.headers.common["Authorization"] = "Bearer " + token;
   const authenticated = Boolean(sessionStorage.getItem("authorized"));
@@ -45,7 +48,20 @@ function Dashboard() {
   }
 
   async function getAdressData() {
-    await api.get("endereco").then((res) => setAddressData(res.data));
+    await api.get("endereco").then((res) => {
+      setAddressData(res.data);
+      dispatch(
+        saveAddress({
+          street: res.data.rua,
+          number: res.data.numero,
+          complement: res.data.complemento,
+          zipcode: res.data.cep,
+          state: res.data.state,
+          city: res.data.cidade,
+          neighborhood: res.data.bairro,
+        })
+      );
+    });
   }
 
   async function updateUser({ name, password, email, phone }) {

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TextField } from "@material-ui/core";
 
 import { getCartState, getCartTotal } from "../store/selectors/products";
+import { saveAddress } from "../store/actions/user";
 
 import NumeratedTitled from "../components/Utils/NumeratedTitle";
 import PaymentBox from "../components/Utils/PaymentBox";
@@ -24,6 +25,7 @@ function Payment() {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [neighborhood, setNeighborhood] = useState("");
+  const dispatch = useDispatch();
 
   const token = sessionStorage.getItem("key");
   api.defaults.headers.common["Authorization"] = "Bearer " + token;
@@ -53,6 +55,18 @@ function Payment() {
         setState(res.data.estado);
         setCity(res.data.cidade);
         setNeighborhood(res.data.bairro);
+        console.log("am i here?", res.data);
+        dispatch(
+          saveAddress({
+            street: res.data.rua,
+            number: res.data.numero,
+            complement: res.data.complemento,
+            zipcode: res.data.cep,
+            state: res.data.state,
+            city: res.data.cidade,
+            neighborhood: res.data.bairro,
+          })
+        );
       })
       .catch(() => alert("Falha ao obter dados de endereço!"));
   }
