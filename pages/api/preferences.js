@@ -56,9 +56,15 @@ export default function handler(req, res) {
         name: firstName,
         surname: lastName,
         email: account.email,
+        date_created: new Date().toISOString(),
         phone: {
           area_code: area_code,
           number: number,
+        },
+
+        identification: {
+          type: "CPF",
+          number: account.cpf,
         },
         address: {
           zip_code: address.zipcode,

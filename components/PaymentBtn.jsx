@@ -37,33 +37,38 @@ export default function PaymentBtn(props) {
   const [clicked, setClickState] = useState(false);
   const cart = useSelector(getCartState);
   const address = useSelector(getAddress);
-  const dispatch = useDispatch(setPreferenceId);
+  const dispatch = useDispatch();
+  let mp = null;
+  let checkout = null;
+  // setPreferenceId
   /**
    * Salvar no backend a preferencia da compra (cart), receber a preferencia, atualizar o id da preferencia na lib frontend
    */
   const mpRun = (preferenceId) => {
     // Adicione as credenciais do SDK
-    let mp = new MercadoPago(process.env.PUBLIC_KEY, {
+    mp = new MercadoPago(process.env.PUBLIC_KEY, {
       locale: "pt-BR",
     });
 
     // Inicialize o checkout
-    mp = mp.checkout({
+    checkout = mp.checkout({
       preference: {
         id: preferenceId,
       },
-      // render: {
-      //   container: ".cho-container", // Indica onde o botão de pagamento será exibido
-      //   label: "Pagar", // Muda o texto do botão de pagamento (opcional)
-      // },
+      render: {
+        container: ".cho-container", // Indica onde o botão de pagamento será exibido
+        label: "Pagar", // Muda o texto do botão de pagamento (opcional)
+      },
       theme: {
         elementsColor: "#1890ff",
         headerColor: "#1890ff",
       },
       autoOpen: true,
+      init_point: "redirect",
     });
 
     window.mp = mp;
+    window.checkout = checkout;
   };
 
   useEffect(() => {
@@ -81,7 +86,7 @@ export default function PaymentBtn(props) {
     <div
       className={"pure-material-button-contained  cho-container"}
       onClick={() => {
-        loaded ? window.mp.open() : setClickState(true);
+        loaded ? checkout.open() : setClickState(true);
       }}
     >
       Pagar
