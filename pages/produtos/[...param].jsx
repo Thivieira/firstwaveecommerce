@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { Drawer, Button, Alert } from "antd";
 import { FilterOutlined } from "@ant-design/icons";
+import { Menu, Dropdown } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 
 import Breadcrumb from "../../components/Breadcrumb";
 import Filter from "../../components/Filter";
@@ -92,37 +94,6 @@ const Produtos = ({ produtos }) => {
     dispatch(setLoading(false));
   };
 
-  // useEffect(() => {
-  //     const fetchProducts = async () => {
-  //         dispatch(clearProducts())
-  //         dispatch(setLoading(true))
-
-  //         if (subcategoria !== undefined && tipo !== undefined) {
-  //             const res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`)
-  //             const prod = res.data.map(el => el.produto)
-  //             dispatch(getProducts(prod))
-  //             dispatch(setLoading(false))
-  //         } else if (subcategoria !== undefined && tipo === undefined) {
-  //             const res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`)
-  //             const prod = res.data.map(el => el.produto)
-  //             dispatch(getProducts(prod))
-  //             dispatch(setLoading(false))
-  //         } else if (subcategoria === undefined && tipo === undefined && categoria !== undefined) {
-  //             const res = await api.get(`/produtos/categoria?categoria=${categoria}`)
-  //             const prod = res.data.map((el) => el.produto)
-  //             dispatch(getProducts(prod))
-  //             dispatch(setLoading(false))
-  //         } else {
-  //             const res = await api.get(`/produtos`)
-  //             const prod = res.data.map((el) => el.produto)
-  //             dispatch(getProducts(prod))
-  //             dispatch(setLoading(false))
-  //         }
-  //     }
-
-  //     fetchProducts()
-  // }, [dispatch, categoria, subcategoria, tipo])
-
   const changePage = ({ selected }) => setCurrentPage(selected + 1);
 
   useEffect(() => {
@@ -130,6 +101,21 @@ const Produtos = ({ produtos }) => {
       window.scrollTo(0, 0, { behavior: "smooth" });
     }, 2000);
   }, [currentPage]);
+
+  const menu = (
+    <Menu value={sort} onChange={handleChangeSort}>
+      <Menu.Item value="menor">
+        <a >
+          Menor para maior
+        </a>
+      </Menu.Item>
+      <Menu.Item value="maior">
+        <a >
+          Maior para menor
+        </a>
+      </Menu.Item>
+    </Menu>
+  )
 
   const handleChangeSort = (e) => {
     setSort(e.target.value);
@@ -170,11 +156,17 @@ const Produtos = ({ produtos }) => {
             <>
               <p>{products.length} Produto(s) Encontrados</p>
 
-              <select value={sort} onChange={handleChangeSort}>
+              {/* <select value={sort} onChange={handleChangeSort}>
                 <option value="">Ordenar por preço</option>
                 <option value="menor">Menor para maior</option>
                 <option value="maior">Maior para menor</option>
-              </select>
+              </select> */}
+
+              <Dropdown overlay={menu}>
+                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                  Ordernar por preço <DownOutlined />
+                </a>
+              </Dropdown>
             </>
           )}
         </div>
@@ -270,22 +262,7 @@ const Produtos = ({ produtos }) => {
 
 export default Produtos;
 
-export const getStaticPaths = async () => {
-  return {
-    paths: [
-      { params: { param: ["masculino"] } },
-      // { params: { param: ['feminino'] } },
-      // { params: { param: ['juvenil'] } },
-      // { params: { param: ['calcado'] } },
-      // { params: { param: ['acessorio'] } },
-      // { params: { param: ['acessorio','oculos'] } },
-      // { params: { param: ['acessorio', 'relogio'] } },
-    ],
-    fallback: true,
-  };
-};
-
-export const getStaticProps = async (ctx) => {
+export const getServerSideProps = async (ctx) => {
   const categoria = ctx.params.param[0];
   const subcategoria = ctx.params.param[1];
   const tipo = ctx.params.param[2];
@@ -311,14 +288,8 @@ export const getStaticProps = async (ctx) => {
     produtos = res.data.map((el) => el.produto);
   }
 
-  if (!produtos) {
-    return {
-      notFound: true,
-    };
-  }
-
   return {
     props: { produtos },
-    revalidate: 60 * 60 * 8,
+    // revalidate: 60 * 60 * 8,
   };
 };

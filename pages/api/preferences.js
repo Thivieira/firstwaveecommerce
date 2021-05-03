@@ -27,7 +27,7 @@ export default function handler(req, res) {
     //cart array
     const cart = req.body.cart;
     const address = req.body.address;
-    const address = req.body.account;
+    const account = req.body.account;
 
     const items = cart.map((item) => {
       return {

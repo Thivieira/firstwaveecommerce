@@ -2,9 +2,10 @@ import Link from "next/link";
 import FavoriteBtn from "../FavoriteBtn";
 
 function Product({ product }) {
-  const image = product.variacoes.map((el) => el.variacao)[0].imagem[0]
-    ? product.variacoes.map((el) => el.variacao)[0].imagem[0].link
-    : "/image1.jpg";
+  const variationImage = product.variacoes.map(el => el.variacao)[0].imagem[0]
+
+  const image = variationImage ? variationImage.link : "/image1.jpg"
+  
   return (
     <div className="card-grid" key={product.id}>
       <div className="img-content">
