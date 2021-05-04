@@ -157,7 +157,7 @@ const Produtos = ({ produtos }) => {
               <p>{products.length} Produto(s) Encontrados</p>
 
               {/* <select value={sort} onChange={handleChangeSort}>
-                <option value="">Ordenar por preço</option>
+                <option value="">Ordenar por preço</option>'
                 <option value="menor">Menor para maior</option>
                 <option value="maior">Maior para menor</option>
               </select> */}
@@ -267,29 +267,28 @@ export const getServerSideProps = async (ctx) => {
   const subcategoria = ctx.params.param[1];
   const tipo = ctx.params.param[2];
 
+  const busca = ctx.query.nome
+  console.log(busca)
+  console.log(categoria, subcategoria, tipo)
+
   let produtos;
   let res;
 
   if (categoria && subcategoria && tipo) {
-    res = await api.get(
-      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`
-    );
-    produtos = res.data.map((el) => el.produto);
+    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`)
+    produtos = res.data.map((el) => el.produto)
   } else if (categoria && subcategoria && !tipo) {
-    res = await api.get(
-      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`
-    );
-    produtos = res.data.map((el) => el.produto);
-  } else if (categoria && !subcategoria && !tipo) {
-    res = await api.get(`/produtos/categoria?categoria=${categoria}`);
-    produtos = res.data.map((el) => el.produto);
+    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`)
+    produtos = res.data.map((el) => el.produto)
+  } else if (categoria && !subcategoria && !tipo && !busca) {
+    res = await api.get(`/produtos/categoria?categoria=${categoria}`)
+    produtos = res.data.map((el) => el.produto)
   } else {
-    res = await api.get(`/produtos`);
-    produtos = res.data.map((el) => el.produto);
+    res = await api.get(`/produtos/busca?nome=${busca}`)
+    produtos = res.data.map((el) => el.produto)
   }
 
   return {
     props: { produtos },
-    // revalidate: 60 * 60 * 8,
-  };
-};
+  }
+}

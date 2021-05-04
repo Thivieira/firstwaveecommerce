@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
+import { Input, Space } from 'antd';
 import { TextField, InputAdornment } from "@material-ui/core";
 import { Search, AccountCircle } from "@material-ui/icons";
 
@@ -474,7 +475,13 @@ function Header({ name }) {
     </Menu>
   );
 
-  // console.log(showFilter)
+  const { Search } = Input;
+
+  const onSearch = async value => {
+    // const res = await api.get(`/produtos/busca?nome=${value}`)
+    router.replace(`/produtos/busca?nome=${value}`)
+    // console.log(res.data)
+  }
 
   return (
     <header id="header">
@@ -485,16 +492,17 @@ function Header({ name }) {
         <NavLink href="/" className="header-logo">
           Molokai
         </NavLink>
-        <form
+        
+        <Search placeholder="Digite o que você procura" allowClear onSearch={onSearch} style={{ width: 400 }} />
+
+        {/* <form
           onSubmit={(e) => {
             e.preventDefault();
           }}
         >
           <TextField
             value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-            }}
+            onChange={e => setSearch(e.target.value)}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -508,7 +516,7 @@ function Header({ name }) {
             className="header-input"
             type="text"
           />
-        </form>
+        </form> */}
         <nav className="nav-container">
           <NavLink
             href={authorized ? "/dashboard" : "/login"}
