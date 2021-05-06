@@ -65,6 +65,7 @@ export default function ProductsSlider({ prod }) {
           slidesToShow: 4,
           slidesToScroll: 2,
           initialSlide: 0,
+          dots: true,
         },
       },
       {
@@ -73,6 +74,7 @@ export default function ProductsSlider({ prod }) {
           slidesToShow: 3,
           slidesToScroll: 2,
           initialSlide: 0,
+          dots: true,
         },
       },
       {
@@ -131,9 +133,11 @@ export default function ProductsSlider({ prod }) {
                           />
                         </span>
                       </h5>
-                      <button type="button">
-                        <a href={`/produto/${p.codigo}`}>VER DETALHES</a>
-                      </button>
+                      <Link href={`/produto/${p.codigo}`}>
+                        <button type="button">
+                          VER DETALHES
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>

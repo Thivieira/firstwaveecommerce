@@ -133,13 +133,13 @@ Index.getLayout = getLayout;
 
 export default Index;
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const res = await api.get("/produtos/categoria?genero=masculino");
 
   const prod = res.data;
 
   return {
     props: { prod },
-    revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
+    // revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
   };
 };

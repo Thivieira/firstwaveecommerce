@@ -2,11 +2,7 @@ import React, { useMemo } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoading, getProduct } from "../../store/selectors/products";
-import {
-  clearProduct,
-  openProduct,
-  setLoading,
-} from "../../store/actions/products";
+import { clearProduct, openProduct, setLoading } from "../../store/actions/products";
 
 import FadeLoader from "react-spinners/FadeLoader";
 import api from "../../services/api";
@@ -70,34 +66,25 @@ const DetailsProduct = ({ product }) => {
 
 export default DetailsProduct;
 
-export const getStaticPaths = async () => {
-  const resMasc = await api.get("/produtos/categoria?genero=masculino");
-  const prodMasc = resMasc.data.map((el) => el.produto);
+// export const getStaticPaths = async () => {
+//   const resMasc = await api.get("/produtos/categoria?genero=masculino");
+//   const prodMasc = resMasc.data.map((el) => el.produto);
 
-  // const resFem = await api.get("/produtos/categoria?genero=feminino");
-  // const prodFem = resFem.data.map((el) => el.produto);
+//   const prodMasculino = prodMasc.map((p) => {
+//     return {
+//       params: {
+//          codigo: p.codigo 
+//       },
+//     };
+//   });
 
-  // const prodFeminino = prodFem.map((p) => {
-  //   return {
-  //     params: { codigo: p.codigo },
-  //   };
-  // });
+//   return {
+//     paths: prodMasculino,
+//     fallback: true 
+//   };
+// };
 
-  const prodMasculino = prodMasc.map((p) => {
-    return {
-      params: {
-         codigo: p.codigo 
-      },
-    };
-  });
-
-  return {
-    paths: prodMasculino,
-    fallback: true 
-  };
-};
-
-export const getStaticProps = async (ctx) => {
+export const getServerSideProps = async (ctx) => {
   const { codigo } = ctx.params;
   const res = await api.get(`/produto/${codigo}`);
 
@@ -105,6 +92,6 @@ export const getStaticProps = async (ctx) => {
 
   return {
     props: { product },
-    revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
+    // revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
   };
 };
