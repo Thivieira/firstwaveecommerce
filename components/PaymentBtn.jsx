@@ -21,6 +21,7 @@ const loadMercadoPago = (callback) => {
 
 function create_preference(cart, address) {
   let preferenceId;
+  let init_point;
   axios
     .post("/api/preferences", {
       cart,
@@ -28,8 +29,9 @@ function create_preference(cart, address) {
     })
     .then((data) => {
       preferenceId = data.id;
+      init_point = data.init_point;
     });
-  return preferenceId;
+  return { preferenceId, init_point };
 }
 
 export default function PaymentBtn(props) {
@@ -40,6 +42,7 @@ export default function PaymentBtn(props) {
   const dispatch = useDispatch();
   let mp = null;
   let checkout = null;
+  let init_point;
   // setPreferenceId
   /**
    * Salvar no backend a preferencia da compra (cart), receber a preferencia, atualizar o id da preferencia na lib frontend
@@ -75,7 +78,8 @@ export default function PaymentBtn(props) {
     if (clicked) {
       loadMercadoPago(() => {
         setLoaded(true);
-        const preferenceId = create_preference(cart, address);
+        const [preferenceId, init_point] = create_preference(cart, address);
+        init_point = init_point;
         dispatch(setPreferenceId(preferenceId));
         mpRun(preferenceId);
       });
@@ -86,7 +90,7 @@ export default function PaymentBtn(props) {
     <div
       className={"pure-material-button-contained  cho-container"}
       onClick={() => {
-        loaded ? checkout.open() : setClickState(true);
+        loaded ? (window.location = `${init_point}`) : setClickState(true);
       }}
     >
       Pagar

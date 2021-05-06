@@ -10,7 +10,7 @@ export default function handler(req, res) {
     mercadopago.preferences
       .get(preferenceId)
       .then(function (response) {
-        res.status(200).json({ preferenceId: response.body.id });
+        res.status(200).json({ preferenceId: response.body.id, init_point: response.body.init_point });
       })
       .catch(function (error) {
         console.log(error);
