@@ -12,9 +12,12 @@ import { Badge } from "antd";
 
 import { changeIsOpen } from "../../store/actions/products";
 import { CloseSquareOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
 function FloatCart() {
   const dispatch = useDispatch();
+
+  const router = useRouter();
 
   const isOpen = useSelector(getIsOpen);
 
@@ -40,6 +43,7 @@ function FloatCart() {
   const authorizedCart = () => {
     closeFloatCart();
     total === 0 ? alert("Carrinho está vazio!") : closeFloatCart();
+    router.push("/pagamento");
   };
 
   const cart = productsCart.map((p) => {
@@ -110,21 +114,29 @@ function FloatCart() {
                 )}
               </small>
             </div>
-            <div className="buy-btn">
-              {authorized ? (
-                <Link
-                  href={total !== 0 ? "/pagamento" : ""}
-                  className="logado"
-                  onClick={authorizedCart}
-                >
+            {authorized ? (
+              <div
+                className="buy-btn"
+                onClick={authorizedCart}
+                style={{ cursor: "pointer" }}
+                title="Finalizar"
+              >
+                <Link href={total !== 0 ? "/pagamento" : ""} className="logado">
                   FINALIZAR
                 </Link>
-              ) : (
-                <Link href="/login" className="Nlogado" onClick={noAuthorized}>
+              </div>
+            ) : (
+              <div
+                className="buy-btn"
+                onClick={noAuthorized}
+                style={{ cursor: "pointer" }}
+                title="Finalizar"
+              >
+                <Link href="/login" className="Nlogado">
                   FINALIZAR
                 </Link>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

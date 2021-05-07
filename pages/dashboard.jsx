@@ -36,14 +36,22 @@ function Dashboard() {
   async function getUserData() {
     await api
       .get("/usuario")
-      .then((res) =>
+      .then((res) => {
         setPersonalData({
           cpf: res.data.cpf,
           email: res.data.email,
           name: res.data.nomeCompleto,
           phone: res.data.telefone,
-        })
-      )
+        });
+        dispatch(
+          saveAccount({
+            cpf: res.data.cpf,
+            email: res.data.email,
+            name: res.data.nomeCompleto,
+            phone: res.data.telefone,
+          })
+        );
+      })
       .catch(() => alert("Não foi possível pegar os dados!"));
   }
 
