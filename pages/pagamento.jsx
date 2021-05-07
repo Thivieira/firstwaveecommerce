@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { TextField } from "@material-ui/core";
 
 import { getCartState, getCartTotal } from "../store/selectors/products";
-import { saveAddress } from "../store/actions/user";
+import { saveAccount, saveAddress } from "../store/actions/user";
 
 import NumeratedTitled from "../components/Utils/NumeratedTitle";
 import PaymentBox from "../components/Utils/PaymentBox";
 import PaypalButton from "../components/PaypalButton";
 import api from "../services/api";
 import PaymentBtn from "../components/PaymentBtn";
+import { SwapVerticalCircleTwoTone } from "@material-ui/icons";
 
 function Payment() {
   const cart = useSelector(getCartState);
@@ -40,6 +41,14 @@ function Payment() {
       .get("/usuario")
       .then((res) => {
         setPersonalData(res.data);
+        dispatch(
+          saveAccount({
+            cpf: res.data.cpf,
+            email: res.data.email,
+            name: res.data.nomeCompleto,
+            phone: res.data.telefone,
+          })
+        );
       })
       .catch(() => alert("Não foi possível pegar os dados!"));
   }

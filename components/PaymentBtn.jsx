@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getCartState } from "../store/selectors/products";
-import { getAddress } from "../store/selectors/user";
+import { getAccount, getAddress } from "../store/selectors/user";
 import { setPreferenceId } from "../store/actions/products";
 
 const loadMercadoPago = (callback) => {
@@ -19,17 +19,17 @@ const loadMercadoPago = (callback) => {
   if (existingScript && callback) callback();
 };
 
-function create_preference(cart, address) {
-  let preferenceId;
-  axios
-    .post("/api/preferences", {
-      cart,
-      address,
-    })
-    .then((data) => {
-      preferenceId = data.id;
-    });
-  return preferenceId;
+async function create_preference(cart, address, account) {
+  const { data } = await axios.post("/api/preferences", {
+    cart,
+    address,
+    account,
+  });
+
+  return {
+    preferenceId: data.preferenceId,
+    init_point: data.init_point,
+  };
 }
 
 export default function PaymentBtn(props) {
@@ -37,14 +37,16 @@ export default function PaymentBtn(props) {
   const [clicked, setClickState] = useState(false);
   const cart = useSelector(getCartState);
   const address = useSelector(getAddress);
+  const account = useSelector(getAccount);
   const dispatch = useDispatch();
   let mp = null;
   let checkout = null;
+  let init_point_link;
   // setPreferenceId
   /**
    * Salvar no backend a preferencia da compra (cart), receber a preferencia, atualizar o id da preferencia na lib frontend
    */
-  const mpRun = (preferenceId) => {
+  const mpRun = (preferenceId, init_point_arg) => {
     // Adicione as credenciais do SDK
     mp = new MercadoPago(process.env.PUBLIC_KEY, {
       locale: "pt-BR",
@@ -69,15 +71,18 @@ export default function PaymentBtn(props) {
 
     window.mp = mp;
     window.checkout = checkout;
+    window.location = `${init_point_arg}`;
   };
 
   useEffect(() => {
     if (clicked) {
-      loadMercadoPago(() => {
+      loadMercadoPago(async () => {
         setLoaded(true);
-        const preferenceId = create_preference(cart, address);
-        dispatch(setPreferenceId(preferenceId));
-        mpRun(preferenceId);
+        const preferenceObj = await create_preference(cart, address, account);
+        init_point_link = preferenceObj.init_point;
+        dispatch(setPreferenceId(preferenceObj.preferenceId));
+        console.log("preferenceObj", preferenceObj);
+        mpRun(preferenceObj.preferenceId, init_point_link);
       });
     }
   }, [clicked]);
@@ -86,7 +91,7 @@ export default function PaymentBtn(props) {
     <div
       className={"pure-material-button-contained  cho-container"}
       onClick={() => {
-        loaded ? checkout.open() : setClickState(true);
+        loaded ? (window.location = `${init_point_link}`) : setClickState(true);
       }}
     >
       Pagar

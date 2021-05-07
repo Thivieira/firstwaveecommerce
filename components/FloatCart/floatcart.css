@@ -275,6 +275,10 @@
   background-color: #000;
 }
 
+.float-cart__footer .buy-btn:hover a {
+  color: #ffa500;
+}
+
 .float-cart__footer .buy-btn a {
   color: white;
 }

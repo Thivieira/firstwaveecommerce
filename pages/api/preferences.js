@@ -10,7 +10,10 @@ export default function handler(req, res) {
     mercadopago.preferences
       .get(preferenceId)
       .then(function (response) {
-        res.status(200).json({ preferenceId: response.body.id });
+        res.status(200).json({
+          preferenceId: response.body.id,
+          init_point: response.body.init_point,
+        });
       })
       .catch(function (error) {
         console.log(error);
@@ -41,16 +44,19 @@ export default function handler(req, res) {
       };
     });
 
-    let firstName = account.name;
-    let lastName = account.name;
-    let area_code = account.phone;
-    let number = account.phone;
+    console.log("ITEMS", items);
+
+    let firstName = account.name.split(" ").slice(0, -1).join(" ");
+    let lastName = account.name.split(" ").slice(-1).join(" ");
+    let stripedPhone = account.phone.replace(/\D/g, "");
+    let area_code = stripedPhone.substring(0, 2);
+    let number = stripedPhone.substring(2);
     let preference = {
       items,
       back_urls: {
-        success: "http://localhost:8080/feedback",
-        failure: "http://localhost:8080/feedback",
-        pending: "http://localhost:8080/feedback",
+        success: `${process.env.NEXT_PUBLIC_SITE_URL}/status/sucesso`,
+        failure: `${process.env.NEXT_PUBLIC_SITE_URL}/status/erro`,
+        pending: `${process.env.NEXT_PUBLIC_SITE_URL}/status/processando`,
       },
       payer: {
         name: firstName,
@@ -59,7 +65,7 @@ export default function handler(req, res) {
         date_created: new Date().toISOString(),
         phone: {
           area_code: area_code,
-          number: number,
+          number: Number(number),
         },
 
         identification: {
@@ -92,7 +98,10 @@ export default function handler(req, res) {
     mercadopago.preferences
       .create(preference)
       .then(function (response) {
-        res.status(200).json({ preferenceId: response.body.id });
+        res.status(200).json({
+          preferenceId: response.body.id,
+          init_point: response.body.init_point,
+        });
       })
       .catch(function (error) {
         console.log(error);
