@@ -35,21 +35,7 @@ function TableOrdered() {
       dataSaida: dataAtual,
       loja: "203351750", //id loja
       cliente: {
-        id: "",
         nome: userName, //obrigatorio
-        cnpj: null,
-        ie: null,
-        rg: "",
-        endereco: null,
-        numero: "",
-        complemento: "",
-        cidade: null,
-        bairro: null,
-        cep: null,
-        uf: null,
-        email: null, //obrigatorio
-        celular: null,
-        fone: null,
       },
       pagamento: {
         categoria: "Vendas",

@@ -145,7 +145,7 @@
 .sizes-btn ul li {
   border: 1px solid rgb(16, 179, 238);
   display: block;
-  padding: 1px 7px;
+  padding: 1px;
   height: 28px;
   min-width: 28px;
   text-align: center;
@@ -163,6 +163,7 @@
 .sizes-btn ul li:hover {
   color: rgb(16, 179, 238);
   border-color: rgb(16, 179, 238);
+  background-color: rgba(255, 165, 0, 0.2);
 }
 
 .colors-product span {

@@ -75,10 +75,6 @@ const ProductDetails = ({ product }) => {
   }, [selectedColor]);
 
   const onSelectedColorChange = (value) => {
-    // setSelectedColor(value);
-
-    // console.log("availableVariations", availableVariations);
-
     let cor = availableVariations.filter((el) => {
       return (
         el.nome.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] == value
@@ -187,7 +183,7 @@ const ProductDetails = ({ product }) => {
 
           {codigoProduto ? (
             <div className="sizes-btn">
-              <ul>
+              <ul>                                                              
                 {sizesNoRepeat.map((value) => (
                   <li
                     onClick={() => onSelectedSizeChange(value)}

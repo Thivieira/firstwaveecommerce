@@ -1,4 +1,5 @@
-import React from "react";
+import { useEffect } from "react";
+import api from "../../services/api";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { getFavoritesProd } from "../../store/selectors/products";
@@ -9,9 +10,34 @@ import { CloseCircleTwoTone } from "@ant-design/icons";
 export default function Favorites() {
   const dispatch = useDispatch();
   const productsFavorites = useSelector(getFavoritesProd);
+
   const disp = (item) => {
     dispatch(removeFromFavorites(item));
   };
+
+  const headers = {
+    Authorization: `Bearer ${sessionStorage.getItem("key")}`,
+  };
+
+  const orderFavoritesGet = async () => {
+    await api.get('/produtos/favoritos', { headers })
+    .then(res => console.log(res))
+  }
+
+  const postFavorites = productsFavorites.map(el => el.codigo)
+  console.log(postFavorites)
+
+  const orderFavoritesPost = async () => {
+    await api.post('/produtos/favoritos', {
+      "produtoID": postFavorites[0]
+    })
+    .then(res => console.log(res))
+  }
+
+  useEffect(() => {
+    orderFavoritesPost()
+    orderFavoritesGet()
+  }, [])
 
   return (
     <List
