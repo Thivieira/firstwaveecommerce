@@ -2,14 +2,18 @@ import api from "../../services/api";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import axios from "axios";
+import Status from "../../components/Status";
+import { Button } from "antd";
+import { clearCart } from "../../store/actions/products";
+import { useDispatch } from "react-redux";
 
 export default function index() {
   const router = useRouter();
+  const dispatch = useDispatch();
   useEffect(async () => {
     const query = router.query;
+    dispatch(clearCart());
     try {
-      axios.post("bling", recebeDoFront);
-
       const { data } = await api.post("/brugman", {
         pedido: {
           loja: "203351750", //id loja
@@ -84,11 +88,42 @@ export default function index() {
 
   switch (router.query.slug) {
     case "sucesso":
-      return <h1>Sucesso</h1>;
+      return (
+        <Status
+          status="success"
+          title="Sua compra foi efetuada com sucesso!"
+          subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
+          extra={[
+            <Button type="primary" key="console">
+              Go Console
+            </Button>,
+            <Button key="buy">Buy Again</Button>,
+          ]}
+        />
+      );
     case "processando":
-      return <h1>Processando</h1>;
+      return (
+        <Status
+          title="Successfully Purchased Cloud Server ECS!"
+          extra={[
+            <Button type="primary" key="console">
+              Go Console
+            </Button>,
+          ]}
+        />
+      );
     case "erro":
-      return <h1>Erro</h1>;
+      return (
+        <Status
+          status="danger"
+          title="There are some problems with your operation."
+          extra={[
+            <Button type="primary" key="console">
+              Go Console
+            </Button>,
+          ]}
+        />
+      );
     default:
       return null;
   }
