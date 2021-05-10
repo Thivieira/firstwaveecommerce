@@ -27,7 +27,6 @@ const Produtos = ({ produtos }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
-  // console.log(products)
 
   const loading = useSelector(getLoading);
 
@@ -43,21 +42,6 @@ const Produtos = ({ produtos }) => {
     dispatch(setLoading(false));
     dispatch(getProducts(produtos));
   }, [produtos]);
-
-  if (router.isFallback) {
-    return (
-      <div className="spinner-produtos">
-        <FadeLoader
-          color={"#0080A8"}
-          loading={loading}
-          height={35}
-          width={7.5}
-          radius={5}
-          margin={15}
-        />
-      </div>
-    );
-  }
 
   const categoria = router.query.param[0];
   const subcategoria = router.query.param[1];
@@ -150,17 +134,11 @@ const Produtos = ({ produtos }) => {
 
   return (
     <>
-      <div className="products-wrapper">
+      <div className="products-wrapper page">
         <div className="filter-sort">
-          {loading === false && products.length > 0 && (
+          {products.length > 0 && (
             <>
               <p>{products.length} Produto(s) Encontrados</p>
-
-              {/* <select value={sort} onChange={handleChangeSort}>
-                <option value="">Ordenar por preço</option>'
-                <option value="menor">Menor para maior</option>
-                <option value="maior">Maior para menor</option>
-              </select> */}
 
               <Dropdown overlay={menu}>
                 <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
@@ -171,52 +149,38 @@ const Produtos = ({ produtos }) => {
           )}
         </div>
 
-        {loading === true ? (
-          <div className="spinner-produtos">
-            <FadeLoader
-              color={"#0080A8"}
-              loading={loading}
-              height={35}
-              width={7.5}
-              radius={5}
-              margin={15}
-            />
-          </div>
-        ) : (
-          <div className="products">
-            {products.length > 0 ? (
-              <>
-                {products.map((product) => (
-                  <Product
-                    product={product}
-                    key={removeIdDuplicate(product.id)}
-                  />
-                ))}
-
-                <ReactPaginate
-                  previousLabel={"<"}
-                  nextLabel={">"}
-                  pageCount={totalPages}
-                  onPageChange={changePage}
-                  containerClassName={"paginationsBttn"}
-                  previousLinkClassName={"previousBttn"}
-                  nextLinkClassName={"nextBttn"}
-                  disabledClassName={"paginationDisabled"}
-                  activeClassName={"paginationActive"}
+        <div className="products">
+          {products.length > 0 ? (
+            <>
+              {products.map((product) => (
+                <Product
+                  product={product}
+                  key={removeIdDuplicate(product.id)}
                 />
-              </>
-            ) : (
-              <Alert
-                message="FILTROS"
-                description="NENHUM PRODUTO FOI ENCONTRADO COM OS FILTROS SELECIONADOS"
-                type="info"
-                showIcon
-                closable
-                afterClose={handleClose}
+              ))}
+              <ReactPaginate
+                previousLabel={"<"}
+                nextLabel={">"}
+                pageCount={totalPages}
+                onPageChange={changePage}
+                containerClassName={"paginationsBttn"}
+                previousLinkClassName={"previousBttn"}
+                nextLinkClassName={"nextBttn"}
+                disabledClassName={"paginationDisabled"}
+                activeClassName={"paginationActive"}
               />
-            )}
-          </div>
-        )}
+            </>
+          ) : (
+            <Alert
+              message="FILTROS"
+              description="NENHUM PRODUTO FOI ENCONTRADO COM OS FILTROS SELECIONADOS"
+              type="info"
+              showIcon
+              closable
+              afterClose={handleClose}
+            />
+          )}
+        </div>
 
         <div className="filter">
           {showFilter ? (
@@ -230,17 +194,16 @@ const Produtos = ({ produtos }) => {
             </>
           ) : (
             <div className="site-drawer-render-in-current-wrapper">
-              <div className="btn-filter-mobile">
                 <Button
                   type="text"
                   size="small"
                   icon={<FilterOutlined />}
                   onClick={showDrawerFilters}
+                  className='btn-filter-mobile'
                 >
-                  Filtros
+                  FILTROS
                 </Button>
-                <Button type="primary"></Button>
-              </div>
+                {/* <Button type="primary"></Button> */}
               <Drawer
                 placement="left"
                 closable={true}
@@ -268,8 +231,6 @@ export const getServerSideProps = async (ctx) => {
   const tipo = ctx.params.param[2];
 
   const busca = ctx.query.nome
-  console.log(busca)
-  console.log(categoria, subcategoria, tipo)
 
   let produtos;
   let res;

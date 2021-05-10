@@ -85,7 +85,9 @@ export default function index() {
       }
     }
   }, []);
-
+  return(
+    <h1>Sucesso</h1>
+  )
   switch (router.query.slug) {
     case "sucesso":
       return (

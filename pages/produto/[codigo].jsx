@@ -13,21 +13,6 @@ const DetailsProduct = ({ product }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  if (router.isFallback) {
-    return (
-      <div className="spinner-produtos">
-        <FadeLoader
-          color={"#0080A8"}
-          loading={loading}
-          height={35}
-          width={7.5}
-          radius={5}
-          margin={15}
-        />
-      </div>
-    )
-  }
-
   const loading = useSelector(getLoading);
 
   useMemo(() => {
@@ -43,7 +28,7 @@ const DetailsProduct = ({ product }) => {
   }, [dispatch]);
 
   return (
-    <>
+    <div className='page'>
       {loading || product.length == 0 ? (
         <div className="details-wrapper">
           <div className="spinner-product">
@@ -60,7 +45,7 @@ const DetailsProduct = ({ product }) => {
       ) : (
         <ProductDetails product={product} />
       )}
-    </>
+    </div>
   );
 };
 

@@ -14,9 +14,8 @@ import FloatCart from "../components/FloatCart/FloatCart";
 import api from "../services/api";
 import NavLink from "../components/NavLink";
 
-function Header({ name }) {
+function Header() {
   const router = useRouter();
-  const [search, setSearch] = useState("");
   const [sidebar, setSidebar] = useState(false);
   const [showFilter, setShowFilter] = useState(0);
   const [userName, setUserName] = useState("");
@@ -476,12 +475,8 @@ function Header({ name }) {
 
   const { Search } = Input;
 
-  const onSearch = async value => {
-    router.replace(`/produtos/busca?nome=${value}`)
-  }
-
- 
-
+  const onSearch = async value => router.replace(`/produtos/busca?nome=${value}`)
+  
   return (
     <header id="header">
       <nav className="header-top">
@@ -493,6 +488,7 @@ function Header({ name }) {
         </NavLink>
         
         <Search placeholder="Digite o que você procura" allowClear onSearch={onSearch} style={{ width: 400 }} />
+
         <nav className="nav-container">
           <NavLink
             href={authorized ? "/dashboard" : "/login"}
@@ -541,7 +537,7 @@ function Header({ name }) {
             </NavLink>
           </div>
 
-          <a
+          <NavLink
             href="/produtos/Surf"
             className={
               showFilter === 1 ? "menu-item menu-item-active" : "menu-item"
@@ -549,7 +545,7 @@ function Header({ name }) {
             onMouseEnter={() => setShowFilter(1)}
           >
             Surf
-          </a>
+          </NavLink>
 
           <NavLink
             href="/produtos/Masculino"
@@ -645,15 +641,5 @@ function Header({ name }) {
     </header>
   );
 }
-
-export const getServerSideProps = async () => {
-  let name;
-
-  await api.get("/usuario").then((res) => (name = res.data));
-
-  return {
-    props: { name },
-  };
-};
 
 export default Header;
