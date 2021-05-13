@@ -280,6 +280,14 @@ const productsReducer = (state = productsDefaultState, action) => {
         ...state,
         activePreferenceId: action.payload,
       };
+    case "SORT_PRODUCTS":
+      // let productsSorted = action.payload.products;
+      // let sort = action.payload.sort;
+
+      return {
+        ...state,
+        products: action.payload.products,
+      };
 
     default:
       return state;

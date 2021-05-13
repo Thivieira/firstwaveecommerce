@@ -3,6 +3,11 @@ export const getProducts = (products) => ({
   payload: products,
 });
 
+export const sortProducts = (products, sort) => ({
+  type: "SORT_PRODUCTS",
+  payload: { products, sort },
+});
+
 export const sliderProducts = (sliderProducts) => ({
   type: "GET_API_SLIDER_PRODUCTS",
   payload: sliderProducts,

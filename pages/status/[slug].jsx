@@ -85,48 +85,66 @@ export default function index() {
       }
     }
   }, []);
-  return(
-    <h1>Sucesso</h1>
-  )
-  switch (router.query.slug) {
-    case "sucesso":
-      return (
-        <Status
-          status="success"
-          title="Sua compra foi efetuada com sucesso!"
-          subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
-          extra={[
-            <Button type="primary" key="console">
-              Go Console
-            </Button>,
-            <Button key="buy">Buy Again</Button>,
-          ]}
-        />
-      );
-    case "processando":
-      return (
-        <Status
-          title="Successfully Purchased Cloud Server ECS!"
-          extra={[
-            <Button type="primary" key="console">
-              Go Console
-            </Button>,
-          ]}
-        />
-      );
-    case "erro":
-      return (
-        <Status
-          status="danger"
-          title="There are some problems with your operation."
-          extra={[
-            <Button type="primary" key="console">
-              Go Console
-            </Button>,
-          ]}
-        />
-      );
-    default:
-      return null;
-  }
+  // return(
+  //   <h1>Sucesso</h1>
+  // )
+
+  const renderStatus = () => {
+    switch (router.query.slug) {
+      case "sucesso":
+        return (
+          <Status
+            status="success"
+            title="Sua compra foi efetuada com sucesso!"
+            subTitle={`Pedido #${router.query.payment_id} Cloud server configuration takes 1-5 minutes, please wait.`}
+            extra={[
+              <Button
+                type="primary"
+                key="console"
+                onClick={() => {
+                  router.push("/");
+                }}
+              >
+                Ver mais produtos
+              </Button>,
+              <Button
+                key="buy"
+                onClick={() => {
+                  router.push("/dashboard");
+                }}
+              >
+                Conferir pedido
+              </Button>,
+            ]}
+          />
+        );
+      case "processando":
+        return (
+          <Status
+            title="Successfully Purchased Cloud Server ECS!"
+            extra={[
+              <Button type="primary" key="console">
+                Go Console
+              </Button>,
+            ]}
+          />
+        );
+      case "erro":
+        return (
+          <Status
+            status="danger"
+            title="There are some problems with your operation."
+            extra={[
+              <Button type="primary" key="console">
+                Go Console
+              </Button>,
+            ]}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  return <div style={{ height: "58vh" }}>{renderStatus()}</div>;
 }
