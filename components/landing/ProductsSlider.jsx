@@ -3,11 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSliderProduct } from "../../store/selectors/products";
 import FadeLoader from "react-spinners/FadeLoader";
 
-import api from "../../services/api";
-
-// import Carousel from "react-multi-carousel";
-// import "react-multi-carousel/lib/styles.css";
-
 import Slider from "react-slick";
 
 import Link from "next/link";
@@ -15,27 +10,15 @@ import { sliderProducts } from "../../store/actions/products";
 import NumberFormat from "react-number-format";
 
 export default function ProductsSlider({ prod }) {
-  const dispatch = useDispatch();
   // const products = useSelector(getSliderProduct);
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
 
   useMemo(() => {
-    // const fetchProducts = async () => {
-    //   products.length > 0 ? setLoading(false) : setLoading(true);
-
-    //   // const res = await api.get("/produtos/categoria?tamanho=M");
-    //   // const prod = res.data.map((el) => el.produto);
-
-    //   dispatch(sliderProducts(prod));
-    // };
-
-    // fetchProducts();
-
     products.length > 0 ? setLoading(false) : setLoading(true);
     // console.log(prod);
     setProducts(prod);
-  }, [products]);
+  }, [products])
 
   const settings = {
     dots: true,
@@ -148,5 +131,3 @@ export default function ProductsSlider({ prod }) {
     </>
   );
 }
-
-ProductsSlider;
