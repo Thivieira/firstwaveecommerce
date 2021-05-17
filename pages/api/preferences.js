@@ -41,6 +41,7 @@ export default function handler(req, res) {
         quantity: parseInt(item.estoqueAtual),
         unit_price: parseInt(item.preco),
         currency_id: "BRL",
+        category_id: "fashion",
       };
     });
 
