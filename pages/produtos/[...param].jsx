@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import FadeLoader from "react-spinners/FadeLoader";
 import ReactPaginate from "react-paginate";
@@ -30,6 +30,7 @@ const Produtos = ({ produtos }) => {
   const products = useSelector(getAllProducts);
 
   const loading = useSelector(getLoading);
+  console.log(loading)
 
   const [sort, setSort] = useState("menor");
 
@@ -123,7 +124,7 @@ const Produtos = ({ produtos }) => {
 
   return (
     <>
-      <div className="products-wrapper page">
+      <div className="products-wrapper">
         <div className="filter-sort">
           {products.length > 0 && (
             <>
@@ -138,40 +139,57 @@ const Produtos = ({ produtos }) => {
                 </a>
               </Dropdown>
             </>
-          )}
+          )
+          }
         </div>
 
         <div className="products">
-          {products.length > 0 ? (
-            <>
-              {products.map((product) => (
-                <Product
-                  product={product}
-                  key={removeIdDuplicate(product.id)}
+          {products.length > 0 ? 
+            (
+              <>
+                {products.map(product => (
+                  <Product
+                    product={product}
+                    key={removeIdDuplicate(product.id)}
+                  />
+                ))}
+                <ReactPaginate
+                  previousLabel={"<"}
+                  nextLabel={">"}
+                  pageCount={totalPages}
+                  onPageChange={changePage}
+                  containerClassName={"paginationsBttn"}
+                  previousLinkClassName={"previousBttn"}
+                  nextLinkClassName={"nextBttn"}
+                  disabledClassName={"paginationDisabled"}
+                  activeClassName={"paginationActive"}
                 />
-              ))}
-              <ReactPaginate
-                previousLabel={"<"}
-                nextLabel={">"}
-                pageCount={totalPages}
-                onPageChange={changePage}
-                containerClassName={"paginationsBttn"}
-                previousLinkClassName={"previousBttn"}
-                nextLinkClassName={"nextBttn"}
-                disabledClassName={"paginationDisabled"}
-                activeClassName={"paginationActive"}
+              </>
+            ) 
+            : 
+
+            loading === true ?
+            (
+              <FadeLoader
+                className='spinner-produtos'
+                color={"#0080A8"}
+                loading={loading}
+                height={35}
+                width={7.5}
+                radius={5}
+                margin={15}
               />
-            </>
-          ) : (
-            <Alert
+            )
+              :
+            (<Alert
               message="FILTROS"
               description="NENHUM PRODUTO FOI ENCONTRADO COM OS FILTROS SELECIONADOS"
               type="info"
               showIcon
               closable
               afterClose={handleClose}
-            />
-          )}
+            />)
+          }
         </div>
 
         <div className="filter">
@@ -184,7 +202,9 @@ const Produtos = ({ produtos }) => {
               />
               <Filter />
             </>
-          ) : (
+          ) 
+          : 
+          (
             <div className="site-drawer-render-in-current-wrapper">
               <Button
                 type="text"
@@ -195,7 +215,7 @@ const Produtos = ({ produtos }) => {
               >
                 FILTROS
               </Button>
-              {/* <Button type="primary"></Button> */}
+
               <Drawer
                 placement="left"
                 closable={true}

@@ -10,12 +10,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 85%;
-    margin: 1.5rem 7.5%;
+    margin: 1.5rem;
 }
 
 .filter-sort p {
+    margin-left: 7rem;
     margin-top: 1em;
+}
+
+a {
+    color: #0080a8;
 }
 
 .spinner-produtos {
