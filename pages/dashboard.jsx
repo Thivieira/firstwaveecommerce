@@ -122,8 +122,6 @@ function Dashboard() {
         return "Editar Endereço";
       case 4:
         return "Meus Favoritos";
-      case 5:
-        return "Trocas e devoluções";
       default:
         return "Meus Pedidos";
     }
@@ -147,8 +145,6 @@ function Dashboard() {
         );
       case 4:
         return <Favorites />;
-      case 5:
-        return <p>Trocas e devoluções</p>;
       default:
         return <p>Meus Pedidos</p>;
     }
@@ -179,16 +175,9 @@ function Dashboard() {
               Meus Favoritos
             </Button>
           </li>
-          <li className={formOption === 5 ? "edit-bordered" : ""}>
-            <Button onClick={() => setFormOption(5)} color="primary">
-              Trocas e Devoluções
-            </Button>
-          </li>
           <li>
             <Link href="/">
-              <>
                 <Button color="primary">Voltar</Button>
-              </>
             </Link>
           </li>
         </ul>
