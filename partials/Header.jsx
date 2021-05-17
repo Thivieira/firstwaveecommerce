@@ -487,7 +487,7 @@ function Header() {
           Molokai
         </NavLink>
         
-        <Search placeholder="Digite o que você procura" allowClear onSearch={onSearch} style={{ width: 400 }} />
+        <Search placeholder="Digite o que você procura" allowClear onSearch={onSearch} className='search-filter' />
 
         <nav className="nav-container">
           <NavLink
