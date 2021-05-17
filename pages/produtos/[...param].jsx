@@ -8,8 +8,8 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { Drawer, Button, Alert } from "antd";
 import { FilterOutlined } from "@ant-design/icons";
-import { Menu, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Menu, Dropdown } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 
 import Breadcrumb from "../../components/Breadcrumb";
 import Filter from "../../components/Filter";
@@ -21,6 +21,7 @@ import {
   getProducts,
   clearProducts,
   setLoading,
+  sortProducts,
 } from "../../store/actions/products";
 
 const Produtos = ({ produtos }) => {
@@ -30,7 +31,7 @@ const Produtos = ({ produtos }) => {
 
   const loading = useSelector(getLoading);
 
-  const [sort, setSort] = useState("");
+  const [sort, setSort] = useState("menor");
 
   const [showFilter, setShowFilter] = useState(true);
   const [visible, setVisible] = useState(false);
@@ -87,47 +88,35 @@ const Produtos = ({ produtos }) => {
   }, [currentPage]);
 
   const menu = (
-    <Menu value={sort} onChange={handleChangeSort}>
+    <Menu value={sort} onClick={(obj) => handleChangeSort(obj.item)}>
       <Menu.Item value="menor">
-        <a >
-          Menor para maior
-        </a>
+        <a>Menor para maior</a>
       </Menu.Item>
       <Menu.Item value="maior">
-        <a >
-          Maior para menor
-        </a>
+        <a>Maior para menor</a>
       </Menu.Item>
     </Menu>
-  )
+  );
 
-  const handleChangeSort = (e) => {
-    setSort(e.target.value);
+  const handleChangeSort = (item) => {
+    let sortValue = item.props.value;
+    setSort(sortValue);
 
-    if (sort === "menor") {
-      products.sort((a, b) =>
-        sort === "menor"
-          ? a.preco < b.preco
-            ? 1
-            : -1
-          : a.preco > b.preco
-          ? 1
-          : -1
-      );
-    } else if (sort === "maior") {
-      products.sort((a, b) =>
-        sort === "maior"
-          ? a.preco > b.preco
-            ? 1
-            : -1
-          : a.preco < b.preco
-          ? 1
-          : -1
-      );
-    } else {
-      products.sort((a, b) => (a.id < b.id ? 1 : -1));
+    let productsToSort = products;
+
+    if (sortValue === "maior") {
+      productsToSort.sort((a, b) => {
+        return parseFloat(b.preco) - parseFloat(a.preco);
+      });
+      dispatch(sortProducts(productsToSort, sortValue));
+      return true;
     }
-    return products;
+
+    productsToSort.sort((a, b) => {
+      return parseFloat(a.preco) - parseFloat(b.preco);
+    });
+    dispatch(sortProducts(productsToSort, sortValue));
+    return true;
   };
 
   const removeIdDuplicate = (id) => id + String(Math.random());
@@ -141,7 +130,10 @@ const Produtos = ({ produtos }) => {
               <p>{products.length} Produto(s) Encontrados</p>
 
               <Dropdown overlay={menu}>
-                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                <a
+                  className="ant-dropdown-link"
+                  onClick={(e) => e.preventDefault()}
+                >
                   Ordernar por preço <DownOutlined />
                 </a>
               </Dropdown>
@@ -194,16 +186,16 @@ const Produtos = ({ produtos }) => {
             </>
           ) : (
             <div className="site-drawer-render-in-current-wrapper">
-                <Button
-                  type="text"
-                  size="small"
-                  icon={<FilterOutlined />}
-                  onClick={showDrawerFilters}
-                  className='btn-filter-mobile'
-                >
-                  FILTROS
-                </Button>
-                {/* <Button type="primary"></Button> */}
+              <Button
+                type="text"
+                size="small"
+                icon={<FilterOutlined />}
+                onClick={showDrawerFilters}
+                className="btn-filter-mobile"
+              >
+                FILTROS
+              </Button>
+              {/* <Button type="primary"></Button> */}
               <Drawer
                 placement="left"
                 closable={true}
@@ -230,26 +222,30 @@ export const getServerSideProps = async (ctx) => {
   const subcategoria = ctx.params.param[1];
   const tipo = ctx.params.param[2];
 
-  const busca = ctx.query.nome
+  const busca = ctx.query.nome;
 
   let produtos;
   let res;
 
   if (categoria && subcategoria && tipo) {
-    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`)
-    produtos = res.data.map((el) => el.produto)
+    res = await api.get(
+      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`
+    );
+    produtos = res.data.map((el) => el.produto);
   } else if (categoria && subcategoria && !tipo) {
-    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`)
-    produtos = res.data.map((el) => el.produto)
+    res = await api.get(
+      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`
+    );
+    produtos = res.data.map((el) => el.produto);
   } else if (categoria && !subcategoria && !tipo && !busca) {
-    res = await api.get(`/produtos/categoria?categoria=${categoria}`)
-    produtos = res.data.map((el) => el.produto)
+    res = await api.get(`/produtos/categoria?categoria=${categoria}`);
+    produtos = res.data.map((el) => el.produto);
   } else {
-    res = await api.get(`/produtos/busca?nome=${busca}`)
-    produtos = res.data.map((el) => el.produto)
+    res = await api.get(`/produtos/busca?nome=${busca}`);
+    produtos = res.data.map((el) => el.produto);
   }
 
   return {
     props: { produtos },
-  }
-}
+  };
+};
