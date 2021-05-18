@@ -64,7 +64,7 @@ function Dashboard() {
           number: res.data.numero,
           complement: res.data.complemento,
           zipcode: res.data.cep,
-          state: res.data.state,
+          state: res.data.estado,
           city: res.data.cidade,
           neighborhood: res.data.bairro,
         })

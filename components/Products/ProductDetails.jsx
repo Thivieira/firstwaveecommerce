@@ -91,7 +91,7 @@ const ProductDetails = ({ product }) => {
 
     setFeaturedImage(imagesLink[0]);
 
-    setCodigoVariacao(cor.codigo + "-" + selectedColor);
+    setCodigoVariacao(cor.codigo);
     setEstoqueAtual(cor.estoqueAtual);
   };
 
@@ -158,6 +158,7 @@ const ProductDetails = ({ product }) => {
         <div className="details-content">
           <div className="title-and-heart">
             <h1 className="title-product">
+              {console.log("PRODUCT", product)}
               {product.descricao} <FavoriteBtn product={product}></FavoriteBtn>
             </h1>
           </div>
@@ -183,7 +184,7 @@ const ProductDetails = ({ product }) => {
 
           {codigoProduto ? (
             <div className="sizes-btn">
-              <ul>                                                              
+              <ul>
                 {sizesNoRepeat.map((value) => (
                   <li
                     onClick={() => onSelectedSizeChange(value)}

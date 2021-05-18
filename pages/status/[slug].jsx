@@ -1,93 +1,28 @@
-import api from "../../services/api";
+import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import axios from "axios";
 import Status from "../../components/Status";
 import { Button } from "antd";
 import { clearCart } from "../../store/actions/products";
-import { useDispatch } from "react-redux";
+import { getCartState } from "../../store/selectors/products";
+import { getAccount, getAddress } from "../../store/selectors/user";
+import { useDispatch, useSelector } from "react-redux";
+import blingStoreOrder from "../../services/blingStoreOrder";
 
 export default function index() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const cart = useSelector(getCartState);
+  const user = useSelector(getAccount);
+  const address = useSelector(getAddress);
   useEffect(async () => {
     const query = router.query;
-    dispatch(clearCart());
-    try {
-      const { data } = await api.post("/brugman", {
-        pedido: {
-          loja: "203351750", //id loja
-          cliente: {
-            nome: userName, //obrigatorio
-            cnpj: null,
-            ie: null,
-            rg: "",
-            endereco: null,
-            numero: "",
-            complemento: "",
-            cidade: null,
-            bairro: null,
-            cep: null,
-            uf: null,
-            email: null, //obrigatorio
-            celular: null,
-            fone: null,
-          },
-          pagamento: {
-            categoria: "Vendas",
-          },
-          itens: [
-            {
-              codigo: "",
-              descricao: "",
-              qtde: "",
-              vlr_unit: "",
-            },
-            {
-              codigo: "",
-              descricao: "",
-              qtde: "",
-              vlr_unit: "",
-            },
-            {
-              codigo: "",
-              descricao: "",
-              qtde: "",
-              vlr_unit: "",
-            },
-          ],
-          parcelas: [
-            // {
-            //   parcela: {
-            //     idLancamento: "6588650860",
-            //     valor: "151.20",
-            //     dataVencimento: "2019-09-25 00:00:00",
-            //     obs: "",
-            //     destino: "1",
-            //     formaPagamento: {
-            //       id: "772684",
-            //       descricao: "Cartão de Débito",
-            //       codigoFiscal: "4",
-            //     },
-            //   },
-            // },
-          ],
-        },
-        payment_id: query.payment_id,
-        status: query.status,
-        payment_type: query.payment_type,
-        preference_id: query.preference_id,
-      });
-      if (data.message) {
-      }
-    } catch (e) {
-      if (e) {
-      }
-    }
+    // dispatch(clearCart());
+    const orderResult = await axios.post("/api/order", {
+      cart,
+      user: { ...user, ...address },
+    });
   }, []);
-  // return(
-  //   <h1>Sucesso</h1>
-  // )
 
   const renderStatus = () => {
     switch (router.query.slug) {
