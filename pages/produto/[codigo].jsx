@@ -2,7 +2,11 @@ import React, { useMemo } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoading, getProduct } from "../../store/selectors/products";
-import { clearProduct, openProduct, setLoading } from "../../store/actions/products";
+import {
+  clearProduct,
+  openProduct,
+  setLoading,
+} from "../../store/actions/products";
 
 import FadeLoader from "react-spinners/FadeLoader";
 import api from "../../services/api";
@@ -14,11 +18,12 @@ const DetailsProduct = ({ product }) => {
   const dispatch = useDispatch();
 
   const loading = useSelector(getLoading);
+  const reduxProduct = useSelector(getProduct);
 
   useMemo(() => {
     const fetchProducts = async () => {
       dispatch(clearProduct());
-      dispatch(setLoading(true))
+      dispatch(setLoading(true));
 
       dispatch(openProduct(product));
       dispatch(setLoading(false));
@@ -28,7 +33,7 @@ const DetailsProduct = ({ product }) => {
   }, [dispatch]);
 
   return (
-    <div className='page'>
+    <div className="page">
       {loading || product.length == 0 ? (
         <div className="details-wrapper">
           <div className="spinner-product">
@@ -43,7 +48,7 @@ const DetailsProduct = ({ product }) => {
           </div>
         </div>
       ) : (
-        <ProductDetails product={product} />
+        <ProductDetails product={reduxProduct} />
       )}
     </div>
   );
@@ -58,14 +63,14 @@ export default DetailsProduct;
 //   const prodMasculino = prodMasc.map((p) => {
 //     return {
 //       params: {
-//          codigo: p.codigo 
+//          codigo: p.codigo
 //       },
 //     };
 //   });
 
 //   return {
 //     paths: prodMasculino,
-//     fallback: true 
+//     fallback: true
 //   };
 // };
 

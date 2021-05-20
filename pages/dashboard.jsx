@@ -52,7 +52,7 @@ function Dashboard() {
           })
         );
       })
-      .catch(() => alert("Não foi possível pegar os dados!"));
+      .catch(() => {});
   }
 
   async function getAdressData() {
@@ -64,7 +64,7 @@ function Dashboard() {
           number: res.data.numero,
           complement: res.data.complemento,
           zipcode: res.data.cep,
-          state: res.data.state,
+          state: res.data.estado,
           city: res.data.cidade,
           neighborhood: res.data.bairro,
         })
@@ -177,7 +177,7 @@ function Dashboard() {
           </li>
           <li>
             <Link href="/">
-                <Button color="primary">Voltar</Button>
+              <Button color="primary">Voltar</Button>
             </Link>
           </li>
         </ul>
