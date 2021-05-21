@@ -1,24 +1,23 @@
 export default function handler(req, res) {
   if (req.method === "GET") {
-    const mercadopago = require("mercadopago");
-    // Adicione as credenciais
-    mercadopago.configure({
-      access_token: process.env.ACCESS_TOKEN,
-    });
-    const preferenceId = req.body;
-
-    mercadopago.preferences
-      .get(preferenceId)
-      .then(function (response) {
-        res.status(200).json({
-          preferenceId: response.body.id,
-          init_point: response.body.init_point,
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-        res.status(500).json({ error: "Ocorreu um erro no servidor." });
-      });
+    // const mercadopago = require("mercadopago");
+    // // Adicione as credenciais
+    // mercadopago.configure({
+    //   access_token: process.env.ACCESS_TOKEN,
+    // });
+    // const preferenceId = req.body;
+    // mercadopago.preferences
+    //   .get(preferenceId)
+    //   .then(function (response) {
+    //     res.status(200).json({
+    //       preferenceId: response.body.id,
+    //       init_point: response.body.init_point,
+    //     });
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //     res.status(500).json({ error: "Ocorreu um erro no servidor." });
+    //   });
   }
   if (req.method === "POST") {
     // SDK do Mercado Pago
