@@ -16,9 +16,8 @@ export default function ProductsSlider({ prod }) {
 
   useMemo(() => {
     products.length > 0 ? setLoading(false) : setLoading(true);
-    // console.log(prod);
     setProducts(prod);
-  }, [products])
+  }, [products]);
 
   const settings = {
     dots: true,
@@ -117,9 +116,7 @@ export default function ProductsSlider({ prod }) {
                         </span>
                       </h5>
                       <Link href={`/produto/${p.codigo}`}>
-                        <button type="button">
-                          VER DETALHES
-                        </button>
+                        <button type="button">VER DETALHES</button>
                       </Link>
                     </div>
                   </div>

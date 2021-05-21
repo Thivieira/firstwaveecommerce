@@ -5,7 +5,8 @@
     "dev": "next",
     "dev-tls": "node server.js",
     "build": "next build",
-    "start": "next start -p $PORT"
+    "start": "next start -p $PORT",
+    "start-local": "next start"
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
