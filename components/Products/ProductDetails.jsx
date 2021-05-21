@@ -18,6 +18,7 @@ const MySwal = withReactContent(Swal);
 
 const ProductDetails = ({ product }) => {
   const dispatch = useDispatch();
+  console.log(product)
 
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");

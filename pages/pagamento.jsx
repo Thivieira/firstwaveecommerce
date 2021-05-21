@@ -284,7 +284,7 @@ function Payment() {
                   >
                     <img
                       className="thumb-cart-pay"
-                      src="https://dafitistatic-a.akamaihd.net/dynamic_yield/cms/static/kanui/images/23e87bc62aa90__OAKLEY_NEWERA_ATE_60_OFF.jpg"
+                      src={product.imagemVariacao}
                     />
                     <div className="desc">
                       <h3 className="title-cart">{product.descricao}</h3>
@@ -318,7 +318,6 @@ function Payment() {
       <div className="payment-bottom-container">
         <NumeratedTitled title="Pagamento" />
         <div className="payment-data">
-          {/* <PaypalButton /> */}
           <PaymentBtn />
         </div>
       </div>
