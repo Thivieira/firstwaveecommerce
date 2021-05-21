@@ -164,6 +164,12 @@
 .float-cart__shelf-container .shelf-item__details .title-cart {
   color: #ececec;
   margin: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.float-cart__shelf-container .shelf-item__details .title-cart:hover {
+  color: hsl(194, 100%, 33%);
 }
 
 .float-cart__shelf-container .shelf-item__details .desc {

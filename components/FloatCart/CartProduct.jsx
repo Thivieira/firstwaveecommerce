@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import { useDispatch } from "react-redux";
 import Thumb from "../Thumb";
 import {
@@ -22,8 +23,6 @@ function CartProduct({ product }) {
     classes.push("shelf-item--mouseover");
   }
 
-  // console.log("OII PRODUTO", product);
-
   return (
     <>
       <div className={classes.join(" ")}>
@@ -37,7 +36,9 @@ function CartProduct({ product }) {
         <Thumb src={product.imagemVariacao} alt={product.descricao} />
 
         <div className="shelf-item__details">
-          <p className="title-cart">{product.descricao}</p>
+          <Link href={`/produto/${product.codigo}`}>
+            <p className="title-cart">{product.descricao}</p>
+          </Link>
 
           <div className="desc">
             {product.size ? <p> Tamanho: {product.size} </p> : null}
