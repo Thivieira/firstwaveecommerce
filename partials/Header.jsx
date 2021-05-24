@@ -85,7 +85,7 @@ function Header() {
             <NavLink href="/produtos/Surf">
               <img
                 className="surf-image"
-                src="https://images.tcdn.com.br/img/img_prod/812998/1612288585_wetsuits-01-min.jpg"
+                src="/4.jpg"
                 alt="imagem de surf"
               />
             </NavLink>
@@ -353,7 +353,7 @@ function Header() {
             <NavLink href="/produtos/Feminino">
               <img
                 className="img-genre"
-                src={"/headerFem.jpg"}
+                src="/12.jpg"
                 alt="img-genre"
               />
             </NavLink>
@@ -408,7 +408,7 @@ function Header() {
             <NavLink href="/produtos/Juvenil">
               <img
                 className="img-genre"
-                src={"/headerKidd.jpg"}
+                src="/13.png"
                 alt="img-genre"
               />
             </NavLink>

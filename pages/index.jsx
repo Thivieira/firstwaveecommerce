@@ -8,6 +8,7 @@ import ProductsSlider from "../components/landing/ProductsSlider";
 
 import { getLayout } from "../layouts/SiteLayout";
 import { RightCircleOutlined } from "@ant-design/icons";
+import { Row, Col } from 'antd';
 
 const Index = ({ prod }) => {
   return (
@@ -44,49 +45,31 @@ const Index = ({ prod }) => {
         <ProductsSlider prod={prod} />
       </div>
 
-      <div className="images-container">
-        <div className='wrapper-left-image'>
+      <div className="images-container-two">
+        <div className='wrapper-equal-images'>
           <img
-            className="left-image"
-            src="https://images.boardriders.com/global/billabong-products/all/default/hi-res/j3sb29bimu_billabong,l_1220_frt1.jpg"
-            alt="roupa billabong"
+            src="/10.png"
+            alt="banner"
           />
           <Link href='/produtos/Acessorio'>
-            <button type='button' className='btn-left-image'>
-              BIQUÍNIS
+            <button type='button' className='btn-acess'>
+              WETSUITS
               <RightCircleOutlined style={{fontSize: '1.1rem', margin: '0 5px'}}/>
             </button>
           </Link>
         </div>
 
-        <div className="right-images-container">
-          <div className='wrapper-right-image'>
-            <img
-              className="right-image"
-              src="https://dafitistatic-a.akamaihd.net/dynamic_yield/cms/static/kanui/images/129656a67616__banner_homesurf-BERMUDAS-SURF.jpg"
-              alt="Surfistas"
-            />
-            <Link href='/produtos/Acessorio'>
-              <button type='button' className='btn-right-image'>
-                BERMUDAS
+        <div className='wrapper-equal-images'>
+          <img
+            src="/2.jpeg"
+            alt="banner"
+          />
+          <Link href='/produtos/Juvenil'>
+            <button type='button' className='btn-infa'>
+              ACESSÓRIOS
               <RightCircleOutlined style={{fontSize: '1.1rem', margin: '0 5px'}}/>
-              </button>
-            </Link>
-          </div>
-
-          <div className='wrapper-right-image'>
-            <img 
-              className="right-image" 
-              src="/modelo2.png" 
-              alt="Surfistas" 
-            />
-            <Link href='/produtos/Acessorio'>
-              <button type='button' className='btn-right-image'>
-                PRANCHAS
-              <RightCircleOutlined style={{fontSize: '1.1rem', margin: '0 5px'}}/>
-              </button>
-            </Link>
-          </div>
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -98,28 +81,26 @@ const Index = ({ prod }) => {
       <div className="images-container-two">
         <div className='wrapper-equal-images'>
           <img
-            src="https://d2e5mvjndnxyoo.cloudfront.net/Custom/Content/Banners/50/50_banner637335224265250393.jpg"
-            alt="roupa billabong"
+            src="/5.jpg"
+            alt="banner"
           />
           <Link href='/produtos/Acessorio'>
             <button type='button' className='btn-acess'>
               ACESSÓRIOS
               <RightCircleOutlined style={{fontSize: '1.1rem', margin: '0 5px'}}/>
-
             </button>
           </Link>
         </div>
 
         <div className='wrapper-equal-images'>
           <img
-            src="https://d2e5mvjndnxyoo.cloudfront.net/Custom/Content/Banners/51/51_banner637335222001214070.jpg"
-            alt="roupa billabong"
+            src="/8.jpg"
+            alt="banner"
           />
           <Link href='/produtos/Juvenil'>
             <button type='button' className='btn-infa'>
               INFANTIL
               <RightCircleOutlined style={{fontSize: '1.1rem', margin: '0 5px'}}/>
-
             </button>
           </Link>
         </div>
