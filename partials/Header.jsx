@@ -451,7 +451,7 @@ function Header() {
           <FaBars />
         </div>
         <NavLink href="/" className="header-logo">
-          Molokai
+          <img src="/Logo-Lifestyle.jpg" alt="Logo" />
         </NavLink>
         
         <Search placeholder="Digite o que você procura" allowClear onSearch={onSearch} className='search-filter' />
