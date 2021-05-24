@@ -16,22 +16,25 @@
 
 .float-cart__close-btn {
   position: relative;
-
-  width: 40px;
-  height: 40px;
-  color: rgba(255, 165, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 2rem;
+  height: 2rem;
+  color: #ffa500;
   background-color: #1b1a20;
   text-align: center;
-  /* line-height: 50px; */
   top: 0;
-  left: -40px;
+  left: -2rem;
   cursor: pointer;
 }
 
 .float-cart__close-btn .icon-close-cart {
-  position: absolute;
   display: flex;
-  margin: 3px 4.6px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   font-size: 2rem;
 }
 
@@ -65,12 +68,11 @@
 }
 
 .float-cart__header .header-title {
-  font-weight: 800;
-  color: rgba(255, 165, 0, 0.6);
+  color: #ffa500;
   margin-right: 35px;
   font-weight: bold;
   font-size: 2em;
-  border-bottom: 1px solid #fff;
+  letter-spacing: 2px;
 }
 
 .float-cart__shelf-container {
@@ -179,11 +181,11 @@
 
 .float-cart__shelf-container .shelf-item__details .desc p {
   margin: 0;
-  color: rgba(255, 165, 0, 0.6);
+  color: #ffa500;
 }
 
 .float-cart__shelf-container .shelf-item__price {
-  color: rgb(255, 165, 0);
+  color: #ffa500;
   text-align: right;
   width: 25%;
 }

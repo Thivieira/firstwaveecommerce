@@ -25,23 +25,22 @@ const ImageSlider = () => {
     <Carousel {...getConfigurableProps()}>
       <div className="wrapper-carousel-landing">
         <img
-          src="https://d2e5mvjndnxyoo.cloudfront.net/Custom/Content/Banners/73/733_banner637499513941871276.gif"
+          src="/1.png"
           alt="banner"
-          style={{ height: "500px" }}
         />
       </div>
       <div className="wrapper-carousel-landing">
         <img
-          src="https://d14amky6yu8q07.cloudfront.net/Custom/Content/Banners/68/68_banner637501919855005115.jpg"
+          src="/13.png"
           alt="banner"
-          style={{ height: "500px" }}
+          // style={{ height: "500px" }}
         />
       </div>
       <div className="wrapper-carousel-landing">
         <img
-          src="https://d2e5mvjndnxyoo.cloudfront.net/Custom/Content/Banners/71/716_banner637485753180159385.jpg"
+          src="/6.png"
           alt="banner"
-          style={{ height: "500px" }}
+          // style={{ height: "500px" }}
         />
       </div>
     </Carousel>

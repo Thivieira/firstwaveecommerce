@@ -100,7 +100,7 @@ export default function ProductsSlider({ prod }) {
                 <div className="card-wrapper" key={i}>
                   <div className="card">
                     <div className="card-image">
-                      <img src={"/image1.jpg"} alt="imagem do produto" />
+                      <img src={p.variacoes.map(el => el.variacao)[0].imagem[0] ? p.variacoes.map(el => el.variacao)[0].imagem[0].link : "/image1.jpg"} alt="imagem do produto" />
                     </div>
                     <div className="details">
                       <h5>

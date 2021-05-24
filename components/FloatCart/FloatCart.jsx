@@ -83,7 +83,7 @@ function FloatCart() {
                 count={itemQuantity}
                 style={{ backgroundColor: "#0080A8", fontWeight: "700" }}
               >
-                <Cart height="35" width="35" color="rgba(255, 165, 0, 0.6)" />
+                <Cart height="35" width="35" color="#ffa500" />
               </Badge>
             </span>
             <span className="header-title">CARRINHO</span>

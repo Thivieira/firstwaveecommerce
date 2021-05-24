@@ -85,7 +85,7 @@ function Header() {
             <NavLink href="/produtos/Surf">
               <img
                 className="surf-image"
-                src="https://images.tcdn.com.br/img/img_prod/812998/1612288585_wetsuits-01-min.jpg"
+                src="/4.jpg"
                 alt="imagem de surf"
               />
             </NavLink>
@@ -353,7 +353,7 @@ function Header() {
             <NavLink href="/produtos/Feminino">
               <img
                 className="img-genre"
-                src={"/headerFem.jpg"}
+                src="/12.jpg"
                 alt="img-genre"
               />
             </NavLink>
@@ -408,46 +408,13 @@ function Header() {
             <NavLink href="/produtos/Juvenil">
               <img
                 className="img-genre"
-                src={"/headerKidd.jpg"}
+                src="/13.png"
                 alt="img-genre"
               />
             </NavLink>
           </div>
         );
       case 5:
-      // return (
-      //     <div className='wrapper-content-calcado'>
-      //         <div className='wrapper-calcado'>
-      //                 <div className='header-calcado'>
-      //                     <NavLink href='/produtos/Masculino/Calcados' className='header-calcado'>MASCULINO</NavLink>
-      //                 </div>
-      //                 <div className='subtitle-calc'>
-      //                     <NavLink href='/produtos/Masculino/Calcados/Tenis' className='subtitle-calc-link'>TÊNIS</NavLink>
-      //                     <NavLink href='/produtos/Masculino/Calcados/Chinelo' className='subtitle-calc-link'>CHINELOS</NavLink>
-      //                 </div>
-      //         </div>
-
-      //         <div className='wrapper-calcado'>
-      //             <div className='header-calcado'>
-      //                 <NavLink href='/produtos/Feminino/Calcados' className='header-calcado'>FEMININO</NavLink>
-      //             </div>
-      //             <div className='subtitle-calc'>
-      //                 <NavLink href='/produtos/Feminino/Calcados/Tenis' className='subtitle-calc-link'>TÊNIS</NavLink>
-      //                 <NavLink href='/produtos/Feminino/Calcados/Chinelo' className='subtitle-calc-link'>CHINELOS</NavLink>
-      //             </div>
-      //         </div>
-
-      //         <div className='wrapper-calcado'>
-      //             <div className='header-calcado'>
-      //                 <NavLink href='/produtos/Juvenil/Calcados' className='header-calcado'>JUVENIL</NavLink>
-      //             </div>
-      //             <div className='subtitle-calc'>
-      //                 <NavLink href='/produtos/Juvenil/Calcados/Tenis' className='subtitle-calc-link'>TÊNIS</NavLink>
-      //                 <NavLink href='/produtos/Juvenil/Calcados/Chinelo' className='subtitle-calc-link'>CHINELOS</NavLink>
-      //             </div>
-      //         </div>
-      //     </div>
-      // )
       case 6:
       case 7:
       case 8:
@@ -484,7 +451,7 @@ function Header() {
           <FaBars />
         </div>
         <NavLink href="/" className="header-logo">
-          Molokai
+          <img src="/Logo-Lifestyle.jpg" alt="Logo" />
         </NavLink>
         
         <Search placeholder="Digite o que você procura" allowClear onSearch={onSearch} className='search-filter' />
@@ -512,7 +479,7 @@ function Header() {
               )}
             </div>
           </NavLink>
-          <div className="nav-item">
+          <div className="nav-item-cart">
             <FloatCart />
           </div>
         </nav>

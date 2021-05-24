@@ -18,9 +18,9 @@
   display: none;
 }
 
-.header-logo {
-  font-size: 2rem;
-  font-weight: bold;
+.header-logo img {
+  width: 11rem;
+  height: auto;
 }
 
 .search-filter {
@@ -35,7 +35,13 @@
 
 .nav-item {
   display: flex;
-  padding-left: 5rem;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.nav-item-cart {
+  position: absolute;
+  display: flex;
   align-items: center;
 }
 
@@ -297,4 +303,9 @@
     flex-direction: column;
     text-align: center;
   }
+
+  .search-filter {
+    width: 15rem;
+  }
+  
 }
