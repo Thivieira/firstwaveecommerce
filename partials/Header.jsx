@@ -415,39 +415,6 @@ function Header() {
           </div>
         );
       case 5:
-      // return (
-      //     <div className='wrapper-content-calcado'>
-      //         <div className='wrapper-calcado'>
-      //                 <div className='header-calcado'>
-      //                     <NavLink href='/produtos/Masculino/Calcados' className='header-calcado'>MASCULINO</NavLink>
-      //                 </div>
-      //                 <div className='subtitle-calc'>
-      //                     <NavLink href='/produtos/Masculino/Calcados/Tenis' className='subtitle-calc-link'>TÊNIS</NavLink>
-      //                     <NavLink href='/produtos/Masculino/Calcados/Chinelo' className='subtitle-calc-link'>CHINELOS</NavLink>
-      //                 </div>
-      //         </div>
-
-      //         <div className='wrapper-calcado'>
-      //             <div className='header-calcado'>
-      //                 <NavLink href='/produtos/Feminino/Calcados' className='header-calcado'>FEMININO</NavLink>
-      //             </div>
-      //             <div className='subtitle-calc'>
-      //                 <NavLink href='/produtos/Feminino/Calcados/Tenis' className='subtitle-calc-link'>TÊNIS</NavLink>
-      //                 <NavLink href='/produtos/Feminino/Calcados/Chinelo' className='subtitle-calc-link'>CHINELOS</NavLink>
-      //             </div>
-      //         </div>
-
-      //         <div className='wrapper-calcado'>
-      //             <div className='header-calcado'>
-      //                 <NavLink href='/produtos/Juvenil/Calcados' className='header-calcado'>JUVENIL</NavLink>
-      //             </div>
-      //             <div className='subtitle-calc'>
-      //                 <NavLink href='/produtos/Juvenil/Calcados/Tenis' className='subtitle-calc-link'>TÊNIS</NavLink>
-      //                 <NavLink href='/produtos/Juvenil/Calcados/Chinelo' className='subtitle-calc-link'>CHINELOS</NavLink>
-      //             </div>
-      //         </div>
-      //     </div>
-      // )
       case 6:
       case 7:
       case 8:
@@ -512,7 +479,7 @@ function Header() {
               )}
             </div>
           </NavLink>
-          <div className="nav-item">
+          <div className="nav-item-cart">
             <FloatCart />
           </div>
         </nav>

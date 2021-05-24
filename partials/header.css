@@ -35,8 +35,14 @@
 
 .nav-item {
   display: flex;
-  padding-left: 5rem;
   align-items: center;
+}
+
+.nav-item-cart {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  right: 0;
 }
 
 .nav-item-legenda {
@@ -297,4 +303,9 @@
     flex-direction: column;
     text-align: center;
   }
+
+  .search-filter {
+    width: 15rem;
+  }
+  
 }
