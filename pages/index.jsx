@@ -10,15 +10,7 @@ import { getLayout } from "../layouts/SiteLayout";
 import { RightCircleOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
-const Index = () => {
-  const [prod, setProd] = useState([]);
-
-  useEffect(() => {
-    api.get("/produtos/categoria?genero=masculino").then((res) => {
-      setProd(() => res.data);
-    });
-  }, []);
-
+const Index = ({ prod }) => {
   return (
     <div className="landing-container">
       <CarouselImage />
@@ -117,12 +109,13 @@ Index.getLayout = getLayout;
 
 export default Index;
 
-// export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
+  const res = await api.get("/produtos/categoria?genero=masculino");
 
-//   const prod = res.data;
+  const prod = res.data;
 
-//   return {
-//     props: { prod },
-//     // revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
-//   };
-// };
+  return {
+    props: { prod },
+    revalidate: 60 * 60 * 1, //a cada 8 horas uma nova req na API será feita
+  };
+};

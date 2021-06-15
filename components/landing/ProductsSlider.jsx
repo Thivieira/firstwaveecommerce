@@ -8,11 +8,14 @@ import Slider from "react-slick";
 import Link from "next/link";
 import { sliderProducts } from "../../store/actions/products";
 import NumberFormat from "react-number-format";
+import { useRouter } from "next/router";
 
 export default function ProductsSlider({ prod }) {
   // const products = useSelector(getSliderProduct);
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
+
+  const router = useRouter();
 
   useMemo(() => {
     products.length > 0 ? setLoading(false) : setLoading(true);
@@ -97,10 +100,22 @@ export default function ProductsSlider({ prod }) {
             .map((p) => p.produto)
             .map((p, i) => {
               return (
-                <div className="card-wrapper" key={i}>
+                <div
+                  className="card-wrapper"
+                  key={i}
+                  onClick={() => router.push(`/produto/${p.codigo}`)}
+                >
                   <div className="card">
                     <div className="card-image">
-                      <img src={p.variacoes.map(el => el.variacao)[0].imagem[0] ? p.variacoes.map(el => el.variacao)[0].imagem[0].link : "/image1.jpg"} alt="imagem do produto" />
+                      <img
+                        src={
+                          p.variacoes.map((el) => el.variacao)[0].imagem[0]
+                            ? p.variacoes.map((el) => el.variacao)[0].imagem[0]
+                                .link
+                            : "/image1.jpg"
+                        }
+                        alt="imagem do produto"
+                      />
                     </div>
                     <div className="details">
                       <h5>
