@@ -1,10 +1,10 @@
-import Router from 'next/router';
-import Head from 'next/head';
+import Router from "next/router";
+import Head from "next/head";
 import { Provider } from "react-redux";
 import { useStore } from "../store";
 import { PersistGate } from "redux-persist/integration/react";
 import SiteLayout from "../layouts/SiteLayout";
-import NProgress from 'nprogress'; //nprogress module
+import NProgress from "nprogress"; //nprogress module
 // import 'nprogress/nprogress.css';
 
 import "../styles/global.css";
@@ -38,24 +38,25 @@ import "../Utils/Separation/separation.css";
 import "../Utils/InputContainer/inputContainer.css";
 import "../Utils/Container/container.css";
 import "../Utils/Title/title.css";
-import '../Utils/NumeratedTitle/numeratedTitle.css';
-import '../Utils/PaymentBox/paymentBox.css';
-import '../public/nprogress.css'
+import "../Utils/NumeratedTitle/numeratedTitle.css";
+import "../Utils/PaymentBox/paymentBox.css";
+import "../public/nprogress.css";
 
-Router.events.on('routeChangeStart', () => NProgress.start()); 
-Router.events.on('routeChangeComplete', () => NProgress.done()); 
-Router.events.on('routeChangeError', () => NProgress.done());
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 export default function App({ Component, pageProps }) {
   const store = useStore(pageProps.initialReduxState);
 
-  const getLayout = Component.getLayout || ((page) => <SiteLayout children={page} />);
+  const getLayout =
+    Component.getLayout || ((page) => <SiteLayout children={page} />);
 
   return (
     <Provider store={store}>
       <PersistGate persistor={store.__PERSISTOR} loading={null}>
         <Head>
-          <link rel='stylesheet' type='text/css' href='/nprogress.css' />
+          <link rel="stylesheet" type="text/css" href="/nprogress.css" />
         </Head>
         {getLayout(<Component {...pageProps} />)}
       </PersistGate>

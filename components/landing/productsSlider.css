@@ -7,7 +7,6 @@
 
 .slick-arrow .slick-prev .slick-next {
   color: #000;
-  
 }
 
 .card-wrapper:active,
@@ -88,7 +87,7 @@
 }
 
 .details button {
-  padding: 0.2rem 0.4rem;  
+  padding: 0.2rem 0.4rem;
   font-size: 0.8rem;
   font-weight: 700;
   color: #0080a8;
@@ -115,4 +114,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #3780a8;
 }
