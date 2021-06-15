@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { Input } from 'antd';
+import { Input } from "antd";
 import { AccountCircle } from "@material-ui/icons";
 
 import { Menu, Dropdown, Button } from "antd";
@@ -83,11 +83,7 @@ function Header() {
             </div>
 
             <NavLink href="/produtos/Surf">
-              <img
-                className="surf-image"
-                src="/4.jpg"
-                alt="imagem de surf"
-              />
+              <img className="surf-image" src="/4.jpg" alt="imagem de surf" />
             </NavLink>
           </div>
         );
@@ -351,11 +347,7 @@ function Header() {
             </div>
 
             <NavLink href="/produtos/Feminino">
-              <img
-                className="img-genre"
-                src="/12.jpg"
-                alt="img-genre"
-              />
+              <img className="img-genre" src="/12.jpg" alt="img-genre" />
             </NavLink>
           </div>
         );
@@ -406,11 +398,7 @@ function Header() {
             </div>
 
             <NavLink href="/produtos/Juvenil">
-              <img
-                className="img-genre"
-                src="/13.png"
-                alt="img-genre"
-              />
+              <img className="img-genre" src="/13.png" alt="img-genre" />
             </NavLink>
           </div>
         );
@@ -442,8 +430,9 @@ function Header() {
 
   const { Search } = Input;
 
-  const onSearch = async value => router.replace(`/produtos/busca?nome=${value}`)
-  
+  const onSearch = async (value) =>
+    router.replace(`/produtos/busca?nome=${value}`);
+
   return (
     <header id="header">
       <nav className="header-top">
@@ -453,8 +442,16 @@ function Header() {
         <NavLink href="/" className="header-logo">
           <img src="/Logo-Lifestyle.jpg" alt="Logo" />
         </NavLink>
-        
-        <Search placeholder="Digite o que você procura" allowClear onSearch={onSearch} className='search-filter' />
+
+        <Search
+          defaultValue={
+            router.query.hasOwnProperty("nome") ? router.query.nome : ""
+          }
+          placeholder="Digite o que você procura"
+          allowClear
+          onSearch={onSearch}
+          className="search-filter"
+        />
 
         <nav className="nav-container">
           <NavLink
