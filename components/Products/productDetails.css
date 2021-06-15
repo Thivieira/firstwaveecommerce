@@ -51,6 +51,10 @@
   flex-direction: column;
 }
 
+.details-content h5 {
+  color: #ffa500;
+}
+
 .details-content .btn-favorite-and-title {
   display: flex;
   justify-content: space-between;
@@ -66,6 +70,7 @@
 .details-content .title-product {
   margin-bottom: 0;
   font-size: 2rem;
+  color: #0080a8;
 }
 
 .details-content .price-product {

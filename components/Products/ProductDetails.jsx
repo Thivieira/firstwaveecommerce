@@ -3,8 +3,6 @@ import { useDispatch } from "react-redux";
 import { addToCart, changeIsOpen } from "../../store/actions/products";
 import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
 
-// import ProductSlider from "../ProductsSlider";
-
 import image1 from "../../public/image1.jpg";
 import image2 from "../../public/image2.jpg";
 import image3 from "../../public/imaage3.jpg";
@@ -18,7 +16,6 @@ const MySwal = withReactContent(Swal);
 
 const ProductDetails = ({ product }) => {
   const dispatch = useDispatch();
-  console.log(product)
 
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
@@ -41,9 +38,7 @@ const ProductDetails = ({ product }) => {
 
   const variacoes = product.variacoes.map((el) => el.variacao);
 
-  const tamanhos = variacoes.map(
-    (el) => el.nome.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]
-  );
+  const tamanhos = variacoes.map((el) => el.nome.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]);
 
   const sizesNoRepeat = [...new Set(tamanhos)];
   const size = sizesNoRepeat[0];
@@ -159,10 +154,11 @@ const ProductDetails = ({ product }) => {
         <div className="details-content">
           <div className="title-and-heart">
             <h1 className="title-product">
-              {console.log("PRODUCT", product)}
               {product.descricao} <FavoriteBtn product={product}></FavoriteBtn>
             </h1>
           </div>
+
+          <h5>{product.codigo}</h5>
 
           <span className="price-product">
             R$ {parseFloat(product.preco).toFixed(2).replace(".", ",")}
@@ -243,12 +239,8 @@ const ProductDetails = ({ product }) => {
         </div>
       </div>
 
-      <div className="recomendados">
-        {/* <h2>VEJA TAMBÉM</h2> */}
-        {/* <ProductSlider /> */}
-      </div>
     </Fragment>
-  );
-};
+  )
+}
 
-export default ProductDetails;
+export default ProductDetails
