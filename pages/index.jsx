@@ -47,37 +47,6 @@ const Index = ({ prod }) => {
 
       <div className="images-container-two">
         <div className="wrapper-equal-images">
-          <img src="/10.png" alt="banner" />
-          <Link href="/produtos/Acessorio">
-            <button type="button" className="btn-acess" style={{marginRight: '20px'}}>
-              SURF
-              <RightCircleOutlined
-                style={{ fontSize: "1.1rem", margin: "0 5px" }}
-              />
-            </button>
-          </Link>
-        </div>
-
-        <div className="wrapper-equal-images">
-          <img src="/2.jpeg" alt="banner" />
-          <Link href="/produtos/Juvenil">
-            <button type="button" className="btn-infa">
-              ACESSÓRIOS
-              <RightCircleOutlined
-                style={{ fontSize: "1.1rem", margin: "0 5px" }}
-              />
-            </button>
-          </Link>
-        </div>
-      </div>
-
-      <div className="products-carousel-container">
-        <h3 className="products-carousel-title">Mais vendidos</h3>
-        <ProductsSlider prod={prod} />
-      </div>
-
-      <div className="images-container-two">
-        <div className="wrapper-equal-images">
           <img src="/5.jpg" alt="banner" />
           <Link href="/produtos/Acessorio">
             <button type="button" className="btn-acess">
@@ -94,6 +63,37 @@ const Index = ({ prod }) => {
           <Link href="/produtos/Juvenil">
             <button type="button" className="btn-infa">
               MASCULINO
+              <RightCircleOutlined
+                style={{ fontSize: "1.1rem", margin: "0 5px" }}
+              />
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      <div className="products-carousel-container">
+        <h3 className="products-carousel-title">Mais vendidos</h3>
+        <ProductsSlider prod={prod} />
+      </div>
+
+      <div className="images-container-two">
+        <div className="wrapper-equal-images">
+          <img src="/10.png" alt="banner" />
+          <Link href="/produtos/Acessorio">
+            <button type="button" className="btn-acess" style={{marginRight: '20px'}}>
+              SURF
+              <RightCircleOutlined
+                style={{ fontSize: "1.1rem", margin: "0 5px" }}
+              />
+            </button>
+          </Link>
+        </div>
+
+        <div className="wrapper-equal-images">
+          <img src="/2.jpeg" alt="banner" />
+          <Link href="/produtos/Juvenil">
+            <button type="button" className="btn-infa">
+              ACESSÓRIOS
               <RightCircleOutlined
                 style={{ fontSize: "1.1rem", margin: "0 5px" }}
               />
