@@ -167,13 +167,13 @@
 .left-image:hover {
   transform: scale(1.02);
   box-shadow: 2px 8px 20px #ddd;
-  opacity: 0.6;
+  -webkit-filter: brightness(60%);
 }
 
 .right-image:hover {
   transform: scale(1.02);
   box-shadow: 2px 8px 20px #ddd;
-  opacity: 0.6;
+  -webkit-filter: brightness(60%);
 }
 
 .images-container-two .wrapper-equal-images {
