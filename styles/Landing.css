@@ -168,12 +168,14 @@
   transform: scale(1.02);
   box-shadow: 2px 8px 20px #ddd;
   -webkit-filter: brightness(60%);
+  /* background-color: black; */
 }
 
 .right-image:hover {
   transform: scale(1.02);
   box-shadow: 2px 8px 20px #ddd;
   -webkit-filter: brightness(60%);
+  /* background-color: black; */
 }
 
 .images-container-two .wrapper-equal-images {

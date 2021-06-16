@@ -49,8 +49,8 @@ const Index = ({ prod }) => {
         <div className="wrapper-equal-images">
           <img src="/10.png" alt="banner" />
           <Link href="/produtos/Acessorio">
-            <button type="button" className="btn-acess">
-              WETSUITS
+            <button type="button" className="btn-acess" style={{marginRight: '20px'}}>
+              SURF
               <RightCircleOutlined
                 style={{ fontSize: "1.1rem", margin: "0 5px" }}
               />
@@ -81,7 +81,7 @@ const Index = ({ prod }) => {
           <img src="/5.jpg" alt="banner" />
           <Link href="/produtos/Acessorio">
             <button type="button" className="btn-acess">
-              ACESSÓRIOS
+              FEMININO
               <RightCircleOutlined
                 style={{ fontSize: "1.1rem", margin: "0 5px" }}
               />
@@ -93,7 +93,7 @@ const Index = ({ prod }) => {
           <img src="/8.jpg" alt="banner" />
           <Link href="/produtos/Juvenil">
             <button type="button" className="btn-infa">
-              INFANTIL
+              MASCULINO
               <RightCircleOutlined
                 style={{ fontSize: "1.1rem", margin: "0 5px" }}
               />
