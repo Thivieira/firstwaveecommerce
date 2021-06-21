@@ -7,7 +7,7 @@
 }
 
 .separation p {
-    font-size: 3rem;
+    font-size: 0.5rem;
     color: #0080a8;
 }
 
@@ -28,5 +28,11 @@
         height: 1px;
         align-items: center;
         margin: 0 1rem;
+    }
+}
+
+@media(max-width: 380px) {
+    .separation p {
+        margin-top: 2rem;
     }
 }

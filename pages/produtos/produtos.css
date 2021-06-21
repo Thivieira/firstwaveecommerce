@@ -121,3 +121,14 @@ a {
         top: 8rem !important;
     }
 }
+
+@media (max-width: 380px) {
+    .filter-sort {
+        padding-top: 2rem;
+        margin: 0;
+    }
+
+    .filter-sort p {
+       margin-left: 0; 
+    }
+}

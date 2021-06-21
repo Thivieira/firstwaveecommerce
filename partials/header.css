@@ -36,7 +36,7 @@
 .nav-item {
   display: flex;
   align-items: center;
-  margin-right: 1rem;
+  margin-right: 2rem;
 }
 
 .nav-item-cart {
@@ -229,14 +229,17 @@
 
   .menu-container {
     background-color: #0080a8;
-    width: 300px;
+    width: 250px;
     height: 100%;
     position: fixed;
     top: 0;
     left: -100%;
-    transition: all ease-in-out 0.5s;
+    transition: all ease-in-out 0.4s;
     flex-direction: column;
     padding: 0;
+
+    display: flex;
+    align-items: center;
   }
 
   .menu-container.active {
@@ -252,6 +255,15 @@
 
   .menu-item {
     padding: 0.3rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    align-items: flex-start;
+  }
+
+  .nav-item-legenda {
+    font-size: 1.2rem;
+    max-width: 100%;
+    /* margin-left: 5px; */
   }
 
   .menu-item-active {
@@ -300,8 +312,6 @@
     display: flex;
     align-items: center;
     color: #fff;
-    flex-direction: column;
-    text-align: center;
   }
 
   .search-filter {

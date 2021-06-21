@@ -28,10 +28,7 @@ function Filter() {
   const subcategoria = router.query.param[1];
   const tipo = router.query.param[2];
 
-  // console.log(categoria, subcategoria, tipo)
-
   const products = useSelector(getAllProducts);
-  // console.log(products)
 
   const [selectedSize, setSelectedSize] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
@@ -199,7 +196,7 @@ function Filter() {
           LIMPAR
         </button>
         <button className="btn-filter" onClick={addFilterApi}>
-          FILTRAR
+          BUSCAR
         </button>
       </div>
     </div>

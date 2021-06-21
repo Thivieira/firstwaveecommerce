@@ -38,7 +38,7 @@ function Login() {
 
   return (
     <div className="wrapper-login">
-      <h1>Acesse sua conta</h1>
+      <h2>ACESSE SUA CONTA</h2>
       <Box>
         <InputContainer onSubmit={handleSubmit}>
           <TextField
@@ -96,8 +96,8 @@ function Login() {
         </InputContainer>
         <Separation />
         <div className="sign-up">
-          <Button href="/form" variant="contained" color="primary">
-            <GroupAdd />
+          <Button className="login-button" href="/form" variant="contained" color="primary" >
+            <GroupAdd style={{marginRight: '5px'}}/>
             Cadastre-se
           </Button>
         </div>
