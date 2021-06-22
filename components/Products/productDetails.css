@@ -9,8 +9,9 @@
 
 .gallery-img {
   display: flex;
-  align-items: center;
-  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  /* flex-direction: column; */
 }
 
 .big-img {
@@ -23,16 +24,15 @@
 }
 
 .thumb {
-  width: 100%;
-  height: 100px;
+  height: auto;
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
   cursor: pointer;
-  margin: 10px 0;
+  margin: 3px;
 }
 
 .thumb img {
-  opacity: 0.9;
+  opacity: 0.8;
   height: 5rem;
   object-fit: cover;
   margin-right: 10px;
@@ -214,24 +214,22 @@
     height: auto;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+  }
+
+  .gallery-img {
+    flex-direction: column-reverse;
+    margin: 1rem;
   }
 
   .thumb {
     width: 60%;
   }
 
-  .details-content {
-    align-items: center;
-  }
-
   .colors-product {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  .info-product {
-    text-align: center;
   }
 }
 

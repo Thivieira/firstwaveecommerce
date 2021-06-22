@@ -4,7 +4,6 @@ import Footer from "../partials/Footer";
 const SiteLayout = ({ children }) => (
   <>
     <Header />
-    {/* <ScrollToTop /> */}
     {children}
     <Footer />
   </>

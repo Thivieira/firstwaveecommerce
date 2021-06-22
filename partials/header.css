@@ -1,5 +1,8 @@
-#header a:hover {
-  color: #ffa500;
+#header {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  box-shadow: 0 7px 6px -6px black;
 }
 
 .header-top {
@@ -8,10 +11,6 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-}
-
-.header-top a {
-  color: #000;
 }
 
 .navbar {
@@ -56,21 +55,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem 8rem;
+  padding: 1rem 8rem;
   z-index: 9999;
 }
 
 .menu-item {
-  font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1rem;
   color: #fff;
   margin: 0 1rem;
   transition: all ease 0.3s;
 }
 
 .menu-item-active {
+  color: #fff;
+  border-bottom: 1px solid #ffa500;
+}
+
+.menu-item:hover {
   color: #ffa500;
-  transition: all ease 0.3s;
 }
 
 .sidebar-item {
@@ -83,7 +85,6 @@
   background-color: #7dd9f5;
   z-index: 9999;
   position: absolute;
-  transition: all ease 0.3s;
   display: grid;
   grid-template-rows: 25% 25% 25% 25%;
   grid-template-columns: 25% 25% 25% 25%;
@@ -108,8 +109,7 @@
 }
 
 .wrapper-surf-options .surf-options .surf-options-link {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 0.9rem;
   color: #fff;
   transition: all ease-in-out 0.3s;
 }
@@ -140,9 +140,8 @@
 
 .wrapper-content-genre .header-genre {
   margin: 0.3rem 0;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #d88c00;
+  font-size: 0.9rem;
+  color: #ffa500;
 }
 
 .wrapper-content-genre .subtitle-vest {
@@ -152,7 +151,6 @@
 
 .wrapper-content-genre .subtitle-vest-link {
   font-size: 0.9rem;
-  font-weight: 700;
   color: #fff;
   transition: all ease-in-out 0.3s;
 }
@@ -189,20 +187,18 @@
 
 .wrapper-calcado .header-calcado {
   margin: 0.5rem 0;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #d88c00;
+  font-size: 1rem;
+  color: #ffa500;
 }
 
 .wrapper-calcado .subtitle-calc {
   display: flex;
   flex-direction: column;
-  color: #d88c00;
+  color: #ffa500;
 }
 
 .wrapper-content-calcado .subtitle-calc-link {
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: 1rem;
   color: #fff;
   transition: all ease-in-out 0.3s;
 }
@@ -220,7 +216,7 @@
   }
 
   .navbar:hover {
-    color: #d88c00;
+    color: #ffa500;
   }
 
   .nav-item:first-child {

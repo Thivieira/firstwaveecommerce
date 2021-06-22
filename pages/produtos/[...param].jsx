@@ -30,8 +30,7 @@ const Produtos = ({ produtos }) => {
   const products = useSelector(getAllProducts);
 
   const loading = useSelector(getLoading);
-  console.log(loading)
-
+  
   const [sort, setSort] = useState("menor");
 
   const [showFilter, setShowFilter] = useState(true);
@@ -39,15 +38,16 @@ const Produtos = ({ produtos }) => {
 
   const [width, setWindowWidth] = useState(0);
 
+  const categoria = router.query.param[0];
+  const subcategoria = router.query.param[1];
+  const tipo = router.query.param[2];
+
   useEffect(() => {
     dispatch(clearProducts());
     dispatch(setLoading(false));
     dispatch(getProducts(produtos));
+    console.log(produtos)
   }, [produtos]);
-
-  const categoria = router.query.param[0];
-  const subcategoria = router.query.param[1];
-  const tipo = router.query.param[2];
 
   useEffect(() => {
     updateDimensions();
@@ -71,7 +71,7 @@ const Produtos = ({ produtos }) => {
 
   const totalPages = 4745 / 100;
 
-  const handleClose = async () => {
+  const handleCloseModal = async () => {
     dispatch(setLoading(true));
     const res = await api.get(`/produtos/categoria?categoria=${categoria}`);
     const prod = res.data.map((el) => el.produto);
@@ -187,7 +187,7 @@ const Produtos = ({ produtos }) => {
               type="info"
               showIcon
               closable
-              afterClose={handleClose}
+              afterClose={handleCloseModal}
             />)
           }
         </div>

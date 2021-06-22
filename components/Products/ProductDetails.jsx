@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart, changeIsOpen } from "../../store/actions/products";
 import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
+import FavoriteBtn from "../FavoriteBtn";
 
 import image1 from "../../public/image1.jpg";
 import image2 from "../../public/image2.jpg";
@@ -10,25 +11,64 @@ import image4 from "../../public/image4.jpg";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import FavoriteBtn from "../FavoriteBtn";
-
-const MySwal = withReactContent(Swal);
+import InnerImageZoom from 'react-inner-image-zoom';
 
 const ProductDetails = ({ product }) => {
-  const dispatch = useDispatch();
+  console.log(product)
+
+  // var addZoom = function (target) {
+  //   // (A) FETCH CONTAINER + IMAGE
+  //   var container = document.getElementById(target),
+  //       imgsrc = container.currentStyle || window.getComputedStyle(container, false),
+  //       imgsrc = imgsrc.backgroundImage.slice(4, -1).replace(/"/g, ""),
+  //       img = new Image();
+  
+  //   // (B) LOAD IMAGE + ATTACH ZOOM
+  //   img.src = imgsrc;
+  //   img.onload = function () {
+  //     var imgWidth = img.naturalWidth,
+  //         imgHeight = img.naturalHeight,
+  //         ratio = imgHeight / imgWidth,
+  //         percentage = ratio * 100 + '%';
+  
+  //     // (C) ZOOM ON MOUSE MOVE
+  //     container.onmousemove = function (e) {
+  //       var boxWidth = container.clientWidth,
+  //           rect = e.target.getBoundingClientRect(),
+  //           xPos = e.clientX - rect.left,
+  //           yPos = e.clientY - rect.top,
+  //           xPercent = xPos / (boxWidth / 100) + "%",
+  //           yPercent = yPos / ((boxWidth * ratio) / 100) + "%";
+  
+  //       Object.assign(container.style, {
+  //         backgroundPosition: xPercent + ' ' + yPercent,
+  //         backgroundSize: imgWidth + 'px'
+  //       });
+  //     };
+  
+  //     // (D) RESET ON MOUSE LEAVE
+  //     container.onmouseleave = function (e) {
+  //       Object.assign(container.style, {
+  //         backgroundPosition: 'center',
+  //         backgroundSize: 'cover'
+  //       });
+  //     };
+  //   }
+  // }
+  
+  // window.addEventListener("load", function(){
+  //   addZoom("zoom-img");
+  // });
 
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [availableVariations, setAvailableVariations] = useState([]);
   const [codigoVariacao, setCodigoVariacao] = useState("");
   const [estoqueAtual, setEstoqueAtual] = useState("");
-  const [imageThumbs, setImageThumbs] = useState([
-    image1,
-    image2,
-    image3,
-    image4,
-  ]);
+  const [imageThumbs, setImageThumbs] = useState([image1, image2, image3, image4])
   const [featuredImage, setFeaturedImage] = useState(image1);
+
+  const dispatch = useDispatch();
 
   //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
   const codigoProduto = product.variacoes
@@ -46,6 +86,10 @@ const ProductDetails = ({ product }) => {
   useEffect(() => {
     onSelectedSizeChange(size);
   }, [product]);
+
+  useEffect(() => {
+    onSelectedColorChange(selectedColor);
+  }, [selectedColor]);
 
   const onSelectedSizeChange = (value) => {
     setSelectedSize(value);
@@ -65,10 +109,6 @@ const ProductDetails = ({ product }) => {
 
     setSelectedColor(color);
   };
-
-  useEffect(() => {
-    onSelectedColorChange(selectedColor);
-  }, [selectedColor]);
 
   const onSelectedColorChange = (value) => {
     let cor = availableVariations.filter((el) => {
@@ -134,11 +174,12 @@ const ProductDetails = ({ product }) => {
     }
   };
 
+  const MySwal = withReactContent(Swal);
+
   return (
     <Fragment>
       <div className="details-wrapper">
         <div className="gallery-img">
-          <img className="big-img" src={featuredImage} alt="img" />
           <div className="thumb">
             {imageThumbs.map((image) => (
               <div key={image} onClick={() => setFeaturedImage(image)}>
@@ -150,7 +191,13 @@ const ProductDetails = ({ product }) => {
               </div>
             ))}
           </div>
+          <img 
+            className="big-img"
+            src={featuredImage} 
+            alt="img"
+          />
         </div>
+
         <div className="details-content">
           <div className="title-and-heart">
             <h1 className="title-product">
@@ -168,11 +215,7 @@ const ProductDetails = ({ product }) => {
             <button
               onClick={() => addToCartFn()}
               disabled={estoqueAtual === 0 ? true : false}
-              title={
-                estoqueAtual === 0
-                  ? "Este produto não tem esta quantidade disponível."
-                  : null
-              }
+              title={ estoqueAtual === 0 ? "Este produto não tem esta quantidade disponível." : null }
             >
               ADICIONAR AO
               {<Cart height="20" width="20" color="#fff" />}
@@ -201,8 +244,7 @@ const ProductDetails = ({ product }) => {
               <span>
                 <b>Cor:</b>
                 <div className="color-text-selected">
-                  {selectedColor.charAt(0).toUpperCase() +
-                    selectedColor.toLowerCase().slice(1)}
+                  {selectedColor.charAt(0).toUpperCase() + selectedColor.toLowerCase().slice(1)}
                 </div>
               </span>
               <div className="colors-thumb">
@@ -217,11 +259,7 @@ const ProductDetails = ({ product }) => {
                       onClick={() => setSelectedColor(color)}
                       className={color === selectedColor ? "active" : ""}
                       key={variacao.nome}
-                      src={
-                        variacao.imagem.length > 0
-                          ? variacao.imagem[0].link
-                          : "#"
-                      }
+                      src={variacao.imagem.length > 0 ? variacao.imagem[0].link : "#"}
                       alt="img"
                       style={{ height: "3rem" }}
                     />
