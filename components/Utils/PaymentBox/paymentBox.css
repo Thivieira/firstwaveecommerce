@@ -1,7 +1,6 @@
 .payment-box-container {
     background-color: #e5e5e5;
-    width: 21.8rem;
-    height: 27rem;
+    height: auto;
     border: 1px solid #0080a8;
     border-radius: 6px;
     padding: 1rem;
@@ -11,6 +10,10 @@
     display: flex;
     padding-top: 0.4rem;
     justify-content: flex-end;
+}
+
+.MuiButton-label {
+    color: #0080a8 !important;
 }
 
 .space {
