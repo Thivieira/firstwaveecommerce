@@ -6,6 +6,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import SiteLayout from "../layouts/SiteLayout";
 import NProgress from "nprogress"; 
 
+import '../services/firebase'
+
 import "../styles/global.css";
 import "../styles/Landing.css";
 import "../styles/table.css";

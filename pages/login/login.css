@@ -23,10 +23,30 @@
 .wrapper-login .login-button {
     background-color: #0080a8;
     color: #fff;
+    /* width: 260px; */
+    padding: 6px !important;
+    height: 40px;
+}
+
+.wrapper-login .create-google {
+    background-color: #ea4335;
+    color: #fff;
+    margin-bottom: 10px;
+    height: 40px;
+    width: 260px;
+    padding: 6px !important;
 }
 
 .wrapper-login .login-button:hover {
     background-color: #0080a8;
+}
+
+.wrapper-login .create-google:hover {
+    background-color: #ea4335;
+}
+
+.wrapper-login .create-google img {
+    margin-right: 5px;
 }
 
 .forget-password {
