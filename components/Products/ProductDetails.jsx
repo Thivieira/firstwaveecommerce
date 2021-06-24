@@ -11,55 +11,10 @@ import image4 from "../../public/image4.jpg";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import InnerImageZoom from 'react-inner-image-zoom';
+import $ from 'jquery'
 
 const ProductDetails = ({ product }) => {
-  console.log(product)
-
-  // var addZoom = function (target) {
-  //   // (A) FETCH CONTAINER + IMAGE
-  //   var container = document.getElementById(target),
-  //       imgsrc = container.currentStyle || window.getComputedStyle(container, false),
-  //       imgsrc = imgsrc.backgroundImage.slice(4, -1).replace(/"/g, ""),
-  //       img = new Image();
-  
-  //   // (B) LOAD IMAGE + ATTACH ZOOM
-  //   img.src = imgsrc;
-  //   img.onload = function () {
-  //     var imgWidth = img.naturalWidth,
-  //         imgHeight = img.naturalHeight,
-  //         ratio = imgHeight / imgWidth,
-  //         percentage = ratio * 100 + '%';
-  
-  //     // (C) ZOOM ON MOUSE MOVE
-  //     container.onmousemove = function (e) {
-  //       var boxWidth = container.clientWidth,
-  //           rect = e.target.getBoundingClientRect(),
-  //           xPos = e.clientX - rect.left,
-  //           yPos = e.clientY - rect.top,
-  //           xPercent = xPos / (boxWidth / 100) + "%",
-  //           yPercent = yPos / ((boxWidth * ratio) / 100) + "%";
-  
-  //       Object.assign(container.style, {
-  //         backgroundPosition: xPercent + ' ' + yPercent,
-  //         backgroundSize: imgWidth + 'px'
-  //       });
-  //     };
-  
-  //     // (D) RESET ON MOUSE LEAVE
-  //     container.onmouseleave = function (e) {
-  //       Object.assign(container.style, {
-  //         backgroundPosition: 'center',
-  //         backgroundSize: 'cover'
-  //       });
-  //     };
-  //   }
-  // }
-  
-  // window.addEventListener("load", function(){
-  //   addZoom("zoom-img");
-  // });
-
+  const dispatch = useDispatch();
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [availableVariations, setAvailableVariations] = useState([]);
@@ -68,7 +23,44 @@ const ProductDetails = ({ product }) => {
   const [imageThumbs, setImageThumbs] = useState([image1, image2, image3, image4])
   const [featuredImage, setFeaturedImage] = useState(image1);
 
-  const dispatch = useDispatch();
+  const imageRef = useRef(null)
+  
+  let imageRefCurrent = imageRef !== null ? imageRef.current : imageRef
+
+  // imageRefCurrent.addEventListener('mousemove', function(e) {
+  //   let width = imageRefCurrent.offsetWidth
+  //   let height = imageRefCurrent.offsetHeight
+  //   let mouseX = e.offsetX
+  //   let mouseY = e.offsetY
+    
+  //   let bgPosX = (mouseX / width * 100)
+  //   let bgPosY = (mouseY / height * 100)
+    
+  //   imageRefCurrent.style.backgroundPosition = `${bgPosX}% ${bgPosY}%`
+  // })
+
+    // imageRefCurrent.addEventListener('mouseleave', function() {
+  //   imageRefCurrent.style.backgroundPosition = "center"
+  // })
+
+  const zoomImageMove = e => {
+    let width = imageRefCurrent.offsetWidth
+    let height = imageRefCurrent.offsetHeight
+    let mouseX = e.nativeEvent.offsetX
+    let mouseY = e.nativeEvent.offsetY
+    
+    let bgPosX = (mouseX / width * 100)
+    let bgPosY = (mouseY / height * 100)
+    
+    const imageZoom = imageRefCurrent.style.backgroundPosition = `${bgPosX}% ${bgPosY}%`
+    console.log(width, height, mouseX, mouseY)
+    console.log(imageZoom)
+    return imageZoom
+  }
+
+  const zoomImageLeave = () => {
+    imageRefCurrent.style.backgroundPosition = "center"
+  }
 
   //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
   const codigoProduto = product.variacoes
@@ -195,6 +187,9 @@ const ProductDetails = ({ product }) => {
             className="big-img"
             src={featuredImage} 
             alt="img"
+            ref={imageRef}
+            onMouseMove={(e) => zoomImageMove(e)}
+            onMouseLeave={zoomImageLeave}
           />
         </div>
 
