@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 const Index = ({ prod }) => {
   return (
     <div className="landing-container">
+      <CarouselImage />
+
       <div className="payment-information-container">
         <div className="payment-information">
           <Payment fontSize="large" />
@@ -24,9 +26,9 @@ const Index = ({ prod }) => {
         <div className="payment-information">
           <LocalShipping fontSize="large" />
           <div className="payment-information-text">
-            <p className="centered">
+            {/* <p className="centered">
               <strong>FRETE GRÁTIS</strong>
-            </p>
+            </p> */}
             <p>R$200,00 - Sul e Sudeste</p>
             <p>R$499,00 - Demais regiões</p>
           </div>
@@ -38,8 +40,6 @@ const Index = ({ prod }) => {
           </p>
         </div>
       </div>
-
-      <CarouselImage />
 
       <div className="products-carousel-container">
         <h3 className="products-carousel-title">Novidades</h3>
