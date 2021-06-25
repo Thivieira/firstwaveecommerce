@@ -11,7 +11,6 @@ import image4 from "../../public/image4.jpg";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import $ from 'jquery'
 
 const ProductDetails = ({ product }) => {
   const dispatch = useDispatch();
@@ -22,45 +21,6 @@ const ProductDetails = ({ product }) => {
   const [estoqueAtual, setEstoqueAtual] = useState("");
   const [imageThumbs, setImageThumbs] = useState([image1, image2, image3, image4])
   const [featuredImage, setFeaturedImage] = useState(image1);
-
-  const imageRef = useRef(null)
-  
-  let imageRefCurrent = imageRef !== null ? imageRef.current : imageRef
-
-  // imageRefCurrent.addEventListener('mousemove', function(e) {
-  //   let width = imageRefCurrent.offsetWidth
-  //   let height = imageRefCurrent.offsetHeight
-  //   let mouseX = e.offsetX
-  //   let mouseY = e.offsetY
-    
-  //   let bgPosX = (mouseX / width * 100)
-  //   let bgPosY = (mouseY / height * 100)
-    
-  //   imageRefCurrent.style.backgroundPosition = `${bgPosX}% ${bgPosY}%`
-  // })
-
-    // imageRefCurrent.addEventListener('mouseleave', function() {
-  //   imageRefCurrent.style.backgroundPosition = "center"
-  // })
-
-  const zoomImageMove = e => {
-    let width = imageRefCurrent.offsetWidth
-    let height = imageRefCurrent.offsetHeight
-    let mouseX = e.nativeEvent.offsetX
-    let mouseY = e.nativeEvent.offsetY
-    
-    let bgPosX = (mouseX / width * 100)
-    let bgPosY = (mouseY / height * 100)
-    
-    const imageZoom = imageRefCurrent.style.backgroundPosition = `${bgPosX}% ${bgPosY}%`
-    console.log(width, height, mouseX, mouseY)
-    console.log(imageZoom)
-    return imageZoom
-  }
-
-  const zoomImageLeave = () => {
-    imageRefCurrent.style.backgroundPosition = "center"
-  }
 
   //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
   const codigoProduto = product.variacoes
@@ -183,13 +143,11 @@ const ProductDetails = ({ product }) => {
               </div>
             ))}
           </div>
+          
           <img 
             className="big-img"
             src={featuredImage} 
             alt="img"
-            ref={imageRef}
-            onMouseMove={(e) => zoomImageMove(e)}
-            onMouseLeave={zoomImageLeave}
           />
         </div>
 
@@ -267,7 +225,7 @@ const ProductDetails = ({ product }) => {
           <div className="info-product">
             <h3>DESCRIÇÃO</h3>
             <p>Marca: {product.marca}</p>
-            {product.descricaoCurta}
+            <p>{product.descricaoCurta}</p>  
           </div>
         </div>
       </div>

@@ -11,7 +11,6 @@ import NumberFormat from "react-number-format";
 import { useRouter } from "next/router";
 
 export default function ProductsSlider({ prod }) {
-  // const products = useSelector(getSliderProduct);
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
 
@@ -38,8 +37,8 @@ export default function ProductsSlider({ prod }) {
       {
         breakpoint: 1400,
         settings: {
-          slidesToShow: 5,
-          slidesToScroll: 3,
+          slidesToShow: 4,
+          slidesToScroll: 2,
           infinite: true,
           dots: true,
         },
@@ -110,9 +109,8 @@ export default function ProductsSlider({ prod }) {
                       <img
                         src={
                           p.variacoes.map((el) => el.variacao)[0].imagem[0]
-                            ? p.variacoes.map((el) => el.variacao)[0].imagem[0]
-                                .link
-                            : "/image1.jpg"
+                          ? p.variacoes.map((el) => el.variacao)[0].imagem[0].link
+                          : "/image1.jpg"
                         }
                         alt="imagem do produto"
                       />

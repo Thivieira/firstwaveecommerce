@@ -67,15 +67,15 @@
 }
 
 .details h5 {
-  font-size: 1rem;
-  margin: 1rem 0;
+  font-size: 0.9rem;
+  margin: 0.7rem 0;
   text-align: center;
   color: #fff;
 }
 
 .details h5 .price {
   display: block;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #fff;
 }
 
@@ -85,7 +85,7 @@
 
 .details button {
   padding: 0.2rem 0.4rem;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: #0080a8;
   border-radius: 4px;
   background: #fff;
