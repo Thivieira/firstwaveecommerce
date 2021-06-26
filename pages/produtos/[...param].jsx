@@ -24,7 +24,7 @@ import {
   sortProducts,
 } from "../../store/actions/products";
 
-const Produtos = ({ produtos }) => {
+const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
@@ -37,10 +37,6 @@ const Produtos = ({ produtos }) => {
   const [visible, setVisible] = useState(false);
 
   const [width, setWindowWidth] = useState(0);
-
-  const categoria = router.query.param[0];
-  const subcategoria = router.query.param[1];
-  const tipo = router.query.param[2];
 
   useEffect(() => {
     dispatch(clearProducts());
@@ -237,12 +233,34 @@ const Produtos = ({ produtos }) => {
 
 export default Produtos;
 
-export const getServerSideProps = async (ctx) => {
+export const getStaticPaths = async () => {
+  // const resMasc = await api.get("/produtos/categoria?genero=masculino&subcategoria=vestuario&tipo=bermuda");
+  // const prodMasc = resMasc.data
+
+  // const prodMasculino = prodMasc.map((p) => {
+  //   return {
+  //     params: {
+  //        produtos: prodMasc
+  //     },
+  //   };
+  // });
+
+
+  
+
+  return {
+    paths: ["/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=bermuda"],
+    fallback: true
+  };
+};
+
+export const getStaticProps = async (ctx) => {
+  console.log(ctx)
   const categoria = ctx.params.param[0];
   const subcategoria = ctx.params.param[1];
   const tipo = ctx.params.param[2];
 
-  const busca = ctx.query.nome;
+  // const busca = ctx.query.nome; fazer no client
 
   let produtos;
   let res;
@@ -266,6 +284,7 @@ export const getServerSideProps = async (ctx) => {
   }
 
   return {
-    props: { produtos },
+    props: { produtos, categoria, subcategoria, tipo },
+    revalidate: 60 * 60 * 1, //a cada 1 horas uma nova req na API será feita
   };
 };

@@ -115,12 +115,12 @@ Index.getLayout = getLayout;
 export default Index;
 
 export const getStaticProps = async () => {
-  const res = await api.get("/produtos/categoria?genero=masculino");
+  const res = await api.get("/produtos/categoria?categoria=masculino");
 
   const prod = res.data;
 
   return {
     props: { prod },
-    revalidate: 60 * 60 * 1, //a cada 8 horas uma nova req na API será feita
+    revalidate: 60 * 60 * 1, //a cada 1 horas uma nova req na API será feita
   };
 };

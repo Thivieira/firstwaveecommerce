@@ -20,13 +20,24 @@ import {
   setLoading,
 } from "../../store/actions/products";
 
-function Filter() {
+export const getStaticProps = async (ctx) => {
+  console.log(ctx)
+  const categoria = ctx.params.param[0];
+  const subcategoria = ctx.params.param[1];
+  const tipo = ctx.params.param[2];
+
+  return {
+    props: { categoria, subcategoria, tipo }
+  };
+}
+
+function Filter({categoria, subcategoria, tipo}) {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const categoria = router.query.param[0];
-  const subcategoria = router.query.param[1];
-  const tipo = router.query.param[2];
+  // const categoria = router.query.param[0];
+  // const subcategoria = router.query.param[1];
+  // const tipo = router.query.param[2];
 
   const products = useSelector(getAllProducts);
 

@@ -82,6 +82,5 @@ export const getServerSideProps = async (ctx) => {
 
   return {
     props: { product },
-    // revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
   };
 };
