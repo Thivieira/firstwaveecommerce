@@ -98,6 +98,17 @@ export default function ProductsSlider({ prod }) {
           {products
             .map((p) => p.produto)
             .map((p, i) => {
+              const test =
+                p.variacoes.map((el) => el.variacao).length > 0
+                  ? p.variacoes.map((el) => el.variacao)[0]
+                  : [];
+
+              const image = test.imagem
+                ? test.imagem.length > 0
+                  ? test.imagem[0].link
+                  : "/image1.jpg"
+                : "/image1.jpg";
+
               return (
                 <div
                   className="card-wrapper"
@@ -107,14 +118,7 @@ export default function ProductsSlider({ prod }) {
                   <div className="card">
                     <div className="card-image">
                       {console.log(p.variacoes.map((el) => el.variacao))}
-                      <img
-                        src={
-                          p.variacoes.map((el) => el.variacao)[0].imagem[0]
-                          ? p.variacoes.map((el) => el.variacao)[0].imagem[0].link
-                          : "/image1.jpg"
-                        }
-                        alt="imagem do produto"
-                      />
+                      <img src={image} alt="imagem do produto" />
                     </div>
                     <div className="details">
                       <h5>

@@ -43,7 +43,7 @@ const Index = ({ prod }) => {
 
       <div className="products-carousel-container">
         <h3 className="products-carousel-title">Novidades</h3>
-        {/* <ProductsSlider prod={prod} /> */}
+        <ProductsSlider prod={prod} />
       </div>
 
       <div className="images-container-two">
@@ -74,14 +74,18 @@ const Index = ({ prod }) => {
 
       <div className="products-carousel-container">
         <h3 className="products-carousel-title">Mais vendidos</h3>
-        {/* <ProductsSlider prod={prod} /> */}
+        <ProductsSlider prod={prod} />
       </div>
 
       <div className="images-container-two">
         <div className="wrapper-equal-images">
           <img src="/10.png" alt="banner" />
           <Link href="/produtos/Acessorio">
-            <button type="button" className="btn-acess" style={{marginRight: '20px'}}>
+            <button
+              type="button"
+              className="btn-acess"
+              style={{ marginRight: "20px" }}
+            >
               SURF
               <RightCircleOutlined
                 style={{ fontSize: "1.1rem", margin: "0 5px" }}

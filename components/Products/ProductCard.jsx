@@ -2,15 +2,17 @@ import Link from "next/link";
 import FavoriteBtn from "../FavoriteBtn";
 
 function Product({ product }) {
-  const test = product.variacoes.map(el => el.variacao).length > 0 ? product.variacoes.map(el => el.variacao)[0] : []
-  console.log(test)
+  const test =
+    product.variacoes.map((el) => el.variacao).length > 0
+      ? product.variacoes.map((el) => el.variacao)[0]
+      : [];
 
-  const variationImage = test.length > 0 ? (test.imagem === null || test.imagem === [] ? undefined : test.imagem[0]) : undefined
+  const image = test.imagem
+    ? test.imagem.length > 0
+      ? test.imagem[0].link
+      : "/image1.jpg"
+    : "/image1.jpg";
 
-  // const variationImage = undefined
-
-  const image = variationImage ? variationImage.link : "/image1.jpg"
-  
   return (
     <div className="card-grid" key={product.id}>
       <div className="img-content">
