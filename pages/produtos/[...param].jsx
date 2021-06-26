@@ -30,7 +30,7 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
   const products = useSelector(getAllProducts);
 
   const loading = useSelector(getLoading);
-  
+
   const [sort, setSort] = useState("menor");
 
   const [showFilter, setShowFilter] = useState(true);
@@ -42,7 +42,7 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
     dispatch(clearProducts());
     dispatch(setLoading(false));
     dispatch(getProducts(produtos));
-    console.log(produtos)
+    console.log(produtos);
   }, [produtos]);
 
   useEffect(() => {
@@ -135,57 +135,50 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
                 </a>
               </Dropdown>
             </>
-          )
-          }
+          )}
         </div>
 
         <div className="products">
-          {products.length > 0 ? 
-            (
-              <>
-                {products.map(product => (
-                  <Product
-                    product={product}
-                    key={removeIdDuplicate(product.id)}
-                  />
-                ))}
-                <ReactPaginate
-                  previousLabel={"<"}
-                  nextLabel={">"}
-                  pageCount={totalPages}
-                  onPageChange={changePage}
-                  containerClassName={"paginationsBttn"}
-                  previousLinkClassName={"previousBttn"}
-                  nextLinkClassName={"nextBttn"}
-                  disabledClassName={"paginationDisabled"}
-                  activeClassName={"paginationActive"}
+          {products.length > 0 ? (
+            <>
+              {products.map((product) => (
+                <Product
+                  product={product}
+                  key={removeIdDuplicate(product.id)}
                 />
-              </>
-            ) 
-            : 
-
-            loading === true ?
-            (
-              <FadeLoader
-                className='spinner-produtos'
-                color={"#0080A8"}
-                loading={loading}
-                height={35}
-                width={7.5}
-                radius={5}
-                margin={15}
+              ))}
+              <ReactPaginate
+                previousLabel={"<"}
+                nextLabel={">"}
+                pageCount={totalPages}
+                onPageChange={changePage}
+                containerClassName={"paginationsBttn"}
+                previousLinkClassName={"previousBttn"}
+                nextLinkClassName={"nextBttn"}
+                disabledClassName={"paginationDisabled"}
+                activeClassName={"paginationActive"}
               />
-            )
-              :
-            (<Alert
+            </>
+          ) : loading === true ? (
+            <FadeLoader
+              className="spinner-produtos"
+              color={"#0080A8"}
+              loading={loading}
+              height={35}
+              width={7.5}
+              radius={5}
+              margin={15}
+            />
+          ) : (
+            <Alert
               message="FILTROS"
               description="NENHUM PRODUTO FOI ENCONTRADO COM OS FILTROS SELECIONADOS"
               type="info"
               showIcon
               closable
               afterClose={handleCloseModal}
-            />)
-          }
+            />
+          )}
         </div>
 
         <div className="filter">
@@ -198,9 +191,7 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
               />
               <Filter />
             </>
-          ) 
-          : 
-          (
+          ) : (
             <div className="site-drawer-render-in-current-wrapper">
               <Button
                 type="text"
@@ -245,17 +236,16 @@ export const getStaticPaths = async () => {
   //   };
   // });
 
-
-  
-
   return {
-    paths: ["/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=bermuda"],
-    fallback: true
+    paths: [
+      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=bermuda",
+    ],
+    fallback: true,
   };
 };
 
 export const getStaticProps = async (ctx) => {
-  console.log(ctx)
+  console.log(ctx);
   const categoria = ctx.params.param[0];
   const subcategoria = ctx.params.param[1];
   const tipo = ctx.params.param[2];
@@ -275,13 +265,15 @@ export const getStaticProps = async (ctx) => {
       `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`
     );
     produtos = res.data.map((el) => el.produto);
-  } else if (categoria && !subcategoria && !tipo && !busca) {
+  } else if (categoria && !subcategoria && !tipo) {
     res = await api.get(`/produtos/categoria?categoria=${categoria}`);
     produtos = res.data.map((el) => el.produto);
-  } else {
-    res = await api.get(`/produtos/busca?nome=${busca}`);
-    produtos = res.data.map((el) => el.produto);
   }
+
+  // else {
+  //   res = await api.get(`/produtos/busca?nome=${busca}`);
+  //   produtos = res.data.map((el) => el.produto);
+  // }
 
   return {
     props: { produtos, categoria, subcategoria, tipo },
