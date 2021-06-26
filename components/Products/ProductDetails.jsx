@@ -13,14 +13,19 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 const ProductDetails = ({ product }) => {
-  console.log(product)
+  console.log(product);
   const dispatch = useDispatch();
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [availableVariations, setAvailableVariations] = useState([]);
   const [codigoVariacao, setCodigoVariacao] = useState("");
   const [estoqueAtual, setEstoqueAtual] = useState("");
-  const [imageThumbs, setImageThumbs] = useState([image1, image2, image3, image4])
+  const [imageThumbs, setImageThumbs] = useState([
+    image1,
+    image2,
+    image3,
+    image4,
+  ]);
   const [featuredImage, setFeaturedImage] = useState(image1);
 
   //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
@@ -31,7 +36,9 @@ const ProductDetails = ({ product }) => {
 
   const variacoes = product.variacoes.map((el) => el.variacao);
 
-  const tamanhos = variacoes.map((el) => el.nome.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]);
+  const tamanhos = variacoes.map(
+    (el) => el.nome.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]
+  );
 
   const sizesNoRepeat = [...new Set(tamanhos)];
   const size = sizesNoRepeat[0];
@@ -144,12 +151,8 @@ const ProductDetails = ({ product }) => {
               </div>
             ))}
           </div>
-          
-          <img 
-            className="big-img"
-            src={featuredImage} 
-            alt="img"
-          />
+
+          <img className="big-img" src={featuredImage} alt="img" />
         </div>
 
         <div className="details-content">
@@ -169,7 +172,11 @@ const ProductDetails = ({ product }) => {
             <button
               onClick={() => addToCartFn()}
               disabled={estoqueAtual === 0 ? true : false}
-              title={ estoqueAtual === 0 ? "Este produto não tem esta quantidade disponível." : null }
+              title={
+                estoqueAtual === 0
+                  ? "Este produto não tem esta quantidade disponível."
+                  : null
+              }
             >
               ADICIONAR AO
               {<Cart height="20" width="20" color="#fff" />}
@@ -198,7 +205,8 @@ const ProductDetails = ({ product }) => {
               <span>
                 <b>Cor:</b>
                 <div className="color-text-selected">
-                  {selectedColor.charAt(0).toUpperCase() + selectedColor.toLowerCase().slice(1)}
+                  {selectedColor.charAt(0).toUpperCase() +
+                    selectedColor.toLowerCase().slice(1)}
                 </div>
               </span>
               <div className="colors-thumb">
@@ -213,7 +221,11 @@ const ProductDetails = ({ product }) => {
                       onClick={() => setSelectedColor(color)}
                       className={color === selectedColor ? "active" : ""}
                       key={variacao.nome}
-                      src={variacao.imagem.length > 0 ? variacao.imagem[0].link : "#"}
+                      src={
+                        variacao.imagem.length > 0
+                          ? variacao.imagem[0].link
+                          : "#"
+                      }
                       alt="img"
                       style={{ height: "3rem" }}
                     />
@@ -226,13 +238,14 @@ const ProductDetails = ({ product }) => {
           <div className="info-product">
             <h3>DESCRIÇÃO</h3>
             <p>Marca: {product.marca}</p>
-            <p>{product.descricaoCurta}</p>  
+            <div
+              dangerouslySetInnerHTML={{ __html: product.descricaoCurta }}
+            ></div>
           </div>
         </div>
       </div>
-
     </Fragment>
-  )
-}
+  );
+};
 
-export default ProductDetails
+export default ProductDetails;
