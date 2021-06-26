@@ -225,30 +225,19 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
 export default Produtos;
 
 export const getStaticPaths = async () => {
-  // const resMasc = await api.get("/produtos/categoria?genero=masculino&subcategoria=vestuario&tipo=bermuda");
-  // const prodMasc = resMasc.data
-
-  // const prodMasculino = prodMasc.map((p) => {
-  //   return {
-  //     params: {
-  //        produtos: prodMasc
-  //     },
-  //   };
-  // });
 
   return {
     paths: [
       "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=bermuda",
     ],
-    fallback: true,
+    fallback: false,
   };
 };
 
 export const getStaticProps = async (ctx) => {
-  console.log(ctx);
   const categoria = ctx.params.param[0];
-  const subcategoria = ctx.params.param[1];
-  const tipo = ctx.params.param[2];
+  let subcategoria = ctx.params.param[1];
+  let tipo = ctx.params.param[2];
 
   // const busca = ctx.query.nome; fazer no client
 
@@ -256,20 +245,18 @@ export const getStaticProps = async (ctx) => {
   let res;
 
   if (categoria && subcategoria && tipo) {
-    res = await api.get(
-      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`
-    );
-    produtos = res.data.map((el) => el.produto);
+    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`)
+    produtos = res.data.map((el) => el.produto)
   } else if (categoria && subcategoria && !tipo) {
-    res = await api.get(
-      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`
-    );
-    produtos = res.data.map((el) => el.produto);
+    tipo = null
+    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`)
+    produtos = res.data.map((el) => el.produto)
   } else if (categoria && !subcategoria && !tipo) {
     res = await api.get(`/produtos/categoria?categoria=${categoria}`);
     produtos = res.data.map((el) => el.produto);
+    subcategoria = null
+    tipo = null
   }
-
   // else {
   //   res = await api.get(`/produtos/busca?nome=${busca}`);
   //   produtos = res.data.map((el) => el.produto);

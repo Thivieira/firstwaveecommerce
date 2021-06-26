@@ -29,7 +29,7 @@ export default function ProductsSlider({ prod }) {
     speed: 1000,
     infinite: true,
     speed: 500,
-    slidesToShow: 6,
+    slidesToShow: 5,
     slidesToScroll: 2,
     initialSlide: 0,
 
