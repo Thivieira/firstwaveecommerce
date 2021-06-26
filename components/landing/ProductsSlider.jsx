@@ -106,6 +106,7 @@ export default function ProductsSlider({ prod }) {
                 >
                   <div className="card">
                     <div className="card-image">
+                      {console.log(p.variacoes.map((el) => el.variacao))}
                       <img
                         src={
                           p.variacoes.map((el) => el.variacao)[0].imagem[0]
