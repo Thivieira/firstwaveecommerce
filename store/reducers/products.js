@@ -158,6 +158,12 @@ const productsReducer = (state = productsDefaultState, action) => {
           (product) => codigoVariacao === product.codigoVariacao
         );
 
+        // console.log(
+        //   "existingProductInCart DETECTED",
+        //   productsIncrement,
+        //   codigoVariacao
+        // );
+
         if (productsIncrement.estoqueAtual === 0) {
           return {
             ...state,
@@ -185,7 +191,7 @@ const productsReducer = (state = productsDefaultState, action) => {
 
         const newTotal = state.total + parseFloat(addedProduct.preco);
         // console.log(addedProduct);
-
+        // console.log("addedProduct DETECTED", addedProduct, codigoVariacao);
         return {
           ...state,
           cart: [...state.cart, addedProduct],
@@ -281,8 +287,8 @@ const productsReducer = (state = productsDefaultState, action) => {
         activePreferenceId: action.payload,
       };
     case "SORT_PRODUCTS":
-      // let productsSorted = action.payload.products;
-      // let sort = action.payload.sort;
+      let productsSorted = action.payload.products;
+      let sort = action.payload.sort;
 
       return {
         ...state,

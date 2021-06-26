@@ -225,12 +225,11 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
 export default Produtos;
 
 export const getStaticPaths = async () => {
-
   return {
     paths: [
       "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=bermuda",
     ],
-    fallback: false,
+    fallback: true,
   };
 };
 
@@ -245,17 +244,21 @@ export const getStaticProps = async (ctx) => {
   let res;
 
   if (categoria && subcategoria && tipo) {
-    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`)
-    produtos = res.data.map((el) => el.produto)
+    res = await api.get(
+      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`
+    );
+    produtos = res.data.map((el) => el.produto);
   } else if (categoria && subcategoria && !tipo) {
-    tipo = null
-    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`)
-    produtos = res.data.map((el) => el.produto)
+    tipo = null;
+    res = await api.get(
+      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`
+    );
+    produtos = res.data.map((el) => el.produto);
   } else if (categoria && !subcategoria && !tipo) {
     res = await api.get(`/produtos/categoria?categoria=${categoria}`);
     produtos = res.data.map((el) => el.produto);
-    subcategoria = null
-    tipo = null
+    subcategoria = null;
+    tipo = null;
   }
   // else {
   //   res = await api.get(`/produtos/busca?nome=${busca}`);
