@@ -239,6 +239,7 @@ const ProductDetails = ({ product }) => {
             <h3>DESCRIÇÃO</h3>
             <p>Marca: {product.marca}</p>
             <div
+              className='description'
               dangerouslySetInnerHTML={{ __html: product.descricaoCurta }}
             ></div>
           </div>

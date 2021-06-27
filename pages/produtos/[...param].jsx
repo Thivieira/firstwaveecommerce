@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import FadeLoader from "react-spinners/FadeLoader";
 import ReactPaginate from "react-paginate";
 
@@ -25,6 +24,8 @@ import {
 } from "../../store/actions/products";
 
 const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
+
+  
   const router = useRouter();
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
@@ -225,10 +226,72 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
 export default Produtos;
 
 export const getStaticPaths = async () => {
-
   return {
     paths: [
+      "/produtos/categoria?categoria=surf",
+      "/produtos/categoria?categoria=masculino",
+      "/produtos/categoria?categoria=feminino",
+      "/produtos/categoria?categoria=juvenil",
+      "/produtos/categoria?categoria=calcado",
+      "/produtos/categoria?categoria=acessorio",
+      "/produtos/categoria?categoria=acessorio&subcategoria=oculos",
+      "/produtos/categoria?categoria=acessorio&subcategoria=relogio",
+
+      "/produtos/categoria?categoria=surf&subcategoria=wetsuit",
+      "/produtos/categoria?categoria=surf&subcategoria=quilha",
+      "/produtos/categoria?categoria=surf&subcategoria=leash",
+      "/produtos/categoria?categoria=surf&subcategoria=lycra",
+      "/produtos/categoria?categoria=surf&subcategoria=prancha",
+      "/produtos/categoria?categoria=surf&subcategoria=capa",
+      "/produtos/categoria?categoria=surf&subcategoria=deck",
+      "/produtos/categoria?categoria=surf&subcategoria=bone",
+
+      "/produtos/categoria?categoria=masculino&subcategoria=vestuario",
       "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=bermuda",
+      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=camiseta",
+      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=camisa",
+      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=regata",
+      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=calca",
+      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=jaqueta",
+      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=sunga",
+
+      "/produtos/categoria?categoria=masculino&subcategoria=acessorio",
+      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=bone",
+      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=mochila",
+      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=carteira",
+      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=cinto",
+      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=pochete",
+      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=gorro",
+      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=meia",
+
+      "/produtos/categoria?categoria=feminino&subcategoria=vestuario",
+      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=short",
+      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=saia",
+      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=calca",
+      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=camiseta",
+      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=regata",
+      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=vestido",
+      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=macaquinho",
+      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=body",
+      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=jaqueta",
+      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=biquini",
+
+      "/produtos/categoria?categoria=feminino&subcategoria=acessorio",
+      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=pochete",
+      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=mochila",
+      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=bone",
+      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=cinto",
+      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=carteira",
+      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=gorro",
+      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=necessaire",
+      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=meia",
+
+      "/produtos/categoria?categoria=juvenil&subcategoria=vestuario",
+      "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=camiseta",
+      "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=regata",
+      "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=bermuda",
+      "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=calca",
+      "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=jaqueta",
     ],
     fallback: false,
   };
@@ -248,7 +311,7 @@ export const getStaticProps = async (ctx) => {
     res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`)
     produtos = res.data.map((el) => el.produto)
   } else if (categoria && subcategoria && !tipo) {
-    tipo = null
+    tipo = null 
     res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`)
     produtos = res.data.map((el) => el.produto)
   } else if (categoria && !subcategoria && !tipo) {
