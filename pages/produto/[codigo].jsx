@@ -70,7 +70,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths: prodMasculino,
-    fallback: true,
+    fallback: false,
   };
 };
 
