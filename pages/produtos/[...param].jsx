@@ -24,8 +24,6 @@ import {
 } from "../../store/actions/products";
 
 const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
-
-  
   const router = useRouter();
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
@@ -226,74 +224,217 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
 export default Produtos;
 
 export const getStaticPaths = async () => {
-  return {
-    paths: [
-      "/produtos/categoria?categoria=surf",
-      "/produtos/categoria?categoria=masculino",
-      "/produtos/categoria?categoria=feminino",
-      "/produtos/categoria?categoria=juvenil",
-      "/produtos/categoria?categoria=calcado",
-      "/produtos/categoria?categoria=acessorio",
-      "/produtos/categoria?categoria=acessorio&subcategoria=oculos",
-      "/produtos/categoria?categoria=acessorio&subcategoria=relogio",
-
-      "/produtos/categoria?categoria=surf&subcategoria=wetsuit",
-      "/produtos/categoria?categoria=surf&subcategoria=quilha",
-      "/produtos/categoria?categoria=surf&subcategoria=leash",
-      "/produtos/categoria?categoria=surf&subcategoria=lycra",
-      "/produtos/categoria?categoria=surf&subcategoria=prancha",
-      "/produtos/categoria?categoria=surf&subcategoria=capa",
-      "/produtos/categoria?categoria=surf&subcategoria=deck",
-      "/produtos/categoria?categoria=surf&subcategoria=bone",
-
-      "/produtos/categoria?categoria=masculino&subcategoria=vestuario",
-      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=bermuda",
-      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=camiseta",
-      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=camisa",
-      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=regata",
-      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=calca",
-      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=jaqueta",
-      "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=sunga",
-
-      "/produtos/categoria?categoria=masculino&subcategoria=acessorio",
-      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=bone",
-      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=mochila",
-      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=carteira",
-      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=cinto",
-      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=pochete",
-      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=gorro",
-      "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=meia",
-
-      "/produtos/categoria?categoria=feminino&subcategoria=vestuario",
-      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=short",
-      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=saia",
-      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=calca",
-      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=camiseta",
-      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=regata",
-      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=vestido",
-      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=macaquinho",
-      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=body",
-      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=jaqueta",
-      "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=biquini",
-
-      "/produtos/categoria?categoria=feminino&subcategoria=acessorio",
-      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=pochete",
-      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=mochila",
-      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=bone",
-      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=cinto",
-      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=carteira",
-      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=gorro",
-      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=necessaire",
-      "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=meia",
-
-      "/produtos/categoria?categoria=juvenil&subcategoria=vestuario",
-      "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=camiseta",
-      "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=regata",
-      "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=bermuda",
-      "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=calca",
-      "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=jaqueta",
+  // produtos/categoria/subcategoria/tipo
+  let filters = {
+    surf: [
+      "wetsuit",
+      "quilha",
+      "leash",
+      "lycra",
+      "prancha",
+      "capa",
+      "deck",
+      "bone",
     ],
-    fallback: false,
+    masculino: {
+      vestuario: [
+        "bermuda",
+        "camiseta",
+        "camisa",
+        "regata",
+        "calca",
+        "jaqueta",
+        "sunga",
+      ],
+      acessorio: [
+        "bone",
+        "mochila",
+        "carteira",
+        "cinto",
+        "pochete",
+        "gorro",
+        "meia",
+      ],
+    },
+    feminino: {
+      vestuario: [
+        "short",
+        "saia",
+        "calca",
+        "camiseta",
+        "regata",
+        "vestido",
+        "macaquinho",
+        "body",
+        "jaqueta",
+        "biquini",
+      ],
+      acessorio: [
+        "pochete",
+        "mochila",
+        "bone",
+        "cinto",
+        "carteira",
+        "gorro",
+        "necessaire",
+        "meia",
+      ],
+    },
+    juvenil: {
+      vestuario: ["camiseta", "regata", "bermuda", "calca", "jaqueta"],
+    },
+    calcado: {},
+    acessorio: {},
+    oculos: {},
+    relogio: {},
+  };
+
+  // let paths = [];s
+
+  // for (var rootKey in filters) {
+  //   if (filters.hasOwnProperty(rootKey)) {
+  //     let categoria = filters[rootKey];
+  //     paths.push(`/produtos/${categoria}`);
+  //     for (var childKey in filters[rootKey]) {
+  //       if (filters[rootKey].hasOwnProperty(childKey)) {
+  //         paths.push(`/produtos/${item}`);
+  //         filters[childKey]
+  //       }
+  //     }
+  //     // return
+  //   }
+  // }
+  //"/produtos/${}/${}/${}"
+
+  // let paths = [
+  //   "/produtos/categoria?categoria=surf",
+  //   "/produtos/categoria?categoria=masculino",
+  //   "/produtos/categoria?categoria=feminino",
+  //   "/produtos/categoria?categoria=juvenil",
+  //   "/produtos/categoria?categoria=calcado",
+  //   "/produtos/categoria?categoria=acessorio",
+  //   "/produtos/categoria?categoria=acessorio&subcategoria=oculos",
+  //   "/produtos/categoria?categoria=acessorio&subcategoria=relogio",
+
+  //   "/produtos/categoria?categoria=surf&subcategoria=wetsuit",
+  //   "/produtos/categoria?categoria=surf&subcategoria=quilha",
+  //   "/produtos/categoria?categoria=surf&subcategoria=leash",
+  //   "/produtos/categoria?categoria=surf&subcategoria=lycra",
+  //   "/produtos/categoria?categoria=surf&subcategoria=prancha",
+  //   "/produtos/categoria?categoria=surf&subcategoria=capa",
+  //   "/produtos/categoria?categoria=surf&subcategoria=deck",
+  //   "/produtos/categoria?categoria=surf&subcategoria=bone",
+
+  //   "/produtos/categoria?categoria=masculino&subcategoria=vestuario",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=bermuda",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=camiseta",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=camisa",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=regata",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=calca",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=jaqueta",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=sunga",
+
+  //   "/produtos/categoria?categoria=masculino&subcategoria=acessorio",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=bone",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=mochila",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=carteira",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=cinto",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=pochete",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=gorro",
+  //   "/produtos/categoria?categoria=masculino&subcategoria=acessorio&tipo=meia",
+
+  //   "/produtos/categoria?categoria=feminino&subcategoria=vestuario",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=short",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=saia",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=calca",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=camiseta",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=regata",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=vestido",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=macaquinho",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=body",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=jaqueta",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=vestuario&tipo=biquini",
+
+  //   "/produtos/categoria?categoria=feminino&subcategoria=acessorio",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=pochete",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=mochila",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=bone",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=cinto",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=carteira",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=gorro",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=necessaire",
+  //   "/produtos/categoria?categoria=feminino&subcategoria=acessorio&tipo=meia",
+
+  //   "/produtos/categoria?categoria=juvenil&subcategoria=vestuario",
+  //   "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=camiseta",
+  //   "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=regata",
+  //   "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=bermuda",
+  //   "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=calca",
+  //   "/produtos/categoria?categoria=juvenil&subcategoria=vestuario&tipo=jaqueta",
+  // ];
+  let paths = [
+    "/produtos/surf",
+    "/produtos/masculino",
+    "/produtos/feminino",
+    "/produtos/juvenil",
+    "/produtos/calcado",
+    "/produtos/acessorio",
+    "/produtos/acessorio&subcategoria=oculos",
+    "/produtos/acessorio&subcategoria=relogio",
+    "/produtos/surf/wetsuit",
+    "/produtos/surf/quilha",
+    "/produtos/surf/leash",
+    "/produtos/surf/lycra",
+    "/produtos/surf/prancha",
+    "/produtos/surf/capa",
+    "/produtos/surf/deck",
+    "/produtos/surf/bone",
+    "/produtos/masculino/vestuario",
+    "/produtos/masculino/vestuario/bermuda",
+    "/produtos/masculino/vestuario/camiseta",
+    "/produtos/masculino/vestuario/camisa",
+    "/produtos/masculino/vestuario/regata",
+    "/produtos/masculino/vestuario/calca",
+    "/produtos/masculino/vestuario/jaqueta",
+    "/produtos/masculino/vestuario/sunga",
+    "/produtos/masculino/acessorio",
+    "/produtos/masculino/acessorio/bone",
+    "/produtos/masculino/acessorio/mochila",
+    "/produtos/masculino/acessorio/carteira",
+    "/produtos/masculino/acessorio/cinto",
+    "/produtos/masculino/acessorio/pochete",
+    "/produtos/masculino/acessorio/gorro",
+    "/produtos/masculino/acessorio/meia",
+    "/produtos/feminino/vestuario",
+    "/produtos/feminino/vestuario/short",
+    "/produtos/feminino/vestuario/saia",
+    "/produtos/feminino/vestuario/calca",
+    "/produtos/feminino/vestuario/camiseta",
+    "/produtos/feminino/vestuario/regata",
+    "/produtos/feminino/vestuario/vestido",
+    "/produtos/feminino/vestuario/macaquinho",
+    "/produtos/feminino/vestuario/body",
+    "/produtos/feminino/vestuario/jaqueta",
+    "/produtos/feminino/vestuario/biquini",
+    "/produtos/feminino/acessorio",
+    "/produtos/feminino/acessorio/pochete",
+    "/produtos/feminino/acessorio/mochila",
+    "/produtos/feminino/acessorio/bone",
+    "/produtos/feminino/acessorio/cinto",
+    "/produtos/feminino/acessorio/carteira",
+    "/produtos/feminino/acessorio/gorro",
+    "/produtos/feminino/acessorio/necessaire",
+    "/produtos/feminino/acessorio/meia",
+    "/produtos/juvenil/vestuario",
+    "/produtos/juvenil/vestuario/camiseta",
+    "/produtos/juvenil/vestuario/regata",
+    "/produtos/juvenil/vestuario/bermuda",
+    "/produtos/juvenil/vestuario/calca",
+    "/produtos/juvenil/vestuario/jaqueta",
+  ];
+  return {
+    paths,
+    fallback: true,
   };
 };
 
@@ -313,9 +454,11 @@ export const getStaticProps = async (ctx) => {
     );
     produtos = res.data.map((el) => el.produto);
   } else if (categoria && subcategoria && !tipo) {
-    tipo = null 
-    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`)
-    produtos = res.data.map((el) => el.produto)
+    tipo = null;
+    res = await api.get(
+      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`
+    );
+    produtos = res.data.map((el) => el.produto);
   } else if (categoria && !subcategoria && !tipo) {
     res = await api.get(`/produtos/categoria?categoria=${categoria}`);
     produtos = res.data.map((el) => el.produto);
