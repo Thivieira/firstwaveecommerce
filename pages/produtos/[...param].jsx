@@ -229,7 +229,7 @@ export const getStaticPaths = async () => {
     paths: [
       "/produtos/categoria?categoria=masculino&subcategoria=vestuario&tipo=bermuda",
     ],
-    fallback: true,
+    fallback: false,
   };
 };
 
