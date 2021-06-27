@@ -17,7 +17,7 @@ const ProductDetails = ({ product }) => {
   const dispatch = useDispatch();
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
-  const [availableVariations, setAvailableVariations] = useState([]);
+  const [availableColorVariations, setAvailableColorVariations] = useState([]);
   const [codigoVariacao, setCodigoVariacao] = useState("");
   const [estoqueAtual, setEstoqueAtual] = useState("");
   const [imageThumbs, setImageThumbs] = useState([
@@ -59,7 +59,7 @@ const ProductDetails = ({ product }) => {
         el.nome.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] == value
     );
 
-    setAvailableVariations(variacaoDisponivel);
+    setAvailableColorVariations(variacaoDisponivel);
 
     let color = variacaoDisponivel[0].nome
       .split(";")
@@ -71,7 +71,7 @@ const ProductDetails = ({ product }) => {
   };
 
   const onSelectedColorChange = (value) => {
-    let cor = availableVariations.filter((el) => {
+    let cor = availableColorVariations.filter((el) => {
       return (
         el.nome.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] == value
       );
@@ -200,7 +200,7 @@ const ProductDetails = ({ product }) => {
             </div>
           ) : null}
 
-          {availableVariations ? (
+          {availableColorVariations ? (
             <div className="colors-product">
               <span>
                 <b>Cor:</b>
@@ -210,7 +210,7 @@ const ProductDetails = ({ product }) => {
                 </div>
               </span>
               <div className="colors-thumb">
-                {availableVariations.map((variacao) => {
+                {availableColorVariations.map((variacao) => {
                   const color = variacao.nome
                     .split(";")
                     .slice(0, 1)[0]
