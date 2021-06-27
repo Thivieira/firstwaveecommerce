@@ -56,25 +56,25 @@ const DetailsProduct = ({ product }) => {
 
 export default DetailsProduct;
 
-// export const getStaticPaths = async () => {
-//   const resMasc = await api.get("/produtos/categoria?genero=masculino");
-//   const prodMasc = resMasc.data.map((el) => el.produto);
+export const getStaticPaths = async () => {
+  const resMasc = await api.get("/produtos");
+  const prodMasc = resMasc.data.map((el) => el.produto);
 
-//   const prodMasculino = prodMasc.map((p) => {
-//     return {
-//       params: {
-//          codigo: p.codigo
-//       },
-//     };
-//   });
+  const prodMasculino = prodMasc.map((p) => {
+    return {
+      params: {
+        codigo: p.codigo,
+      },
+    };
+  });
 
-//   return {
-//     paths: prodMasculino,
-//     fallback: true
-//   };
-// };
+  return {
+    paths: prodMasculino,
+    fallback: true,
+  };
+};
 
-export const getServerSideProps = async (ctx) => {
+export const getStaticProps = async (ctx) => {
   const { codigo } = ctx.params;
   const res = await api.get(`/produto/${codigo}`);
 
