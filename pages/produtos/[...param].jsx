@@ -183,11 +183,11 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
         <div className="filter">
           {showFilter ? (
             <>
-              {/* <Breadcrumb
+              <Breadcrumb
                 categoria={categoria}
                 subcategoria={subcategoria}
                 tipo={tipo}
-              /> */}
+              />
               <Filter />
             </>
           ) : (

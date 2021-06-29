@@ -14,8 +14,7 @@ const Breadcrumb = ({ categoria, subcategoria, tipo }) => {
         );
     }
 
-    const routes =
-        tipo !== undefined
+    const routes = tipo
             ? [
                   {
                       path: `/produtos/${categoria}`,
@@ -23,10 +22,7 @@ const Breadcrumb = ({ categoria, subcategoria, tipo }) => {
                   },
                   {
                       path: `/produtos/${categoria}/${subcategoria}`,
-                      breadcrumbName:
-                          subcategoria === "Acessorio"
-                              ? subcategoria + "s"
-                              : subcategoria,
+                      breadcrumbName: subcategoria === "Acessorio" ? subcategoria + "s" : subcategoria,
                   },
                   {
                       path: `/produtos/${categoria}/${subcategoria}/${tipo}`,
@@ -35,14 +31,10 @@ const Breadcrumb = ({ categoria, subcategoria, tipo }) => {
               ]
             : [
                   {
-                      path:
-                          subcategoria === undefined
-                              ? `/produtos/${categoria}`
-                              : `/produtos/${categoria}/${subcategoria}`,
-                      breadcrumbName:
-                          subcategoria === undefined ? categoria : subcategoria,
+                      path: subcategoria ? `/produtos/${categoria}/${subcategoria}` : `/produtos/${categoria}`,
+                      breadcrumbName: subcategoria ? subcategoria : categoria,
                   },
-              ];
+              ]
 
     return (
         <BreadCrumb
