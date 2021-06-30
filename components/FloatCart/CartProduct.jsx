@@ -7,6 +7,7 @@ import {
   incrementFromCart,
   decrementFromCart,
 } from "../../store/actions/products";
+import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 
 function CartProduct({ product }) {
   console.log(product)
@@ -58,7 +59,7 @@ function CartProduct({ product }) {
               }
               disabled={product.quantity === 1 ? true : false}
             >
-              -
+              <MinusOutlined />
             </button>
             <button
               className="change-product-button"
@@ -70,7 +71,7 @@ function CartProduct({ product }) {
               }
               onClick={() => dispatch(incrementFromCart(product.codigoVariacao)) }
             >
-              +
+              <PlusOutlined />
             </button>
           </div>
         </div>

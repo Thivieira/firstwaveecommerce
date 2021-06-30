@@ -225,7 +225,9 @@
   color: #fff;
 }
 
-
+.description p{
+  font-family: Inter, sans-serif !important;
+}
 
 @media (max-width: 768px) {
   .details-wrapper {
