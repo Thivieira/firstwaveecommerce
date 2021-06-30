@@ -87,7 +87,7 @@ const ProductDetails = ({ product }) => {
 
     setFeaturedImage(imagesLink[0]);
 
-    setCodigoVariacao(cor.codigo);
+    setCodigoVariacao(cor.codigo + selectedColor);
     setEstoqueAtual(cor.estoqueAtual);
   };
 

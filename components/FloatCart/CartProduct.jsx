@@ -9,6 +9,7 @@ import {
 } from "../../store/actions/products";
 
 function CartProduct({ product }) {
+  console.log(product)
   const [isMouseOver, setIsMouseOver] = useState(false);
 
   const handleMouseOver = () => setIsMouseOver(true);
@@ -59,18 +60,15 @@ function CartProduct({ product }) {
             >
               -
             </button>
-
             <button
               className="change-product-button"
-              disabled={product.estoqueAtual <= 1 ? true : false}
+              disabled={product.estoqueAtual < 1 ? true : false}
               title={
-                product.estoqueAtual <= 1
+                product.estoqueAtual < 1
                   ? "Este produto não tem esta quantidade disponível."
                   : null
               }
-              onClick={() =>
-                dispatch(incrementFromCart(product.codigoVariacao))
-              }
+              onClick={() => dispatch(incrementFromCart(product.codigoVariacao)) }
             >
               +
             </button>

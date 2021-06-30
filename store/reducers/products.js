@@ -158,11 +158,11 @@ const productsReducer = (state = productsDefaultState, action) => {
           (product) => codigoVariacao === product.codigoVariacao
         );
 
-        // console.log(
-        //   "existingProductInCart DETECTED",
-        //   productsIncrement,
-        //   codigoVariacao
-        // );
+        console.log(
+          "existingProductInCart DETECTED",
+          productsIncrement,
+          codigoVariacao
+        );
 
         if (productsIncrement.estoqueAtual === 0) {
           return {

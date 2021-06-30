@@ -224,93 +224,6 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
 export default Produtos;
 
 export const getStaticPaths = async () => {
-  // produtos/categoria/subcategoria/tipo
-  //   let params = {
-  //     surf: [
-  //       "wetsuit",
-  //       "quilha",
-  //       "leash",
-  //       "lycra",
-  //       "prancha",
-  //       "capa",
-  //       "deck",
-  //       "bone",
-  //     ],
-  //     masculino: {
-  //       vestuario: [
-  //         "bermuda",
-  //         "camiseta",
-  //         "camisa",
-  //         "regata",
-  //         "calca",
-  //         "jaqueta",
-  //         "sunga",
-  //       ],
-  //       acessorio: [
-  //         "bone",
-  //         "mochila",
-  //         "carteira",
-  //         "cinto",
-  //         "pochete",
-  //         "gorro",
-  //         "meia",
-  //       ],
-  //     },
-  //     feminino: {
-  //       vestuario: [
-  //         "short",
-  //         "saia",
-  //         "calca",
-  //         "camiseta",
-  //         "regata",
-  //         "vestido",
-  //         "macaquinho",
-  //         "body",
-  //         "jaqueta",
-  //         "biquini",
-  //       ],
-  //       acessorio: [
-  //         "pochete",
-  //         "mochila",
-  //         "bone",
-  //         "cinto",
-  //         "carteira",
-  //         "gorro",
-  //         "necessaire",
-  //         "meia",
-  //       ],
-  //     },
-  //     juvenil: {
-  //       vestuario: ["camiseta", "regata", "bermuda", "calca", "jaqueta"],
-  //     },
-  //     calcado: {},
-  //     acessorio: {},
-  //     oculos: {},
-  //     relogio: {},
-  //   };
-
-  //   let paths = [];
-  // paths = params.map((el, i)=>{
-  //   paths.push({params: {param:[el[i]]}})
-  // })
-
-  // let paths = [];s
-
-  // for (var rootKey in filters) {
-  //   if (filters.hasOwnProperty(rootKey)) {
-  //     let categoria = filters[rootKey];
-  //     paths.push(`/produtos/${categoria}`);
-  //     for (var childKey in filters[rootKey]) {
-  //       if (filters[rootKey].hasOwnProperty(childKey)) {
-  //         paths.push(`/produtos/${item}`);
-  //         filters[childKey]
-  //       }
-  //     }
-  //     // return
-  //   }
-  // }
-  //"/produtos/${}/${}/${}"
-
 
   let paths = [
     { params: { param: ["surf"] } },
@@ -390,22 +303,19 @@ export const getStaticProps = async (ctx) => {
   let res;
 
   if (categoria && subcategoria && tipo) {
-    res = await api.get(
-      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`
-    );
-    produtos = res.data.map((el) => el.produto);
+    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`)
+    produtos = res.data.map((el) => el.produto)
   } else if (categoria && subcategoria && !tipo) {
-    tipo = null;
-    res = await api.get(
-      `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`
-    );
-    produtos = res.data.map((el) => el.produto);
-  } else if (categoria && !subcategoria && !tipo) {
-    res = await api.get(`/produtos/categoria?categoria=${categoria}`);
-    produtos = res.data.map((el) => el.produto);
-    subcategoria = null;
-    tipo = null;
+    tipo = null
+    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`)
+    produtos = res.data.map((el) => el.produto)
+  } else {
+    res = await api.get(`/produtos/categoria?categoria=${categoria}`)
+    produtos = res.data.map((el) => el.produto)
+    subcategoria = null
+    tipo = null
   }
+
   // else {
   //   res = await api.get(`/produtos/busca?nome=${busca}`);
   //   produtos = res.data.map((el) => el.produto);
@@ -413,6 +323,6 @@ export const getStaticProps = async (ctx) => {
 
   return {
     props: { produtos, categoria, subcategoria, tipo },
-    revalidate: 60 * 60 * 1, //a cada 1 horas uma nova req na API será feita
+    revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
   };
 };
