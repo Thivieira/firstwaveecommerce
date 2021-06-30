@@ -78,7 +78,7 @@
 .content p {
     margin: 0.1rem 0;
     color: #ffa500;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
 }
 
 .content .price {
@@ -93,6 +93,7 @@
     margin-bottom: 0;
     color: #0080A8;
     font-weight: 700;
+    font-size: 0.7rem;
 }
 
 

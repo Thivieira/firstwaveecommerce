@@ -27,7 +27,6 @@ function Product({ product }) {
           <h4>{product.descricao}</h4>
           <FavoriteBtn product={product} />
         </div>
-        <p>{product.codigo}</p>
         <div className="price">
           {"R$ " + parseFloat(product.preco).toFixed(2).replace(".", ",")}
         </div>

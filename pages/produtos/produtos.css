@@ -16,7 +16,12 @@
 .filter-sort p {
     margin-left: 7rem;
     margin-top: 1em;
+    font-size: 0.7rem;
 }
+
+.ant-dropdown-trigger .ant-dropdown-link .ant-dropdown-open {
+    font-size: 0.7rem !important;
+} 
 
 a {
     color: #0080a8;
