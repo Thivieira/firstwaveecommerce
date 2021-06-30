@@ -54,7 +54,7 @@ export default function Favorites() {
       renderItem={(item) => {
         const image = item.variacoes.map((el) => el.variacao)[0].imagem[0]
           ? item.variacoes.map((el) => el.variacao)[0].imagem[0].link
-          : "/image1.jpg";
+          : "/noimage.jpg";
         return (
           <List.Item
             actions={[

@@ -10,8 +10,8 @@ function Product({ product }) {
   const image = test.imagem
     ? test.imagem.length > 0
       ? test.imagem[0].link
-      : "/image1.jpg"
-    : "/image1.jpg";
+      : "/noimage.png"
+    : "/noimage.png";
 
   return (
     <div className="card-grid" key={product.id}>

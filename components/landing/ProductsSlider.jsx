@@ -106,8 +106,8 @@ export default function ProductsSlider({ prod }) {
               const image = test.imagem
                 ? test.imagem.length > 0
                   ? test.imagem[0].link
-                  : "/image1.jpg"
-                : "/image1.jpg";
+                  : "/noimage.png"
+                : "/noimage.png";
 
               return (
                 <div
