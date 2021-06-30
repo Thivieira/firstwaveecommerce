@@ -28,9 +28,14 @@ function Header() {
   api.defaults.headers.common["Authorization"] = "Bearer " + token;
 
   async function getUserData() {
-    await api.get("/usuario").then((res) => {
-      setUserName(res.data.nomeCompleto);
-    });
+    await api
+      .get("/usuario")
+      .then((res) => {
+        setUserName(res.data.nomeCompleto);
+      })
+      .catch((e) => {
+        setUserName("");
+      });
   }
 
   useEffect(() => getUserData(), [authorized]);
