@@ -13,11 +13,11 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 const ProductDetails = ({ product }) => {
-  console.log(product);
   const dispatch = useDispatch();
-  const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [availableColorVariations, setAvailableColorVariations] = useState([]);
+  const [selectedColor, setSelectedColor] = useState("");
+  const [triggerColor, setColorTrigger] = useState(false);
   const [codigoVariacao, setCodigoVariacao] = useState("");
   const [estoqueAtual, setEstoqueAtual] = useState("");
   const [imageThumbs, setImageThumbs] = useState([
@@ -48,8 +48,10 @@ const ProductDetails = ({ product }) => {
   }, [product]);
 
   useEffect(() => {
-    onSelectedColorChange(selectedColor);
-  }, [selectedColor]);
+    if (triggerColor) {
+      onSelectedColorChange(selectedColor);
+    }
+  }, [triggerColor]);
 
   const onSelectedSizeChange = (value) => {
     setSelectedSize(value);
@@ -68,6 +70,7 @@ const ProductDetails = ({ product }) => {
       .slice(1, 2)[0];
 
     setSelectedColor(color);
+    setColorTrigger(true);
   };
 
   const onSelectedColorChange = (value) => {
@@ -87,11 +90,19 @@ const ProductDetails = ({ product }) => {
 
     setFeaturedImage(imagesLink[0]);
 
-    setCodigoVariacao(cor.codigo + selectedColor);
+    console.log(
+      `${cor.codigo}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
+    );
+
+    setCodigoVariacao(
+      `${cor.codigo}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
+    );
     setEstoqueAtual(cor.estoqueAtual);
+    setColorTrigger(false);
   };
 
   const addToCartFn = () => {
+    console.log("?");
     if (codigoProduto) {
       if (selectedSize === "" || selectedColor === "") {
         MySwal.fire({
@@ -239,7 +250,7 @@ const ProductDetails = ({ product }) => {
             <h3>DESCRIÇÃO</h3>
             <p>Marca: {product.marca}</p>
             <div
-              className='description'
+              className="description"
               dangerouslySetInnerHTML={{ __html: product.descricaoCurta }}
             ></div>
           </div>
