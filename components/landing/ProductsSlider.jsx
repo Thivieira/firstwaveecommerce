@@ -95,52 +95,44 @@ export default function ProductsSlider({ prod }) {
         </div>
       ) : (
         <Slider {...settings}>
-          {products
-            .map((p) => p.produto)
-            .map((p, i) => {
-              const test =
-                p.variacoes.map((el) => el.variacao).length > 0
-                  ? p.variacoes.map((el) => el.variacao)[0]
-                  : [];
+          {products.map((p, i) => {
+            let test = p.variations.length > 0 ? p.variations[0] : [];
+            let imageTest = JSON.parse(test.image);
+            console.log("imageTest", imageTest);
+            const image =
+              imageTest.length > 0 ? imageTest[0].link : "/image1.jpg";
 
-              const image = test.imagem
-                ? test.imagem.length > 0
-                  ? test.imagem[0].link
-                  : "/image1.jpg"
-                : "/image1.jpg";
-
-              return (
-                <div
-                  className="card-wrapper"
-                  key={i}
-                  onClick={() => router.push(`/produto/${p.codigo}`)}
-                >
-                  <div className="card">
-                    <div className="card-image">
-                      {console.log(p.variacoes.map((el) => el.variacao))}
-                      <img src={image} alt="imagem do produto" />
-                    </div>
-                    <div className="details">
-                      <h5>
-                        {p.descricao}
-                        <span className="price">
-                          <NumberFormat
-                            value={p.preco}
-                            displayType={"text"}
-                            decimalScale={2}
-                            thousandSeparator={true}
-                            prefix={"R$"}
-                          />
-                        </span>
-                      </h5>
-                      <Link href={`/produto/${p.codigo}`}>
-                        <button type="button">VER DETALHES</button>
-                      </Link>
-                    </div>
+            return (
+              <div
+                className="card-wrapper"
+                key={i}
+                onClick={() => router.push(`/produto/${p.codigo}`)}
+              >
+                <div className="card">
+                  <div className="card-image">
+                    <img src={image} alt="imagem do produto" />
+                  </div>
+                  <div className="details">
+                    <h5>
+                      {p.description}
+                      <span className="price">
+                        <NumberFormat
+                          value={p.price}
+                          displayType={"text"}
+                          decimalScale={2}
+                          thousandSeparator={true}
+                          prefix={"R$"}
+                        />
+                      </span>
+                    </h5>
+                    <Link href={`/produto/${p.code}`}>
+                      <button type="button">VER DETALHES</button>
+                    </Link>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            );
+          })}
         </Slider>
       )}
     </>

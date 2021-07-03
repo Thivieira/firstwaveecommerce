@@ -29,15 +29,14 @@ const ProductDetails = ({ product }) => {
   const [featuredImage, setFeaturedImage] = useState(image1);
 
   //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
-  const codigoProduto = product.variacoes
-    .map((el) => el.variacao)
-    .map((el) => el.codigo)[0]
+  const codigoProduto = product.variations
+    .map((el) => el.code)[0]
     .includes("-");
 
-  const variacoes = product.variacoes.map((el) => el.variacao);
+  const variacoes = product.variations;
 
   const tamanhos = variacoes.map(
-    (el) => el.nome.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]
+    (el) => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]
   );
 
   const sizesNoRepeat = [...new Set(tamanhos)];
@@ -58,12 +57,13 @@ const ProductDetails = ({ product }) => {
 
     const variacaoDisponivel = variacoes.filter(
       (el) =>
-        el.nome.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] == value
+        el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] ==
+        value
     );
 
     setAvailableColorVariations(variacaoDisponivel);
 
-    let color = variacaoDisponivel[0].nome
+    let color = variacaoDisponivel[0].description
       .split(";")
       .slice(0, 1)[0]
       .split(":")
@@ -76,7 +76,8 @@ const ProductDetails = ({ product }) => {
   const onSelectedColorChange = (value) => {
     let cor = availableColorVariations.filter((el) => {
       return (
-        el.nome.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] == value
+        el.description.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] ==
+        value
       );
     })[0];
 
@@ -84,20 +85,21 @@ const ProductDetails = ({ product }) => {
       return;
     }
 
-    const imagesLink = cor.imagem.map((el) => el.link);
+    let imageObj = JSON.parse(cor.image);
+    const imagesLink = imageObj.map((el) => el.link);
 
     setImageThumbs(imagesLink);
 
     setFeaturedImage(imagesLink[0]);
 
     console.log(
-      `${cor.codigo}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
+      `${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
     );
 
     setCodigoVariacao(
-      `${cor.codigo}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
+      `${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
     );
-    setEstoqueAtual(cor.estoqueAtual);
+    setEstoqueAtual(cor.supply);
     setColorTrigger(false);
   };
 
@@ -169,14 +171,15 @@ const ProductDetails = ({ product }) => {
         <div className="details-content">
           <div className="title-and-heart">
             <h1 className="title-product">
-              {product.descricao} <FavoriteBtn product={product}></FavoriteBtn>
+              {product.description}{" "}
+              <FavoriteBtn product={product}></FavoriteBtn>
             </h1>
           </div>
 
-          <h5>{product.codigo}</h5>
+          <h5>{product.code}</h5>
 
           <span className="price-product">
-            R$ {parseFloat(product.preco).toFixed(2).replace(".", ",")}
+            R$ {parseFloat(product.price).toFixed(2).replace(".", ",")}
           </span>
 
           <div className="btn-buy">
@@ -222,7 +225,7 @@ const ProductDetails = ({ product }) => {
               </span>
               <div className="colors-thumb">
                 {availableColorVariations.map((variacao) => {
-                  const color = variacao.nome
+                  const color = variacao.description
                     .split(";")
                     .slice(0, 1)[0]
                     .split(":")
@@ -231,11 +234,9 @@ const ProductDetails = ({ product }) => {
                     <img
                       onClick={() => setSelectedColor(color)}
                       className={color === selectedColor ? "active" : ""}
-                      key={variacao.nome}
+                      key={variacao.description}
                       src={
-                        variacao.imagem.length > 0
-                          ? variacao.imagem[0].link
-                          : "#"
+                        variacao.image.length > 0 ? variacao.image[0].link : "#"
                       }
                       alt="img"
                       style={{ height: "3rem" }}
@@ -248,10 +249,10 @@ const ProductDetails = ({ product }) => {
 
           <div className="info-product">
             <h3>DESCRIÇÃO</h3>
-            <p>Marca: {product.marca}</p>
+            <p>Marca: {product.brand}</p>
             <div
               className="description"
-              dangerouslySetInnerHTML={{ __html: product.descricaoCurta }}
+              dangerouslySetInnerHTML={{ __html: product.short_description }}
             ></div>
           </div>
         </div>

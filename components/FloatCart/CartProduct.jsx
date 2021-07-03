@@ -9,7 +9,7 @@ import {
 } from "../../store/actions/products";
 
 function CartProduct({ product }) {
-  console.log(product)
+  console.log(product);
   const [isMouseOver, setIsMouseOver] = useState(false);
 
   const handleMouseOver = () => setIsMouseOver(true);
@@ -49,7 +49,7 @@ function CartProduct({ product }) {
         </div>
 
         <div className="shelf-item__price">
-          <p>{parseFloat(product.preco).toFixed(2).replace(".", ",")}</p>
+          <p>{parseFloat(product.price).toFixed(2).replace(".", ",")}</p>
           <div>
             <button
               className="change-product-button"
@@ -68,7 +68,9 @@ function CartProduct({ product }) {
                   ? "Este produto não tem esta quantidade disponível."
                   : null
               }
-              onClick={() => dispatch(incrementFromCart(product.codigoVariacao)) }
+              onClick={() =>
+                dispatch(incrementFromCart(product.codigoVariacao))
+              }
             >
               +
             </button>

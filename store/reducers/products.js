@@ -173,7 +173,7 @@ const productsReducer = (state = productsDefaultState, action) => {
         productsIncrement.quantity += 1;
         productsIncrement.estoqueAtual -= 1;
         const newTotalIncrement =
-          state.total + parseFloat(productsIncrement.preco);
+          state.total + parseFloat(productsIncrement.price);
 
         return {
           ...state,
@@ -189,7 +189,7 @@ const productsReducer = (state = productsDefaultState, action) => {
         addedProduct.codigoVariacao = codigoVariacao;
         addedProduct.imagemVariacao = imagemVariacao;
 
-        const newTotal = state.total + parseFloat(addedProduct.preco);
+        const newTotal = state.total + parseFloat(addedProduct.price);
         // console.log(addedProduct);
         // console.log("addedProduct DETECTED", addedProduct, codigoVariacao);
         return {
@@ -210,7 +210,7 @@ const productsReducer = (state = productsDefaultState, action) => {
 
       const newTotal =
         state.total -
-        parseFloat(productToRemove.preco) * productToRemove.quantity;
+        parseFloat(productToRemove.price) * productToRemove.quantity;
 
       return {
         ...state,
@@ -226,7 +226,7 @@ const productsReducer = (state = productsDefaultState, action) => {
       if (products.quantity > 1) {
         products.quantity -= 1;
         products.estoqueAtual += 1;
-        const newTotalDecrement = state.total - parseFloat(products.preco);
+        const newTotalDecrement = state.total - parseFloat(products.price);
 
         return {
           ...state,
@@ -250,7 +250,7 @@ const productsReducer = (state = productsDefaultState, action) => {
       productsIncrement.quantity += 1;
       productsIncrement.estoqueAtual -= 1;
       const newTotalIncrement =
-        state.total + parseFloat(productsIncrement.preco);
+        state.total + parseFloat(productsIncrement.price);
 
       return {
         ...state,
