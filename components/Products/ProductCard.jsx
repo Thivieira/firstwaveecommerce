@@ -5,7 +5,7 @@ function Product({ product }) {
   const test = product.variations.length > 0 ? product.variations[0] : [];
 
   const testImage = JSON.parse(test.image);
-  const image = testImage.length > 0 ? testImage[0].link : "/image1.jpg";
+  const image = testImage.length > 0 ? testImage[0].link : "/noimage.png";
 
   return (
     <div className="card-grid" key={product.id}>

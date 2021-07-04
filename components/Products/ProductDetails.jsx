@@ -4,7 +4,7 @@ import { addToCart, changeIsOpen } from "../../store/actions/products";
 import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
 import FavoriteBtn from "../FavoriteBtn";
 
-import image1 from "../../public/image1.jpg";
+import image1 from "../../public/noimage.png";
 import image2 from "../../public/image2.jpg";
 import image3 from "../../public/imaage3.jpg";
 import image4 from "../../public/image4.jpg";

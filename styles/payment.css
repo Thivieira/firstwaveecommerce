@@ -4,25 +4,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem 5rem;
+  padding: 2rem;
 }
 
 .payment-top-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-size: 1rem;
+  flex-direction: row;
 }
 
 .cart-footer-payment {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.payment-top-container {
-  display: flex;
-  justify-content: center;
-  font-size: 1.3rem;
 }
 
 .payment-top-container .column {

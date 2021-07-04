@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
-import { Input } from "antd";
+import { Menu, Dropdown, Button, Input, Divider } from "antd";
+import { UserOutlined, DownOutlined, PhoneOutlined, MailOutlined, WhatsAppOutlined } from "@ant-design/icons";
 import { AccountCircle } from "@material-ui/icons";
-
-import { Menu, Dropdown, Button } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import { FaBars } from "react-icons/fa";
 
 import FloatCart from "../components/FloatCart/FloatCart";
@@ -433,6 +430,27 @@ function Header() {
     </Menu>
   );
 
+  const menuAtendimento = (
+    <Menu>
+      <div className='menu-call'>
+        <h2>Loja virtual</h2>
+        <Divider />
+        <div className='menu-call-1'>
+          <NavLink style={{display: 'flex', width: '50%'}} href="/" ><WhatsAppOutlined style={{display: 'flex', alignItems: 'center', fontSize: '1.5rem'}}/> </NavLink>
+          <p style={{display: 'flex', flexDirection: 'column', width: '50%', marginTop: '1rem'}}><MailOutlined style={{marginBottom: '0.2rem'}}/> contato@lifestyle.com.br</p>
+        </div>
+        <Divider />
+        <div className='menu-call-2'>
+          <div className='menu-call-2-in'>
+            <h2>Loja Física</h2>
+            <p style={{display: 'flex', flexDirection: 'column'}}><PhoneOutlined style={{marginBottom: '0.2rem'}}/> (48) 3045-1663</p>
+          </div>
+          <span>Segunda a Sexta 09h às 18:30h Sábado 09h às 13:00h</span>
+        </div>
+      </div>
+    </Menu>
+  );
+
   const { Search } = Input;
 
   const onSearch = async (value) =>
@@ -449,19 +467,23 @@ function Header() {
         </NavLink>
 
         <Search
-          defaultValue={
-            router.query.hasOwnProperty("nome") ? router.query.nome : ""
-          }
+          defaultValue={router.query.hasOwnProperty("nome") ? router.query.nome : ""}
           placeholder="Digite o que você procura"
           allowClear
           onSearch={onSearch}
           className="search-filter"
         />
 
-        <nav className="nav-container">
+        <nav className="nav-item">
+          <Dropdown className='btn-nav-call' overlay={menuAtendimento}>
+            <Button>
+              <PhoneOutlined /> Atendimento<DownOutlined />
+            </Button>
+          </Dropdown>
+
           <NavLink
             href={authorized ? "/dashboard" : "/login"}
-            className="nav-item"
+            className="nav-item login"
           >
             <div>
               {authorized ? (
@@ -504,6 +526,13 @@ function Header() {
                 </p>
               </>
             </NavLink>
+
+            <Dropdown className='atend' overlay={menuAtendimento}>
+              <Button>
+                <PhoneOutlined /> Atendimento<DownOutlined />
+              </Button>
+            </Dropdown>
+
           </div>
 
           <NavLink

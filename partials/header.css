@@ -23,19 +23,72 @@
 }
 
 .search-filter {
-  width: 26rem;
+  width: 20rem;
 }
 
-.nav-container {
+.btn-nav-call {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-right: 1rem;
 }
+
+.ant-dropdown {
+  z-index: 9999 !important;
+  background-color: rgb(199, 199, 199) !important;
+}
+
+.menu-call {
+  padding: 0.5rem;
+  width: 20rem;
+}
+
+.menu-call h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #005772;
+  font-size: 1rem;
+}
+
+.ant-divider-horizontal {
+  margin: 5px 0 !important;
+  background: #005772 !important;
+}
+
+.menu-call-1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.menu-call-2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
+.menu-call-2 .menu-call-2-in {
+  
+}
+
+.menu-call-2 .menu-call-2-in p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-call-2 span:last-child {
+  width: 40%;
+  text-align: center;
+}
+
 
 .nav-item {
   display: flex;
   align-items: center;
-  margin-right: 2rem;
+  margin: 0 2rem;  
 }
 
 .nav-item-cart {
@@ -56,7 +109,7 @@
   align-items: center;
   justify-content: center;
   padding: 1rem 8rem;
-  z-index: 9999;
+  z-index: 999;
 }
 
 .menu-item {
@@ -76,6 +129,10 @@
 }
 
 .sidebar-item {
+  display: none;
+}
+
+.atend {
   display: none;
 }
 
@@ -210,7 +267,7 @@
 @media (max-width: 1020px) {
   .navbar {
     display: flex;
-    z-index: 9999;
+    z-index: 999;
     cursor: pointer;
     font-size: 1.5rem;
   }
@@ -219,7 +276,7 @@
     color: #ffa500;
   }
 
-  .nav-item:first-child {
+  .btn-nav-call, .login {
     display: none;
   }
 
@@ -243,9 +300,16 @@
     transition: all ease-in-out 1s;
   }
 
-  .sidebar-item:first-child {
+  .sidebar-top {
     display: flex;
     align-items: center;
+    flex-direction: column;
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     color: #fff;
   }
 
@@ -254,6 +318,17 @@
     font-size: 1.4rem;
     font-weight: 600;
     align-items: flex-start;
+  }
+
+  .atend {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+    z-index: 99999;
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 1.2rem;
   }
 
   .nav-item-legenda {
@@ -298,17 +373,18 @@
     left: 1.5rem;
   }
 
-  .sidebar-top {
+  /* .sidebar-top {
     display: flex;
     align-items: center;
-    margin: 1rem;
-  }
+    flex-direction: column;
+  } */
 
-  .sidebar-item {
+  /* .sidebar-item {
     display: flex;
     align-items: center;
+    flex-direction: column;
     color: #fff;
-  }
+  } */
 
   .search-filter {
     width: 15rem;

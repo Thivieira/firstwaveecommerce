@@ -117,7 +117,6 @@
 .float-cart__shelf-container .shelf-item--mouseover .shelf-item__price p {
   text-decoration: line-through;
   opacity: 0.6;
-  margin: 10px;
 }
 
 .float-cart__shelf-container .shelf-item__del {
@@ -185,14 +184,20 @@
 .float-cart__shelf-container .shelf-item__price {
   color: #ffa500;
   text-align: right;
-  margin-top: 1.7rem;
-  margin-left: 1rem;
+  margin-top: 1rem;
+  margin-left: 1.5rem;
 }
+
+.shelf-item__price p {
+  margin-bottom: 0;
+  margin-top: 0.3rem;
+}
+
 .float-cart__shelf-container .shelf-item .change-product-button {
-  color: hsl(194, 100%, 33%);
+  /* color: hsl(194, 100%, 33%); */
   font-weight: 700;
   border: none;
-  border-radius: 6px;
+  /* border-radius: 6px; */
   background-color: #000;
   margin-left: 5px;
   width: 2rem;
@@ -314,4 +319,29 @@
   .float-cart.float-cart--open {
     width: 70% !important;
   }
+
+  .float-cart__shelf-container .shelf-item__details {
+    width: 40%;
+  }
+
+  .float-cart__shelf-container .shelf-item__price {
+    margin-left: 5rem;
+  }
+
+  .title-cart {
+    font-size: 0.7rem;
+  }
 }
+
+@media (max-width: 500px) {
+  .float-cart__shelf-container .shelf-item__price {
+    margin-left: 3.5rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .float-cart__shelf-container .shelf-item__price {
+    margin-left: 2rem;
+  }
+}
+
