@@ -43,7 +43,7 @@ const Index = ({ prod }) => {
 
       <div className="products-carousel-container">
         <h3 className="products-carousel-title">Novidades</h3>
-        <ProductsSlider prod={prod} />
+        {/* <ProductsSlider prod={prod} /> */}
       </div>
 
       <div className="images-container-two">
@@ -74,7 +74,7 @@ const Index = ({ prod }) => {
 
       <div className="products-carousel-container">
         <h3 className="products-carousel-title">Mais vendidos</h3>
-        <ProductsSlider prod={prod} />
+        {/* <ProductsSlider prod={prod} /> */}
       </div>
 
       <div className="images-container-two">
@@ -114,13 +114,13 @@ Index.getLayout = getLayout;
 
 export default Index;
 
-export const getStaticProps = async () => {
-  const res = await api.get("/produtos/categoria?categoria=masculino");
+// export const getStaticProps = async () => {
+//   const res = await api.get("/produtos/categoria?categoria=masculino");
 
-  const prod = res.data;
+//   const prod = res.data;
 
-  return {
-    props: { prod },
-    revalidate: 60 * 60 * 1, //a cada 1 horas uma nova req na API será feita
-  };
-};
+//   return {
+//     props: { prod },
+//     revalidate: 60 * 60 * 1, //a cada 1 horas uma nova req na API será feita
+//   };
+// };
