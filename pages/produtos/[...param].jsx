@@ -50,7 +50,6 @@ const products = ({
     dispatch(clearProducts());
     dispatch(setLoading(false));
     dispatch(getProducts(products));
-    console.log("PRODUCTS", products);
   }, [products]);
 
   useEffect(() => {
