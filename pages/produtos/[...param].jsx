@@ -23,10 +23,17 @@ import {
   sortProducts,
 } from "../../store/actions/products";
 
-const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
+const products = ({
+  prod,
+  totalPages,
+  per_page,
+  category,
+  subcategory,
+  type,
+}) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const products = useSelector(getAllProducts);
+  // const products = useSelector(getAllProducts);
 
   const loading = useSelector(getLoading);
 
@@ -37,12 +44,14 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
 
   const [width, setWindowWidth] = useState(0);
 
+  const [products, setProducts] = useState(prod);
+
   useEffect(() => {
     dispatch(clearProducts());
     dispatch(setLoading(false));
-    dispatch(getProducts(produtos));
-    console.log(produtos);
-  }, [produtos]);
+    dispatch(getProducts(products));
+    console.log("PRODUCTS", products);
+  }, [products]);
 
   useEffect(() => {
     updateDimensions();
@@ -64,11 +73,11 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = 4745 / 100;
+  const pages = totalPages / per_page;
 
   const handleCloseModal = async () => {
     dispatch(setLoading(true));
-    const res = await api.get(`/produtos/categoria?categoria=${categoria}`);
+    const res = await api.get(`/products/category?category=${category}`);
     const prod = res.data.map((el) => el.produto);
     dispatch(getProducts(prod));
     window.location.reload();
@@ -78,9 +87,21 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
   const changePage = ({ selected }) => setCurrentPage(selected + 1);
 
   useEffect(() => {
-    setTimeout(() => {
-      window.scrollTo(0, 0, { behavior: "smooth" });
-    }, 2000);
+    // setTimeout(() => {
+    //   window.scrollTo(0, 0, { behavior: "smooth" });
+    // }, 2000);
+    let filterString = ``;
+    category ? (filterString += `category=${category}`) : ``;
+    subcategory ? (filterString += `&subcategory=${subcategory}`) : ``;
+    type ? (filterString += `&type=${type}`) : ``;
+    dispatch(setLoading(true));
+    api.get(`/products?${filterString}&page=${currentPage}`).then((res) => {
+      dispatch(setLoading(false));
+      setProducts(res.data.data);
+      // products = data.data;
+      totalPages = res.data.total;
+      per_page = res.data.per_page;
+    });
   }, [currentPage]);
 
   const menu = (
@@ -149,7 +170,7 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
               <ReactPaginate
                 previousLabel={"<"}
                 nextLabel={">"}
-                pageCount={totalPages}
+                pageCount={pages}
                 onPageChange={changePage}
                 containerClassName={"paginationsBttn"}
                 previousLinkClassName={"previousBttn"}
@@ -160,7 +181,7 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
             </>
           ) : loading === true ? (
             <FadeLoader
-              className="spinner-produtos"
+              className="spinner-products"
               color={"#0080A8"}
               loading={loading}
               height={35}
@@ -184,9 +205,9 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
           {showFilter ? (
             <>
               <Breadcrumb
-                categoria={categoria}
-                subcategoria={subcategoria}
-                tipo={tipo}
+                category={category}
+                subcategory={subcategory}
+                type={type}
               />
               <Filter />
             </>
@@ -221,10 +242,9 @@ const Produtos = ({ produtos, categoria, subcategoria, tipo }) => {
   );
 };
 
-export default Produtos;
+export default products;
 
 export const getStaticPaths = async () => {
-
   let paths = [
     { params: { param: ["surf"] } },
     { params: { param: ["masculino"] } },
@@ -284,7 +304,7 @@ export const getStaticPaths = async () => {
     { params: { param: ["juvenil", "vestuario", "bermuda"] } },
     { params: { param: ["juvenil", "vestuario", "calca"] } },
     { params: { param: ["juvenil", "vestuario", "jaqueta"] } },
-  ]
+  ];
 
   return {
     paths,
@@ -293,36 +313,57 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (ctx) => {
-  const categoria = ctx.params.param[0];
-  let subcategoria = ctx.params.param[1];
-  let tipo = ctx.params.param[2];
+  const category = ctx.params.param[0];
+  let subcategory = ctx.params.param[1];
+  let type = ctx.params.param[2];
 
   // const busca = ctx.query.nome; fazer no client
 
-  let produtos;
+  let products;
   let res;
+  let totalPages;
+  let per_page;
 
-  if (categoria && subcategoria && tipo) {
-    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}`)
-    produtos = res.data.map((el) => el.produto)
-  } else if (categoria && subcategoria && !tipo) {
-    tipo = null
-    res = await api.get(`/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}`)
-    produtos = res.data.map((el) => el.produto)
+  if (category && subcategory && type) {
+    res = await api.get(
+      `/products?category=${category}&subcategory=${subcategory}&type=${type}`
+    );
+    products = res.data.data;
+    totalPages = res.data.total;
+    per_page = res.data.per_page;
+  } else if (category && subcategory && !type) {
+    type = null;
+    res = await api.get(
+      `/products?category=${category}&subcategory=${subcategory}`
+    );
+    products = res.data.data;
+    totalPages = res.data.total;
+    per_page = res.data.per_page;
   } else {
-    res = await api.get(`/produtos/categoria?categoria=${categoria}`)
-    produtos = res.data.map((el) => el.produto)
-    subcategoria = null
-    tipo = null
+    res = await api.get(`/products?category=${category}`);
+    products = res.data.data;
+    subcategory = null;
+    type = null;
+    totalPages = res.data.total;
+    per_page = res.data.per_page;
   }
 
+  // console.log(res.data.data);
+
   // else {
-  //   res = await api.get(`/produtos/busca?nome=${busca}`);
-  //   produtos = res.data.map((el) => el.produto);
+  //   res = await api.get(`/products/busca?nome=${busca}`);
+  //   products = res.data.map((el) => el.produto);
   // }
 
   return {
-    props: { produtos, categoria, subcategoria, tipo },
+    props: {
+      prod: products,
+      totalPages,
+      per_page,
+      category,
+      subcategory,
+      type,
+    },
     revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
   };
 };

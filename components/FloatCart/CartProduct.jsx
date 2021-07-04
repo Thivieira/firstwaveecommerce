@@ -9,7 +9,6 @@ import {
 } from "../../store/actions/products";
 
 function CartProduct({ product }) {
-  console.log(product);
   const [isMouseOver, setIsMouseOver] = useState(false);
 
   const handleMouseOver = () => setIsMouseOver(true);

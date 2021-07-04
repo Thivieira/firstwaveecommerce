@@ -98,7 +98,7 @@ export default function ProductsSlider({ prod }) {
           {products.map((p, i) => {
             let test = p.variations.length > 0 ? p.variations[0] : [];
             let imageTest = JSON.parse(test.image);
-            console.log("imageTest", imageTest);
+            // console.log("imageTest", imageTest);
             const image =
               imageTest.length > 0 ? imageTest[0].link : "/image1.jpg";
 

@@ -115,7 +115,7 @@ Index.getLayout = getLayout;
 export default Index;
 
 export const getStaticProps = async () => {
-  const res = await api.get("/products?category=masculino");
+  const res = await api.get("/products?genre=masculino");
 
   const prod = res.data.data;
 

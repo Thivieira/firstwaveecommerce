@@ -28,7 +28,12 @@ const ProductDetails = ({ product }) => {
   ]);
   const [featuredImage, setFeaturedImage] = useState(image1);
 
+  if (product.variations.length == 0) {
+    return null;
+  }
+
   //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
+  // console.log(product.variations);
   const codigoProduto = product.variations
     .map((el) => el.code)[0]
     .includes("-");
@@ -92,9 +97,9 @@ const ProductDetails = ({ product }) => {
 
     setFeaturedImage(imagesLink[0]);
 
-    console.log(
-      `${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
-    );
+    // console.log(
+    //   `${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
+    // );
 
     setCodigoVariacao(
       `${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
@@ -104,7 +109,6 @@ const ProductDetails = ({ product }) => {
   };
 
   const addToCartFn = () => {
-    console.log("?");
     if (codigoProduto) {
       if (selectedSize === "" || selectedColor === "") {
         MySwal.fire({
