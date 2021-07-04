@@ -106,7 +106,7 @@ export default function ProductsSlider({ prod }) {
               <div
                 className="card-wrapper"
                 key={i}
-                onClick={() => router.push(`/produto/${p.codigo}`)}
+                onClick={() => router.push(`/produto/${p.code}`)}
               >
                 <div className="card">
                   <div className="card-image">
