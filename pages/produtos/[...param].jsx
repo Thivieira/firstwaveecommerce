@@ -45,6 +45,7 @@ const products = ({
   const [width, setWindowWidth] = useState(0);
 
   const [products, setProducts] = useState(prod);
+  console.log(products)
 
   useEffect(() => {
     dispatch(clearProducts());

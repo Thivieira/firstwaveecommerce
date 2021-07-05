@@ -22,7 +22,7 @@ export default function ProductsSlider({ prod }) {
   }, [products]);
 
   const settings = {
-    dots: true,
+    dots: false,
     adaptiveHeight: true,
     autoplaySpeed: 3000,
     autoplay: true,

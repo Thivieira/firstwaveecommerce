@@ -7,10 +7,9 @@
 
 .header-top {
   background-color: #fff;
-  padding: 1rem;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .navbar {
@@ -18,8 +17,9 @@
 }
 
 .header-logo img {
-  width: 11rem;
+  width: 15rem;
   height: auto;
+  padding: 0.2rem;
 }
 
 .search-filter {
