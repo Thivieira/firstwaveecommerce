@@ -12,12 +12,13 @@ import Box from "../../Utils/Box";
 import InputContainer from "../../Utils/InputContainer";
 import ButtonsContainer from "../../Utils/ButtonsContainer";
 
-import { auth, firebase } from "../../services/firebase"
+import { auth, firebase } from "../../services/firebase";
 
 function Login() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // const [ user, setUser ] = useState()
 
@@ -25,16 +26,23 @@ function Login() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await api.post("/auth", {
+    setLoading(true);
+    await api
+      .post("/auth/login", {
         email: email,
-        senha: password,
-      }).then((res) => {
-        sessionStorage.setItem("key", res.data.token);
+        password: password,
+      })
+      .then((res) => {
+        setLoading(false);
+        sessionStorage.setItem("key", res.data.access_token);
         sessionStorage.setItem("authorized", true);
         MySwal.fire("Usuário logado com sucesso!");
         router.replace("/");
       })
-      .catch(() => MySwal.fire("Usuário ou senha incorretos!"));
+      .catch(() => {
+        setLoading(false);
+        MySwal.fire("Usuário ou senha incorretos!");
+      });
   }
 
   // useEffect(() => {
@@ -134,6 +142,7 @@ function Login() {
               variant="contained"
               color="primary"
               fullWidth
+              disabled={loading}
             >
               Entrar
             </Button>
@@ -150,8 +159,14 @@ function Login() {
             <img src='/google-icon.svg' alt="Logo do Google" />
             Criar conta com o Google
           </Button> */}
-          <Button className="login-button" href="/form" variant="contained" color="primary" style={{width: '260px'}}>
-            <GroupAdd style={{marginRight: '5px'}}/>
+          <Button
+            className="login-button"
+            href="/form"
+            variant="contained"
+            color="primary"
+            style={{ width: "260px" }}
+          >
+            <GroupAdd style={{ marginRight: "5px" }} />
             Cadastre-se
           </Button>
         </div>

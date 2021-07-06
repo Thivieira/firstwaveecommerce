@@ -1,4 +1,4 @@
-export const getProducts = (products) => ({
+export const setProducts = (products) => ({
   type: "GET_API_ALL_PRODUCTS",
   payload: products,
 });

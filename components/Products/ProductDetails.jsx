@@ -228,20 +228,20 @@ const ProductDetails = ({ product }) => {
                 </div>
               </span>
               <div className="colors-thumb">
-                {availableColorVariations.map((variacao) => {
-                  const color = variacao.description
+                {availableColorVariations.map((variation) => {
+                  const color = variation.description
                     .split(";")
                     .slice(0, 1)[0]
                     .split(":")
                     .slice(1, 2)[0];
+                  let image = JSON.parse(variation.image);
+                  image = image.length > 0 ? image[0].link : "/noimage.png";
                   return (
                     <img
                       onClick={() => setSelectedColor(color)}
                       className={color === selectedColor ? "active" : ""}
-                      key={variacao.description}
-                      src={
-                        variacao.image.length > 0 ? variacao.image[0].link : "#"
-                      }
+                      key={variation.id}
+                      src={image}
                       alt="img"
                       style={{ height: "3rem" }}
                     />

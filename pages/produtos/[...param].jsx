@@ -17,7 +17,7 @@ import api from "../../services/api";
 
 import { getAllProducts, getLoading } from "../../store/selectors/products";
 import {
-  getProducts,
+  setProducts,
   clearProducts,
   setLoading,
   sortProducts,
@@ -33,7 +33,7 @@ const products = ({
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  // const products = useSelector(getAllProducts);
+  const products = useSelector(getAllProducts);
 
   const loading = useSelector(getLoading);
 
@@ -44,20 +44,17 @@ const products = ({
 
   const [width, setWindowWidth] = useState(0);
 
-  const [products, setProducts] = useState(prod);
-  console.log(products)
-
   useEffect(() => {
     dispatch(clearProducts());
     dispatch(setLoading(false));
-    dispatch(getProducts(products));
-  }, [products]);
+    dispatch(setProducts(prod));
+  }, []);
 
   useEffect(() => {
     updateDimensions();
     window.addEventListener("resize", updateDimensions);
     return () => window.removeEventListener("resize", updateDimensions);
-  });
+  }, [width]);
 
   const updateDimensions = () => {
     const width = window.innerWidth;
@@ -75,21 +72,17 @@ const products = ({
 
   const pages = totalPages / per_page;
 
-  const handleCloseModal = async () => {
+  const handleCloseAlert = async () => {
     dispatch(setLoading(true));
-    const res = await api.get(`/products/category?category=${category}`);
-    const prod = res.data.map((el) => el.produto);
-    dispatch(getProducts(prod));
-    window.location.reload();
+    const res = await api.get(`/products?category=${category}`);
+    const prod = res.data.data;
+    dispatch(setProducts(prod));
     dispatch(setLoading(false));
   };
 
   const changePage = ({ selected }) => setCurrentPage(selected + 1);
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   window.scrollTo(0, 0, { behavior: "smooth" });
-    // }, 2000);
     let filterString = ``;
     category ? (filterString += `category=${category}`) : ``;
     subcategory ? (filterString += `&subcategory=${subcategory}`) : ``;
@@ -97,7 +90,7 @@ const products = ({
     dispatch(setLoading(true));
     api.get(`/products?${filterString}&page=${currentPage}`).then((res) => {
       dispatch(setLoading(false));
-      setProducts(res.data.data);
+      dispatch(setProducts(res.data.data));
       // products = data.data;
       totalPages = res.data.total;
       per_page = res.data.per_page;
@@ -123,14 +116,14 @@ const products = ({
 
     if (sortValue === "maior") {
       productsToSort.sort((a, b) => {
-        return parseFloat(b.preco) - parseFloat(a.preco);
+        return parseFloat(b.price) - parseFloat(a.price);
       });
       dispatch(sortProducts(productsToSort, sortValue));
       return true;
     }
 
     productsToSort.sort((a, b) => {
-      return parseFloat(a.preco) - parseFloat(b.preco);
+      return parseFloat(a.price) - parseFloat(b.price);
     });
     dispatch(sortProducts(productsToSort, sortValue));
     return true;
@@ -196,7 +189,7 @@ const products = ({
               type="info"
               showIcon
               closable
-              afterClose={handleCloseModal}
+              afterClose={handleCloseAlert}
             />
           )}
         </div>
@@ -209,7 +202,11 @@ const products = ({
                 subcategory={subcategory}
                 type={type}
               />
-              <Filter />
+              <Filter
+                category={category}
+                subcategory={subcategory}
+                type={type}
+              />
             </>
           ) : (
             <div className="site-drawer-render-in-current-wrapper">
@@ -231,7 +228,11 @@ const products = ({
                 getContainer={false}
               >
                 <div className="filter-mobile">
-                  <Filter />
+                  <Filter
+                    category={category}
+                    subcategory={subcategory}
+                    type={type}
+                  />
                 </div>
               </Drawer>
             </div>
@@ -313,7 +314,7 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (ctx) => {
-  const category = ctx.params.param[0];
+  let category = ctx.params.param[0];
   let subcategory = ctx.params.param[1];
   let type = ctx.params.param[2];
 
