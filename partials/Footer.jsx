@@ -19,8 +19,8 @@ function Footer() {
               <h2>Loja Física</h2>
               <ul className="info">
                 <li>
-                  <img src="/loja-footer.jpg" alt="" />
-                  <span><MapRounded style={{marginRight: '5px'}}/> Rua Anita Garibaldi, 118 - Sala 01 e 02 - Centro - CEP 88801-020 - Criciúma / CNPJ -11.662.872/0001-31 - SC</span>
+                  <img src="/loja1.jpeg" alt="" />
+                  <span><MapRounded style={{marginRight: '5px'}}/> Rodovia Jornalista Manoel de Menezes, 2001. - Praia Mole - Florianópolis- SC</span>
                 </li>
               </ul>
             </div>
@@ -34,9 +34,9 @@ function Footer() {
               <li><a href='#'><Mail style={{marginRight: '5px'}} /> (48) 3045-1663</a></li>
             </ul>
             <ul className="sci">
-                <li><a href="#"><Instagram/></a></li>
-                <li><a href="#"><Facebook/></a></li>
-                <li><a href="#"><WhatsApp/></a></li>
+                <li><NavLink href="https://instagram.com/lifestylefloripa_billabong?utm_medium=copy_link"><Instagram/></NavLink></li>
+                <li><NavLink href="https://www.facebook.com/100853448656402/"><Facebook/></NavLink></li>
+                <li><NavLink href="https://api.whatsapp.com/send?phone=5548988281903" target='blank'><WhatsApp/></NavLink></li>
             </ul>
           </div>
 
