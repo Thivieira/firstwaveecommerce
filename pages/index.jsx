@@ -17,26 +17,17 @@ const Index = ({ prod }) => {
 
       <div className="payment-information-container">
         <div className="payment-information">
-          <Payment fontSize="large" />
-          <p className="payment-information-text">
-            Parcele suas compras em até <strong>10x</strong> no{" "}
-            <strong>CARTÃO</strong>
-          </p>
+          <Payment fontSize="large" style={{fontSize: '2.5rem',  marginRight: '5px'}}/>
+          <p className="payment-information-text">PARCELE SUAS COMPRAS EM ATÉ 10X NO CARTÃO</p>
         </div>
         <div className="payment-information">
-          <LocalShipping fontSize="large" />
-          <div className="payment-information-text">
-            {/* <p className="centered">
-              <strong>FRETE GRÁTIS</strong>
-            </p> */}
-            <p>R$200,00 - Sul e Sudeste</p>
-            <p>R$499,00 - Demais regiões</p>
-          </div>
+          <LocalShipping fontSize="large" style={{fontSize: '2.5rem', margin: '0.5rem'}}/>
+          <h2><strong></strong></h2>
         </div>
         <div className="payment-information">
-          <AttachMoney fontSize="large" />
+          <img src="/icon-boleto.png" alt="" />
           <p className="payment-information-text">
-            10% de <strong>DESCONTO</strong> no <strong>BOLETO</strong>
+            10% DE DESCONTO NO BOLETO
           </p>
         </div>
       </div>
