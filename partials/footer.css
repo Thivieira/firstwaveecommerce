@@ -2,8 +2,8 @@ footer {
     position: relative;
     width: 100%;
     height: auto;
-    padding: 50px;
-    background: #111;
+    padding: 2rem;
+    background: #181818;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -11,11 +11,16 @@ footer {
 
 footer .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: flex-start;
     flex-wrap: wrap;
     flex-direction: row;
     height: auto;
+}
+
+footer .container-col {
+    display: flex;
+    /* flex-direction: column; */
 }
 
 footer .container .sec {
@@ -24,6 +29,7 @@ footer .container .sec {
 
 footer .container .sec.aboutus {
     /* width: 40%; */
+    /* margin-right: 80px; */
 }
 
 footer .container .sec.aboutus .footer-logo img {
@@ -99,10 +105,10 @@ footer p {
     color: #fff;
 }
 
-.contact {
+/* .contact {
     width: calc(35% - 60px);
     margin-right: 0 !important;
-}
+} */
 
 .contact .info {
     position: relative;
@@ -112,15 +118,19 @@ footer p {
     display: flex;
     flex-direction: column;
     margin-bottom: 16px;
-    /* width: 80%; */
+    width: 80%;
+}
+
+.contact .info li img {
+    width: 20rem;
+    height: auto;
 }
 
 .contact .info li span {
     display: flex;
-}
-
-.contact .info li span {
     color: #999;
+    margin-top: 10px;
+    width: 20rem;
 }
 
 .contact .info li a {
@@ -132,12 +142,34 @@ footer p {
     color: #fff;
 }
 
+.payments img {
+    width: 15rem;
+    height: auto;
+    margin-top: 5px;
+}
+
+.certificate img {
+    width: 7rem;
+    height: auto;
+    margin-top: 5px;
+}
+
 .copyrightText {
     width: 100%;
-    background: #181818;
+    background: #0f0f0f;
     padding: 8px 100px;
     text-align: center;
     color: #999;
+}
+
+@media (max-width: 1450px) {
+    footer .container-col {
+        flex-direction: column;
+    }
+
+    footer .container-col .contact {
+        margin-top: 1.5rem;
+    }
 }
 
 @media (max-width: 991px) {

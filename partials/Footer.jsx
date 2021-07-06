@@ -9,11 +9,24 @@ function Footer() {
     <>
       <footer>
         <div className="container">
-          <div className="sec aboutus">
-            <NavLink href="/" className="footer-logo">
-              <img src="/Logo-Lifestyle.jpg" alt="Logo" />
-            </NavLink>
+          <div className="container-col">
+            <div className="sec aboutus">
+              <NavLink href="/" className="footer-logo">
+                <img src="/Logo-Lifestyle.jpg" alt="Logo" />
+              </NavLink>
+            </div>
+            <div className="sec contact">
+              <h2>Loja Física</h2>
+              <ul className="info">
+                <li>
+                  <img src="/loja-footer.jpg" alt="" />
+                  <span><MapRounded style={{marginRight: '5px'}}/> Rua Anita Garibaldi, 118 - Sala 01 e 02 - Centro - CEP 88801-020 - Criciúma / CNPJ -11.662.872/0001-31 - SC</span>
+                </li>
+              </ul>
+            </div>
           </div>
+
+
           <div className="sec quicklinks">
             <h2>Contato</h2>
             <ul>
@@ -26,22 +39,14 @@ function Footer() {
                 <li><a href="#"><WhatsApp/></a></li>
             </ul>
           </div>
-          <div className="sec contact">
-            <h2>Loja Física</h2>
-            <ul className="info">
-              <li>
-                <img src="/loja-footer.jpg" alt="" />
-                <span><MapRounded style={{marginRight: '5px'}}/> Rua Anita Garibaldi, 118 - Sala 01 e 02 - Centro - CEP 88801-020 - Criciúma / CNPJ -11.662.872/0001-31 - SC</span>
-              </li>
-            </ul>
-          </div>
+
           <div className="sec payments">
             <h2>Meios de Pagamento</h2>
-
+            <img src="/mercadopago-logo.png" alt="" />
           </div>
           <div className="sec certificate">
             <h2>Segurança</h2>
-
+            <img src="/ssl.png" alt="" />
           </div>
         </div>
       </footer>
