@@ -7,7 +7,7 @@ import {
   incrementFromCart,
   decrementFromCart,
 } from "../../store/actions/products";
-import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
+import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 
 function CartProduct({ product }) {
   const [isMouseOver, setIsMouseOver] = useState(false);
@@ -34,11 +34,11 @@ function CartProduct({ product }) {
           onClick={() => dispatch(removeFromCart(product.codigoVariacao))}
         />
 
-        <Thumb src={product.imagemVariacao} alt={product.descricao} />
+        <Thumb src={product.imagemVariacao} alt={product.description} />
 
         <div className="shelf-item__details">
-          <Link href={`/produto/${product.codigo}`}>
-            <p className="title-cart">{product.descricao}</p>
+          <Link href={`/produto/${product.code}`}>
+            <p className="title-cart">{product.description}</p>
           </Link>
 
           <div className="desc">

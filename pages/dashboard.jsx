@@ -35,20 +35,20 @@ function Dashboard() {
 
   async function getUserData() {
     await api
-      .get("/usuario")
+      .get("/auth/me")
       .then((res) => {
         setPersonalData({
           cpf: res.data.cpf,
           email: res.data.email,
-          name: res.data.nomeCompleto,
-          phone: res.data.telefone,
+          name: res.data.name,
+          phone: res.data.mobile,
         });
         dispatch(
           saveAccount({
             cpf: res.data.cpf,
             email: res.data.email,
-            name: res.data.nomeCompleto,
-            phone: res.data.telefone,
+            name: res.data.name,
+            phone: res.data.mobile,
           })
         );
       })
@@ -76,15 +76,15 @@ function Dashboard() {
     if (password) {
       setJson({
         email: email,
-        nomeCompleto: name,
-        senha: password,
-        telefone: phone,
+        name: name,
+        password: password,
+        mobile: phone,
       });
     } else {
-      setJson({ email: email, nomeCompleto: name, telefone: phone });
+      setJson({ email: email, name: name, mobile: phone });
     }
     await api
-      .patch("/usuario", json)
+      .patch("/auth/me", json)
       .then(() => alert("usuário editado com sucesso!"))
       .catch(() => alert("falha ao editar usuário!"));
   }
@@ -99,14 +99,14 @@ function Dashboard() {
     state,
   }) {
     await api
-      .put("endereco", {
-        bairro: neighborhood,
-        cep: cep,
-        cidade: city,
-        complemento: complement,
-        estado: state,
-        numero: number,
-        rua: street,
+      .put("/customer/addresses", {
+        neighborhood,
+        cep,
+        city,
+        complement,
+        state,
+        number,
+        street,
       })
       .then(() => alert("Endereço editado com sucesso!"))
       .catch(() => alert("Falha ao editar endereço!"));
