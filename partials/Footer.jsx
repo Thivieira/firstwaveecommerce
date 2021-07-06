@@ -34,8 +34,8 @@ function Footer() {
               <li><a href='#'><Mail style={{marginRight: '5px'}} /> (48) 3045-1663</a></li>
             </ul>
             <ul className="sci">
-                <li><NavLink href="https://instagram.com/lifestylefloripa_billabong?utm_medium=copy_link"><Instagram/></NavLink></li>
-                <li><NavLink href="https://www.facebook.com/100853448656402/"><Facebook/></NavLink></li>
+                <li><NavLink href="https://instagram.com/lifestylefloripa_billabong?utm_medium=copy_link" target='blank'><Instagram/></NavLink></li>
+                <li><NavLink href="https://www.facebook.com/100853448656402/" target='blank'><Facebook/></NavLink></li>
                 <li><NavLink href="https://api.whatsapp.com/send?phone=5548988281903" target='blank'><WhatsApp/></NavLink></li>
             </ul>
           </div>
