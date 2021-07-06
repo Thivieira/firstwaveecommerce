@@ -15,29 +15,29 @@ import {
   getLoading,
 } from "../../store/selectors/products";
 import {
-  getProducts,
+  setProducts,
   clearProducts,
   setLoading,
 } from "../../store/actions/products";
 
 export const getStaticProps = async (ctx) => {
   console.log(ctx);
-  const categoria = ctx.params.param[0];
-  const subcategoria = ctx.params.param[1];
-  const tipo = ctx.params.param[2];
+  const category = ctx.params.param[0];
+  const subcategory = ctx.params.param[1];
+  const type = ctx.params.param[2];
 
   return {
-    props: { categoria, subcategoria, tipo },
+    props: { category, subcategory, type },
   };
 };
 
-function Filter({ categoria, subcategoria, tipo }) {
+function Filter({ category, subcategory, type }) {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // const categoria = router.query.param[0];
-  // const subcategoria = router.query.param[1];
-  // const tipo = router.query.param[2];
+  // const category = router.query.param[0];
+  // const subcategory = router.query.param[1];
+  // const type = router.query.param[2];
 
   const products = useSelector(getAllProducts);
 
@@ -60,45 +60,33 @@ function Filter({ categoria, subcategoria, tipo }) {
     dispatch(clearProducts());
     dispatch(setLoading(true));
 
-    if (
-      subcategoria !== undefined &&
-      tipo !== undefined &&
-      categoria !== undefined
-    ) {
+    if (subcategory && type && category) {
       const res = await api.get(
-        `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tipo=${tipo}&tamanho=${filtersSize}&cor=${filtersColor}&marca=${filtersBrand}&precoMax=${selectedPriceMax}&precoMin=${selectedPriceMin}`
+        `/produtos?category=${category}&subcategory=${subcategory}&type=${type}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
       );
-      const prod = res.data.map((el) => el.produto);
-      dispatch(getProducts(prod));
+      const prod = res.data.data;
+      dispatch(setProducts(prod));
       dispatch(setLoading(false));
-    } else if (
-      subcategoria !== undefined &&
-      tipo === undefined &&
-      categoria !== undefined
-    ) {
+    } else if (!type && subcategory && category) {
       const res = await api.get(
-        `/produtos/categoria?categoria=${categoria}&subcategoria=${subcategoria}&tamanho=${filtersSize}&cor=${filtersColor}&marca=${filtersBrand}&precoMax=${selectedPriceMax}&precoMin=${selectedPriceMin}`
+        `/produtos?category=${category}&subcategory=${subcategory}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
       );
-      const prod = res.data.map((el) => el.produto);
-      dispatch(getProducts(prod));
+      const prod = res.data.data;
+      dispatch(setProducts(prod));
       dispatch(setLoading(false));
-    } else if (
-      subcategoria === undefined &&
-      tipo === undefined &&
-      categoria !== undefined
-    ) {
+    } else if (!subcategory && !type && category) {
       const res = await api.get(
-        `/produtos/categoria?categoria=${categoria}&tamanho=${filtersSize}&cor=${filtersColor}&marca=${filtersBrand}&precoMax=${selectedPriceMax}&precoMin=${selectedPriceMin}`
+        `/produtos?category=${category}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
       );
-      const prod = res.data.map((el) => el.produto);
-      dispatch(getProducts(prod));
+      const prod = res.data.data;
+      dispatch(setProducts(prod));
       dispatch(setLoading(false));
     } else {
       const res = await api.get(
-        `/produtos/categoria?tamanho=${filtersSize}&cor=${filtersColor}&marca=${filtersBrand}&precoMax=${selectedPriceMax}&precoMin=${selectedPriceMin}`
+        `/produtos?size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
       );
-      const prod = res.data.map((el) => el.produto);
-      dispatch(getProducts(prod));
+      const prod = res.data.data;
+      dispatch(setProducts(prod));
       dispatch(setLoading(false));
     }
   }, [
@@ -107,9 +95,9 @@ function Filter({ categoria, subcategoria, tipo }) {
     filtersColor,
     filtersSize,
     filtersBrand,
-    categoria,
-    subcategoria,
-    tipo,
+    category,
+    subcategory,
+    type,
   ]);
 
   const animatedComponents = makeAnimated();
