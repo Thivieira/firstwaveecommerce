@@ -45,6 +45,7 @@
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^10.16.6",
     "sweetalert2-react-content": "^3.3.2",
+    "swr": "^0.5.6",
     "xml-js": "^1.6.11",
     "yup": "^0.32.9"
   },

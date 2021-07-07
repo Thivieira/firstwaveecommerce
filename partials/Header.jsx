@@ -442,7 +442,11 @@ function Header() {
         <h2>Loja virtual</h2>
         <Divider />
         <div className="menu-call-1">
-          <NavLink style={{ display: "flex", width: "50%" }} href="https://api.whatsapp.com/send?phone=5548988281903" target='blank'>
+          <NavLink
+            style={{ display: "flex", width: "50%" }}
+            href="https://api.whatsapp.com/send?phone=5548988281903"
+            target="blank"
+          >
             <WhatsAppOutlined
               style={{
                 display: "flex",
@@ -473,7 +477,10 @@ function Header() {
               3045-1663
             </p>
           </div>
-          <span>Segunda a quarta feira das 10h às 19hs. Quinta a domingo das 10hs às 21hs</span>
+          <span>
+            Segunda a quarta feira das 10h às 19hs. Quinta a domingo das 10hs às
+            21hs
+          </span>
         </div>
       </div>
     </Menu>
@@ -481,8 +488,7 @@ function Header() {
 
   const { Search } = Input;
 
-  const onSearch = async (value) =>
-    router.replace(`/produtos/busca?nome=${value}`);
+  const onSearch = async (value) => router.replace(`/produtos?q=${value}`);
 
   return (
     <header id="header">
