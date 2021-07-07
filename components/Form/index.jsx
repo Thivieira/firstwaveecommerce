@@ -47,17 +47,17 @@ function Form() {
     const { email, password } = collectedData;
     return new Promise((resolve, reject) => {
       api
-        .post("/auth", {
+        .post("/auth/login", {
           email: email,
-          senha: password,
+          password: password,
         })
         .then((res) => {
-          sessionStorage.setItem("key", res.data.token);
+          sessionStorage.setItem("key", res.data.access_token);
 
           sessionStorage.setItem("authorized", true);
 
           api.defaults.headers.common["Authorization"] =
-            "Bearer " + res.data.token;
+            "Bearer " + res.data.access_token;
           resolve();
         })
         .catch(() => {
@@ -85,7 +85,7 @@ function Form() {
         cpf: collectedData.cpf.replace(/[^\d]/g, ""),
         email: collectedData.email,
         nomeCompleto: collectedData.name,
-        senha: collectedData.password,
+        password: collectedData.password,
         telefone: collectedData.phone.replace(/[^\d]/g, ""),
       })
       .then(() => {
