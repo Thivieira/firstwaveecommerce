@@ -38,7 +38,6 @@ const ProductDetails = ({ product }) => {
 
   function setImages(imageJson) {
     let imageObj = JSON.parse(imageJson);
-    console.log("RUN", imageObj);
     const imagesLink = imageObj.map((el) => el.link);
 
     setImageThumbs(imagesLink);
