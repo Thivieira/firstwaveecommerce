@@ -27,9 +27,23 @@ const ProductDetails = ({ product }) => {
     image4,
   ]);
   const [featuredImage, setFeaturedImage] = useState(image1);
+  // const [] =
 
+  if (!product) {
+    return null;
+  }
   if (product.variations.length == 0) {
     return null;
+  }
+
+  function setImages(imageJson) {
+    let imageObj = JSON.parse(imageJson);
+    console.log("RUN", imageObj);
+    const imagesLink = imageObj.map((el) => el.link);
+
+    setImageThumbs(imagesLink);
+
+    setFeaturedImage(imagesLink[0]);
   }
 
   //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
@@ -38,18 +52,19 @@ const ProductDetails = ({ product }) => {
     .map((el) => el.code)[0]
     .includes("-");
 
-  const variacoes = product.variations;
+  const variations = product.variations;
 
-  const tamanhos = variacoes.map(
+  const tamanhos = variations.map(
     (el) => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]
   );
 
   const sizesNoRepeat = [...new Set(tamanhos)];
-  const size = sizesNoRepeat[0];
 
   useEffect(() => {
+    const size = sizesNoRepeat[0];
+
     onSelectedSizeChange(size);
-  }, [product]);
+  }, [variations]);
 
   useEffect(() => {
     if (triggerColor) {
@@ -60,7 +75,7 @@ const ProductDetails = ({ product }) => {
   const onSelectedSizeChange = (value) => {
     setSelectedSize(value);
 
-    const variacaoDisponivel = variacoes.filter(
+    const variacaoDisponivel = variations.filter(
       (el) =>
         el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] ==
         value
@@ -90,12 +105,7 @@ const ProductDetails = ({ product }) => {
       return;
     }
 
-    let imageObj = JSON.parse(cor.image);
-    const imagesLink = imageObj.map((el) => el.link);
-
-    setImageThumbs(imagesLink);
-
-    setFeaturedImage(imagesLink[0]);
+    setImages(cor.image);
 
     // console.log(
     //   `${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`

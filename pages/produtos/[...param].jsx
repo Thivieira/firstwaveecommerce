@@ -349,10 +349,6 @@ export const getStaticProps = async (ctx) => {
     per_page = res.data.per_page;
   }
 
-  console.log({
-    URL: `/products?category=${category}&subcategory=${subcategory}&type=${type}`,
-  });
-
   // console.log(res.data.data);
 
   // else {

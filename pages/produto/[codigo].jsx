@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoading, getProduct } from "../../store/selectors/products";
@@ -17,21 +17,14 @@ const DetailsProduct = ({ product }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(clearProduct());
+    dispatch(setLoading(false));
+    dispatch(openProduct(product));
+  }, [product.code]);
+
   const loading = useSelector(getLoading);
-  const reduxProduct = useSelector(getProduct);
-
-  useMemo(() => {
-    const fetchProducts = async () => {
-      dispatch(clearProduct());
-      dispatch(setLoading(true));
-
-      dispatch(openProduct(product));
-      dispatch(setLoading(false));
-    };
-
-    fetchProducts();
-  }, [dispatch]);
-
+  // const reduxProduct = useSelector(getProduct);
   return (
     <div className="page">
       {loading || product.length == 0 ? (
@@ -48,7 +41,7 @@ const DetailsProduct = ({ product }) => {
           </div>
         </div>
       ) : (
-        <ProductDetails product={reduxProduct} />
+        <ProductDetails product={product} />
       )}
     </div>
   );
