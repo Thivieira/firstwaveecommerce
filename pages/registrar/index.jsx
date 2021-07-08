@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Stepper, Step, StepLabel, Container } from "@material-ui/core";
-
+import { useRouter } from "next/router";
 import UserData from "./UserData";
 import AddressData from "./AddressData";
 import {
@@ -11,6 +11,8 @@ import {
 } from "../../models/Form";
 import FormValidations from "../../contexts/FormValidations";
 import api from "../../services/api";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function Form() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -29,6 +31,8 @@ function Form() {
     city: "",
     state: "",
   });
+  const router = useRouter();
+  const MySwal = withReactContent(Swal);
 
   async function signUpUser({
     name,
@@ -84,14 +88,6 @@ function Form() {
         state: submitData.state,
       };
     });
-    console.log({
-      cpf: collectedData.cpf.replace(/[^\d]/g, ""),
-      email: collectedData.email,
-      name: collectedData.name,
-      password: collectedData.password,
-      password_confirmation: collectedData.passwordConfirmation,
-      mobile: collectedData.phone.replace(/[^\d]/g, ""),
-    });
     api
       .post("/auth/register", {
         cpf: collectedData.cpf.replace(/[^\d]/g, ""),
@@ -107,7 +103,7 @@ function Form() {
             api
               .post("/address", {
                 province: submitData.neighborhood,
-                postaCode: submitData.cep.replace(/[^\d]/g, ""),
+                postalCode: submitData.cep.replace(/[^\d]/g, ""),
                 city: submitData.city,
                 complement: submitData.complement,
                 uf: submitData.state,
@@ -115,15 +111,16 @@ function Form() {
                 address: submitData.street,
               })
               .then(() => {
-                alert("Conta cadastrada com sucesso!");
+                MySwal.fire("Conta cadastrada com sucesso!");
+                router.push("/");
               })
               .catch(() => {
-                alert("Falha ao cadastrar endereço!");
+                MySwal.fire("Falha ao cadastrar endereço!");
               });
           })
-          .catch(() => alert("Usuário ou senha incorretos!"));
+          .catch(() => MySwal.fire("Usuário ou senha incorretos!"));
       })
-      .catch(() => alert("Falha ao cadastrar usuário"));
+      .catch(() => MySwal.fire("Falha ao cadastrar usuário"));
   }
 
   const forms = [

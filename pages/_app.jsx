@@ -4,9 +4,9 @@ import { Provider } from "react-redux";
 import { useStore } from "../store";
 import { PersistGate } from "redux-persist/integration/react";
 import SiteLayout from "../layouts/SiteLayout";
-import NProgress from "nprogress"; 
+import NProgress from "nprogress";
 
-import '../services/firebase'
+import "../services/firebase";
 
 import "../styles/global.css";
 import "../styles/Landing.css";
@@ -17,7 +17,7 @@ import "../styles/payment.css";
 import "antd/dist/antd.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 
 import "../components/Breadcrumb/breadcrumb.css";
 import "../components/Filter/filter.css";
@@ -31,7 +31,7 @@ import "../partials/header.css";
 import "../partials/footer.css";
 
 import "./login/login.css";
-import "./form/form.css";
+import "./registrar/form.css";
 import "./produtos/produtos.css";
 
 import "../Utils/Box/box.css";
@@ -51,7 +51,8 @@ Router.events.on("routeChangeError", () => NProgress.done());
 export default function App({ Component, pageProps }) {
   const store = useStore(pageProps.initialReduxState);
 
-  const getLayout = Component.getLayout || ((page) => <SiteLayout children={page} />);
+  const getLayout =
+    Component.getLayout || ((page) => <SiteLayout children={page} />);
 
   return (
     <Provider store={store}>
