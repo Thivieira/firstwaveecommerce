@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { CategoryContext } from "../../contexts/CategoryContext";
 import FadeLoader from "react-spinners/FadeLoader";
 import ReactPaginate from "react-paginate";
-
-import { useRouter } from "next/router";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Drawer, Button, Alert } from "antd";
@@ -31,7 +30,7 @@ const products = ({
   subcategory,
   type,
 }) => {
-  const router = useRouter();
+  const { getCategory, setCategory } = useContext(CategoryContext)
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
 
@@ -48,6 +47,7 @@ const products = ({
     dispatch(clearProducts());
     dispatch(setLoading(false));
     dispatch(setProducts(prod));
+    setCategory({category: category, subcategory: subcategory, type: type})
   }, []);
 
   useEffect(() => {

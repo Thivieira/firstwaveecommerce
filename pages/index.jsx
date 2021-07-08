@@ -18,14 +18,14 @@ const Index = ({ prod }) => {
       <div className="payment-information-container">
         <div className="payment-information">
           <Payment fontSize="large" style={{fontSize: '2.5rem',  marginRight: '5px'}}/>
-          <p className="payment-information-text">PARCELE SUAS COMPRAS EM ATÉ 10X NO CARTÃO</p>
+          <p className="payment-information-text">EM ATÉ 10X NO CARTÃO</p>
         </div>
         <div className="payment-information">
           <LocalShipping fontSize="large" style={{fontSize: '2.5rem', margin: '0.5rem'}}/>
           <h2><strong></strong></h2>
         </div>
         <div className="payment-information">
-          <img src="/icon-boleto.png" alt="" />
+          <img src="/icon-boleto.png" alt="boleto" />
           <p className="payment-information-text">
             10% DE DESCONTO NO BOLETO
           </p>

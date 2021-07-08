@@ -7,6 +7,9 @@ function Product({ product }) {
   const testImage = JSON.parse(test.image);
   const image = testImage.length > 0 ? testImage[0].link : "/noimage.png";
 
+  const price =  `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`
+  const priceSale = `R$${parseFloat(product.variations[0].price).toFixed(2).replace(".", ",")}`
+
   return (
     <div className="card-grid" key={product.id}>
       <div className="img-content">
@@ -18,11 +21,21 @@ function Product({ product }) {
 
       <div className="content">
         <div className="title-and-heart">
-          <h4>{product.description}</h4>
+          <Link href={`/produto/${product.code}`}>
+            <h4>{product.description}</h4>
+          </Link>
           <FavoriteBtn product={product} />
         </div>
         <div className="price">
-          {"R$ " + parseFloat(product.price).toFixed(2).replace(".", ",")}
+          {priceSale !== price ? (
+              <>
+                <div className="priceSale">
+                  <span>{price}</span> 
+                  <p>{priceSale}</p>
+                </div>
+                <h3>PROMOÇÃO</h3>
+              </>
+          ) : price}
         </div>
         <p className="discount">{product.discount}</p>
       </div>

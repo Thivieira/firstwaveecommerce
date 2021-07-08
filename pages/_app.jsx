@@ -5,6 +5,7 @@ import { useStore } from "../store";
 import { PersistGate } from "redux-persist/integration/react";
 import SiteLayout from "../layouts/SiteLayout";
 import NProgress from "nprogress"; 
+import { CategoryContextProvider } from "../contexts/CategoryContext";
 
 import '../services/firebase'
 
@@ -59,7 +60,9 @@ export default function App({ Component, pageProps }) {
         <Head>
           <link rel="stylesheet" type="text/css" href="/nprogress.css" />
         </Head>
-        {getLayout(<Component {...pageProps} />)}
+        <CategoryContextProvider>
+          {getLayout(<Component {...pageProps} />)}
+        </CategoryContextProvider>
       </PersistGate>
     </Provider>
   );

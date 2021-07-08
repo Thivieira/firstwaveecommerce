@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { CategoryContext } from "../../contexts/CategoryContext";
 import FadeLoader from "react-spinners/FadeLoader";
 import ReactPaginate from "react-paginate";
 
@@ -24,14 +25,14 @@ import {
 } from "../../store/actions/products";
 
 const products = () => {
+  const { getCategory } = useContext(CategoryContext)
+  console.log(getCategory)
+
   const router = useRouter();
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
   let totalPages = 1;
   let per_page = 1;
-  let category,
-    subcategory,
-    type = "";
 
   const loading = useSelector(getLoading);
 
@@ -195,20 +196,15 @@ const products = () => {
         <div className="filter">
           {showFilter ? (
             <>
-              {/* <Breadcrumb
-                category={category}
-                subcategory={subcategory}
-                type={type}
+              <Breadcrumb
+                category={getCategory.category}
+                subcategory={getCategory.subcategory}
+                type={getCategory.type}
               />
               <Filter
-                category={category}
-                subcategory={subcategory}
-                type={type}
-              /> */}
-              <Filter
-                category={category}
-                subcategory={subcategory}
-                type={type}
+                category={getCategory.category}
+                subcategory={getCategory.subcategory}
+                type={getCategory.type}
               />
             </>
           ) : (
@@ -232,9 +228,9 @@ const products = () => {
               >
                 <div className="filter-mobile">
                   <Filter
-                    category={category}
-                    subcategory={subcategory}
-                    type={type}
+                    category={getCategory.category}
+                    subcategory={getCategory.subcategory}
+                    type={getCategory.type}
                   />
                 </div>
               </Drawer>

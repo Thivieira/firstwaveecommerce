@@ -14,6 +14,7 @@ import api from "../../services/api";
 import ProductDetails from "../../components/Products/ProductDetails";
 
 const DetailsProduct = ({ product }) => {
+  console.log(product)
   const router = useRouter();
   const dispatch = useDispatch();
 
