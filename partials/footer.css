@@ -161,6 +161,11 @@ footer p {
   padding: 8px 100px;
   text-align: center;
   color: #999;
+  margin-bottom: 0em;
+}
+
+.copyrightText p {
+  margin-bottom: 0em;
 }
 
 @media (max-width: 1450px) {
