@@ -31,23 +31,23 @@ export default function products({
   type,
 }) {
   const { getCategory, setCategory } = useContext(CategoryContext);
-  // const router = useRouter();
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
-
   const loading = useSelector(getLoading);
-
   const [sort, setSort] = useState("menor");
-
   const [showFilter, setShowFilter] = useState(true);
   const [visible, setVisible] = useState(false);
-
   const [width, setWindowWidth] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageCount, setPageCount] = useState(1);
+  const showDrawerFilters = () => setVisible(true);
+  const onCloseFilters = () => setVisible(false);
 
   useEffect(() => {
     dispatch(clearProducts());
     dispatch(setLoading(false));
     dispatch(setProducts(prod));
+    setPageCount(totalPages / per_page);
     setCategory({ category: category, subcategory: subcategory, type: type });
   }, [dispatch, category, subcategory, type]);
 
@@ -66,23 +66,19 @@ export default function products({
     width < 1280 ? setShowFilter(false) : setShowFilter(true);
   });
 
-  const showDrawerFilters = () => setVisible(true);
-  const onCloseFilters = () => setVisible(false);
-
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const pages = totalPages / per_page;
-
   const handleCloseAlert = async () => {
     dispatch(setLoading(true));
     dispatch(clearProducts());
     const res = await api.get(`/products?category=${category}`);
     const prod = res.data.data;
+    totalPages = res.data.total;
+    per_page = res.data.per_page;
+    setPageCount(totalPages / per_page);
     dispatch(setProducts(prod));
     dispatch(setLoading(false));
   };
 
-  const changePage = ({ selected }) => setCurrentPage(selected + 1);
+  const changePage = ({ selected }) => setCurrentPage(selected);
 
   useEffect(() => {
     let filterString = ``;
@@ -97,6 +93,7 @@ export default function products({
       // products = data.data;
       totalPages = res.data.total;
       per_page = res.data.per_page;
+      setPageCount(totalPages / per_page);
     });
   }, [currentPage, dispatch]);
 
@@ -166,8 +163,9 @@ export default function products({
               <ReactPaginate
                 previousLabel={"<"}
                 nextLabel={">"}
-                pageCount={pages}
+                pageCount={pageCount}
                 onPageChange={changePage}
+                forcePage={currentPage}
                 containerClassName={"paginationsBttn"}
                 previousLinkClassName={"previousBttn"}
                 nextLinkClassName={"nextBttn"}
