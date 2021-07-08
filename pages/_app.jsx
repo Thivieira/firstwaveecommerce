@@ -4,12 +4,8 @@ import { Provider } from "react-redux";
 import { useStore } from "../store";
 import { PersistGate } from "redux-persist/integration/react";
 import SiteLayout from "../layouts/SiteLayout";
-<<<<<<< HEAD
-import NProgress from "nprogress"; 
-import { CategoryContextProvider } from "../contexts/CategoryContext";
-=======
 import NProgress from "nprogress";
->>>>>>> 0b312b3d8448c87b443d642da333a5deb2b381c9
+import { CategoryContextProvider } from "../contexts/CategoryContext";
 
 import "../services/firebase";
 

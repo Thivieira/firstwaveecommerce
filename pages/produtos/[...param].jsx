@@ -29,13 +29,9 @@ export default function products({
   category,
   subcategory,
   type,
-<<<<<<< HEAD
-}) => {
-  const { getCategory, setCategory } = useContext(CategoryContext)
-=======
 }) {
-  const router = useRouter();
->>>>>>> 0b312b3d8448c87b443d642da333a5deb2b381c9
+  const { getCategory, setCategory } = useContext(CategoryContext);
+  // const router = useRouter();
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
 
@@ -52,12 +48,8 @@ export default function products({
     dispatch(clearProducts());
     dispatch(setLoading(false));
     dispatch(setProducts(prod));
-<<<<<<< HEAD
-    setCategory({category: category, subcategory: subcategory, type: type})
-  }, []);
-=======
+    setCategory({ category: category, subcategory: subcategory, type: type });
   }, [dispatch, category, subcategory, type]);
->>>>>>> 0b312b3d8448c87b443d642da333a5deb2b381c9
 
   useEffect(() => {
     updateDimensions();
