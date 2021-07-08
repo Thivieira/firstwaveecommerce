@@ -36,7 +36,6 @@ function Login() {
         setLoading(false);
         sessionStorage.setItem("key", res.data.access_token);
         sessionStorage.setItem("authorized", true);
-        MySwal.fire("Usuário logado com sucesso!");
         router.replace("/");
       })
       .catch(() => {
@@ -161,7 +160,7 @@ function Login() {
           </Button> */}
           <Button
             className="login-button"
-            href="/form"
+            href="/registrar"
             variant="contained"
             color="primary"
             style={{ width: "260px" }}

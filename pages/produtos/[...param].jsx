@@ -22,15 +22,20 @@ import {
   sortProducts,
 } from "../../store/actions/products";
 
-const products = ({
+export default function products({
   prod,
   totalPages,
   per_page,
   category,
   subcategory,
   type,
+<<<<<<< HEAD
 }) => {
   const { getCategory, setCategory } = useContext(CategoryContext)
+=======
+}) {
+  const router = useRouter();
+>>>>>>> 0b312b3d8448c87b443d642da333a5deb2b381c9
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
 
@@ -47,8 +52,12 @@ const products = ({
     dispatch(clearProducts());
     dispatch(setLoading(false));
     dispatch(setProducts(prod));
+<<<<<<< HEAD
     setCategory({category: category, subcategory: subcategory, type: type})
   }, []);
+=======
+  }, [dispatch, category, subcategory, type]);
+>>>>>>> 0b312b3d8448c87b443d642da333a5deb2b381c9
 
   useEffect(() => {
     updateDimensions();
@@ -74,6 +83,7 @@ const products = ({
 
   const handleCloseAlert = async () => {
     dispatch(setLoading(true));
+    dispatch(clearProducts());
     const res = await api.get(`/products?category=${category}`);
     const prod = res.data.data;
     dispatch(setProducts(prod));
@@ -88,6 +98,7 @@ const products = ({
     subcategory ? (filterString += `&subcategory=${subcategory}`) : ``;
     type ? (filterString += `&type=${type}`) : ``;
     dispatch(setLoading(true));
+    dispatch(clearProducts());
     api.get(`/products?${filterString}&page=${currentPage}`).then((res) => {
       dispatch(setLoading(false));
       dispatch(setProducts(res.data.data));
@@ -95,7 +106,7 @@ const products = ({
       totalPages = res.data.total;
       per_page = res.data.per_page;
     });
-  }, [currentPage]);
+  }, [currentPage, dispatch]);
 
   const menu = (
     <Menu value={sort} onClick={(obj) => handleChangeSort(obj.item)}>
@@ -241,11 +252,9 @@ const products = ({
       </div>
     </>
   );
-};
+}
 
-export default products;
-
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   let paths = [
     { params: { param: ["surf"] } },
     { params: { param: ["masculino"] } },
@@ -311,9 +320,9 @@ export const getStaticPaths = async () => {
     paths,
     fallback: "blocking",
   };
-};
+}
 
-export const getStaticProps = async (ctx) => {
+export async function getStaticProps(ctx) {
   let category = ctx.params.param[0];
   let subcategory = ctx.params.param[1];
   let type = ctx.params.param[2];
@@ -349,12 +358,14 @@ export const getStaticProps = async (ctx) => {
     per_page = res.data.per_page;
   }
 
-  // console.log(res.data.data);
-
-  // else {
-  //   res = await api.get(`/products/busca?nome=${busca}`);
-  //   products = res.data.map((el) => el.produto);
-  // }
+  if (!products) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
@@ -367,4 +378,4 @@ export const getStaticProps = async (ctx) => {
     },
     revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
   };
-};
+}

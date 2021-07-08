@@ -47,17 +47,17 @@ function Form() {
     const { email, password } = collectedData;
     return new Promise((resolve, reject) => {
       api
-        .post("/auth", {
+        .post("/auth/login", {
           email: email,
-          senha: password,
+          password: password,
         })
         .then((res) => {
-          sessionStorage.setItem("key", res.data.token);
+          sessionStorage.setItem("key", res.data.access_token);
 
           sessionStorage.setItem("authorized", true);
 
           api.defaults.headers.common["Authorization"] =
-            "Bearer " + res.data.token;
+            "Bearer " + res.data.access_token;
           resolve();
         })
         .catch(() => {
@@ -81,25 +81,25 @@ function Form() {
     });
 
     api
-      .post("/usuario", {
+      .post("/register", {
         cpf: collectedData.cpf.replace(/[^\d]/g, ""),
         email: collectedData.email,
-        nomeCompleto: collectedData.name,
-        senha: collectedData.password,
-        telefone: collectedData.phone.replace(/[^\d]/g, ""),
+        name: collectedData.name,
+        password: collectedData.password,
+        mobile: collectedData.phone.replace(/[^\d]/g, ""),
       })
       .then(() => {
         handleLogin()
           .then(() => {
             api
-              .post("/endereco", {
-                bairro: submitData.neighborhood,
-                cep: submitData.cep.replace(/[^\d]/g, ""),
-                cidade: submitData.city,
-                complemento: submitData.complement,
-                estado: submitData.state,
-                numero: submitData.number,
-                rua: submitData.street,
+              .put("/address", {
+                province: submitData.neighborhood,
+                postalCode: submitData.cep.replace(/[^\d]/g, ""),
+                city: submitData.city,
+                complement: submitData.complement,
+                uf: submitData.state,
+                addressNumber: submitData.number,
+                address: submitData.street,
               })
               .then(() => {
                 alert("Conta cadastrada com sucesso!");
