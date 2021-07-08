@@ -76,15 +76,39 @@
 }
 
 .details-content .title-product .heart {
-  font-size: 1.5rem !important;
+  font-size: 1.2rem !important;
   margin-left: 8px !important;
 }
 
 .details-content .price-product {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   padding: 1rem 0;
-  font-weight: 600;
   color: #0080a8;
+}
+
+.details-content .priceSaleProduct {
+
+}
+
+.details-content .priceSaleProduct span {
+  display: flex;
+  font-size: 0.9rem;
+  margin-right: 5px;
+}
+
+.details-content .priceSaleProduct span p {
+  text-decoration: line-through;
+  margin-left: 5px;
+}
+
+.details-content .priceSaleProduct p {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0em;
+}
+
+.details-content .priceSaleProduct p span {
+
 }
 
 .details-content .btn-buy {

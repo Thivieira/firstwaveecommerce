@@ -67,7 +67,7 @@
 }
 
 .details h5 {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   margin: 0.7rem 0;
   text-align: center;
   color: #fff;
@@ -77,8 +77,20 @@
   display: block;
   font-size: 0.9rem;
   color: #fff;
-  margin: 0.2rem 0;
+  margin: 0.1rem 0;
 }
+
+.details .priceSale {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.details .priceSale p:first-child {
+  margin-right: 5px;
+  font-size: 0.8rem;
+  text-decoration: line-through;
+} 
 
 .card:hover .details {
   bottom: 0;

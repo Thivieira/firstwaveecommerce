@@ -27,7 +27,6 @@ const ProductDetails = ({ product }) => {
     image4,
   ]);
   const [featuredImage, setFeaturedImage] = useState(image1);
-  // const [] =
 
   if (!product) {
     return null;
@@ -46,7 +45,6 @@ const ProductDetails = ({ product }) => {
   }
 
   //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
-  // console.log(product.variations);
   const codigoProduto = product.variations
     .map((el) => el.code)[0]
     .includes("-");
@@ -106,10 +104,6 @@ const ProductDetails = ({ product }) => {
 
     setImages(cor.image);
 
-    // console.log(
-    //   `${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
-    // );
-
     setCodigoVariacao(
       `${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
     );
@@ -162,6 +156,9 @@ const ProductDetails = ({ product }) => {
 
   const MySwal = withReactContent(Swal);
 
+  const price =  `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`
+  const priceSale = `R$${parseFloat(product.variations[0].price).toFixed(2).replace(".", ",")}`
+
   return (
     <Fragment>
       <div className="details-wrapper">
@@ -192,7 +189,14 @@ const ProductDetails = ({ product }) => {
           <h5>{product.code}</h5>
 
           <span className="price-product">
-            R$ {parseFloat(product.price).toFixed(2).replace(".", ",")}
+            {priceSale !== price ? (
+                <>
+                  <div className="priceSaleProduct">
+                    <span>De: <p>{price}</p></span> 
+                    <p><span>Por:</span>{priceSale}</p>
+                  </div>
+                </>
+            ) : price}
           </span>
 
           <div className="btn-buy">

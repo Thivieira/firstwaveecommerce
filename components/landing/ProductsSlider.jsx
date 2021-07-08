@@ -24,8 +24,8 @@ export default function ProductsSlider({ prod }) {
   const settings = {
     dots: false,
     adaptiveHeight: true,
-    autoplaySpeed: 3000,
-    autoplay: true,
+    // autoplaySpeed: 3000,
+    // autoplay: true,
     speed: 1000,
     infinite: true,
     speed: 500,
@@ -115,13 +115,14 @@ export default function ProductsSlider({ prod }) {
                     <h5>
                       {p.description}
                       <span className="price">
-                        <NumberFormat
-                          value={p.price}
-                          displayType={"text"}
-                          decimalScale={2}
-                          thousandSeparator={true}
-                          prefix={"R$"}
-                        />
+                        {p.price !== p.variations[0].price ? (
+                          <div className="priceSale">
+                            <p>R${parseFloat(p.price).toFixed(2).replace(".", ",")}</p>
+                            <p>R${parseFloat(p.variations[0].price).toFixed(2).replace(".", ",")}</p>
+                          </div>
+                        ) : (
+                          <p>R${parseFloat(p.price).toFixed(2).replace(".", ",")}</p>  
+                        )}
                       </span>
                     </h5>
                     <Link href={`/produto/${p.code}`}>

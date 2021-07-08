@@ -24,6 +24,9 @@ function CartProduct({ product }) {
     classes.push("shelf-item--mouseover");
   }
 
+  const price =  `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`
+  const priceSale = `R$${parseFloat(product.variations[0].price).toFixed(2).replace(".", ",")}`
+
   return (
     <>
       <div className={classes.join(" ")}>
@@ -49,7 +52,7 @@ function CartProduct({ product }) {
         </div>
 
         <div className="shelf-item__price">
-          <p>{parseFloat(product.price).toFixed(2).replace(".", ",")}</p>
+          {priceSale !== price ? <p>{priceSale}</p>: <p>{price}</p>}
           <div>
             <button
               className="change-product-button"

@@ -88,7 +88,7 @@
 .float-cart__shelf-container .shelf-item {
   position: relative;
   box-sizing: border-box;
-  padding: 2%;
+  padding: 2% 5%;
   transition: background-color 0.2s, opacity 0.2s;
 }
 
@@ -122,7 +122,6 @@
 .float-cart__shelf-container .shelf-item__del {
   width: 16px;
   height: 16px;
-  top: 15px;
   right: 5%;
   border-radius: 50%;
   position: absolute;
