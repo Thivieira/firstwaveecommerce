@@ -10,7 +10,7 @@
     width: 80%;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 2rem;
+    min-height: 100vh;
 }
 
 .edit-account-list {

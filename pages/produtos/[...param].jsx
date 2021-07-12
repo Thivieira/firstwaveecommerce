@@ -42,6 +42,7 @@ export default function products({
   const [pageCount, setPageCount] = useState(1);
   const showDrawerFilters = () => setVisible(true);
   const onCloseFilters = () => setVisible(false);
+  console.log(pageCount, per_page, totalPages)
 
   useEffect(() => {
     dispatch(clearProducts());
@@ -160,18 +161,21 @@ export default function products({
                   key={removeIdDuplicate(product.id)}
                 />
               ))}
-              <ReactPaginate
-                previousLabel={"<"}
-                nextLabel={">"}
-                pageCount={pageCount}
-                onPageChange={changePage}
-                forcePage={currentPage}
-                containerClassName={"paginationsBttn"}
-                previousLinkClassName={"previousBttn"}
-                nextLinkClassName={"nextBttn"}
-                disabledClassName={"paginationDisabled"}
-                activeClassName={"paginationActive"}
-              />
+              {totalPages > 15 ?
+                <ReactPaginate
+                  previousLabel={"<"}
+                  nextLabel={">"}
+                  pageCount={pageCount}
+                  onPageChange={changePage}
+                  forcePage={currentPage}
+                  containerClassName={"paginationsBttn"}
+                  previousLinkClassName={"previousBttn"}
+                  nextLinkClassName={"nextBttn"}
+                  disabledClassName={"paginationDisabled"}
+                  activeClassName={"paginationActive"}
+                />
+                : null
+              }
             </>
           ) : loading === true ? (
             <FadeLoader

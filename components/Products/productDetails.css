@@ -41,6 +41,12 @@
   margin-bottom: 8px;
 }
 
+.thumb .slick-track {
+  width: 5.5rem;
+}
+
+
+
 .thumb img.active {
   opacity: 1;
   border: 1px solid #0080a8;

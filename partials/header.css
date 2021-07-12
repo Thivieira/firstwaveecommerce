@@ -361,6 +361,7 @@
 @media (max-width: 570px) {
   .header-top {
     flex-direction: column;
+    padding-bottom: 1rem;
   }
 
   .header-logo {

@@ -138,7 +138,7 @@ function Form() {
   const goBack = () => setCurrentStep(currentStep - 1);
 
   return (
-    <Container component="article" maxWidth="sm">
+    <Container component="article" maxWidth="sm" style={{minHeight: '100vh'}}>
       <Stepper activeStep={currentStep}>
         <Step>
           <StepLabel>Login</StepLabel>

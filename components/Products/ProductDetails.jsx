@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { addToCart, changeIsOpen } from "../../store/actions/products";
 import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
 import FavoriteBtn from "../FavoriteBtn";
+import Slider from "react-slick";
 
 import image1 from "../../public/noimage.png";
 import image2 from "../../public/image2.jpg";
@@ -159,20 +160,35 @@ const ProductDetails = ({ product }) => {
   const price =  `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`
   const priceSale = `R$${parseFloat(product.variations[0].price).toFixed(2).replace(".", ",")}`
 
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    infinite: imageThumbs.length > 3,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    vertical: true,
+    verticalSwiping: true,
+    swipeToSlide: true,
+    arrows: false
+  };
+
   return (
     <Fragment>
       <div className="details-wrapper">
         <div className="gallery-img">
           <div className="thumb">
-            {imageThumbs.map((image) => (
-              <div key={image} onClick={() => setFeaturedImage(image)}>
-                <img
-                  className={featuredImage === image ? "active" : ""}
-                  src={image}
-                  alt="img"
-                />
-              </div>
-            ))}
+            <Slider {...settings}>
+              {imageThumbs.map((image) => (
+                <div key={image} onClick={() => setFeaturedImage(image)}>
+                  <img
+                    className={featuredImage === image ? "active" : ""}
+                    src={image}
+                    alt="img"
+                  />
+                </div>
+              ))}
+            </Slider>
           </div>
 
           <img className="big-img" src={featuredImage} alt="img" />

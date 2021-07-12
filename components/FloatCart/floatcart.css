@@ -119,22 +119,18 @@
   opacity: 0.6;
 }
 
-.float-cart__shelf-container .shelf-item__del {
-  width: 16px;
-  height: 16px;
-  right: 5%;
-  border-radius: 50%;
+.removeCart {
   position: absolute;
-  background-size: auto 100%;
-  background-image: url("/sprite_delete-icon.png");
-  background-repeat: no-repeat;
-  z-index: 2;
+  font-size: 1rem;
   cursor: pointer;
+  right: 5%;
+  color: rgb(255, 165, 0, 0.5) !important;
 }
 
-.float-cart__shelf-container .shelf-item__del:hover {
-  background-position-x: -17px;
+.removeCart:hover {
+  color: #ffa500 !important;
 }
+
 
 .float-cart__shelf-container .shelf-item__thumb,
 .float-cart__shelf-container .shelf-item__details,
