@@ -18,7 +18,7 @@ const Index = ({ prod }) => {
       <div className="payment-information-container">
         <div className="payment-information">
           <Payment fontSize="large" style={{fontSize: '2.5rem',  marginRight: '5px'}}/>
-          <p className="payment-information-text">EM ATÉ 10X NO CARTÃO</p>
+          <p className="payment-information-text">EM ATÉ 6X NO CARTÃO</p>
         </div>
         <div className="payment-information">
           <LocalShipping fontSize="large" style={{fontSize: '2.5rem', margin: '0.5rem'}}/>
@@ -27,7 +27,7 @@ const Index = ({ prod }) => {
         <div className="payment-information">
           <img src="/icon-boleto.png" alt="boleto" />
           <p className="payment-information-text">
-            10% DE DESCONTO NO BOLETO
+            12% DE DESCONTO NO BOLETO
           </p>
         </div>
       </div>

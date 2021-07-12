@@ -1,8 +1,8 @@
 .details-wrapper {
   display: flex;
   justify-content: space-evenly;
-  height: auto;
-  width: 100%;
+  min-height: 100vh;
+  width: 90%;
   margin: 0 auto;
   padding: 2rem 5rem;
 }
@@ -11,16 +11,25 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  /* flex-direction: column; */
 }
 
 .big-img {
-  height: 430px;
-  max-width: 622px;
-  box-shadow: 0 0 5px #ccc;
+  height: auto;
+  max-width: 400px;
   object-fit: cover;
-  margin-bottom: 1rem;
   cursor: -webkit-zoom-in;
+  background-repeat: no-repeat;
+}
+
+figure {
+  height: auto;
+  max-width: 400px;
+  background-repeat: no-repeat;
+  object-fit: cover;
+}
+
+figure:hover img {
+  opacity: 0;
 }
 
 .thumb {
@@ -43,9 +52,8 @@
 
 .thumb .slick-track {
   width: 5.5rem;
+  height: auto !important;
 }
-
-
 
 .thumb img.active {
   opacity: 1;
@@ -92,10 +100,6 @@
   color: #0080a8;
 }
 
-.details-content .priceSaleProduct {
-
-}
-
 .details-content .priceSaleProduct span {
   display: flex;
   font-size: 0.9rem;
@@ -111,10 +115,6 @@
   display: flex;
   align-items: center;
   margin-bottom: 0em;
-}
-
-.details-content .priceSaleProduct p span {
-
 }
 
 .details-content .btn-buy {
@@ -167,21 +167,6 @@
 
 .details-content .info-product p:nth-child(3) {
   margin-bottom: 0;
-}
-
-
-.recomendados {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.recomendados h2 {
-  border-bottom: 1px solid #ffa500;
-  color: #0080a8;
-  font-size: 1.5rem;
-  font-weight: 600;
 }
 
 .sizes-btn li {
@@ -255,7 +240,7 @@
   color: #fff;
 }
 
-.description p{
+.description p {
   font-family: Inter, sans-serif !important;
 }
 

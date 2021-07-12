@@ -26,17 +26,16 @@ import {
 
 const products = () => {
   const { getCategory } = useContext(CategoryContext)
-  console.log(getCategory)
 
   const router = useRouter();
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
-  let totalPages = 1;
-  let per_page = 1;
 
   const loading = useSelector(getLoading);
 
   const [sort, setSort] = useState("menor");
+  const [totalPages, setTotalPages] = useState();
+  const [perPage, setPerPage] = useState();
 
   const [showFilter, setShowFilter] = useState(true);
   const [visible, setVisible] = useState(false);
@@ -64,8 +63,6 @@ const products = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const pages = totalPages / per_page;
-
   const handleCloseAlert = async () => {
     // dispatch(setLoading(true));
     // const res = useFetch(`/products?search=${q}&page=${currentPage}`);
@@ -76,25 +73,18 @@ const products = () => {
 
   const changePage = ({ selected }) => setCurrentPage(selected + 1);
 
-  //   const res = useFetch(`/products?search=${q}&page=${currentPage}`);
-  //   const { data, error, mutate } = useSWR(
-  //     `/products?search=${q}&page=${currentPage}`,
-  //     async (url) => {
-  //       const response = await api.get(url);
-
-  //       return response.data;
-  //     }
-  //   );
-
-  //   console.log(data);
   useEffect(async () => {
     dispatch(setLoading(true));
     const { data } = await api(`/products?search=${q}&page=${currentPage}`);
     dispatch(setProducts(data.data));
     dispatch(setLoading(false));
-    totalPages = data.total;
-    per_page = data.per_page;
-  }, [currentPage, q]);
+    setTotalPages(data.total)
+    setPerPage(data.per_page)
+  }, [currentPage, q, perPage, totalPages]);
+
+  const pages = totalPages / perPage;
+
+  console.log(perPage, pages, totalPages)
 
   const menu = (
     <Menu value={sort} onClick={(obj) => handleChangeSort(obj.item)}>
@@ -159,17 +149,20 @@ const products = () => {
                   key={removeIdDuplicate(product.id)}
                 />
               ))}
-              <ReactPaginate
-                previousLabel={"<"}
-                nextLabel={">"}
-                pageCount={pages}
-                onPageChange={changePage}
-                containerClassName={"paginationsBttn"}
-                previousLinkClassName={"previousBttn"}
-                nextLinkClassName={"nextBttn"}
-                disabledClassName={"paginationDisabled"}
-                activeClassName={"paginationActive"}
-              />
+              {totalPages > 15 ?
+                <ReactPaginate
+                  previousLabel={"<"}
+                  nextLabel={">"}
+                  pageCount={pages}
+                  onPageChange={changePage}
+                  containerClassName={"paginationsBttn"}
+                  previousLinkClassName={"previousBttn"}
+                  nextLinkClassName={"nextBttn"}
+                  disabledClassName={"paginationDisabled"}
+                  activeClassName={"paginationActive"}
+                />
+                : null
+              }
             </>
           ) : loading === true ? (
             <FadeLoader

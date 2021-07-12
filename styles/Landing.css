@@ -265,7 +265,7 @@
 }
 
 @media (max-width: 860px) {
-  .slick-slider {
+  .products-carousel-container .slick-slider {
     margin: 3rem 7rem;
   }
 
