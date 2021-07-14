@@ -107,7 +107,7 @@ function FloatCart() {
               <small className="sub-price__installment">
                 {!productsCart.installments && (
                   <span>
-                    {`OU EM 10 x R$ ${(total / 10)
+                    {`EM ATÉ 6 x R$ ${(total / 6)
                       .toFixed(2)
                       .replace(".", ",")}`}
                   </span>

@@ -124,14 +124,15 @@ a {
 
 @media (max-width: 800px) {
     .btn-filter-mobile {
-        top: 8rem !important;
+        top: 9rem !important;
     }
 }
 
 @media (max-width: 380px) {
     .filter-sort {
-        padding-top: 2rem;
+        padding-top: 3rem;
         margin: 0;
+        font-size: 0.9rem;
     }
 
     .filter-sort p {

@@ -40,7 +40,7 @@ export default function ProductsSlider({ prod }) {
           slidesToShow: 4,
           slidesToScroll: 2,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -49,7 +49,7 @@ export default function ProductsSlider({ prod }) {
           slidesToShow: 4,
           slidesToScroll: 2,
           initialSlide: 0,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -58,7 +58,7 @@ export default function ProductsSlider({ prod }) {
           slidesToShow: 3,
           slidesToScroll: 2,
           initialSlide: 0,
-          dots: true,
+          dots: false,
         },
       },
       {

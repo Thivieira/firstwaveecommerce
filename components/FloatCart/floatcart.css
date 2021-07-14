@@ -312,7 +312,7 @@
 
 @media (max-width: 540px) {
   .float-cart.float-cart--open {
-    width: 70% !important;
+    width: 80% !important;
   }
 
   .float-cart__shelf-container .shelf-item__details {

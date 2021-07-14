@@ -48,7 +48,7 @@
 }
 
 .card:hover .card-image {
-  transform: translateY(-130px);
+  transform: translateY(-140px);
   transition: all 0.9s ease;
 }
 

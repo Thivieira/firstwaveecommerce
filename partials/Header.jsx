@@ -454,7 +454,6 @@ function Header() {
                 fontSize: "1.5rem",
               }}
             />{" "}
-            <a href=""></a>
           </NavLink>
           <p
             style={{
