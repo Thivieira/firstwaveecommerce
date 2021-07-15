@@ -18,6 +18,7 @@ import "../styles/payment.css";
 import "antd/dist/antd.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import "../components/Breadcrumb/breadcrumb.css";
 import "../components/Filter/filter.css";

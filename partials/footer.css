@@ -115,32 +115,34 @@ footer p {
   position: relative;
 }
 
-.contact .info li {
+.contact .info .wrapper-img {
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
-  width: 80%;
+  /* width: 80%; */
 }
 
-.contact .info li img {
-  width: 25rem;
+.contact .info .wrapper-img img {
+  width: 100%;
   height: auto;
 }
 
-.contact .info li span {
+.contact .info span {
   display: flex;
-  color: #999;
+  color: #999 !important;
   margin-top: 10px;
-  width: 20rem;
+  width: 400px;
+  cursor: pointer;
 }
 
-.contact .info li a {
-  color: #999;
-  text-decoration: none;
+.contact .info span:hover {
+  color: #fff !important;
 }
 
-.contact .info li a :hover {
-  color: #fff;
+.contact .info span img {
+  height: 1.2rem;
+  margin-right: 5px;
+  margin-top: 0.3rem;
 }
 
 .payments img {
@@ -204,10 +206,10 @@ footer p {
 }
 
 @media (max-width: 600px) {
-  .contact .info li {
+  .contact .info .wrapper-img {
     width: 100%;
   }
-  .contact .info li img {
+  .contact .info .wrapper-img img {
     width: 100%;
     max-width: 100%;
   }

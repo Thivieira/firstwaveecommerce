@@ -8,10 +8,26 @@ import {
   Mail,
 } from "@material-ui/icons";
 import NavLink from "../components/NavLink";
-
-//
+import { Carousel } from "react-responsive-carousel";
 
 function Footer() {
+  const getConfigurableProps = () => ({
+    showArrows: true,
+    showStatus: false,
+    showIndicators: true,
+    infiniteLoop: true,
+    showThumbs: false,
+    useKeyboardArrows: true,
+    autoPlay: false,
+    swipeable: true,
+    dynamicHeight: true,
+    emulateTouch: true,
+    selectedItem: 0,
+    transitionTime: 900,
+    swipeScrollTolerance: 5,
+    width: "400px"
+  })
+
   return (
     <>
       <footer>
@@ -25,14 +41,27 @@ function Footer() {
             <div className="sec contact">
               <h2>Loja Física</h2>
               <ul className="info">
-                <li>
-                  <img src="/loja1.jpeg" alt="" />
+                <Carousel {...getConfigurableProps()}>
+                  <div className="wrapper-img">
+                    <img src="/loja3.jpeg" alt="" />
+                  </div>
+                  <div className="wrapper-img">
+                    <img src="/loja2.jpeg" alt="" />
+                  </div>
+                  <div className="wrapper-img">
+                    <img src="/loja1.jpeg" alt="" />
+                  </div>
+                </Carousel>
                   <span>
-                    <MapRounded style={{ marginRight: "5px" }} /> Rodovia
-                    Jornalista Manoel de Menezes, 2001. - Praia Mole -
-                    Florianópolis- SC
+                    <img src="/maps.png" alt="" />
+                    <NavLink
+                      style={{color: '#999'}}
+                      href="https://instagram.com/lifestylefloripa_billabong?utm_medium=copy_link"
+                      target="blank"
+                    >
+                    Rodovia Jornalista Manoel de Menezes, 2001. Anexo ao Hotel Selina - Praia Mole - Florianópolis- SC
+                    </NavLink>
                   </span>
-                </li>
               </ul>
             </div>
           </div>
