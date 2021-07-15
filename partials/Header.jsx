@@ -4,10 +4,12 @@ import { useRouter } from "next/router";
 import { Menu, Dropdown, Button, Input, Divider } from "antd";
 import {
   UserOutlined,
-  DownOutlined,
   PhoneOutlined,
   MailOutlined,
   WhatsAppOutlined,
+  CaretRightOutlined,
+  DownOutlined,
+  CloseCircleOutlined
 } from "@ant-design/icons";
 import { AccountCircle } from "@material-ui/icons";
 import { FaBars } from "react-icons/fa";
@@ -21,7 +23,128 @@ function Header() {
   const router = useRouter();
   const [sidebar, setSidebar] = useState(false);
   const [showFilter, setShowFilter] = useState(0);
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState('');
+
+  const [surfDropDown, setSurfDropDown] = useState(false)
+  const [mascDropDown, setMascDropDown] = useState(false)
+  const [femDropDown, setFemDropDown] = useState(false)
+  const [juvDropDown, setJuvDropDown] = useState(false)
+
+  const dropDownNav = (type) => {
+    const div = {
+      'surf': (
+        <div className="navbar-mobile-surf">
+          <NavLink
+            href="/produtos/Surf/Wetsuit"
+            className="navbar-mobile-surf-options"
+          >
+            WETSUITS
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Quilha"
+            className="navbar-mobile-surf-options"
+          >
+            QUILHA
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Leash"
+            className="navbar-mobile-surf-options"
+          >
+            LEASH
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Lycra"
+            className="navbar-mobile-surf-options"
+          >
+            LYCRA
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Prancha"
+            className="navbar-mobile-surf-options"
+          >
+            PRANCHA
+          </NavLink>
+          <NavLink href="/produtos/Surf/Capa" className="navbar-mobile-surf-options">
+            CAPA
+          </NavLink>
+          <NavLink href="/produtos/Surf/Deck" className="navbar-mobile-surf-options">
+            DECK
+          </NavLink>
+          <NavLink href="/produtos/Surf/Bone" className="navbar-mobile-surf-options">
+            BONÉS
+          </NavLink>
+              </div>
+      ),
+      'masc': (
+        <div className="navbar-mobile-surf">
+          <NavLink
+            href="/produtos/Surf/Wetsuit"
+            className="navbar-mobile-surf-options"
+          >
+            VESTUARIO
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Quilha"
+            className="navbar-mobile-surf-options"
+          >
+            ACESSÓRIOS
+          </NavLink>
+        </div>
+      ),
+      'fem': (
+        <div className="navbar-mobile-surf">
+          <NavLink
+            href="/produtos/Surf/Wetsuit"
+            className="navbar-mobile-surf-options"
+          >
+            VESTUARIO
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Quilha"
+            className="navbar-mobile-surf-options"
+          >
+            ACESSÓRIOS
+          </NavLink>
+        </div>
+      ),
+      'juv': (
+        <div className="navbar-mobile-surf">
+          <NavLink
+            href="/produtos/Surf/Wetsuit"
+            className="navbar-mobile-surf-options"
+          >
+            CAMISETAS
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Wetsuit"
+            className="navbar-mobile-surf-options"
+          >
+            REGATAS
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Wetsuit"
+            className="navbar-mobile-surf-options"
+          >
+            BERMUDAS
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Wetsuit"
+            className="navbar-mobile-surf-options"
+          >
+            CALÇAS
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Wetsuit"
+            className="navbar-mobile-surf-options"
+          >
+            JAQUETAS
+          </NavLink>
+        </div>
+      ),
+    }
+
+    return div[type]
+  }
 
   const showSideBar = () => setSidebar(!sidebar);
 
@@ -91,7 +214,7 @@ function Header() {
             </div>
 
             <NavLink href="/produtos/Surf">
-              <img className="surf-image" src="/4.jpg" alt="imagem de surf" />
+              <img className="surf-image hide" src="/4.jpg" alt="imagem de surf" />
             </NavLink>
           </div>
         );
@@ -210,7 +333,7 @@ function Header() {
 
             <NavLink href="/produtos/Masculino">
               <img
-                className="img-genre"
+                className="img-genre hide"
                 src={"/headerMasc.jpg"}
                 alt="img-genre"
               />
@@ -355,7 +478,7 @@ function Header() {
             </div>
 
             <NavLink href="/produtos/Feminino">
-              <img className="img-genre" src="/12.jpg" alt="img-genre" />
+              <img className="img-genre hide" src="/12.jpg" alt="img-genre" />
             </NavLink>
           </div>
         );
@@ -406,7 +529,7 @@ function Header() {
             </div>
 
             <NavLink href="/produtos/Juvenil">
-              <img className="img-genre" src="/13.png" alt="img-genre" />
+              <img className="img-genre hide" src="/13.png" alt="img-genre" />
             </NavLink>
           </div>
         );
@@ -419,6 +542,7 @@ function Header() {
         break;
     }
   }
+
 
   const logOut = async () => {
     sessionStorage.clear();
@@ -452,6 +576,7 @@ function Header() {
                 display: "flex",
                 alignItems: "center",
                 fontSize: "1.5rem",
+                color: '#0080a8'
               }}
             />{" "}
           </NavLink>
@@ -547,10 +672,10 @@ function Header() {
 
       <div onMouseLeave={() => setShowFilter(0)}>
         <nav
-          onClick={showSideBar}
           className={sidebar ? "menu-container active" : "menu-container"}
         >
           <div className="sidebar-top">
+            <CloseCircleOutlined onClick={showSideBar} className='closeNavbar' />
             <NavLink
               href={authorized ? "/dashboard" : "/login"}
               className="sidebar-item"
@@ -571,91 +696,73 @@ function Header() {
             </Dropdown>
           </div>
 
-          <NavLink
-            href="/produtos/Surf"
-            className={
-              showFilter === 1 ? "menu-item menu-item-active" : "menu-item"
-            }
+          <div
+            className={showFilter === 1 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(1)}
           >
-            Surf
-          </NavLink>
+            <NavLink href="/produtos/Surf"> Surf </NavLink>
+            <CaretRightOutlined className='down' onClick={() => {setSurfDropDown(!surfDropDown);setMascDropDown(false);setFemDropDown(false);setJuvDropDown(false)}}/>
+            {surfDropDown && dropDownNav('surf')}
+          </div>
 
-          <NavLink
-            href="/produtos/Masculino"
-            className={
-              showFilter === 2 ? "menu-item menu-item-active" : "menu-item"
-            }
+          <div
+            className={showFilter === 2 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(2)}
           >
-            Masculino
-          </NavLink>
+            <NavLink href="/produtos/Masculino">Masculino</NavLink>
+            <CaretRightOutlined className='down' onClick={() => {setMascDropDown(!mascDropDown);setSurfDropDown(false);setFemDropDown(false);setJuvDropDown(false)}}/>
+            {mascDropDown && dropDownNav('masc')}
+          </div>
 
-          <NavLink
-            href="/produtos/Feminino"
-            className={
-              showFilter === 3 ? "menu-item menu-item-active" : "menu-item"
-            }
+          <div
+            className={showFilter === 3 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(3)}
           >
-            Feminino
-          </NavLink>
+            <NavLink href="/produtos/Feminino">Feminino</NavLink>
+            <CaretRightOutlined className='down' onClick={() => {setMascDropDown(false);setSurfDropDown(false);setFemDropDown(!femDropDown);setJuvDropDown(false)}}/>
+            {femDropDown && dropDownNav('fem')}
+          </div>
 
-          <NavLink
-            href="/produtos/Juvenil"
-            className={
-              showFilter === 4 ? "menu-item menu-item-active" : "menu-item"
-            }
+          <div
+            className={showFilter === 4 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(4)}
           >
-            Juvenil
-          </NavLink>
+            <NavLink href="/produtos/Juvenil">Juvenil</NavLink>
+            <CaretRightOutlined className='down' onClick={() => {setMascDropDown(false);setSurfDropDown(false);setFemDropDown(false);setJuvDropDown(!juvDropDown)}}/>
+            {juvDropDown && dropDownNav('juv')}
+          </div>
 
-          <NavLink
-            href="/produtos/Calcado"
-            className={
-              showFilter === 5 ? "menu-item menu-item-active" : "menu-item"
-            }
+          <div
+            className={showFilter === 5 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(0)}
           >
-            Calçados
-          </NavLink>
+            <NavLink href="/produtos/Calçados">Calçados</NavLink>
+          </div>
 
-          <NavLink
-            href="/produtos/Acessorio"
-            className={
-              showFilter === 6 ? "menu-item menu-item-active" : "menu-item"
-            }
+          <div
+            className={showFilter === 6 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(0)}
           >
-            Acessórios
-          </NavLink>
+            <NavLink href="/produtos/Acessórios">Acessórios</NavLink>
+          </div>
 
-          <NavLink
-            href="/produtos/Acessorio/Oculos"
-            className={
-              showFilter === 7 ? "menu-item menu-item-active" : "menu-item"
-            }
+          <div
+            className={showFilter === 7 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(0)}
           >
-            Óculos
-          </NavLink>
+            <NavLink href="/produtos/Óculos">Óculos</NavLink>
+          </div>
 
-          <NavLink
-            href="/produtos/Acessorio/Relogio"
-            className={
-              showFilter === 8 ? "menu-item menu-item-active" : "menu-item"
-            }
+          <div
+            className={showFilter === 8 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(0)}
           >
-            Relógio
-          </NavLink>
+            <NavLink href="/produtos/Acessorio/Relogio">Relogio</NavLink>
+          </div>
 
           <NavLink
             href="/produtos/"
-            className={
-              showFilter === 9 ? "menu-item menu-item-active" : "menu-item"
-            }
+            className={showFilter === 9 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(0)}
           >
             Outlet

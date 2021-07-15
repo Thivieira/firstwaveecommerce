@@ -135,7 +135,11 @@ footer p {
   cursor: pointer;
 }
 
-.contact .info span:hover {
+.contact .info .adress {
+  color: #999 !important;
+}
+
+.contact .info .adress:hover {
   color: #fff !important;
 }
 

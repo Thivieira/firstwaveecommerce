@@ -55,8 +55,8 @@ function Footer() {
                   <span>
                     <img src="/maps.png" alt="" />
                     <NavLink
-                      style={{color: '#999'}}
-                      href="https://instagram.com/lifestylefloripa_billabong?utm_medium=copy_link"
+                      className='adress'
+                      href="https://www.google.com/maps/place/Rod.+Jorn.+Manoel+de+Menezes,+2001+-+Praia+Mole,+Florian%C3%B3polis+-+SC,+88061-700/@-27.6021414,-48.4390544,17z/data=!3m1!4b1!4m5!3m4!1s0x95273e7e9dcdb737:0x17da064a360a9d76!8m2!3d-27.6021462!4d-48.4368657"
                       target="blank"
                     >
                     Rodovia Jornalista Manoel de Menezes, 2001. Anexo ao Hotel Selina - Praia Mole - Florianópolis- SC
