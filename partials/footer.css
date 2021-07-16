@@ -22,7 +22,7 @@ footer .container {
 footer .container-col {
   display: flex;
   /* flex-direction: column; */
-  width: 100% !important;
+  /* width: 100% !important; */
 }
 
 footer .container .sec {
@@ -233,3 +233,10 @@ footer p {
     max-width: 100%;
   }
 }
+
+@media (max-width: 375px) {
+  footer .container-col {
+    width: 100% !important;
+  }
+}
+

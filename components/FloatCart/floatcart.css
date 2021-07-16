@@ -54,7 +54,7 @@
 .float-cart .bag--float-cart-closed {
   position: absolute;
   left: -100px;
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
   cursor: pointer;
 }
 
@@ -337,6 +337,12 @@
 @media (max-width: 390px) {
   .float-cart__shelf-container .shelf-item__price {
     margin-left: 2rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .float-cart .bag--float-cart-closed {
+    left: -50px !important;
   }
 }
 
