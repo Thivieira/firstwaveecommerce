@@ -25,7 +25,7 @@ function Footer() {
     selectedItem: 0,
     transitionTime: 900,
     swipeScrollTolerance: 5,
-    width: "400px"
+    width: "300px",
   })
 
   return (
@@ -41,7 +41,7 @@ function Footer() {
             <div className="sec contact">
               <h2>Loja Física</h2>
               <ul className="info">
-                <Carousel {...getConfigurableProps()}>
+                <Carousel {...getConfigurableProps()} className='sliderFooter'>
                   <div className="wrapper-img">
                     <img src="/loja3.jpeg" alt="" />
                   </div>

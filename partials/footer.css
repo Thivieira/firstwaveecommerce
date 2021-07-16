@@ -137,6 +137,7 @@ footer p {
 
 .contact .info .adress {
   color: #999 !important;
+  width: 300px;
 }
 
 .contact .info .adress:hover {
