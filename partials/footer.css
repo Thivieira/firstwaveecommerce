@@ -16,11 +16,13 @@ footer .container {
   flex-wrap: wrap;
   flex-direction: row;
   height: auto;
+  width: 100% !important;
 }
 
 footer .container-col {
   display: flex;
   /* flex-direction: column; */
+  width: 100% !important;
 }
 
 footer .container .sec {
@@ -131,7 +133,7 @@ footer p {
   display: flex;
   color: #999 !important;
   margin-top: 10px;
-  width: 400px;
+  /* width: 400px; */
   cursor: pointer;
 }
 
@@ -214,7 +216,11 @@ footer p {
   }
 
   .contact .info .sliderFooter {
-    width: 300px !important;
+    width: 100% !important;
+  }
+
+  footer .container .sec.aboutus .footer-logo img {
+    width: 100% !important;
   }
 }
 
