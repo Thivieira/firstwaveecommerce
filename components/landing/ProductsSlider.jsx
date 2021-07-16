@@ -1,13 +1,9 @@
-import React, { useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getSliderProduct } from "../../store/selectors/products";
+import { useMemo, useState } from "react";
 import FadeLoader from "react-spinners/FadeLoader";
 
 import Slider from "react-slick";
 
 import Link from "next/link";
-import { sliderProducts } from "../../store/actions/products";
-import NumberFormat from "react-number-format";
 import { useRouter } from "next/router";
 
 export default function ProductsSlider({ prod }) {

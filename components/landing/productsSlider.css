@@ -129,3 +129,15 @@
 .slick-next:before {
   color: #3780a8;
 }
+
+@media (max-width: 375px) {
+  .slick-prev:before,
+  .slick-next:before {
+    font-size: 2rem;
+  }
+
+  .slick-prev {
+    left: -33px !important;
+  }
+}
+
