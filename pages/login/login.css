@@ -4,6 +4,7 @@
     justify-content: center;
     flex-direction: column;
     padding: 3rem;
+    padding-bottom: 10rem;
 }
 
 .wrapper-login h2 {

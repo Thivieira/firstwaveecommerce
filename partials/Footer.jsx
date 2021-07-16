@@ -25,7 +25,7 @@ function Footer() {
     selectedItem: 0,
     transitionTime: 900,
     swipeScrollTolerance: 5,
-    width: "300px",
+    // width: "300px",
   })
 
   return (

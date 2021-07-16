@@ -135,6 +135,10 @@ footer p {
   cursor: pointer;
 }
 
+.contact .info .sliderFooter {
+  width: 400px !important;
+}
+
 .contact .info .adress {
   color: #999 !important;
   width: 300px;
@@ -207,6 +211,10 @@ footer p {
 
   .copyrightText {
     padding: 8px 40px;
+  }
+
+  .contact .info .sliderFooter {
+    width: 300px !important;
   }
 }
 
