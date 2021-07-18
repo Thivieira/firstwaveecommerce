@@ -93,6 +93,10 @@ a {
         margin-left: 0px !important;
     }
 
+    .products-wrapper .filter {
+        z-index: 9999;
+    }
+
     .filter-sort {
         width: auto !important;
     }

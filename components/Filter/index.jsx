@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { InputAdornment, TextField } from "@material-ui/core";
+import { Slider } from 'antd';
 import api from "../../services/api";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -33,11 +34,6 @@ export const getStaticProps = async (ctx) => {
 
 function Filter({ category, subcategory, type }) {
   const dispatch = useDispatch();
-  const router = useRouter();
-
-  // const category = router.query.param[0];
-  // const subcategory = router.query.param[1];
-  // const type = router.query.param[2];
 
   const products = useSelector(getAllProducts);
 
@@ -125,6 +121,15 @@ function Filter({ category, subcategory, type }) {
     addFilterApi();
   };
 
+  const formatter = (value) => `R$${value},00`
+  
+  function selectedPrice(value) {
+    setSelectedPriceMin(value[0])
+    setSelectedPriceMax( value[1])
+    console.log(selectedPriceMin, selectedPriceMax)
+  }
+
+
   return (
     <div className="filter">
       <h3>FILTROS</h3>
@@ -184,9 +189,20 @@ function Filter({ category, subcategory, type }) {
       </div>
 
       <div className="filter-option-price">
-        <div className="price-input">
+       <h4 style={{color: '#FF8B00'}}>Filtro de preço</h4>
+        <Slider 
+          style={{margin: '2rem 0'}}
+          range 
+          defaultValue={[0, 4000]} 
+          max={4000}
+          min={20}
+          tipFormatter={formatter}
+          onChange={selectedPrice}
+          step={100}
+        />
+        {/* <div className="price-input">
           <TextField
-            className="filter-price"
+            className="filter-price"'
             onChange={(e) => setSelectedPriceMin(e.target.value)}
             value={selectedPriceMin}
             InputProps={{
@@ -216,15 +232,15 @@ function Filter({ category, subcategory, type }) {
             size="small"
             error={selectedPriceMax < selectedPriceMin ? true : false}
           />
-        </div>
+        </div> */}
       </div>
 
       <div className="btn-actions-filter">
-        <button className="btn-filter-clean" onClick={cleanFilters}>
-          LIMPAR
-        </button>
         <button className="btn-filter" onClick={addFilterApi}>
           BUSCAR
+        </button>
+        <button className="btn-filter-clean" onClick={cleanFilters}>
+          LIMPAR
         </button>
       </div>
     </div>

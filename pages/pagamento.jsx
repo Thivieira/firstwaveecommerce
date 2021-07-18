@@ -297,7 +297,7 @@ function Payment() {
                       <div className="color-size">
                         <p>Quantidade: {product.quantity}</p>
                         <p style={{ marginLeft: "10px" }}>
-                          {`R$ ${parseFloat(product.preco)
+                          {`R$ ${parseFloat(product.price)
                             .toFixed(2)
                             .replace(".", ",")}`}
                         </p>
@@ -309,7 +309,7 @@ function Payment() {
             </div>
             <div className="sub-price">
               <p className="sub-price__val">
-                {`Total: R$ ${cartTotal.toFixed(2).replace(".", ",")}`}
+                {`Total: R$${cartTotal.toFixed(2).replace(".", ",")}`}
               </p>
             </div>
           </div>

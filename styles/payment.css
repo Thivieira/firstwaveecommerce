@@ -124,7 +124,7 @@
 
 .color-size {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .cart-payment__details .desc p {
