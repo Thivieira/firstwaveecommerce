@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { InputAdornment, TextField } from "@material-ui/core";
-import { Slider } from 'antd';
+import { Slider } from "antd";
 import api from "../../services/api";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -121,14 +121,13 @@ function Filter({ category, subcategory, type }) {
     addFilterApi();
   };
 
-  const formatter = (value) => `R$${value},00`
-  
-  function selectedPrice(value) {
-    setSelectedPriceMin(value[0])
-    setSelectedPriceMax( value[1])
-    console.log(selectedPriceMin, selectedPriceMax)
-  }
+  const formatter = (value) => `R$${value},00`;
 
+  function selectedPrice(value) {
+    setSelectedPriceMin(value[0]);
+    setSelectedPriceMax(value[1]);
+    console.log(selectedPriceMin, selectedPriceMax);
+  }
 
   return (
     <div className="filter">
@@ -189,16 +188,16 @@ function Filter({ category, subcategory, type }) {
       </div>
 
       <div className="filter-option-price">
-       <h4 style={{color: '#FF8B00'}}>Filtro de preço</h4>
-        <Slider 
-          style={{margin: '2rem 0'}}
-          range 
-          defaultValue={[0, 2000]} 
+        <h4 style={{ color: "#FF8B00" }}>Filtro de preço</h4>
+        <Slider
+          style={{ margin: "2rem 0" }}
+          range
+          defaultValue={[0, 2000]}
           max={2000}
-          min={20}
+          min={0}
           tipFormatter={formatter}
           onChange={selectedPrice}
-          step={100}
+          step={50}
         />
         {/* <div className="price-input">
           <TextField
