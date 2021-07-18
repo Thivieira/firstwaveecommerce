@@ -42,7 +42,7 @@ export default function products({
   const [pageCount, setPageCount] = useState(1);
   const showDrawerFilters = () => setVisible(true);
   const onCloseFilters = () => setVisible(false);
-  console.log(pageCount, per_page, totalPages)
+  console.log(pageCount, per_page, totalPages);
 
   useEffect(() => {
     dispatch(clearProducts());
@@ -50,6 +50,7 @@ export default function products({
     dispatch(setProducts(prod));
     setPageCount(totalPages / per_page);
     setCategory({ category: category, subcategory: subcategory, type: type });
+    setCurrentPage(0);
   }, [dispatch, category, subcategory, type]);
 
   useEffect(() => {
@@ -79,7 +80,10 @@ export default function products({
     dispatch(setLoading(false));
   };
 
-  const changePage = ({ selected }) => setCurrentPage(selected);
+  const changePage = ({ selected }) => {
+    console.log("SELECTED", selected);
+    setCurrentPage(selected);
+  };
 
   useEffect(() => {
     let filterString = ``;
@@ -88,7 +92,8 @@ export default function products({
     type ? (filterString += `&type=${type}`) : ``;
     dispatch(setLoading(true));
     dispatch(clearProducts());
-    api.get(`/products?${filterString}&page=${currentPage}`).then((res) => {
+    let page = currentPage + 1;
+    api.get(`/products?${filterString}&page=${page}`).then((res) => {
       dispatch(setLoading(false));
       dispatch(setProducts(res.data.data));
       // products = data.data;
@@ -161,7 +166,7 @@ export default function products({
                   key={removeIdDuplicate(product.id)}
                 />
               ))}
-              {totalPages > 15 ?
+              {totalPages > 15 ? (
                 <ReactPaginate
                   previousLabel={"<"}
                   nextLabel={">"}
@@ -174,8 +179,7 @@ export default function products({
                   disabledClassName={"paginationDisabled"}
                   activeClassName={"paginationActive"}
                 />
-                : null
-              }
+              ) : null}
             </>
           ) : loading === true ? (
             <FadeLoader

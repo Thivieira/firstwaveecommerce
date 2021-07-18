@@ -18,15 +18,18 @@ const ProductDetails = ({ product }) => {
   const [triggerColor, setColorTrigger] = useState(false);
   const [codigoVariacao, setCodigoVariacao] = useState("");
   const [estoqueAtual, setEstoqueAtual] = useState("");
-  const [imageThumbs, setImageThumbs] = useState([]);
+  const [imageThumbs, setImageThumbs] = useState([
+    image1,
+    image2,
+    image3,
+    image4,
+  ]);
   const [featuredImage, setFeaturedImage] = useState(image1);
-
-  const [zoomImage, setZoomImage] = useState(
-    {
-      backgroundImage: `url(${featuredImage})`, 
-      backgroundPosition: '0% 0%'
-    }
-  )
+  const [zoomImage, setZoomImage] = useState({
+    backgroundImage: `url(${featuredImage})`,
+    backgroundPosition: "0% 0%",
+  });
+  const [thePrice, setPrice] = useState(product.price);
 
   if (!product) {
     return null;
@@ -108,6 +111,7 @@ const ProductDetails = ({ product }) => {
       `${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
     );
     setEstoqueAtual(cor.supply);
+    setPrice(cor.price ? cor.price : product.price);
     setColorTrigger(false);
   };
 
@@ -129,6 +133,7 @@ const ProductDetails = ({ product }) => {
             codigoVariacao: codigoVariacao,
             estoqueAtual: estoqueAtual,
             imagemVariacao: featuredImage,
+            thePrice,
           })
         );
         dispatch(changeIsOpen(true));
@@ -147,6 +152,7 @@ const ProductDetails = ({ product }) => {
             codigoVariacao: codigoVariacao,
             estoqueAtual: estoqueAtual,
             imagemVariacao: featuredImage,
+            thePrice,
           })
         );
         dispatch(changeIsOpen(true));
@@ -156,15 +162,20 @@ const ProductDetails = ({ product }) => {
 
   const MySwal = withReactContent(Swal);
 
-  const price =  `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`
-  const priceSale = `R$${parseFloat(product.variations[0].price).toFixed(2).replace(".", ",")}`
+  const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
+  const priceSale = `R$${parseFloat(product.variations[0].price)
+    .toFixed(2)
+    .replace(".", ",")}`;
 
-  const handleMouseMove = e => {
-    const { left, top, width, height } = e.target.getBoundingClientRect()
-    const x = (e.pageX - left) / width * 100
-    const y = (e.pageY - top) / height * 100
-    setZoomImage({ backgroundImage: `url(${featuredImage})`, backgroundPosition: `${x}% ${y}%` })
-  }
+  const handleMouseMove = (e) => {
+    const { left, top, width, height } = e.target.getBoundingClientRect();
+    const x = ((e.pageX - left) / width) * 100;
+    const y = ((e.pageY - top) / height) * 100;
+    setZoomImage({
+      backgroundImage: `url(${featuredImage})`,
+      backgroundPosition: `${x}% ${y}%`,
+    });
+  };
 
   const settings = {
     dots: false,
@@ -181,11 +192,11 @@ const ProductDetails = ({ product }) => {
       {
         breakpoint: 768,
         settings: {
-          vertical: false
+          vertical: false,
         },
-      }
-    ]
-  }
+      },
+    ],
+  };
 
   return (
     <Fragment>
@@ -205,17 +216,9 @@ const ProductDetails = ({ product }) => {
             </Slider>
           </div>
 
-          <figure
-            style={zoomImage}
-            onMouseMove={handleMouseMove}
-          >
-            <img 
-              className="big-img" 
-              src={featuredImage} 
-              alt="img" 
-            />
+          <figure style={zoomImage} onMouseMove={handleMouseMove}>
+            <img className="big-img" src={featuredImage} alt="img" />
           </figure>
-
         </div>
 
         <div className="details-content">
@@ -230,20 +233,31 @@ const ProductDetails = ({ product }) => {
 
           <span className="price-product">
             {priceSale !== price ? (
-                <>
-                  <div className="priceSaleProduct">
-                    <span>De: <p>{price}</p></span> 
-                    <p><span>Por:</span>{priceSale}</p>
-                  </div>
-                </>
-            ) : price}
+              <>
+                <div className="priceSaleProduct">
+                  <span>
+                    De: <p>{price}</p>
+                  </span>
+                  <p>
+                    <span>Por:</span>
+                    {priceSale}
+                  </p>
+                </div>
+              </>
+            ) : (
+              price
+            )}
           </span>
 
           <div className="btn-buy">
             <button
               onClick={() => addToCartFn()}
               disabled={estoqueAtual === 0 ? true : false}
-              title={ estoqueAtual === 0 ? "Este produto não tem esta quantidade disponível." : null }
+              title={
+                estoqueAtual === 0
+                  ? "Este produto não tem esta quantidade disponível."
+                  : null
+              }
             >
               ADICIONAR AO
               {<Cart height="20" width="20" color="#fff" />}
@@ -314,4 +328,4 @@ const ProductDetails = ({ product }) => {
   );
 };
 
-export default ProductDetails
+export default ProductDetails;
