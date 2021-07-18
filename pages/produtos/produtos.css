@@ -1,145 +1,146 @@
 .products-wrapper {
-    display: flex;
-    width: 75vw;
-    min-height: 100vh;
-    margin: auto;
-    flex-direction: column;
+  display: flex;
+  width: 75vw;
+  /* min-height: 100vh; */
+  height: 100%;
+  margin: auto;
+  flex-direction: column;
 }
 
 .filter-sort {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.5rem;
 }
 
 .filter-sort p {
-    margin-left: 7rem;
-    margin-top: 1em;
+  margin-left: 7rem;
+  margin-top: 1em;
 }
 
 .ant-dropdown-trigger .ant-dropdown-link .ant-dropdown-open {
-    font-size: 0.7rem !important;
-} 
+  font-size: 0.7rem !important;
+}
 
 a {
-    color: #0080a8;
+  color: #0080a8;
 }
 
 .spinner-produtos {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .products-wrapper .products {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    margin-left: 5rem;
-    margin-bottom: 5rem;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin-left: 5rem;
+  margin-bottom: 5rem;
 }
 
 .products-wrapper .filter {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    margin-top: 35px;
-    left: 0;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  margin-top: 35px;
+  left: 0;
 }
 
 .paginationsBttn {
-    width: 80%;
-    height: 100px;
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 80%;
+  height: 100px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .paginationsBttn a {
-    padding: 10px;
-    margin: 8px;
-    border-radius: 5px;
-    border: 1px solid #0080a8;
-    color: #0080a8;
-    cursor: pointer;
-    transition: all ease-in 0.4s;
+  padding: 10px;
+  margin: 8px;
+  border-radius: 5px;
+  border: 1px solid #0080a8;
+  color: #0080a8;
+  cursor: pointer;
+  transition: all ease-in 0.4s;
 }
 
 .paginationsBttn a:hover {
-    color: white;
-    background-color: #0080a8;
-    transition: all ease-in-out 0.4s;
+  color: white;
+  background-color: #0080a8;
+  transition: all ease-in-out 0.4s;
 }
 
 .paginationActive a {
-    color: white;
-    background-color: #0080a8;
+  color: white;
+  background-color: #0080a8;
 }
 
 .filter-mobile .filter {
-    width: 100%;
+  width: 100%;
 }
 
 @media (max-width: 1280px) {
-    .products-wrapper {
-        width: 90vw;
-    }
-    .products {
-        margin-left: 0px !important;
-    }
+  .products-wrapper {
+    width: 90vw;
+  }
+  .products {
+    margin-left: 0px !important;
+  }
 
-    .products-wrapper .filter {
-        z-index: 9999;
-    }
+  .products-wrapper .filter {
+    z-index: 9999;
+  }
 
-    .filter-sort {
-        width: auto !important;
-    }
+  .filter-sort {
+    width: auto !important;
+  }
 
-    .btn-filter-mobile {
-        position: fixed !important;
-        top: 11rem !important;
-        background-color: rgba(255, 139, 0, 0.5);
-        width: 6.5rem;
-        height: 2rem;
-        border-radius: 1rem;
-        font-weight: 600;
-        padding: 0.2rem;
-    }
+  .btn-filter-mobile {
+    position: fixed !important;
+    top: 11rem !important;
+    background-color: rgba(255, 139, 0, 0.5);
+    width: 6.5rem;
+    height: 2rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    padding: 0.2rem;
+  }
 
-    .float-cart .bag--float-cart-closed {
-        left: -65px !important;
-    }
+  .float-cart .bag--float-cart-closed {
+    left: -65px !important;
+  }
 
-    .paginationsBttn {
-        width: 100% !important;
-    }
+  .paginationsBttn {
+    width: 100% !important;
+  }
 
-    .paginationsBttn li a {
-        padding: 5px !important;
-        margin: 5px !important;
-    }
+  .paginationsBttn li a {
+    padding: 5px !important;
+    margin: 5px !important;
+  }
 }
 
 @media (max-width: 800px) {
-    .btn-filter-mobile {
-        top: 9rem !important;
-    }
+  .btn-filter-mobile {
+    top: 9rem !important;
+  }
 }
 
 @media (max-width: 380px) {
-    .filter-sort {
-        padding-top: 3rem;
-        margin: 0;
-        font-size: 0.9rem;
-    }
+  .filter-sort {
+    padding-top: 3rem;
+    margin: 0;
+    font-size: 0.9rem;
+  }
 
-    .filter-sort p {
-       margin-left: 0; 
-    }
+  .filter-sort p {
+    margin-left: 0;
+  }
 }
