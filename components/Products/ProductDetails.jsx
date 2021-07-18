@@ -18,12 +18,7 @@ const ProductDetails = ({ product }) => {
   const [triggerColor, setColorTrigger] = useState(false);
   const [codigoVariacao, setCodigoVariacao] = useState("");
   const [estoqueAtual, setEstoqueAtual] = useState("");
-  const [imageThumbs, setImageThumbs] = useState([
-    image1,
-    image2,
-    image3,
-    image4,
-  ]);
+  const [imageThumbs, setImageThumbs] = useState([image1]);
   const [featuredImage, setFeaturedImage] = useState(image1);
   const [zoomImage, setZoomImage] = useState({
     backgroundImage: `url(${featuredImage})`,
