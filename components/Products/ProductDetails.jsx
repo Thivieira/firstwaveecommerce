@@ -6,9 +6,6 @@ import FavoriteBtn from "../FavoriteBtn";
 import Slider from "react-slick";
 
 import image1 from "../../public/noimage.png";
-import image2 from "../../public/image2.jpg";
-import image3 from "../../public/imaage3.jpg";
-import image4 from "../../public/image4.jpg";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -21,8 +18,9 @@ const ProductDetails = ({ product }) => {
   const [triggerColor, setColorTrigger] = useState(false);
   const [codigoVariacao, setCodigoVariacao] = useState("");
   const [estoqueAtual, setEstoqueAtual] = useState("");
-  const [imageThumbs, setImageThumbs] = useState([image1, image2, image3, image4 ]);
+  const [imageThumbs, setImageThumbs] = useState([]);
   const [featuredImage, setFeaturedImage] = useState(image1);
+
   const [zoomImage, setZoomImage] = useState(
     {
       backgroundImage: `url(${featuredImage})`, 

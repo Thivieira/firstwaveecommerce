@@ -99,10 +99,10 @@ function Filter({ category, subcategory, type }) {
   const animatedComponents = makeAnimated();
 
   const brands = useSelector(getAllProductBrands);
-  const brandsNoRepeat = [...new Set(brands)];
+  const brandsNoRepeat = [...new Set(brands)].filter(Boolean);
 
   const colors = useSelector(getAllProductColor);
-  const colorsNoRepeat = [...new Set(colors)];
+  const colorsNoRepeat = [...new Set(colors)].filter(Boolean);
 
   const sizes = useSelector(getAllProductSize);
   const sizesNoRepeat = [...new Set(sizes)].filter(Boolean);
@@ -193,8 +193,8 @@ function Filter({ category, subcategory, type }) {
         <Slider 
           style={{margin: '2rem 0'}}
           range 
-          defaultValue={[0, 4000]} 
-          max={4000}
+          defaultValue={[0, 2000]} 
+          max={2000}
           min={20}
           tipFormatter={formatter}
           onChange={selectedPrice}

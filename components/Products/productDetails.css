@@ -181,14 +181,10 @@ figure:hover img {
 .sizes-btn ul li {
   border: 1px solid rgb(16, 179, 238);
   display: block;
-  padding: 1px;
-  height: 28px;
-  min-width: 28px;
+  padding: 1px 5px;
+  border-radius: 1rem;
   text-align: center;
   font-size: 1rem;
-  line-height: 26px;
-  border-radius: 20px;
-  font-weight: 700;
   text-decoration: none;
   position: relative;
   margin: 5px;

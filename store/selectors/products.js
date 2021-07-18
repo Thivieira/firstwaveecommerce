@@ -23,23 +23,9 @@ export const getFavoritesProd = (state) => state.products.favoritesProducts;
 export const getAllProductBrands = (state) =>
   state.products.products
     .map((product) => product.brand)
-    .reduce(
-      (unique, brand) => (unique.includes(brand) ? unique : [...unique, brand]),
-      []
-    );
+    .reduce((unique, brand) => (unique.includes(brand) ? unique : [...unique, brand]), []);
 
 export const getAllProductSize = (state) => {
-  // let testing = state.products.products
-  //   .map((el) => el.variations)
-  //   .map((el) => el[0])
-  //   .map((el) => el.description)
-  //   .map((el) => el.split(";"))
-  //   .map((el) => el.slice(1, 2))
-  //   .map((el) => el[0])
-  //   .map((el) => el.split(":"))
-  //   .map((el) => el.slice(1, 2))
-  //   .map((el) => el[0]);
-  // console.log("TESTING", testing);
   return state.products.products
     .map((el) => el.variations)
     .map((el) => el[0])
