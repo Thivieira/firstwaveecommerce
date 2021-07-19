@@ -32,14 +32,12 @@ const ImageSlider = () => {
         <img
           src="/13.png"
           alt="banner"
-          // style={{ height: "500px" }}
         />
       </div>
       <div className="wrapper-carousel-landing">
         <img
           src="/6.png"
           alt="banner"
-          // style={{ height: "500px" }}
         />
       </div>
     </Carousel>
