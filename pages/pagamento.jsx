@@ -287,7 +287,7 @@ function Payment() {
                       src={product.imagemVariacao}
                     />
                     <div className="desc">
-                      <h3 className="title-cart">{product.descricao}</h3>
+                      <h3 className="title-cart">{product.description}</h3>
                       <div className="color-size">
                         <p>Tamanho: {product.size}</p>
                         <p style={{ marginLeft: "10px" }}>
@@ -297,9 +297,7 @@ function Payment() {
                       <div className="color-size">
                         <p>Quantidade: {product.quantity}</p>
                         <p style={{ marginLeft: "10px" }}>
-                          {`R$ ${parseFloat(product.price)
-                            .toFixed(2)
-                            .replace(".", ",")}`}
+                          {`R$ ${parseFloat(product.price).toFixed(2).replace(".", ",")}`}
                         </p>
                       </div>
                     </div>

@@ -5,6 +5,7 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  padding-bottom: 10rem;
 }
 
 .payment-top-container {
@@ -96,25 +97,26 @@
   flex-direction: column;
   height: 100%;
   position: relative;
-  overflow-y: auto;
 }
 
 .thumb-cart-pay {
   height: auto;
-  width: 3rem;
-  margin-right: 0.5rem;
+  width: 5rem;
+  /* margin-right: 0.5rem; */
 }
 
 .cart-payment__details {
   display: flex;
   font-size: 1rem;
-  margin: 1rem 0;
-  width: 375px;
+  margin: 0.5rem 0;
+  /* width: 375px; */
 }
 
 .cart-payment__details h3.title-cart {
   color: #0080a8;
   margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
 .cart-payment__details .desc {
@@ -125,6 +127,7 @@
 .color-size {
   display: flex;
   justify-content: space-between;
+  font-size: 0.8rem;
 }
 
 .cart-payment__details .desc p {
