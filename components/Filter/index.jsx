@@ -36,21 +36,31 @@ function Filter({ category, subcategory, type }) {
   const dispatch = useDispatch();
 
   const products = useSelector(getAllProducts);
-
+  
   const [selectedSize, setSelectedSize] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState([]);
-
+  
   const [selectedPriceMin, setSelectedPriceMin] = useState("");
   const [selectedPriceMax, setSelectedPriceMax] = useState("");
-
+  
   let filtersSize = selectedSize.map((el) => el.value);
   let filtersColor = selectedColor.map((el) => el.value);
   let filtersBrand = selectedBrand.map((el) => el.value);
-
+  
   const selectInputRefSize = useRef();
   const selectInputRefColor = useRef();
   const selectInputRefBrand = useRef();
+  
+  console.log(
+    filtersSize, 
+    filtersColor, 
+    filtersBrand, 
+    selectedPriceMin, 
+    selectedPriceMax
+  )
+
+  console.log(products)
 
   const addFilterApi = useCallback(async () => {
     dispatch(clearProducts());
@@ -118,17 +128,16 @@ function Filter({ category, subcategory, type }) {
     setSelectedPriceMin("");
     setSelectedPriceMax("");
 
-    addFilterApi();
+    // addFilterApi();
   };
 
   const formatter = (value) => `R$${value},00`
   
   function selectedPrice(value) {
     setSelectedPriceMin(value[0])
-    setSelectedPriceMax( value[1])
+    setSelectedPriceMax(value[1])
     console.log(selectedPriceMin, selectedPriceMax)
   }
-
 
   return (
     <div className="filter">
@@ -200,39 +209,6 @@ function Filter({ category, subcategory, type }) {
           onChange={selectedPrice}
           step={100}
         />
-        {/* <div className="price-input">
-          <TextField
-            className="filter-price"'
-            onChange={(e) => setSelectedPriceMin(e.target.value)}
-            value={selectedPriceMin}
-            InputProps={{
-              endAdornment: <InputAdornment>R$</InputAdornment>,
-            }}
-            id="minPrice"
-            label="Preço Min"
-            type="number"
-            variant="outlined"
-            margin="dense"
-            size="small"
-          />
-        </div>
-        <div className="price-input">
-          <TextField
-            className="filter-price"
-            onChange={(e) => setSelectedPriceMax(e.target.value)}
-            value={selectedPriceMax}
-            InputProps={{
-              endAdornment: <InputAdornment>R$</InputAdornment>,
-            }}
-            id="maxPrice"
-            label="Preço Max"
-            type="number"
-            variant="outlined"
-            margin="dense"
-            size="small"
-            error={selectedPriceMax < selectedPriceMin ? true : false}
-          />
-        </div> */}
       </div>
 
       <div className="btn-actions-filter">

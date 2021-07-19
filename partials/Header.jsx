@@ -268,6 +268,24 @@ function Header() {
                   JAQUETAS
                 </NavLink>
                 <NavLink
+                  href="/produtos/Masculino/Vestuario/Moletom"
+                  className="subtitle-vest-link"
+                >
+                  MOLETONS
+                </NavLink>
+                <NavLink
+                  href="/produtos/Masculino/Vestuario/Sueter"
+                  className="subtitle-vest-link"
+                >
+                  SUÉTERS
+                </NavLink>
+                <NavLink
+                  href="/produtos/Masculino/Vestuario/ExtraGrande"
+                  className="subtitle-vest-link"
+                >
+                  EXTRA GRANDE
+                </NavLink>
+                <NavLink
                   href="/produtos/Masculino/Vestuario/Sunga"
                   className="subtitle-vest-link"
                 >
@@ -405,13 +423,31 @@ function Header() {
                   href="/produtos/Feminino/Vestuario/Jaqueta"
                   className="subtitle-vest-link"
                 >
-                  JAQUETA
+                  JAQUETAS
+                </NavLink>
+                <NavLink
+                  href="/produtos/Feminino/Vestuario/Moletom"
+                  className="subtitle-vest-link"
+                >
+                  MOLETONS
+                </NavLink>
+                <NavLink
+                  href="/produtos/Feminino/Vestuario/Blusa"
+                  className="subtitle-vest-link"
+                >
+                  BLUSAS
+                </NavLink>
+                <NavLink
+                  href="/produtos/Feminino/Vestuario/BlusaTricot"
+                  className="subtitle-vest-link"
+                >
+                  BLUSAS TRICOT
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Vestuario/Biquini"
                   className="subtitle-vest-link"
                 >
-                  BIQUINIS
+                  BIQUINIS E MAIÔS
                 </NavLink>
               </div>
             </div>
@@ -426,6 +462,12 @@ function Header() {
                 </NavLink>
               </div>
               <div className="subtitle-vest">
+                <NavLink
+                  href="/produtos/Feminino/Acessorio/Bolsa"
+                  className="subtitle-vest-link"
+                >
+                  BOLSAS
+                </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Acessorio/Pochete"
                   className="subtitle-vest-link"
@@ -524,6 +566,18 @@ function Header() {
                   className="subtitle-vest-link"
                 >
                   JAQUETAS
+                </NavLink>
+                <NavLink
+                  href="/produtos/Juvenil/Vestuario/Moletom"
+                  className="subtitle-vest-link"
+                >
+                  MOLETONS
+                </NavLink>
+                <NavLink
+                  href="/produtos/Juvenil/Vestuario/Sunga"
+                  className="subtitle-vest-link"
+                >
+                  SUNGAS
                 </NavLink>
               </div>
             </div>
@@ -728,7 +782,7 @@ function Header() {
             className={showFilter === 4 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(4)}
           >
-            <NavLink href="/produtos/Juvenil" onClick={showSideBar}>Juvenil</NavLink>
+            <NavLink href="/produtos/Juvenil" onClick={showSideBar}>Juvenil e Infantil</NavLink>
             <CaretRightOutlined className='down' onClick={() => {setMascDropDown(false);setSurfDropDown(false);setFemDropDown(false);setJuvDropDown(!juvDropDown)}}/>
             {juvDropDown && dropDownNav('juv')}
           </div>

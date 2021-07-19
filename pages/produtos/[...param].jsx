@@ -42,7 +42,6 @@ export default function products({
   const [pageCount, setPageCount] = useState(1);
   const showDrawerFilters = () => setVisible(true);
   const onCloseFilters = () => setVisible(false);
-  console.log(pageCount, per_page, totalPages);
 
   useEffect(() => {
     dispatch(clearProducts());

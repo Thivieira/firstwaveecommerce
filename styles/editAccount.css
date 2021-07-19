@@ -10,18 +10,18 @@
     width: 80%;
     display: flex;
     justify-content: space-between;
-    min-height: 100vh;
+    margin-bottom: 10rem;
 }
 
 .edit-account-list {
-    width: 20vw;
+    width: 12vw;
     height: 50vh;
     list-style: none;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border-right: 1px solid #0080a8;
-    margin-right: 4rem;
+    margin-right: 1rem;
 }
 
 .edit-account-list li .MuiButton-textPrimary {
@@ -41,7 +41,7 @@
     border-left: 2px solid #0080a8;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 970px) {
     .edit-account-container {
         flex-direction: column;
     }

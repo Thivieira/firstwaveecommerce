@@ -109,7 +109,6 @@ function AddressData({ data, onSubmit, goBack, signup }) {
             type="text"
             variant="filled"
             margin="normal"
-            required
             className="inline-input"
           />
         </div>

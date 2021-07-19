@@ -166,12 +166,12 @@ function Dashboard() {
         <ul className="edit-account-list" style={{ overflow: "auto" }}>
           <li className={formOption === 1 ? "edit-bordered" : ""}>
             <Button onClick={() => setFormOption(1)} color="primary">
-              Meus Pedidos
+              Pedidos
             </Button>
           </li>
           <li className={formOption === 2 ? "edit-bordered" : ""}>
             <Button onClick={() => setFormOption(2)} color="primary">
-              Dados de usuário
+              Usuário
             </Button>
           </li>
           <li className={formOption === 3 ? "edit-bordered" : ""}>
@@ -181,7 +181,7 @@ function Dashboard() {
           </li>
           <li className={formOption === 4 ? "edit-bordered" : ""}>
             <Button onClick={() => setFormOption(4)} color="primary">
-              Meus Favoritos
+              Favoritos
             </Button>
           </li>
           <li>

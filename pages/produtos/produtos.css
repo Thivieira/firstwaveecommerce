@@ -117,10 +117,6 @@ a {
     padding: 0.2rem;
   }
 
-  .float-cart .bag--float-cart-closed {
-    left: -65px !important;
-  }
-
   .paginationsBttn {
     width: 100% !important;
   }
