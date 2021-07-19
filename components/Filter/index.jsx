@@ -99,9 +99,11 @@ function Filter({ category, subcategory, type }) {
   const animatedComponents = makeAnimated();
 
   const brands = useSelector(getAllProductBrands);
+  // const brandsTrim = brands ? brands.map(el => el.trim()) : brands
   const brandsNoRepeat = [...new Set(brands)].filter(Boolean);
 
   const colors = useSelector(getAllProductColor);
+  // const colorsTrim = colors ? colors.map(el => el.trim()) : colors
   const colorsNoRepeat = [...new Set(colors)].filter(Boolean);
 
   const sizes = useSelector(getAllProductSize);
