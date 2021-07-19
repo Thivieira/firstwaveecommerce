@@ -23,6 +23,7 @@ export const getFavoritesProd = (state) => state.products.favoritesProducts;
 export const getAllProductBrands = (state) =>
   state.products.products
     .map((product) => product.brand)
+    .map(product => product.trim())
     .reduce((unique, brand) => (unique.includes(brand) ? unique : [...unique, brand]), []);
 
 export const getAllProductSize = (state) => {
@@ -46,4 +47,4 @@ export const getAllProductColor = (state) =>
     .map((el) => el.split(";"))
     .map((el) => el[0])
     .map((el) => el.split(":"))
-    .map((el) => el[1]);
+    .map((el) => el[1])
