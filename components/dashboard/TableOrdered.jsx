@@ -16,7 +16,7 @@ function TableOrdered() {
   // console.log(userName);
 
   async function getUserName() {
-    await api.get("/usuario").then((res) => setUserName(res.data.nomeCompleto));
+    await api.get("/auth/me").then((res) => setUserName(res.data.nomeCompleto));
   }
 
   const postPedido = {

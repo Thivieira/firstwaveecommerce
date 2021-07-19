@@ -7,16 +7,16 @@ import InputMask from "react-input-mask";
 function UserData({ onSubmit, data, signup }) {
   const validationSchema = yup.object({
     email: yup
-      .string("Enter your email")
-      .email("Enter a valid email")
-      .required("Email is required"),
+      .string("Digite o seu email.")
+      .email("Escreve um email válido.")
+      .required("Email é obrigatório."),
     password: yup
-      .string("Enter your password")
-      .min(8, "Password should be of minimum 8 characters length")
-      .required("Password is required"),
+      .string("Digite sua senha.")
+      .min(8, "Senha deve ter no mínimo 8 caracteres.")
+      .required("Senha obrigatória."),
     confirmPassword: yup
       .string()
-      .oneOf([yup.ref("password"), null], "Passwords must match"),
+      .oneOf([yup.ref("password"), null], "Senhas devem combinar."),
     cpf: yup.string().required(),
     phone: yup.string().required(),
   });
