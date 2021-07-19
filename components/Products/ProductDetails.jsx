@@ -5,7 +5,7 @@ import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
 import FavoriteBtn from "../FavoriteBtn";
 import Slider from "react-slick";
 
-import image1 from "../../public/noimage.png";
+import noImage from "../../public/noimage.png";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -18,8 +18,8 @@ const ProductDetails = ({ product }) => {
   const [triggerColor, setColorTrigger] = useState(false);
   const [codigoVariacao, setCodigoVariacao] = useState("");
   const [estoqueAtual, setEstoqueAtual] = useState("");
-  const [imageThumbs, setImageThumbs] = useState([image1]);
-  const [featuredImage, setFeaturedImage] = useState(image1);
+  const [imageThumbs, setImageThumbs] = useState([noImage]);
+  const [featuredImage, setFeaturedImage] = useState([noImage]);
   const [zoomImage, setZoomImage] = useState({
     backgroundImage: `url(${featuredImage})`,
     backgroundPosition: "0% 0%",
@@ -210,10 +210,17 @@ const ProductDetails = ({ product }) => {
               ))}
             </Slider>
           </div>
+          
+          {
+            featuredImage == undefined ? (
+              <img className="big-img" src='/noimage.png' alt="img" />
+            ) : (
+              <figure style={zoomImage} onMouseMove={handleMouseMove}>
+                <img className="big-img" src={featuredImage} alt="img" />
+              </figure>
+            )
+          }
 
-          <figure style={zoomImage} onMouseMove={handleMouseMove}>
-            <img className="big-img" src={featuredImage} alt="img" />
-          </figure>
         </div>
 
         <div className="details-content">

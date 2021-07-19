@@ -78,13 +78,13 @@ function Header() {
       'masc': (
         <div className="navbar-mobile-surf">
           <NavLink
-            href="/produtos/Surf/Wetsuit"
+            href="/produtos/Masculino/Vestuario"
             className="navbar-mobile-surf-options"
           >
             VESTUARIO
           </NavLink>
           <NavLink
-            href="/produtos/Surf/Quilha"
+            href="/produtos/Masculino/Acessorio"
             className="navbar-mobile-surf-options"
           >
             ACESSÓRIOS
@@ -94,13 +94,13 @@ function Header() {
       'fem': (
         <div className="navbar-mobile-surf">
           <NavLink
-            href="/produtos/Surf/Wetsuit"
+            href="/produtos/Feminino/Vestuario"
             className="navbar-mobile-surf-options"
           >
             VESTUARIO
           </NavLink>
           <NavLink
-            href="/produtos/Surf/Quilha"
+            href="/produtos/Feminino/Acessorio"
             className="navbar-mobile-surf-options"
           >
             ACESSÓRIOS
@@ -110,31 +110,31 @@ function Header() {
       'juv': (
         <div className="navbar-mobile-surf">
           <NavLink
-            href="/produtos/Surf/Wetsuit"
+            href="/produtos/Juvenil/Vestuario/Camiseta"
             className="navbar-mobile-surf-options"
           >
             CAMISETAS
           </NavLink>
           <NavLink
-            href="/produtos/Surf/Wetsuit"
+            href="/produtos/Juvenil/Vestuario/Regata"
             className="navbar-mobile-surf-options"
           >
             REGATAS
           </NavLink>
           <NavLink
-            href="/produtos/Surf/Wetsuit"
+            href="/produtos/Juvenil/Vestuario/Bermuda"
             className="navbar-mobile-surf-options"
           >
             BERMUDAS
           </NavLink>
           <NavLink
-            href="/produtos/Surf/Wetsuit"
+            href="/produtos/Juvenil/Vestuario/Calca"
             className="navbar-mobile-surf-options"
           >
             CALÇAS
           </NavLink>
           <NavLink
-            href="/produtos/Surf/Wetsuit"
+            href="/produtos/Juvenil/Vestuario/Jaqueta"
             className="navbar-mobile-surf-options"
           >
             JAQUETAS
@@ -679,6 +679,7 @@ function Header() {
             <NavLink
               href={authorized ? "/dashboard" : "/login"}
               className="sidebar-item"
+              onClick={showSideBar}
             >
               <>
                 <AccountCircle fontSize="large" />
@@ -700,7 +701,7 @@ function Header() {
             className={showFilter === 1 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(1)}
           >
-            <NavLink href="/produtos/Surf"> Surf </NavLink>
+            <NavLink href="/produtos/Surf" onClick={showSideBar}> Surf </NavLink>
             <CaretRightOutlined className='down' onClick={() => {setSurfDropDown(!surfDropDown);setMascDropDown(false);setFemDropDown(false);setJuvDropDown(false)}}/>
             {surfDropDown && dropDownNav('surf')}
           </div>
@@ -709,7 +710,7 @@ function Header() {
             className={showFilter === 2 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(2)}
           >
-            <NavLink href="/produtos/Masculino">Masculino</NavLink>
+            <NavLink href="/produtos/Masculino" onClick={showSideBar}>Masculino</NavLink>
             <CaretRightOutlined className='down' onClick={() => {setMascDropDown(!mascDropDown);setSurfDropDown(false);setFemDropDown(false);setJuvDropDown(false)}}/>
             {mascDropDown && dropDownNav('masc')}
           </div>
@@ -718,7 +719,7 @@ function Header() {
             className={showFilter === 3 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(3)}
           >
-            <NavLink href="/produtos/Feminino">Feminino</NavLink>
+            <NavLink href="/produtos/Feminino" onClick={showSideBar}>Feminino</NavLink>
             <CaretRightOutlined className='down' onClick={() => {setMascDropDown(false);setSurfDropDown(false);setFemDropDown(!femDropDown);setJuvDropDown(false)}}/>
             {femDropDown && dropDownNav('fem')}
           </div>
@@ -727,7 +728,7 @@ function Header() {
             className={showFilter === 4 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(4)}
           >
-            <NavLink href="/produtos/Juvenil">Juvenil</NavLink>
+            <NavLink href="/produtos/Juvenil" onClick={showSideBar}>Juvenil</NavLink>
             <CaretRightOutlined className='down' onClick={() => {setMascDropDown(false);setSurfDropDown(false);setFemDropDown(false);setJuvDropDown(!juvDropDown)}}/>
             {juvDropDown && dropDownNav('juv')}
           </div>
@@ -736,34 +737,35 @@ function Header() {
             className={showFilter === 5 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(0)}
           >
-            <NavLink href="/produtos/Calçados">Calçados</NavLink>
+            <NavLink href="/produtos/Calçados" onClick={showSideBar}>Calçados</NavLink>
           </div>
 
           <div
             className={showFilter === 6 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(0)}
           >
-            <NavLink href="/produtos/Acessórios">Acessórios</NavLink>
+            <NavLink href="/produtos/Acessorio" onClick={showSideBar}>Acessórios</NavLink>
           </div>
 
           <div
             className={showFilter === 7 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(0)}
           >
-            <NavLink href="/produtos/Óculos">Óculos</NavLink>
+            <NavLink href="/produtos/Acessorio/Oculos" onClick={showSideBar}>Óculos</NavLink>
           </div>
 
           <div
             className={showFilter === 8 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(0)}
           >
-            <NavLink href="/produtos/Acessorio/Relogio">Relogio</NavLink>
+            <NavLink href="/produtos/Acessorio/Relogio" onClick={showSideBar}>Relogio</NavLink>
           </div>
 
           <NavLink
-            href="/produtos/"
+            href="/produtos/Outlet"
             className={showFilter === 9 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(0)}
+            onClick={showSideBar}
           >
             Outlet
           </NavLink>
