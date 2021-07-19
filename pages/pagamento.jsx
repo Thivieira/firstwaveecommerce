@@ -38,7 +38,7 @@ function Payment() {
 
   async function getUserData() {
     await api
-      .get("/usuario")
+      .get("/auth/me")
       .then((res) => {
         setPersonalData(res.data);
         dispatch(
@@ -55,7 +55,7 @@ function Payment() {
 
   async function getAddressData() {
     api
-      .get("/endereco")
+      .get("/auth/address")
       .then((res) => {
         setStreet(res.data.rua);
         setNumber(res.data.numero);
@@ -83,14 +83,14 @@ function Payment() {
   async function handleEditAddress() {
     if (edit) {
       await api
-        .put("endereco", {
-          bairro: neighborhood,
-          cep: cep,
-          cidade: city,
-          complemento: complement,
-          estado: state,
-          numero: number,
-          rua: street,
+        .post("/auth/address", {
+          province: neighborhood,
+          postalCode: cep,
+          city,
+          complement,
+          uf: state,
+          addressNumber: number,
+          address: street,
         })
         .then(() => alert("Endereço editado com sucesso!"))
         .catch(() => alert("Falha ao editar endereço!"));

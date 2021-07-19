@@ -6,6 +6,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import SiteLayout from "../layouts/SiteLayout";
 import NProgress from "nprogress";
 import { CategoryContextProvider } from "../contexts/CategoryContext";
+import axios from "axios";
 
 import "../services/firebase";
 
@@ -54,6 +55,16 @@ export default function App({ Component, pageProps }) {
 
   const getLayout =
     Component.getLayout || ((page) => <SiteLayout children={page} />);
+
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response.status === 401) {
+        window.sessionStorage.clear();
+      }
+      return error;
+    }
+  );
 
   return (
     <Provider store={store}>

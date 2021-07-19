@@ -56,35 +56,44 @@ function Dashboard() {
   }
 
   async function getAdressData() {
-    await api.get("endereco").then((res) => {
-      setAddressData(res.data);
+    await api.get("auth/address").then((res) => {
+      setAddressData({
+        cep: res.data.postalCode,
+        rua: res.data.address,
+        numero: res.data.addressNumber,
+        complemento: res.data.complement,
+        bairro: res.data.province,
+        cidade: res.data.city,
+        estado: res.data.uf,
+      });
       dispatch(
         saveAddress({
-          street: res.data.rua,
-          number: res.data.numero,
-          complement: res.data.complemento,
-          zipcode: res.data.cep,
-          state: res.data.estado,
-          city: res.data.cidade,
-          neighborhood: res.data.bairro,
+          street: res.data.address,
+          number: res.data.addressNumber,
+          complement: res.data.complement,
+          zipcode: res.data.postalCode,
+          state: res.data.uf,
+          city: res.data.city,
+          neighborhood: res.data.province,
         })
       );
     });
   }
 
-  async function updateUser({ name, password, email, phone }) {
+  async function updateUser({ name, password, email, phone, cpf }) {
     if (password) {
       setJson({
         email: email,
         name: name,
         password: password,
         mobile: phone,
+        cpf,
       });
     } else {
-      setJson({ email: email, name: name, mobile: phone });
+      setJson({ email: email, name: name, mobile: phone, cpf });
     }
     await api
-      .patch("/auth/me", json)
+      .post("/auth/me", json)
       .then(() => alert("usuário editado com sucesso!"))
       .catch(() => alert("falha ao editar usuário!"));
   }
@@ -99,14 +108,14 @@ function Dashboard() {
     state,
   }) {
     await api
-      .put("/customer/addresses", {
-        neighborhood,
-        cep,
+      .post("/auth/address", {
+        province: neighborhood,
+        postalCode: cep,
         city,
         complement,
-        state,
-        number,
-        street,
+        uf: state,
+        addressNumber: number,
+        address: street,
       })
       .then(() => alert("Endereço editado com sucesso!"))
       .catch(() => alert("Falha ao editar endereço!"));
