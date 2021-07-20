@@ -1,157 +1,32 @@
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useState, useEffect } from "react"
+import { useRouter } from "next/router"
 
-import { Menu, Dropdown, Button, Input, Divider } from "antd";
-import {
-  UserOutlined,
-  PhoneOutlined,
-  MailOutlined,
-  WhatsAppOutlined,
-  CaretRightOutlined,
-  DownOutlined,
-  CloseCircleOutlined
-} from "@ant-design/icons";
-import { AccountCircle } from "@material-ui/icons";
-import { FaBars } from "react-icons/fa";
+import { Menu, Dropdown, Button, Input, Divider } from "antd"
+import { UserOutlined, PhoneOutlined, MailOutlined, WhatsAppOutlined, CaretRightOutlined, DownOutlined, CloseCircleOutlined } from "@ant-design/icons"
+import { AccountCircle } from "@material-ui/icons"
+import { FaBars } from "react-icons/fa"
 
-import FloatCart from "../components/FloatCart/FloatCart";
+import FloatCart from "../components/FloatCart/FloatCart"
 
-import api from "../services/api";
-import NavLink from "../components/NavLink";
+import api from "../services/api"
+import NavLink from "../components/NavLink"
 
 function Header() {
-  const router = useRouter();
-  const [sidebar, setSidebar] = useState(false);
-  const [showFilter, setShowFilter] = useState(0);
-  const [userName, setUserName] = useState('');
-
+  const router = useRouter()
+  const [sidebar, setSidebar] = useState(false)
+  const [showFilter, setShowFilter] = useState(0)
+  const [userName, setUserName] = useState('')
   const [surfDropDown, setSurfDropDown] = useState(false)
   const [mascDropDown, setMascDropDown] = useState(false)
   const [femDropDown, setFemDropDown] = useState(false)
   const [juvDropDown, setJuvDropDown] = useState(false)
 
-  const dropDownNav = (type) => {
-    const div = {
-      'surf': (
-        <div className="navbar-mobile-surf">
-          <NavLink
-            href="/produtos/Surf/Wetsuit"
-            className="navbar-mobile-surf-options"
-          >
-            WETSUITS
-          </NavLink>
-          <NavLink
-            href="/produtos/Surf/Quilha"
-            className="navbar-mobile-surf-options"
-          >
-            QUILHA
-          </NavLink>
-          <NavLink
-            href="/produtos/Surf/Leash"
-            className="navbar-mobile-surf-options"
-          >
-            LEASH
-          </NavLink>
-          <NavLink
-            href="/produtos/Surf/Lycra"
-            className="navbar-mobile-surf-options"
-          >
-            LYCRA
-          </NavLink>
-          <NavLink
-            href="/produtos/Surf/Prancha"
-            className="navbar-mobile-surf-options"
-          >
-            PRANCHA
-          </NavLink>
-          <NavLink href="/produtos/Surf/Capa" className="navbar-mobile-surf-options">
-            CAPA
-          </NavLink>
-          <NavLink href="/produtos/Surf/Deck" className="navbar-mobile-surf-options">
-            DECK
-          </NavLink>
-          <NavLink href="/produtos/Surf/Bone" className="navbar-mobile-surf-options">
-            BONÉS
-          </NavLink>
-              </div>
-      ),
-      'masc': (
-        <div className="navbar-mobile-surf">
-          <NavLink
-            href="/produtos/Masculino/Vestuario"
-            className="navbar-mobile-surf-options"
-          >
-            VESTUARIO
-          </NavLink>
-          <NavLink
-            href="/produtos/Masculino/Acessorio"
-            className="navbar-mobile-surf-options"
-          >
-            ACESSÓRIOS
-          </NavLink>
-        </div>
-      ),
-      'fem': (
-        <div className="navbar-mobile-surf">
-          <NavLink
-            href="/produtos/Feminino/Vestuario"
-            className="navbar-mobile-surf-options"
-          >
-            VESTUARIO
-          </NavLink>
-          <NavLink
-            href="/produtos/Feminino/Acessorio"
-            className="navbar-mobile-surf-options"
-          >
-            ACESSÓRIOS
-          </NavLink>
-        </div>
-      ),
-      'juv': (
-        <div className="navbar-mobile-surf">
-          <NavLink
-            href="/produtos/Juvenil/Vestuario/Camiseta"
-            className="navbar-mobile-surf-options"
-          >
-            CAMISETAS
-          </NavLink>
-          <NavLink
-            href="/produtos/Juvenil/Vestuario/Regata"
-            className="navbar-mobile-surf-options"
-          >
-            REGATAS
-          </NavLink>
-          <NavLink
-            href="/produtos/Juvenil/Vestuario/Bermuda"
-            className="navbar-mobile-surf-options"
-          >
-            BERMUDAS
-          </NavLink>
-          <NavLink
-            href="/produtos/Juvenil/Vestuario/Calca"
-            className="navbar-mobile-surf-options"
-          >
-            CALÇAS
-          </NavLink>
-          <NavLink
-            href="/produtos/Juvenil/Vestuario/Jaqueta"
-            className="navbar-mobile-surf-options"
-          >
-            JAQUETAS
-          </NavLink>
-        </div>
-      ),
-    }
+  const showSideBar = () => setSidebar(!sidebar)
 
-    return div[type]
-  }
+  const token = sessionStorage.getItem("key")
+  let authorized = sessionStorage.getItem("authorized")
 
-  const showSideBar = () => setSidebar(!sidebar);
-
-  const token = sessionStorage.getItem("key");
-  let authorized = sessionStorage.getItem("authorized");
-
-  api.defaults.headers.common["Authorization"] = "Bearer " + token;
+  api.defaults.headers.common["Authorization"] = "Bearer " + token
 
   async function getUserData() {
     await api
@@ -164,7 +39,7 @@ function Header() {
       });
   }
 
-  useEffect(() => getUserData(), [authorized]);
+  useEffect(() => getUserData(), [authorized])
 
   function switchFilter() {
     switch (showFilter) {
@@ -597,6 +472,161 @@ function Header() {
     }
   }
 
+  const dropDownNav = (type) => {
+    const div = {
+      'surf': (
+        <div className="navbar-mobile-surf">
+          <NavLink
+            href="/produtos/Surf/Wetsuit"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setSurfDropDown(false)}}
+          >
+            WETSUITS
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Quilha"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setSurfDropDown(false)}}
+          >
+            QUILHA
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Leash"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setSurfDropDown(false)}}
+          >
+            LEASH
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Lycra"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setSurfDropDown(false)}}
+          >
+            LYCRA
+          </NavLink>
+          <NavLink
+            href="/produtos/Surf/Prancha"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setSurfDropDown(false)}}
+          >
+            PRANCHA
+          </NavLink>
+          <NavLink 
+            href="/produtos/Surf/Capa" 
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setSurfDropDown(false)}}
+          >
+            CAPA
+          </NavLink>
+          <NavLink 
+            href="/produtos/Surf/Deck" 
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setSurfDropDown(false)}}
+          >
+            DECK
+          </NavLink>
+          <NavLink 
+            href="/produtos/Surf/Bone" 
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setSurfDropDown(false)}}
+          >
+            BONÉS
+          </NavLink>
+        </div>
+      ),
+      'masc': (
+        <div className="navbar-mobile-surf">
+          <NavLink
+            href="/produtos/Masculino/Vestuario"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setMascDropDown(false)}}
+          >
+            VESTUARIO
+          </NavLink>
+          <NavLink
+            href="/produtos/Masculino/Acessorio"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setMascDropDown(false)}}
+          >
+            ACESSÓRIOS
+          </NavLink>
+        </div>
+      ),
+      'fem': (
+        <div className="navbar-mobile-surf">
+          <NavLink
+            href="/produtos/Feminino/Vestuario"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setFemDropDown(false)}}
+          >
+            VESTUARIO
+          </NavLink>
+          <NavLink
+            href="/produtos/Feminino/Acessorio"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setFemDropDown(false)}}
+          >
+            ACESSÓRIOS
+          </NavLink>
+        </div>
+      ),
+      'juv': (
+        <div className="navbar-mobile-surf">
+          <NavLink
+            href="/produtos/Juvenil/Vestuario/Camiseta"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setjuvDropDown(false)}}
+          >
+            CAMISETAS
+          </NavLink>
+          <NavLink
+            href="/produtos/Juvenil/Vestuario/Regata"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setjuvDropDown(false)}}
+          >
+            REGATAS
+          </NavLink>
+          <NavLink
+            href="/produtos/Juvenil/Vestuario/Bermuda"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setjuvDropDown(false)}}
+          >
+            BERMUDAS
+          </NavLink>
+          <NavLink
+            href="/produtos/Juvenil/Vestuario/Calca"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setjuvDropDown(false)}}
+          >
+            CALÇAS
+          </NavLink>
+          <NavLink
+            href="/produtos/Juvenil/Vestuario/Jaqueta"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setjuvDropDown(false)}}
+          >
+            JAQUETAS
+          </NavLink>
+          <NavLink
+            href="/produtos/Juvenil/Vestuario/Moletom"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setjuvDropDown(false)}}
+          >
+            MOLETONS
+          </NavLink>
+          <NavLink
+            href="/produtos/Juvenil/Vestuario/Sunga"
+            className="navbar-mobile-surf-options"
+            onClick={() => {showSideBar();setjuvDropDown(false)}}
+          >
+            SUNGAS
+          </NavLink>
+        </div>
+      ),
+    }
+
+    return div[type]
+  }
 
   const logOut = async () => {
     sessionStorage.clear();
