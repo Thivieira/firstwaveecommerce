@@ -34,11 +34,11 @@ export default function handler(req, res) {
     const items = cart.map((item) => {
       return {
         id: item.codigoVariacao,
-        title: item.descricao,
-        description: `${item.descricao} - ${item.marca}`,
+        title: item.description,
+        description: `${item.description} - ${item.brand}`,
         picture_url: item.imagemVariacao,
         quantity: parseInt(item.estoqueAtual),
-        unit_price: parseInt(item.preco),
+        unit_price: parseInt(item.thePrice),
         currency_id: "BRL",
         category_id: "fashion",
       };
@@ -74,10 +74,10 @@ export default function handler(req, res) {
         },
         address: {
           zip_code: address.zipcode,
-          street_name: address.street,
+          street_name: address.address,
           city_name: address.city,
           state_name: address.state,
-          street_number: address.number,
+          street_number: parseInt(address.number),
           apartment: address.complement,
         },
       },
@@ -88,7 +88,7 @@ export default function handler(req, res) {
           street_name: address.street,
           city_name: address.city,
           state_name: address.state,
-          street_number: address.number,
+          street_number: parseInt(address.number),
           apartment: address.complement,
         },
       },

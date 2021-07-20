@@ -101,7 +101,7 @@ function Form() {
         handleLogin()
           .then(() => {
             api
-              .post("/address", {
+              .post("/auth/address", {
                 province: submitData.neighborhood,
                 postalCode: submitData.cep.replace(/[^\d]/g, ""),
                 city: submitData.city,
@@ -138,7 +138,7 @@ function Form() {
   const goBack = () => setCurrentStep(currentStep - 1);
 
   return (
-    <Container component="article" maxWidth="sm" style={{minHeight: '100vh'}}>
+    <Container component="article" maxWidth="sm" style={{ minHeight: "100vh" }}>
       <Stepper activeStep={currentStep}>
         <Step>
           <StepLabel>Login</StepLabel>

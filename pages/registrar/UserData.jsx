@@ -16,7 +16,7 @@ function UserData({ onSubmit, data, signup }) {
       .required("Senha requerida"),
     confirmPassword: yup
       .string()
-      .oneOf([yup.ref("senha"), null], "As senhas devem corresponder"),
+      .oneOf([yup.ref("password"), null], "As senhas devem corresponder"),
     cpf: yup.string().required(),
     phone: yup.string().required(),
   });

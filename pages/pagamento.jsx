@@ -45,8 +45,8 @@ function Payment() {
           saveAccount({
             cpf: res.data.cpf,
             email: res.data.email,
-            name: res.data.nomeCompleto,
-            phone: res.data.telefone,
+            name: res.data.name,
+            phone: res.data.mobile,
           })
         );
       })
@@ -57,23 +57,22 @@ function Payment() {
     api
       .get("/auth/address")
       .then((res) => {
-        setStreet(res.data.rua);
-        setNumber(res.data.numero);
-        setComplement(res.data.complemento);
-        setCep(res.data.cep);
-        setState(res.data.estado);
-        setCity(res.data.cidade);
-        setNeighborhood(res.data.bairro);
-        console.log("am i here?", res.data);
+        setStreet(res.data.address);
+        setNumber(res.data.addressNumber);
+        setComplement(res.data.complement);
+        setCep(res.data.postalCode);
+        setState(res.data.uf);
+        setCity(res.data.city);
+        setNeighborhood(res.data.province);
         dispatch(
           saveAddress({
-            street: res.data.rua,
-            number: res.data.numero,
-            complement: res.data.complemento,
-            zipcode: res.data.cep,
-            state: res.data.estado,
-            city: res.data.cidade,
-            neighborhood: res.data.bairro,
+            street: res.data.address,
+            number: res.data.addressNumber,
+            complement: res.data.complement,
+            zipcode: res.data.postalCode,
+            state: res.data.uf,
+            city: res.data.city,
+            neighborhood: res.data.province,
           })
         );
       })
@@ -107,7 +106,7 @@ function Payment() {
           <PaymentBox type={3}>
             <form>
               <TextField
-                value={personalData.nomeCompleto}
+                value={personalData.name}
                 id="name"
                 label="Nome Completo"
                 variant="filled"
@@ -133,7 +132,7 @@ function Payment() {
                 fullWidth
               />
               <TextField
-                value={personalData.telefone}
+                value={personalData.mobile}
                 id="telefone"
                 label="Telefone"
                 variant="filled"
@@ -297,7 +296,9 @@ function Payment() {
                       <div className="color-size">
                         <p>Quantidade: {product.quantity}</p>
                         <p style={{ marginLeft: "10px" }}>
-                          {`R$ ${parseFloat(product.price).toFixed(2).replace(".", ",")}`}
+                          {`R$ ${parseFloat(product.price)
+                            .toFixed(2)
+                            .replace(".", ",")}`}
                         </p>
                       </div>
                     </div>
