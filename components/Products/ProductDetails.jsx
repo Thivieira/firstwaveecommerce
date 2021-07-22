@@ -26,10 +26,12 @@ const ProductDetails = ({ product }) => {
   });
   const [thePrice, setPrice] = useState(product.price);
 
+  const variations = product.variations;
+
   if (!product) {
     return null;
   }
-  if (product.variations.length == 0) {
+  if (variations.length == 0) {
     return null;
   }
 
@@ -43,11 +45,10 @@ const ProductDetails = ({ product }) => {
   }
 
   //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
-  const codigoProduto = product.variations
+  const codigoProduto = variations
     .map((el) => el.code)[0]
     .includes("-");
 
-  const variations = product.variations;
 
   const tamanhos = variations.map(
     (el) => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]
@@ -158,7 +159,7 @@ const ProductDetails = ({ product }) => {
   const MySwal = withReactContent(Swal);
 
   const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
-  const priceSale = `R$${parseFloat(product.variations[0].price)
+  const priceSale = `R$${parseFloat(variations[0].price)
     .toFixed(2)
     .replace(".", ",")}`;
 
@@ -269,14 +270,23 @@ const ProductDetails = ({ product }) => {
           {codigoProduto ? (
             <div className="sizes-btn">
               <ul>
-                {sizesNoRepeat.map((value) => (
+                {variations.map((value) => (
+                  value.supply > 0 ?
                   <li
-                    onClick={() => onSelectedSizeChange(value)}
-                    key={value}
-                    className={value == selectedSize ? "active" : null}
-                    title={value}
+                    onClick={() => onSelectedSizeChange(value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0])}
+                    key={value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]}
+                    className={value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] == selectedSize ? "active" : null}
+                    title={value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]}
                   >
-                    {value}
+                    {value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]}
+                  </li>
+                  : 
+                  <li
+                  key={value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]}
+                  className='disabled'
+                  title={value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]}
+                  >
+                    {value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]}
                   </li>
                 ))}
               </ul>
