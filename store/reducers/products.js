@@ -173,7 +173,7 @@ const productsReducer = (state = productsDefaultState, action) => {
 
         productsIncrement.quantity += 1;
         productsIncrement.estoqueAtual -= 1;
-        addedProduct.thePrice = thePrice;
+        productsIncrement.thePrice = thePrice;
         const newTotalIncrement =
           state.total + parseFloat(productsIncrement.thePrice);
 

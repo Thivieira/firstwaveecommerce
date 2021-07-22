@@ -37,7 +37,7 @@ export default function handler(req, res) {
         title: item.description,
         description: `${item.description} - ${item.brand}`,
         picture_url: item.imagemVariacao,
-        quantity: parseInt(item.estoqueAtual),
+        quantity: parseInt(item.quantity),
         unit_price: parseInt(item.thePrice),
         currency_id: "BRL",
         category_id: "fashion",
@@ -74,7 +74,7 @@ export default function handler(req, res) {
         },
         address: {
           zip_code: address.zipcode,
-          street_name: address.address,
+          street_name: address.street,
           city_name: address.city,
           state_name: address.state,
           street_number: parseInt(address.number),
@@ -92,8 +92,10 @@ export default function handler(req, res) {
           apartment: address.complement,
         },
       },
-      statement_descriptor: "PRIMEIRAONDASTORE",
+      statement_descriptor: "LIFESTYLEFLORIPA",
     };
+
+    console.log("PREFERENCE", preference);
 
     mercadopago.preferences
       .create(preference)
