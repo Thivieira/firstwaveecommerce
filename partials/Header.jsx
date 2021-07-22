@@ -821,7 +821,7 @@ function Header() {
             className={showFilter === 5 ? "menu-item menu-item-active" : "menu-item"}
             onMouseEnter={() => setShowFilter(0)}
           >
-            <NavLink href="/produtos/Calçados" onClick={showSideBar}>Calçados</NavLink>
+            <NavLink href="/produtos/Calçado" onClick={showSideBar}>Calçados</NavLink>
           </div>
 
           <div
