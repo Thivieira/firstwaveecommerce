@@ -216,7 +216,7 @@ const ProductDetails = ({ product }) => {
             </Slider>
           </div>
 
-          {featuredImage == undefined ? (
+          {!featuredImage ? (
             <img className="big-img" src="/noimage.png" alt="img" />
           ) : (
             <figure style={zoomImage} onMouseMove={handleMouseMove}>

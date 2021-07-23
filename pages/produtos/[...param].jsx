@@ -22,7 +22,15 @@ import {
   sortProducts,
 } from "../../store/actions/products";
 
-export default function products({ prod, totalPages, per_page, category, subcategory, type }) {
+export default function products({
+  prod,
+  total,
+  totalPages,
+  per_page,
+  category,
+  subcategory,
+  type,
+}) {
   const { getCategory, setCategory } = useContext(CategoryContext);
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
@@ -41,7 +49,7 @@ export default function products({ prod, totalPages, per_page, category, subcate
     dispatch(clearProducts());
     dispatch(setLoading(false));
     dispatch(setProducts(prod));
-    setPageCount(totalPages / per_page);
+    setPageCount(total / per_page);
     setCategory({ category: category, subcategory: subcategory, type: type });
     setCurrentPage(0);
   }, [dispatch, category, subcategory, type]);
@@ -66,16 +74,17 @@ export default function products({ prod, totalPages, per_page, category, subcate
     dispatch(clearProducts());
     const res = await api.get(`/products?category=${category}`);
     const prod = res.data.data;
-    totalPages = res.data.total;
+    total = res.data.total;
+    totalPages = res.data.to;
     per_page = res.data.per_page;
-    setPageCount(totalPages / per_page);
+    setPageCount(total / per_page);
     dispatch(setProducts(prod));
     dispatch(setLoading(false));
   };
 
   const changePage = ({ selected }) => {
     setCurrentPage(selected);
-    window.scrollTo({top: 0, behavior: 'smooth'});
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -91,8 +100,9 @@ export default function products({ prod, totalPages, per_page, category, subcate
       dispatch(setProducts(res.data.data));
       // products = data.data;
       totalPages = res.data.total;
+      total = res.data.total;
       per_page = res.data.per_page;
-      setPageCount(totalPages / per_page);
+      setPageCount(total / per_page);
     });
   }, [currentPage, dispatch]);
 
@@ -136,7 +146,7 @@ export default function products({ prod, totalPages, per_page, category, subcate
         <div className="filter-sort">
           {products.length > 0 && (
             <>
-              <p>{products.length} Produto(s) Encontrados</p>
+              <p>{total} Produto(s) Encontrados</p>
 
               <Dropdown overlay={menu}>
                 <a
@@ -159,7 +169,7 @@ export default function products({ prod, totalPages, per_page, category, subcate
                   key={removeIdDuplicate(product.id)}
                 />
               ))}
-              {totalPages > 15 ? (
+              {total > 15 ? (
                 <ReactPaginate
                   previousLabel={"<"}
                   nextLabel={">"}
@@ -322,6 +332,7 @@ export async function getStaticProps(ctx) {
 
   let products;
   let res;
+  let total;
   let totalPages;
   let per_page;
 
@@ -330,7 +341,8 @@ export async function getStaticProps(ctx) {
       `/products?category=${category}&subcategory=${subcategory}&type=${type}`
     );
     products = res.data.data;
-    totalPages = res.data.total;
+    total = res.data.total;
+    totalPages = res.data.to;
     per_page = res.data.per_page;
   } else if (category && subcategory && !type) {
     type = null;
@@ -338,14 +350,16 @@ export async function getStaticProps(ctx) {
       `/products?category=${category}&subcategory=${subcategory}`
     );
     products = res.data.data;
-    totalPages = res.data.total;
+    total = res.data.total;
+    totalPages = res.data.to;
     per_page = res.data.per_page;
   } else {
     res = await api.get(`/products?category=${category}`);
     products = res.data.data;
     subcategory = null;
     type = null;
-    totalPages = res.data.total;
+    total = res.data.total;
+    totalPages = res.data.to;
     per_page = res.data.per_page;
   }
 
@@ -361,6 +375,7 @@ export async function getStaticProps(ctx) {
   return {
     props: {
       prod: products,
+      total,
       totalPages,
       per_page,
       category,
