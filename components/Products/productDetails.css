@@ -119,6 +119,7 @@ figure:hover img {
 .details-content .btn-buy {
   max-width: 450px;
   padding: 1rem 0;
+  margin-bottom: 10px;
 }
 
 .details-content .btn-buy button {
@@ -184,7 +185,7 @@ figure:hover img {
   border: 1px solid rgb(16, 179, 238);
   display: block;
   padding: 1px 5px;
-  border-radius: 1rem;
+  border-radius: 5rem;
   text-align: center;
   font-size: 1rem;
   text-decoration: none;
@@ -275,8 +276,10 @@ figure:hover img {
     align-items: flex-start;
   }
 
-  .thumb .slick-track {
-    width: 20rem !important;
+  .thumb .slick-list {
+    flex-direction: row;
+    width: 23rem;
+    margin-left: 1rem;
   }
 }
 
@@ -303,11 +306,17 @@ figure:hover img {
 
 @media (max-width: 325px) {
   .big-img {
-    max-width: 300px;
+    max-width: 330px;
   }
   
   figure {
-    max-width: 300px;
+    max-width: 330px;
+  }
+
+  .thumb .slick-list {
+    flex-direction: row;
+    width: 21rem;
+    margin-left: 1rem;
   }
 }
 

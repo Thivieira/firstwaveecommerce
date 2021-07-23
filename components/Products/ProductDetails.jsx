@@ -49,10 +49,7 @@ const ProductDetails = ({ product }) => {
     .map((el) => el.code)[0]
     .includes("-");
 
-
-  const tamanhos = variations.map(
-    (el) => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]
-  );
+  const tamanhos = variations.map(el => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0])
 
   const sizesNoRepeat = [...new Set(tamanhos)];
 
@@ -71,11 +68,7 @@ const ProductDetails = ({ product }) => {
   const onSelectedSizeChange = (value) => {
     setSelectedSize(value);
 
-    const variacaoDisponivel = variations.filter(
-      (el) =>
-        el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] ==
-        value
-    );
+    const variacaoDisponivel = variations.filter(el => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] == value)
 
     setAvailableColorVariations(variacaoDisponivel);
 
@@ -256,11 +249,7 @@ const ProductDetails = ({ product }) => {
             <button
               onClick={() => addToCartFn()}
               disabled={estoqueAtual === 0 ? true : false}
-              title={
-                estoqueAtual === 0
-                  ? "Este produto não tem esta quantidade disponível."
-                  : null
-              }
+              title={estoqueAtual === 0 ? "Este produto não tem esta quantidade disponível." : null}
             >
               ADICIONAR AO
               {<Cart height="20" width="20" color="#fff" />}
@@ -269,24 +258,16 @@ const ProductDetails = ({ product }) => {
 
           {codigoProduto ? (
             <div className="sizes-btn">
+              <strong>Tamanhos:</strong>
               <ul>
-                {variations.map((value) => (
-                  value.supply > 0 ?
+                {sizesNoRepeat.map((value) => (
                   <li
-                    onClick={() => onSelectedSizeChange(value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0])}
-                    key={value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]}
-                    className={value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] == selectedSize ? "active" : null}
-                    title={value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]}
+                    onClick={() => onSelectedSizeChange(value)}
+                    key={value}
+                    className={value == selectedSize && estoqueAtual > 0 ? "active" : null}
+                    title={value}
                   >
-                    {value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]}
-                  </li>
-                  : 
-                  <li
-                  key={value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]}
-                  className='disabled'
-                  title={value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]}
-                  >
-                    {value.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]}
+                    {value}
                   </li>
                 ))}
               </ul>
