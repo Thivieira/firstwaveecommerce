@@ -21,13 +21,15 @@ function initPersistedStore(initialState) {
   const { persistReducer } = require("redux-persist");
   const storage = require("redux-persist/lib/storage").default;
 
-  const persistConfig = {
-    key: "root",
-    storage,
-  };
+  // const persistConfig = {
+  //   key: "root",
+  //   storage,
+  //   whitelist: ["products"],
+  // };
 
   return createStore(
-    persistReducer(persistConfig, reducers),
+    // persistReducer(persistConfig, reducers),
+    reducers,
     initialState,
     composeWithDevTools(applyMiddleware(thunkMiddleware))
   );

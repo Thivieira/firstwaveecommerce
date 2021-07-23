@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { InputAdornment, TextField } from "@material-ui/core";
-import { Slider } from 'antd';
+import { Slider } from "antd";
 import api from "../../services/api";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -36,31 +36,31 @@ function Filter({ category, subcategory, type }) {
   const dispatch = useDispatch();
 
   const products = useSelector(getAllProducts);
-  
+
   const [selectedSize, setSelectedSize] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState([]);
-  
+
   const [selectedPriceMin, setSelectedPriceMin] = useState("");
   const [selectedPriceMax, setSelectedPriceMax] = useState("");
-  
+
   let filtersSize = selectedSize.map((el) => el.value);
   let filtersColor = selectedColor.map((el) => el.value);
   let filtersBrand = selectedBrand.map((el) => el.value);
-  
+
   const selectInputRefSize = useRef();
   const selectInputRefColor = useRef();
   const selectInputRefBrand = useRef();
-  
-  console.log(
-    filtersSize, 
-    filtersColor, 
-    filtersBrand, 
-    selectedPriceMin, 
-    selectedPriceMax
-  )
 
-  console.log(products)
+  console.log(
+    filtersSize,
+    filtersColor,
+    filtersBrand,
+    selectedPriceMin,
+    selectedPriceMax
+  );
+
+  console.log(products);
 
   const addFilterApi = useCallback(async () => {
     dispatch(clearProducts());
@@ -131,12 +131,12 @@ function Filter({ category, subcategory, type }) {
     // addFilterApi();
   };
 
-  const formatter = (value) => `R$${value},00`
-  
+  const formatter = (value) => `R$${value},00`;
+
   function selectedPrice(value) {
-    setSelectedPriceMin(value[0])
-    setSelectedPriceMax(value[1])
-    console.log(selectedPriceMin, selectedPriceMax)
+    setSelectedPriceMin(value[0]);
+    setSelectedPriceMax(value[1]);
+    console.log(selectedPriceMin, selectedPriceMax);
   }
 
   return (
@@ -198,13 +198,13 @@ function Filter({ category, subcategory, type }) {
       </div>
 
       <div className="filter-option-price">
-       <h4 style={{color: '#FF8B00'}}>Filtro de preço</h4>
-        <Slider 
-          style={{margin: '2rem 0'}}
-          range 
-          defaultValue={[0, 2000]} 
+        <h4 style={{ color: "#FF8B00" }}>Filtro de preço</h4>
+        <Slider
+          style={{ margin: "2rem 0" }}
+          range
+          defaultValue={[0, 2000]}
           max={2000}
-          min={20}
+          min={0}
           tipFormatter={formatter}
           onChange={selectedPrice}
           step={100}
