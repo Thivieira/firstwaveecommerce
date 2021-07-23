@@ -33,6 +33,7 @@ export default function products({ prod, totalPages, per_page, category, subcate
   const [width, setWindowWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(1);
+
   const showDrawerFilters = () => setVisible(true);
   const onCloseFilters = () => setVisible(false);
 

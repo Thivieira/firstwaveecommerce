@@ -49,15 +49,33 @@ const ProductDetails = ({ product }) => {
     .map((el) => el.code)[0]
     .includes("-");
 
-  const tamanhos = variations.map(el => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0])
+  const estoque = variations.map(el => el.supply)
+  
+  const tamanhos = variations
+  .map(el => el.description
+    .split(";")
+    .slice(1, 2)[0]
+    .split(":")
+    .slice(1, 2)[0])
+    
+  const sizesNoRepeat = [...new Set(tamanhos)]
 
-  const sizesNoRepeat = [...new Set(tamanhos)];
+  var supplyAndSize = {}
+  for (var i = 0; i < sizesNoRepeat.length; i++) {
+      supplyAndSize[sizesNoRepeat[i]] = estoque[i]
+  }
+
+  console.log(supplyAndSize)
+
+  Object.keys(supplyAndSize).forEach((tamanho, index) => {
+    console.log(tamanho, supplyAndSize[tamanho]);
+  })
 
   useEffect(() => {
     const size = sizesNoRepeat[0];
 
     onSelectedSizeChange(size);
-  }, [variations]);
+  }, [variations])
 
   useEffect(() => {
     if (triggerColor) {
@@ -152,9 +170,7 @@ const ProductDetails = ({ product }) => {
   const MySwal = withReactContent(Swal);
 
   const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
-  const priceSale = `R$${parseFloat(variations[0].price)
-    .toFixed(2)
-    .replace(".", ",")}`;
+  const priceSale = `R$${parseFloat(variations[0].price).toFixed(2).replace(".", ",")}`;
 
   const handleMouseMove = (e) => {
     const { left, top, width, height } = e.target.getBoundingClientRect();
@@ -260,15 +276,25 @@ const ProductDetails = ({ product }) => {
             <div className="sizes-btn">
               <strong>Tamanhos:</strong>
               <ul>
-                {sizesNoRepeat.map((value) => (
-                  <li
-                    onClick={() => onSelectedSizeChange(value)}
-                    key={value}
-                    className={value == selectedSize && estoqueAtual > 0 ? "active" : null}
-                  >
-                    {value}
-                  </li>
-                ))}
+                {
+                  Object.keys(supplyAndSize).forEach( function (tamanho, index) {
+                   return supplyAndSize[tamanho] > 0 ?
+                   (<li
+                      onClick={() => onSelectedSizeChange(tamanho)}
+                      key={tamanho}
+                      className={tamanho == selectedSize ? "active" : null}
+                    >
+                      {tamanho}
+                    </li>)
+                    : 
+                    (<li
+                      key={tamanho}
+                      className='disabled'
+                    >
+                      {tamanho}
+                    </li>)
+                  })
+                }
               </ul>
             </div>
           ) : null}
@@ -284,13 +310,9 @@ const ProductDetails = ({ product }) => {
               </span>
               <div className="colors-thumb">
                 {availableColorVariations.map((variation) => {
-                  const color = variation.description
-                    .split(";")
-                    .slice(0, 1)[0]
-                    .split(":")
-                    .slice(1, 2)[0];
-                  let image = JSON.parse(variation.image);
-                  image = image.length > 0 ? image[0].link : "/noimage.png";
+                  const color = variation.description.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0]
+                  let image = JSON.parse(variation.image)
+                  image = image.length > 0 ? image[0].link : "/noimage.png"
                   return (
                     <img
                       onClick={() => setSelectedColor(color)}
@@ -300,7 +322,7 @@ const ProductDetails = ({ product }) => {
                       alt="img"
                       style={{ height: "3rem" }}
                     />
-                  );
+                  )
                 })}
               </div>
             </div>

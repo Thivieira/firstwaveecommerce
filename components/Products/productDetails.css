@@ -201,6 +201,9 @@ figure:hover img {
   background-color: rgba(255, 165, 0, 0.2);
 }
 
+
+
+
 .sizes-btn ul li.disabled {
   opacity: 0.5;
 }
@@ -208,7 +211,6 @@ figure:hover img {
 .sizes-btn ul li.disabled:hover {
   cursor: default;
 }
-
 
 .colors-product span {
   display: flex;
