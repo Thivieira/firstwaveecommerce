@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 
 export default function NavLink(props) {
@@ -10,6 +9,7 @@ export default function NavLink(props) {
         target={props.target}
         title={props.title}
         style={{ color: "#fff" }}
+        onClick={props.onClick}
       >
         {props.children ? props.children : props.text}
       </a>

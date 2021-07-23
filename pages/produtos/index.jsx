@@ -71,7 +71,10 @@ const products = () => {
     // dispatch(setLoading(false));
   };
 
-  const changePage = ({ selected }) => setCurrentPage(selected + 1);
+  const changePage = ({ selected }) => {
+    setCurrentPage(selected + 1)
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
 
   useEffect(async () => {
     dispatch(setLoading(true));
@@ -154,7 +157,7 @@ const products = () => {
                   previousLabel={"<"}
                   nextLabel={">"}
                   pageCount={pages}
-                  onPageChange={changePage}
+                  onPageChange={(selected) => changePage(selected)}
                   containerClassName={"paginationsBttn"}
                   previousLinkClassName={"previousBttn"}
                   nextLinkClassName={"nextBttn"}

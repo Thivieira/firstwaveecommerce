@@ -306,11 +306,11 @@ figure:hover img {
 
 @media (max-width: 325px) {
   .big-img {
-    max-width: 330px;
+    max-width: 320px;
   }
   
   figure {
-    max-width: 330px;
+    max-width: 320px;
   }
 
   .thumb .slick-list {

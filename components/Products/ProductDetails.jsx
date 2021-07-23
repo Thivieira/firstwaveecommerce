@@ -265,7 +265,6 @@ const ProductDetails = ({ product }) => {
                     onClick={() => onSelectedSizeChange(value)}
                     key={value}
                     className={value == selectedSize && estoqueAtual > 0 ? "active" : null}
-                    title={value}
                   >
                     {value}
                   </li>

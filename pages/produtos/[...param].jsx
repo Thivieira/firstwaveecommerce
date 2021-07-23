@@ -22,14 +22,7 @@ import {
   sortProducts,
 } from "../../store/actions/products";
 
-export default function products({
-  prod,
-  totalPages,
-  per_page,
-  category,
-  subcategory,
-  type,
-}) {
+export default function products({ prod, totalPages, per_page, category, subcategory, type }) {
   const { getCategory, setCategory } = useContext(CategoryContext);
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
@@ -80,8 +73,8 @@ export default function products({
   };
 
   const changePage = ({ selected }) => {
-    console.log("SELECTED", selected);
     setCurrentPage(selected);
+    window.scrollTo({top: 0, behavior: 'smooth'});
   };
 
   useEffect(() => {
@@ -170,7 +163,7 @@ export default function products({
                   previousLabel={"<"}
                   nextLabel={">"}
                   pageCount={pageCount}
-                  onPageChange={changePage}
+                  onPageChange={(selected) => changePage(selected)}
                   forcePage={currentPage}
                   containerClassName={"paginationsBttn"}
                   previousLinkClassName={"previousBttn"}

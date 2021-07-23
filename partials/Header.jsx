@@ -21,26 +21,26 @@ function Header() {
   const [femDropDown, setFemDropDown] = useState(false)
   const [juvDropDown, setJuvDropDown] = useState(false)
 
-  const showSideBar = () => setSidebar(!sidebar)
-
   const token = sessionStorage.getItem("key")
   let authorized = sessionStorage.getItem("authorized")
-
+  
   api.defaults.headers.common["Authorization"] = "Bearer " + token
-
+  
   async function getUserData() {
     await api
-      .get("/auth/me")
-      .then((res) => {
-        setUserName(res.data.name);
-      })
-      .catch((e) => {
-        setUserName("");
-      });
+    .get("/auth/me")
+    .then((res) => {
+      setUserName(res.data.name);
+    })
+    .catch((e) => {
+      setUserName("");
+    });
   }
-
+  
   useEffect(() => getUserData(), [authorized])
-
+  
+  const showSideBar = () => setSidebar(!sidebar)
+  
   function switchFilter() {
     switch (showFilter) {
       case 1:
@@ -729,6 +729,7 @@ function Header() {
           <NavLink
             href={authorized ? "/dashboard" : "/login"}
             className="nav-item login"
+            onClick={showSideBar}
           >
             <div>
               {authorized ? (
@@ -763,7 +764,7 @@ function Header() {
             <NavLink
               href={authorized ? "/dashboard" : "/login"}
               className="sidebar-item"
-              onClick={showSideBar}
+              onClick={() => setSidebar(false)}
             >
               <>
                 <AccountCircle fontSize="large" />
