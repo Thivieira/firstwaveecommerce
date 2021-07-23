@@ -60,12 +60,6 @@ const ProductDetails = ({ product }) => {
     supplyAndSize[sizesNoRepeat[i]] = estoque[i];
   }
 
-  console.log(supplyAndSize);
-
-  Object.keys(supplyAndSize).forEach((tamanho, index) => {
-    console.log(tamanho, supplyAndSize[tamanho]);
-  });
-
   useEffect(() => {
     const size = sizesNoRepeat[0];
 
