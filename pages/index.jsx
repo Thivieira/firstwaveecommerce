@@ -33,7 +33,7 @@ const Index = ({ prod }) => {
       </div>
 
       <div className="products-carousel-container">
-        <h3 className="products-carousel-title">Novidades</h3>
+        <h3 className="products-carousel-title">NOVIDADES</h3>
         <ProductsSlider prod={prod} />
       </div>
 
@@ -64,7 +64,7 @@ const Index = ({ prod }) => {
       </div>
 
       <div className="products-carousel-container">
-        <h3 className="products-carousel-title">Mais vendidos</h3>
+        <h3 className="products-carousel-title">OUTLET</h3>
         <ProductsSlider prod={prod} />
       </div>
 

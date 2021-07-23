@@ -1,5 +1,4 @@
-import React from "react";
-
+import NavLink from '../../components/NavLink'
 import { Carousel } from "react-responsive-carousel";
 
 const ImageSlider = () => {
@@ -22,24 +21,30 @@ const ImageSlider = () => {
 
   return (
     <Carousel {...getConfigurableProps()}>
-      <div className="wrapper-carousel-landing">
-        <img
-          src="/1.png"
-          alt="banner"
-        />
-      </div>
-      <div className="wrapper-carousel-landing">
-        <img
-          src="/13.png"
-          alt="banner"
-        />
-      </div>
-      <div className="wrapper-carousel-landing">
-        <img
-          src="/6.png"
-          alt="banner"
-        />
-      </div>
+      <NavLink href='/produtos/Surf/Wetsuit'>
+        <div className="wrapper-carousel-landing">
+            <img
+              src="/1.png"
+              alt="banner"
+            />
+        </div>
+      </NavLink>
+      <NavLink href='/produtos/Masculino/Vestuario/Bermuda'>
+        <div className="wrapper-carousel-landing">
+          <img
+            src="/13.png"
+            alt="banner"
+          />
+        </div>
+      </NavLink>
+      <NavLink href='/produtos/Masculino/Vestuario/Camiseta'>
+        <div className="wrapper-carousel-landing">
+          <img
+            src="/6.png"
+            alt="banner"
+          />
+        </div>
+      </NavLink>
     </Carousel>
   );
 };
