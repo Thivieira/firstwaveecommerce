@@ -45,37 +45,32 @@ const ProductDetails = ({ product }) => {
   }
 
   //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
-  const codigoProduto = variations
-    .map((el) => el.code)[0]
-    .includes("-");
+  const codigoProduto = variations.map((el) => el.code)[0].includes("-");
 
-  const estoque = variations.map(el => el.supply)
-  
-  const tamanhos = variations
-  .map(el => el.description
-    .split(";")
-    .slice(1, 2)[0]
-    .split(":")
-    .slice(1, 2)[0])
-    
-  const sizesNoRepeat = [...new Set(tamanhos)]
+  const estoque = variations.map((el) => el.supply);
 
-  var supplyAndSize = {}
+  const tamanhos = variations.map(
+    (el) => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]
+  );
+
+  const sizesNoRepeat = [...new Set(tamanhos)];
+
+  var supplyAndSize = {};
   for (var i = 0; i < sizesNoRepeat.length; i++) {
-      supplyAndSize[sizesNoRepeat[i]] = estoque[i]
+    supplyAndSize[sizesNoRepeat[i]] = estoque[i];
   }
 
-  console.log(supplyAndSize)
+  console.log(supplyAndSize);
 
   Object.keys(supplyAndSize).forEach((tamanho, index) => {
     console.log(tamanho, supplyAndSize[tamanho]);
-  })
+  });
 
   useEffect(() => {
     const size = sizesNoRepeat[0];
 
     onSelectedSizeChange(size);
-  }, [variations])
+  }, [variations]);
 
   useEffect(() => {
     if (triggerColor) {
@@ -86,7 +81,11 @@ const ProductDetails = ({ product }) => {
   const onSelectedSizeChange = (value) => {
     setSelectedSize(value);
 
-    const variacaoDisponivel = variations.filter(el => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] == value)
+    const variacaoDisponivel = variations.filter(
+      (el) =>
+        el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] ==
+        value
+    );
 
     setAvailableColorVariations(variacaoDisponivel);
 
@@ -170,7 +169,9 @@ const ProductDetails = ({ product }) => {
   const MySwal = withReactContent(Swal);
 
   const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
-  const priceSale = `R$${parseFloat(variations[0].price).toFixed(2).replace(".", ",")}`;
+  const priceSale = `R$${parseFloat(variations[0].price)
+    .toFixed(2)
+    .replace(".", ",")}`;
 
   const handleMouseMove = (e) => {
     const { left, top, width, height } = e.target.getBoundingClientRect();
@@ -220,17 +221,14 @@ const ProductDetails = ({ product }) => {
               ))}
             </Slider>
           </div>
-          
-          {
-            featuredImage == undefined ? (
-              <img className="big-img" src='/noimage.png' alt="img" />
-            ) : (
-              <figure style={zoomImage} onMouseMove={handleMouseMove}>
-                <img className="big-img" src={featuredImage} alt="img" />
-              </figure>
-            )
-          }
 
+          {featuredImage == undefined ? (
+            <img className="big-img" src="/noimage.png" alt="img" />
+          ) : (
+            <figure style={zoomImage} onMouseMove={handleMouseMove}>
+              <img className="big-img" src={featuredImage} alt="img" />
+            </figure>
+          )}
         </div>
 
         <div className="details-content">
@@ -265,7 +263,11 @@ const ProductDetails = ({ product }) => {
             <button
               onClick={() => addToCartFn()}
               disabled={estoqueAtual === 0 ? true : false}
-              title={estoqueAtual === 0 ? "Este produto não tem esta quantidade disponível." : null}
+              title={
+                estoqueAtual === 0
+                  ? "Este produto não tem esta quantidade disponível."
+                  : null
+              }
             >
               ADICIONAR AO
               {<Cart height="20" width="20" color="#fff" />}
@@ -276,25 +278,25 @@ const ProductDetails = ({ product }) => {
             <div className="sizes-btn">
               <strong>Tamanhos:</strong>
               <ul>
-                {
-                  Object.keys(supplyAndSize).forEach( function (tamanho, index) {
-                   return supplyAndSize[tamanho] > 0 ?
-                   (<li
+                {Object.keys(supplyAndSize).map((tamanho, index) =>
+                  supplyAndSize[tamanho] > 0 ? (
+                    <li
                       onClick={() => onSelectedSizeChange(tamanho)}
                       key={tamanho}
                       className={tamanho == selectedSize ? "active" : null}
                     >
                       {tamanho}
-                    </li>)
-                    : 
-                    (<li
+                    </li>
+                  ) : (
+                    <li
                       key={tamanho}
-                      className='disabled'
+                      title="Tamanho não disponível."
+                      className="disabled"
                     >
                       {tamanho}
-                    </li>)
-                  })
-                }
+                    </li>
+                  )
+                )}
               </ul>
             </div>
           ) : null}
@@ -310,9 +312,13 @@ const ProductDetails = ({ product }) => {
               </span>
               <div className="colors-thumb">
                 {availableColorVariations.map((variation) => {
-                  const color = variation.description.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0]
-                  let image = JSON.parse(variation.image)
-                  image = image.length > 0 ? image[0].link : "/noimage.png"
+                  const color = variation.description
+                    .split(";")
+                    .slice(0, 1)[0]
+                    .split(":")
+                    .slice(1, 2)[0];
+                  let image = JSON.parse(variation.image);
+                  image = image.length > 0 ? image[0].link : "/noimage.png";
                   return (
                     <img
                       onClick={() => setSelectedColor(color)}
@@ -322,7 +328,7 @@ const ProductDetails = ({ product }) => {
                       alt="img"
                       style={{ height: "3rem" }}
                     />
-                  )
+                  );
                 })}
               </div>
             </div>
