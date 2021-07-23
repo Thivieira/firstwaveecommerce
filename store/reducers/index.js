@@ -14,7 +14,13 @@ const productsPersistConfig = {
 // COMBINED REDUCERS
 const reducers = {
   products: persistReducer(productsPersistConfig, productsReducer),
-  user: userReducer,
+  user: persistReducer(
+    {
+      key: "user",
+      storage: storage,
+    },
+    userReducer
+  ),
 };
 
 export default combineReducers(reducers);
