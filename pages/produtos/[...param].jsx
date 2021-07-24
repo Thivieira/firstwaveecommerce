@@ -75,7 +75,7 @@ export default function products({
     const res = await api.get(`/products?category=${category}`);
     const prod = res.data.data;
     total = res.data.total;
-    totalPages = res.data.to;
+    totalPages = res.data.last_page;
     per_page = res.data.per_page;
     setPageCount(total / per_page);
     dispatch(setProducts(prod));
@@ -342,7 +342,7 @@ export async function getStaticProps(ctx) {
     );
     products = res.data.data;
     total = res.data.total;
-    totalPages = res.data.to;
+    totalPages = res.data.last_page;
     per_page = res.data.per_page;
   } else if (category && subcategory && !type) {
     type = null;
@@ -351,7 +351,7 @@ export async function getStaticProps(ctx) {
     );
     products = res.data.data;
     total = res.data.total;
-    totalPages = res.data.to;
+    totalPages = res.data.last_page;
     per_page = res.data.per_page;
   } else {
     res = await api.get(`/products?category=${category}`);
@@ -359,7 +359,7 @@ export async function getStaticProps(ctx) {
     subcategory = null;
     type = null;
     total = res.data.total;
-    totalPages = res.data.to;
+    totalPages = res.data.last_page;
     per_page = res.data.per_page;
   }
 

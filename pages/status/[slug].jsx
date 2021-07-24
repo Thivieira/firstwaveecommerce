@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Status from "../../components/Status";
 import { Button } from "antd";
 import { clearCart } from "../../store/actions/products";
@@ -15,9 +15,16 @@ export default function index() {
   const cart = useSelector(getCartState);
   const user = useSelector(getAccount);
   const address = useSelector(getAddress);
+  const [shouldClearCart, setShouldClearCart] = useState(false);
+
+  useEffect(async () => {
+    if (shouldClearCart) {
+      dispatch(clearCart());
+    }
+  }, [shouldClearCart]);
+
   useEffect(async () => {
     const query = router.query;
-    // dispatch(clearCart());
     const orderResult = await axios.post("/api/order", {
       cart,
       user: { ...user, ...address },
@@ -27,11 +34,12 @@ export default function index() {
   const renderStatus = () => {
     switch (router.query.slug) {
       case "sucesso":
+        setShouldClearCart(true);
         return (
           <Status
             status="success"
             title="Sua compra foi efetuada com sucesso!"
-            subTitle={`Pedido #${router.query.payment_id} Cloud server configuration takes 1-5 minutes, please wait.`}
+            subTitle={`Pedido #${router.query.payment_id} enviado, confira seu email para acompanhar a entrega.`}
             extra={[
               <Button
                 type="primary"
@@ -54,6 +62,7 @@ export default function index() {
           />
         );
       case "processando":
+        setShouldClearCart(true);
         return (
           <Status
             title="Successfully Purchased Cloud Server ECS!"
@@ -67,11 +76,25 @@ export default function index() {
       case "erro":
         return (
           <Status
-            status="danger"
-            title="There are some problems with your operation."
+            status="error"
+            title="Aconteceu um erro com o seu pedido."
             extra={[
-              <Button type="primary" key="console">
-                Go Console
+              <Button
+                key="buy"
+                type="primary"
+                onClick={() => {
+                  router.push("/pagamento");
+                }}
+              >
+                Tentar novamente
+              </Button>,
+              <Button
+                key="console"
+                onClick={() => {
+                  router.push("/");
+                }}
+              >
+                Ver outros produtos
               </Button>,
             ]}
           />

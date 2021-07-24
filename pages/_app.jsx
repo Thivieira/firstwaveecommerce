@@ -60,6 +60,7 @@ export default function App({ Component, pageProps }) {
     (response) => response,
     (error) => {
       if (error.response.status === 401) {
+        console.log(window.sessionStorage);
         window.sessionStorage.clear();
       }
       return error;
