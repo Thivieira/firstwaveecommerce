@@ -10,6 +10,7 @@
     "start-local": "next start"
   },
   "cacheDirectories": [
+    ".next/cache",
     "node_modules"
   ],
   "dependencies": {
