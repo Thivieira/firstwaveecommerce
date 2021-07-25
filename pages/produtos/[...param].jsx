@@ -30,6 +30,9 @@ export default function products({
   category,
   subcategory,
   type,
+  sizes,
+  brands,
+  colors
 }) {
   const { getCategory, setCategory } = useContext(CategoryContext);
   const dispatch = useDispatch();
@@ -218,6 +221,9 @@ export default function products({
                 category={category}
                 subcategory={subcategory}
                 type={type}
+                brands={brands}
+                sizes={sizes}
+                colors={colors}
               />
             </>
           ) : (
@@ -244,6 +250,9 @@ export default function products({
                     category={category}
                     subcategory={subcategory}
                     type={type}
+                    brands={brands}
+                    sizes={sizes}
+                    colors={colors}
                   />
                 </div>
               </Drawer>
@@ -328,27 +337,28 @@ export async function getStaticProps(ctx) {
   let subcategory = ctx.params.param[1];
   let type = ctx.params.param[2];
 
-  // const busca = ctx.query.nome; fazer no client
-
   let products;
   let res;
   let total;
   let totalPages;
   let per_page;
 
+  let sizeData
+  let brandData
+  let colorData
+  let sizes
+  let brands
+  let colors
+
   if (category && subcategory && type) {
-    res = await api.get(
-      `/products?category=${category}&subcategory=${subcategory}&type=${type}`
-    );
+    res = await api.get(`/products?category=${category}&subcategory=${subcategory}&type=${type}`);
     products = res.data.data;
     total = res.data.total;
     totalPages = res.data.to;
     per_page = res.data.per_page;
   } else if (category && subcategory && !type) {
     type = null;
-    res = await api.get(
-      `/products?category=${category}&subcategory=${subcategory}`
-    );
+    res = await api.get(`/products?category=${category}&subcategory=${subcategory}`);
     products = res.data.data;
     total = res.data.total;
     totalPages = res.data.to;
@@ -362,6 +372,38 @@ export async function getStaticProps(ctx) {
     totalPages = res.data.to;
     per_page = res.data.per_page;
   }
+
+  if (category && subcategory && type) {
+    sizeData = await api.get(`/products/sizes?category=${category}&subcategory=${subcategory}&type=${type}`)
+    sizes = sizeData.data
+
+    brandData = await api.get(`/products/brands?category=${category}&subcategory=${subcategory}&type=${type}`)
+    brands = brandData.data
+
+    colorData = await api.get(`/products/colors?category=${category}&subcategory=${subcategory}&type=${type}`)
+    colors = colorData.data
+
+  } else if (category && subcategory && !type) {
+    sizeData = await api.get(`/products/sizes?category=${category}&subcategory=${subcategory}`)
+    sizes = sizeData.data
+
+    brandData = await api.get(`/products/brands?category=${category}&subcategory=${subcategory}`)
+    brands = brandData.data
+
+    colorData = await api.get(`/products/colors?category=${category}&subcategory=${subcategory}`)
+    colors = colorData.data
+
+  } else {
+    sizeData = await api.get(`/products/sizes?category=${category}`)
+    sizes = sizeData.data
+
+    brandData = await api.get(`/products/brands?category=${category}`)
+    brands = brandData.data
+
+    colorData = await api.get(`/products/colors?category=${category}`)
+    colors = colorData.data
+  }
+
 
   if (!products) {
     return {
@@ -381,6 +423,9 @@ export async function getStaticProps(ctx) {
       category,
       subcategory,
       type,
+      sizes,
+      brands,
+      colors
     },
     revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
   };

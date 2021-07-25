@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from "react";
+import React, { useCallback, useState, useRef, useEffect } from "react";
 
 import { useRouter } from "next/router";
 import Select from "react-select";
@@ -21,20 +21,9 @@ import {
   setLoading,
 } from "../../store/actions/products";
 
-export const getStaticProps = async (ctx) => {
-  console.log(ctx);
-  const category = ctx.params.param[0];
-  const subcategory = ctx.params.param[1];
-  const type = ctx.params.param[2];
 
-  return {
-    props: { category, subcategory, type },
-  };
-};
-
-function Filter({ category, subcategory, type }) {
+function Filter({category, subcategory, type, brands, sizes, colors}) {
   const dispatch = useDispatch();
-
   const products = useSelector(getAllProducts);
 
   const [selectedSize, setSelectedSize] = useState([]);
@@ -52,6 +41,13 @@ function Filter({ category, subcategory, type }) {
   const selectInputRefColor = useRef();
   const selectInputRefBrand = useRef();
 
+  console.log(category, subcategory, type)
+
+  console.log(brands)
+  console.log(sizes)
+  console.log(colors)
+
+
   console.log(
     filtersSize,
     filtersColor,
@@ -59,8 +55,6 @@ function Filter({ category, subcategory, type }) {
     selectedPriceMin,
     selectedPriceMax
   );
-
-  console.log(products);
 
   const addFilterApi = useCallback(async () => {
     dispatch(clearProducts());
@@ -108,15 +102,6 @@ function Filter({ category, subcategory, type }) {
 
   const animatedComponents = makeAnimated();
 
-  const brands = useSelector(getAllProductBrands);
-  const brandsNoRepeat = [...new Set(brands)].filter(Boolean);
-
-  const colors = useSelector(getAllProductColor);
-  const colorsNoRepeat = [...new Set(colors)].filter(Boolean);
-
-  const sizes = useSelector(getAllProductSize);
-  const sizesNoRepeat = [...new Set(sizes)].filter(Boolean);
-
   const cleanFilters = () => {
     selectInputRefSize.current.select.clearValue();
     selectInputRefColor.current.select.clearValue();
@@ -151,7 +136,7 @@ function Filter({ category, subcategory, type }) {
           name="marcas"
           components={animatedComponents}
           isMulti={true}
-          options={sizesNoRepeat.map((el) => ({
+          options={sizes.map((el) => ({
             label: el,
             value: el,
           }))}
@@ -169,7 +154,7 @@ function Filter({ category, subcategory, type }) {
           name="marcas"
           components={animatedComponents}
           isMulti={true}
-          options={colorsNoRepeat.map((el) => ({
+          options={colors.map((el) => ({
             label: el,
             value: el,
           }))}
@@ -187,7 +172,7 @@ function Filter({ category, subcategory, type }) {
           name="marcas"
           components={animatedComponents}
           isMulti={true}
-          options={brandsNoRepeat.map((el) => ({
+          options={brands.map((el) => ({
             label: el,
             value: el,
           }))}
@@ -224,3 +209,6 @@ function Filter({ category, subcategory, type }) {
 }
 
 export default Filter;
+
+
+
