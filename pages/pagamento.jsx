@@ -11,8 +11,10 @@ import PaypalButton from "../components/PaypalButton";
 import api from "../services/api";
 import PaymentBtn from "../components/PaymentBtn";
 import { SwapVerticalCircleTwoTone } from "@material-ui/icons";
+import { useRouter } from "next/router";
 
 function Payment() {
+  const router = useRouter();
   const cart = useSelector(getCartState);
   const cartTotal = useSelector(getCartTotal);
 
@@ -96,6 +98,11 @@ function Payment() {
     } else {
       setEdit(true);
     }
+  }
+
+  if (cart.length == 0) {
+    router.push("/");
+    return null;
   }
 
   return (

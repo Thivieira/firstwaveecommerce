@@ -33,7 +33,7 @@ export default function handler(req, res) {
 
     const items = cart.map((item) => {
       return {
-        id: item.codigoVariacao,
+        id: item.code,
         title: item.description,
         description: `${item.description} - ${item.brand}`,
         picture_url: item.imagemVariacao,
@@ -43,8 +43,6 @@ export default function handler(req, res) {
         category_id: "fashion",
       };
     });
-
-    console.log("ITEMS", items);
 
     let firstName = account.name.split(" ").slice(0, -1).join(" ");
     let lastName = account.name.split(" ").slice(-1).join(" ");
