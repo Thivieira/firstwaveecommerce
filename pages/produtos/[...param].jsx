@@ -32,7 +32,7 @@ export default function products({
   type,
   sizes,
   brands,
-  colors
+  colors,
 }) {
   const { getCategory, setCategory } = useContext(CategoryContext);
   const dispatch = useDispatch();
@@ -44,6 +44,7 @@ export default function products({
   const [width, setWindowWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(1);
+  const [theTotal, setTotal] = useState(total);
 
   const showDrawerFilters = () => setVisible(true);
   const onCloseFilters = () => setVisible(false);
@@ -52,7 +53,7 @@ export default function products({
     dispatch(clearProducts());
     dispatch(setLoading(false));
     dispatch(setProducts(prod));
-    setPageCount(total / per_page);
+    setPageCount(theTotal / per_page);
     setCategory({ category: category, subcategory: subcategory, type: type });
     setCurrentPage(0);
   }, [dispatch, category, subcategory, type]);
@@ -77,10 +78,9 @@ export default function products({
     dispatch(clearProducts());
     const res = await api.get(`/products?category=${category}`);
     const prod = res.data.data;
-    total = res.data.total;
+    setTotal(res.data.total);
     totalPages = res.data.last_page;
-    per_page = res.data.per_page;
-    setPageCount(total / per_page);
+    setPageCount(res.data.total / res.data.per_page);
     dispatch(setProducts(prod));
     dispatch(setLoading(false));
   };
@@ -102,10 +102,9 @@ export default function products({
       dispatch(setLoading(false));
       dispatch(setProducts(res.data.data));
       // products = data.data;
-      totalPages = res.data.total;
-      total = res.data.total;
-      per_page = res.data.per_page;
-      setPageCount(total / per_page);
+      totalPages = res.data.last_page;
+      setTotal(res.data.total);
+      setPageCount(res.data.total / res.data.per_page);
     });
   }, [currentPage, dispatch]);
 
@@ -149,7 +148,7 @@ export default function products({
         <div className="filter-sort">
           {products.length > 0 && (
             <>
-              <p>{total} Produto(s) Encontrados</p>
+              <p>{theTotal} Produto(s) Encontrados</p>
 
               <Dropdown overlay={menu}>
                 <a
@@ -172,7 +171,7 @@ export default function products({
                   key={removeIdDuplicate(product.id)}
                 />
               ))}
-              {total > 15 ? (
+              {theTotal > 15 ? (
                 <ReactPaginate
                   previousLabel={"<"}
                   nextLabel={">"}
@@ -343,28 +342,33 @@ export async function getStaticProps(ctx) {
   let totalPages;
   let per_page;
 
-  let sizeData
-  let brandData
-  let colorData
-  let sizes
-  let brands
-  let colors
+  let sizeData;
+  let brandData;
+  let colorData;
+  let sizes;
+  let brands;
+  let colors;
 
   if (category && subcategory && type) {
-    res = await api.get(`/products?category=${category}&subcategory=${subcategory}&type=${type}`);
+    res = await api.get(
+      `/products?category=${category}&subcategory=${subcategory}&type=${type}`
+    );
     products = res.data.data;
     total = res.data.total;
     totalPages = res.data.last_page;
     per_page = res.data.per_page;
   } else if (category && subcategory && !type) {
     type = null;
-    res = await api.get(`/products?category=${category}&subcategory=${subcategory}`);
+    res = await api.get(
+      `/products?category=${category}&subcategory=${subcategory}`
+    );
     products = res.data.data;
     total = res.data.total;
     totalPages = res.data.last_page;
     per_page = res.data.per_page;
   } else {
     res = await api.get(`/products?category=${category}`);
+
     products = res.data.data;
     subcategory = null;
     type = null;
@@ -374,36 +378,45 @@ export async function getStaticProps(ctx) {
   }
 
   if (category && subcategory && type) {
-    sizeData = await api.get(`/products/sizes?category=${category}&subcategory=${subcategory}&type=${type}`)
-    sizes = sizeData.data
+    sizeData = await api.get(
+      `/products/sizes?category=${category}&subcategory=${subcategory}&type=${type}`
+    );
+    sizes = sizeData.data;
 
-    brandData = await api.get(`/products/brands?category=${category}&subcategory=${subcategory}&type=${type}`)
-    brands = brandData.data
+    brandData = await api.get(
+      `/products/brands?category=${category}&subcategory=${subcategory}&type=${type}`
+    );
+    brands = brandData.data;
 
-    colorData = await api.get(`/products/colors?category=${category}&subcategory=${subcategory}&type=${type}`)
-    colors = colorData.data
-
+    colorData = await api.get(
+      `/products/colors?category=${category}&subcategory=${subcategory}&type=${type}`
+    );
+    colors = colorData.data;
   } else if (category && subcategory && !type) {
-    sizeData = await api.get(`/products/sizes?category=${category}&subcategory=${subcategory}`)
-    sizes = sizeData.data
+    sizeData = await api.get(
+      `/products/sizes?category=${category}&subcategory=${subcategory}`
+    );
+    sizes = sizeData.data;
 
-    brandData = await api.get(`/products/brands?category=${category}&subcategory=${subcategory}`)
-    brands = brandData.data
+    brandData = await api.get(
+      `/products/brands?category=${category}&subcategory=${subcategory}`
+    );
+    brands = brandData.data;
 
-    colorData = await api.get(`/products/colors?category=${category}&subcategory=${subcategory}`)
-    colors = colorData.data
-
+    colorData = await api.get(
+      `/products/colors?category=${category}&subcategory=${subcategory}`
+    );
+    colors = colorData.data;
   } else {
-    sizeData = await api.get(`/products/sizes?category=${category}`)
-    sizes = sizeData.data
+    sizeData = await api.get(`/products/sizes?category=${category}`);
+    sizes = sizeData.data;
 
-    brandData = await api.get(`/products/brands?category=${category}`)
-    brands = brandData.data
+    brandData = await api.get(`/products/brands?category=${category}`);
+    brands = brandData.data;
 
-    colorData = await api.get(`/products/colors?category=${category}`)
-    colors = colorData.data
+    colorData = await api.get(`/products/colors?category=${category}`);
+    colors = colorData.data;
   }
-
 
   if (!products) {
     return {
@@ -425,7 +438,7 @@ export async function getStaticProps(ctx) {
       type,
       sizes,
       brands,
-      colors
+      colors,
     },
     revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
   };
