@@ -14,27 +14,11 @@ import Filter from "../../components/Filter";
 import Product from "../../components/Products/ProductCard";
 import api from "../../services/api";
 
-import { getAllProducts, getLoading } from "../../store/selectors/products";
-import {
-  setProducts,
-  clearProducts,
-  setLoading,
-  sortProducts,
-} from "../../store/actions/products";
+import { getAllProducts, getLoading, getPaginationData} from "../../store/selectors/products";
+import { setProducts, clearProducts, setLoading, sortProducts, setPaginationProducts } from "../../store/actions/products";
 
-export default function products({
-  prod,
-  total,
-  totalPages,
-  per_page,
-  category,
-  subcategory,
-  type,
-  sizes,
-  brands,
-  colors,
-}) {
-  const { getCategory, setCategory } = useContext(CategoryContext);
+export default function products({ prod, total, totalPages, per_page, category, subcategory, type, sizes, brands, colors }) {
+  const { getCategory, setCategory } = useContext(CategoryContext)
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
   const loading = useSelector(getLoading);
@@ -43,19 +27,24 @@ export default function products({
   const [visible, setVisible] = useState(false);
   const [width, setWindowWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-  const [pageCount, setPageCount] = useState(1);
+  const [pageCount, setPageCount] = useState(totalPages);
   const [theTotal, setTotal] = useState(total);
-
+  const [filterUrl,  setFilterUrl] = useState()
+  
+  const paginationRedux = useSelector(getPaginationData)
+  
   const showDrawerFilters = () => setVisible(true);
   const onCloseFilters = () => setVisible(false);
 
   useEffect(() => {
+    let page = currentPage + 1
     dispatch(clearProducts());
     dispatch(setLoading(false));
     dispatch(setProducts(prod));
     setPageCount(theTotal / per_page);
     setCategory({ category: category, subcategory: subcategory, type: type });
     setCurrentPage(0);
+    dispatch(setPaginationProducts(totalPages, page, per_page, theTotal))
   }, [dispatch, category, subcategory, type]);
 
   useEffect(() => {
@@ -79,7 +68,7 @@ export default function products({
     const res = await api.get(`/products?category=${category}`);
     const prod = res.data.data;
     setTotal(res.data.total);
-    totalPages = res.data.last_page;
+    // totalPages = res.data.last_page;
     setPageCount(res.data.total / res.data.per_page);
     dispatch(setProducts(prod));
     dispatch(setLoading(false));
@@ -101,10 +90,9 @@ export default function products({
     api.get(`/products?${filterString}&page=${page}`).then((res) => {
       dispatch(setLoading(false));
       dispatch(setProducts(res.data.data));
-      // products = data.data;
-      totalPages = res.data.last_page;
       setTotal(res.data.total);
       setPageCount(res.data.total / res.data.per_page);
+      dispatch(setPaginationProducts(totalPages, page, per_page, theTotal))
     });
   }, [currentPage, dispatch]);
 
@@ -148,7 +136,7 @@ export default function products({
         <div className="filter-sort">
           {products.length > 0 && (
             <>
-              <p>{theTotal} Produto(s) Encontrados</p>
+              <p>{paginationRedux.theTotal} Produto(s) Encontrados</p>
 
               <Dropdown overlay={menu}>
                 <a
@@ -171,11 +159,11 @@ export default function products({
                   key={removeIdDuplicate(product.id)}
                 />
               ))}
-              {theTotal > 15 ? (
+              {paginationRedux.theTotal > 15 ? (
                 <ReactPaginate
                   previousLabel={"<"}
                   nextLabel={">"}
-                  pageCount={pageCount}
+                  pageCount={paginationRedux.totalPages}
                   onPageChange={(selected) => changePage(selected)}
                   forcePage={currentPage}
                   containerClassName={"paginationsBttn"}

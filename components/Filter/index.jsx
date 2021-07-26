@@ -10,6 +10,7 @@ import api from "../../services/api";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getAllProducts,
+  getFilterData,
   getAllProductSize,
   getAllProductColor,
   getAllProductBrands,
@@ -19,18 +20,23 @@ import {
   setProducts,
   clearProducts,
   setLoading,
+  setFilterData,
+  setPaginationProducts,
+  setFilterUrl
 } from "../../store/actions/products";
 
 function Filter({ category, subcategory, type, brands, sizes, colors }) {
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
 
-  const [selectedSize, setSelectedSize] = useState([]);
-  const [selectedColor, setSelectedColor] = useState([]);
-  const [selectedBrand, setSelectedBrand] = useState([]);
+  const selectedFilterRedux = useSelector(getFilterData)
 
-  const [selectedPriceMin, setSelectedPriceMin] = useState("");
-  const [selectedPriceMax, setSelectedPriceMax] = useState("");
+  const [selectedSize, setSelectedSize] = useState(selectedFilterRedux.filtersSize);
+  const [selectedColor, setSelectedColor] = useState(selectedFilterRedux.filtersColor);
+  const [selectedBrand, setSelectedBrand] = useState(selectedFilterRedux.filtersBrand);
+
+  const [selectedPriceMin, setSelectedPriceMin] = useState(selectedFilterRedux.selectedPriceMin);
+  const [selectedPriceMax, setSelectedPriceMax] = useState(selectedFilterRedux.selectedPriceMax);
 
   let filtersSize = selectedSize.map((el) => el.value);
   let filtersColor = selectedColor.map((el) => el.value);
@@ -40,38 +46,31 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
   const selectInputRefColor = useRef();
   const selectInputRefBrand = useRef();
 
-  console.log(category, subcategory, type);
+  useEffect(() => {
+    dispatch(setFilterData(filtersSize, filtersColor, filtersBrand, selectedPriceMin, selectedPriceMax))
+  }, [selectedSize, selectedColor, selectedBrand, selectedPriceMin, selectedPriceMax])
 
-  console.log(brands);
-  console.log(sizes);
-  console.log(colors);
-
-  console.log(
-    filtersSize,
-    filtersColor,
-    filtersBrand,
-    selectedPriceMin,
-    selectedPriceMax
-  );
 
   const addFilterApi = useCallback(async () => {
     dispatch(clearProducts());
     dispatch(setLoading(true));
 
     if (subcategory && type && category) {
-      const res = await api.get(
-        `/products/filters?category=${category}&subcategory=${subcategory}&type=${type}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
-      );
+      let url = `/products/filters?category=${category}&subcategory=${subcategory}&type=${type}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
+      const res = await api.get(url)
       const prod = res.data.data;
+      setFilterUrl(url)
       dispatch(setProducts(prod));
       dispatch(setLoading(false));
+      dispatch(setPaginationProducts(res.data.last_page, res.data.currentPage, res.data.per_page, res.data.total))
     } else if (!type && subcategory && category) {
-      const res = await api.get(
-        `/products/filters?category=${category}&subcategory=${subcategory}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
-      );
+      let url = `/products/filters?category=${category}&subcategory=${subcategory}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
+      const res = await api.get(url)
       const prod = res.data.data;
+      setFilterUrl(url)
       dispatch(setProducts(prod));
       dispatch(setLoading(false));
+      dispatch(setPaginationProducts(res.data.last_page, res.data.currentPage, res.data.per_page, res.data.total))
     } else if (!subcategory && !type && category) {
       const res = await api.get(
         `/products/filters?category=${category}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
@@ -79,6 +78,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
       const prod = res.data.data;
       dispatch(setProducts(prod));
       dispatch(setLoading(false));
+      dispatch(setPaginationProducts(res.data.last_page, res.data.currentPage, res.data.per_page, res.data.total))
     } else {
       const res = await api.get(
         `/products/filters?size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
@@ -86,6 +86,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
       const prod = res.data.data;
       dispatch(setProducts(prod));
       dispatch(setLoading(false));
+      dispatch(setPaginationProducts(res.data.last_page, res.data.currentPage, res.data.per_page, res.data.total))
     }
   }, [
     dispatch,
@@ -111,7 +112,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     setSelectedPriceMin("");
     setSelectedPriceMax("");
 
-    // addFilterApi();
+    addFilterApi();
   };
 
   const formatter = (value) => `R$${value},00`;
@@ -119,7 +120,6 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
   function selectedPrice(value) {
     setSelectedPriceMin(value[0]);
     setSelectedPriceMax(value[1]);
-    console.log(selectedPriceMin, selectedPriceMax);
   }
 
   return (

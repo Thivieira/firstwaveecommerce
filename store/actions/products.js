@@ -3,6 +3,21 @@ export const setProducts = (products) => ({
   payload: products,
 });
 
+export const setPaginationProducts = (totalPages, currentPage, per_page, theTotal) => ({
+  type: "GET_PAGINATION_PRODUCTS",
+  payload: { totalPages, currentPage, per_page, theTotal }
+})
+
+export const setFilterData = (filtersSize, filtersColor, filtersBrand, selectedPriceMin, selectedPriceMax) => ({
+  type: "GET_FILTER_DATA",
+  payload: { filtersSize, filtersColor, filtersBrand, selectedPriceMin, selectedPriceMax }
+})
+
+export const setFilterUrl = (url) => ({
+  type: "GET_FILTER_URL",
+  payload: url
+})
+
 export const sortProducts = (products, sort) => ({
   type: "SORT_PRODUCTS",
   payload: { products, sort },

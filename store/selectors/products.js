@@ -48,3 +48,9 @@ export const getAllProductColor = (state) =>
     .map((el) => el[0])
     .map((el) => el.split(":"))
     .map((el) => el[1])
+
+export const getPaginationData = (state) => state.products.pagination
+
+export const getFilterData = (state) => state.products.filter
+
+export const getFilterUrl = (state) => state.products.filterUrl
