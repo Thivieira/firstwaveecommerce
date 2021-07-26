@@ -90,7 +90,7 @@ export default function handler(req, res) {
           apartment: address.complement,
         },
       },
-      statement_descriptor: "LIFESTYLEFLORIPA",
+      statement_descriptor: "LIFESTYLEFLN",
     };
 
     console.log("PREFERENCE", preference);
