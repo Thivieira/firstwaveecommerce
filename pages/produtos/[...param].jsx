@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { CategoryContext } from "../../contexts/CategoryContext";
 import FadeLoader from "react-spinners/FadeLoader";
 import ReactPaginate from "react-paginate";
@@ -26,6 +27,8 @@ import {
   setLoading,
   sortProducts,
   setPaginationProducts,
+  setFilterData,
+  setFilterUrl
 } from "../../store/actions/products";
 
 export default function products({
@@ -51,8 +54,13 @@ export default function products({
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(totalPages);
   const [theTotal, setTotal] = useState(total);
-  // const [filterUrl, setFilterUrl] = useState();
   const filterUrl = useSelector(getFilterUrl);
+  const router = useRouter();
+
+  router.events.on("routeChangeStart", () => {
+    dispatch(setFilterUrl(''))
+    dispatch(setFilterData({size:[], color:[], brand:[], priceMin:0, priceMax:2000}))
+  })
 
   const paginationRedux = useSelector(getPaginationData);
 

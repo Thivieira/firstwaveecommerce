@@ -22,7 +22,7 @@ import {
   setLoading,
   setFilterData,
   setPaginationProducts,
-  setFilterUrl,
+  setFilterUrl
 } from "../../store/actions/products";
 
 function Filter({ category, subcategory, type, brands, sizes, colors }) {
@@ -59,8 +59,6 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
   const selectInputRefSize = useRef();
   const selectInputRefColor = useRef();
   const selectInputRefBrand = useRef();
-
-  // console.log(selectedFilterRedux);
 
   useEffect(() => {
     dispatch(
@@ -131,6 +129,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     filtersBrand = "";
     setSelectedPriceMin("");
     setSelectedPriceMax("");
+    dispatch(setFilterUrl(""));
 
     addFilterApi();
   };
@@ -141,6 +140,8 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     setSelectedPriceMin(value[0]);
     setSelectedPriceMax(value[1]);
   }
+
+  
 
   return (
     <div className="filter">
