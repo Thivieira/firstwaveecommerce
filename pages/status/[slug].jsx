@@ -9,32 +9,36 @@ import { getAccount, getAddress } from "../../store/selectors/user";
 import { useDispatch, useSelector } from "react-redux";
 import blingStoreOrder from "../../services/blingStoreOrder";
 
-export default function index() {
+// This gets called on every request
+export async function getServerSideProps(ctx) {
+  return { props: { slug: ctx.params.slug } };
+}
+
+export default function index(props) {
   const router = useRouter();
   const dispatch = useDispatch();
   const cart = useSelector(getCartState);
   const user = useSelector(getAccount);
   const address = useSelector(getAddress);
-  const [shouldClearCart, setShouldClearCart] = useState(false);
-
   useEffect(async () => {
-    if (shouldClearCart) {
-      dispatch(clearCart());
+    // const orderResult = await axios.post("/api/order", {
+    //   cart,
+    //   user: { ...user, ...address },
+    // });
+
+    switch (props.slug) {
+      case "sucesso":
+        dispatch(clearCart());
+        break;
+      case "processando":
+        dispatch(clearCart());
+        break;
     }
-  }, [shouldClearCart]);
-
-  useEffect(async () => {
-    const query = router.query;
-    const orderResult = await axios.post("/api/order", {
-      cart,
-      user: { ...user, ...address },
-    });
   }, []);
 
   const renderStatus = () => {
-    switch (router.query.slug) {
+    switch (props.slug) {
       case "sucesso":
-        setShouldClearCart(true);
         return (
           <Status
             status="success"
@@ -62,7 +66,6 @@ export default function index() {
           />
         );
       case "processando":
-        setShouldClearCart(true);
         return (
           <Status
             title="Successfully Purchased Cloud Server ECS!"

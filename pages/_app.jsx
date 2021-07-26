@@ -6,7 +6,6 @@ import { PersistGate } from "redux-persist/integration/react";
 import SiteLayout from "../layouts/SiteLayout";
 import NProgress from "nprogress";
 import { CategoryContextProvider } from "../contexts/CategoryContext";
-import axios from "axios";
 
 import "../services/firebase";
 
@@ -45,6 +44,7 @@ import "../Utils/Title/title.css";
 import "../Utils/NumeratedTitle/numeratedTitle.css";
 import "../Utils/PaymentBox/paymentBox.css";
 import "../public/nprogress.css";
+import api from "../services/api";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -56,16 +56,24 @@ export default function App({ Component, pageProps }) {
   const getLayout =
     Component.getLayout || ((page) => <SiteLayout children={page} />);
 
-  axios.interceptors.response.use(
-    (response) => response,
-    (error) => {
-      if (error.response.status === 401) {
-        console.log(window.sessionStorage);
-        window.sessionStorage.clear();
-      }
-      return error;
+  if (typeof window !== "undefined") {
+    const authenticated = Boolean(window.sessionStorage.getItem("authorized"));
+    if (authenticated) {
+      const token = window.sessionStorage.getItem("key");
+      api.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
-  );
+
+    api.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response.status === 401) {
+          console.log(window.sessionStorage);
+          window.sessionStorage.clear();
+        }
+        return error;
+      }
+    );
+  }
 
   return (
     <Provider store={store}>
