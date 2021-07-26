@@ -389,70 +389,51 @@ export async function getStaticProps(ctx) {
     res = await api.get(
       `/products?category=${category}&subcategory=${subcategory}&type=${type}`
     );
-    products = res.data.data;
-    total = res.data.total;
-    totalPages = res.data.last_page;
-    per_page = res.data.per_page;
   } else if (category && subcategory && !type) {
     type = null;
     res = await api.get(
       `/products?category=${category}&subcategory=${subcategory}`
     );
-    products = res.data.data;
-    total = res.data.total;
-    totalPages = res.data.last_page;
-    per_page = res.data.per_page;
   } else {
     res = await api.get(`/products?category=${category}`);
-
-    products = res.data.data;
     subcategory = null;
     type = null;
-    total = res.data.total;
-    totalPages = res.data.last_page;
-    per_page = res.data.per_page;
   }
+
+  products = res.data.data;
+  total = res.data.total;
+  totalPages = res.data.last_page;
+  per_page = res.data.per_page;
 
   if (category && subcategory && type) {
     sizeData = await api.get(
       `/products/sizes?category=${category}&subcategory=${subcategory}&type=${type}`
     );
-    sizes = sizeData.data;
-
     brandData = await api.get(
       `/products/brands?category=${category}&subcategory=${subcategory}&type=${type}`
     );
-    brands = brandData.data;
-
     colorData = await api.get(
       `/products/colors?category=${category}&subcategory=${subcategory}&type=${type}`
     );
-    colors = colorData.data;
   } else if (category && subcategory && !type) {
     sizeData = await api.get(
       `/products/sizes?category=${category}&subcategory=${subcategory}`
     );
-    sizes = sizeData.data;
-
     brandData = await api.get(
       `/products/brands?category=${category}&subcategory=${subcategory}`
     );
-    brands = brandData.data;
-
     colorData = await api.get(
       `/products/colors?category=${category}&subcategory=${subcategory}`
     );
-    colors = colorData.data;
   } else {
     sizeData = await api.get(`/products/sizes?category=${category}`);
-    sizes = sizeData.data;
-
     brandData = await api.get(`/products/brands?category=${category}`);
-    brands = brandData.data;
-
     colorData = await api.get(`/products/colors?category=${category}`);
-    colors = colorData.data;
   }
+
+  sizes = sizeData.data;
+  brands = brandData.data;
+  colors = colorData.data;
 
   if (!products) {
     return {
