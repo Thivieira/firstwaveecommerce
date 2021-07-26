@@ -127,8 +127,8 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     filtersSize = "";
     filtersColor = "";
     filtersBrand = "";
-    setSelectedPriceMin("");
-    setSelectedPriceMax("");
+    setSelectedPriceMin(0);
+    setSelectedPriceMax(2000);
     dispatch(setFilterUrl(""));
 
     addFilterApi();
@@ -141,6 +141,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     setSelectedPriceMax(value[1]);
   }
 
+  const defaultSelected = (type) => selectedFilterRedux[type].length > 0 ? selectedFilterRedux[type].map((el) => ({ label: el, value: el, })) : []
   
 
   return (
@@ -159,10 +160,11 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
             label: el,
             value: el,
           }))}
-          value={selectedFilterRedux.size.map((el) => ({
-            label: el,
-            value: el,
-          }))}
+          // value={selectedFilterRedux.size.map((el) => ({
+          //   label: el,
+          //   value: el,
+          // }))}
+          value={defaultSelected('size')}
           classNamePrefix="select"
           onChange={setSelectedSize}
           ref={selectInputRefSize}
@@ -181,10 +183,11 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
             label: el,
             value: el,
           }))}
-          value={selectedFilterRedux.color.map((el) => ({
-            label: el,
-            value: el,
-          }))}
+          // value={selectedFilterRedux.color.map((el) => ({
+          //   label: el,
+          //   value: el,
+          // }))}
+          value={defaultSelected('color')}
           classNamePrefix="select"
           onChange={setSelectedColor}
           ref={selectInputRefColor}
@@ -203,10 +206,11 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
             label: el,
             value: el,
           }))}
-          value={selectedFilterRedux.brand.map((el) => ({
-            label: el,
-            value: el,
-          }))}
+          // value={selectedFilterRedux.brand.map((el) => ({
+          //   label: el,
+          //   value: el,
+          // }))}
+          value={defaultSelected('brand')}
           classNamePrefix="select"
           onChange={setSelectedBrand}
           ref={selectInputRefBrand}

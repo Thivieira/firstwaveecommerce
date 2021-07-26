@@ -59,7 +59,7 @@ export default function products({
 
   router.events.on("routeChangeStart", () => {
     dispatch(setFilterUrl(''))
-    dispatch(setFilterData({size:[], color:[], brand:[], priceMin:0, priceMax:2000}))
+    dispatch(setFilterData([], [], [], 0, 2000))
   })
 
   const paginationRedux = useSelector(getPaginationData);
