@@ -21,8 +21,7 @@ import {
   setLoading,
 } from "../../store/actions/products";
 
-
-function Filter({category, subcategory, type, brands, sizes, colors}) {
+function Filter({ category, subcategory, type, brands, sizes, colors }) {
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
 
@@ -41,12 +40,11 @@ function Filter({category, subcategory, type, brands, sizes, colors}) {
   const selectInputRefColor = useRef();
   const selectInputRefBrand = useRef();
 
-  console.log(category, subcategory, type)
+  console.log(category, subcategory, type);
 
-  console.log(brands)
-  console.log(sizes)
-  console.log(colors)
-
+  console.log(brands);
+  console.log(sizes);
+  console.log(colors);
 
   console.log(
     filtersSize,
@@ -62,28 +60,28 @@ function Filter({category, subcategory, type, brands, sizes, colors}) {
 
     if (subcategory && type && category) {
       const res = await api.get(
-        `/produtos?category=${category}&subcategory=${subcategory}&type=${type}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
+        `/products/filters?category=${category}&subcategory=${subcategory}&type=${type}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
       );
       const prod = res.data.data;
       dispatch(setProducts(prod));
       dispatch(setLoading(false));
     } else if (!type && subcategory && category) {
       const res = await api.get(
-        `/produtos?category=${category}&subcategory=${subcategory}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
+        `/products/filters?category=${category}&subcategory=${subcategory}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
       );
       const prod = res.data.data;
       dispatch(setProducts(prod));
       dispatch(setLoading(false));
     } else if (!subcategory && !type && category) {
       const res = await api.get(
-        `/produtos?category=${category}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
+        `/products/filters?category=${category}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
       );
       const prod = res.data.data;
       dispatch(setProducts(prod));
       dispatch(setLoading(false));
     } else {
       const res = await api.get(
-        `/produtos?size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
+        `/products/filters?size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
       );
       const prod = res.data.data;
       dispatch(setProducts(prod));
@@ -209,6 +207,3 @@ function Filter({category, subcategory, type, brands, sizes, colors}) {
 }
 
 export default Filter;
-
-
-
