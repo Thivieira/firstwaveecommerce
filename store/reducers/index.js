@@ -3,7 +3,7 @@ import * as types from "../actions/types";
 import productsReducer from "./products";
 import userReducer from "./user";
 const { persistReducer } = require("redux-persist");
-const storage = require("redux-persist/lib/storage").default;
+import storage from "../storage";
 
 const productsPersistConfig = {
   key: "products",
