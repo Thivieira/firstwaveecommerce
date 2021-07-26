@@ -22,72 +22,92 @@ import {
   setLoading,
   setFilterData,
   setPaginationProducts,
-  setFilterUrl
+  setFilterUrl,
 } from "../../store/actions/products";
 
 function Filter({ category, subcategory, type, brands, sizes, colors }) {
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
 
-  const selectedFilterRedux = useSelector(getFilterData)
+  const selectedFilterRedux = useSelector(getFilterData);
 
-  const [selectedSize, setSelectedSize] = useState(selectedFilterRedux.filtersSize);
-  const [selectedColor, setSelectedColor] = useState(selectedFilterRedux.filtersColor);
-  const [selectedBrand, setSelectedBrand] = useState(selectedFilterRedux.filtersBrand);
+  const [selectedSize, setSelectedSize] = useState(selectedFilterRedux.size);
+  const [selectedColor, setSelectedColor] = useState(selectedFilterRedux.color);
+  const [selectedBrand, setSelectedBrand] = useState(selectedFilterRedux.brand);
 
-  const [selectedPriceMin, setSelectedPriceMin] = useState(selectedFilterRedux.selectedPriceMin);
-  const [selectedPriceMax, setSelectedPriceMax] = useState(selectedFilterRedux.selectedPriceMax);
+  const [selectedPriceMin, setSelectedPriceMin] = useState(
+    selectedFilterRedux.priceMin
+  );
+  const [selectedPriceMax, setSelectedPriceMax] = useState(
+    selectedFilterRedux.priceMax
+  );
 
-  let filtersSize = selectedSize.map((el) => el.value);
-  let filtersColor = selectedColor.map((el) => el.value);
-  let filtersBrand = selectedBrand.map((el) => el.value);
+  function galderio(el) {
+    if (typeof el === "object") {
+      return el.value;
+    }
+    return el;
+  }
+
+  var filtersSize =
+    selectedSize.length > 0 ? selectedSize.map(galderio) : selectedSize;
+  var filtersColor =
+    selectedColor.length > 0 ? selectedColor.map(galderio) : selectedColor;
+  var filtersBrand =
+    selectedBrand.length > 0 ? selectedBrand.map(galderio) : selectedBrand;
 
   const selectInputRefSize = useRef();
   const selectInputRefColor = useRef();
   const selectInputRefBrand = useRef();
 
-  useEffect(() => {
-    dispatch(setFilterData(filtersSize, filtersColor, filtersBrand, selectedPriceMin, selectedPriceMax))
-  }, [selectedSize, selectedColor, selectedBrand, selectedPriceMin, selectedPriceMax])
+  // console.log(selectedFilterRedux);
 
+  useEffect(() => {
+    dispatch(
+      setFilterData(
+        filtersSize,
+        filtersColor,
+        filtersBrand,
+        selectedPriceMin,
+        selectedPriceMax
+      )
+    );
+  }, [
+    selectedSize,
+    selectedColor,
+    selectedBrand,
+    selectedPriceMin,
+    selectedPriceMax,
+  ]);
 
   const addFilterApi = useCallback(async () => {
     dispatch(clearProducts());
     dispatch(setLoading(true));
 
+    let url = "";
+
     if (subcategory && type && category) {
-      let url = `/products/filters?category=${category}&subcategory=${subcategory}&type=${type}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
-      const res = await api.get(url)
-      const prod = res.data.data;
-      setFilterUrl(url)
-      dispatch(setProducts(prod));
-      dispatch(setLoading(false));
-      dispatch(setPaginationProducts(res.data.last_page, res.data.currentPage, res.data.per_page, res.data.total))
+      url = `/products/filters?category=${category}&subcategory=${subcategory}&type=${type}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`;
     } else if (!type && subcategory && category) {
-      let url = `/products/filters?category=${category}&subcategory=${subcategory}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
-      const res = await api.get(url)
-      const prod = res.data.data;
-      setFilterUrl(url)
-      dispatch(setProducts(prod));
-      dispatch(setLoading(false));
-      dispatch(setPaginationProducts(res.data.last_page, res.data.currentPage, res.data.per_page, res.data.total))
+      url = `/products/filters?category=${category}&subcategory=${subcategory}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`;
     } else if (!subcategory && !type && category) {
-      const res = await api.get(
-        `/products/filters?category=${category}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
-      );
-      const prod = res.data.data;
-      dispatch(setProducts(prod));
-      dispatch(setLoading(false));
-      dispatch(setPaginationProducts(res.data.last_page, res.data.currentPage, res.data.per_page, res.data.total))
+      url = `/products/filters?category=${category}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`;
     } else {
-      const res = await api.get(
-        `/products/filters?size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`
-      );
-      const prod = res.data.data;
-      dispatch(setProducts(prod));
-      dispatch(setLoading(false));
-      dispatch(setPaginationProducts(res.data.last_page, res.data.currentPage, res.data.per_page, res.data.total))
+      url = `/products/filters?size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`;
     }
+
+    const res = await api.get(url);
+    dispatch(setFilterUrl(url));
+    dispatch(setProducts(res.data.data));
+    dispatch(
+      setPaginationProducts(
+        res.data.last_page,
+        res.data.currentPage,
+        res.data.per_page,
+        res.data.total
+      )
+    );
+    dispatch(setLoading(false));
   }, [
     dispatch,
     products,
@@ -138,6 +158,10 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
             label: el,
             value: el,
           }))}
+          value={selectedFilterRedux.size.map((el) => ({
+            label: el,
+            value: el,
+          }))}
           classNamePrefix="select"
           onChange={setSelectedSize}
           ref={selectInputRefSize}
@@ -153,6 +177,10 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           components={animatedComponents}
           isMulti={true}
           options={colors.map((el) => ({
+            label: el,
+            value: el,
+          }))}
+          value={selectedFilterRedux.color.map((el) => ({
             label: el,
             value: el,
           }))}
@@ -174,6 +202,10 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
             label: el,
             value: el,
           }))}
+          value={selectedFilterRedux.brand.map((el) => ({
+            label: el,
+            value: el,
+          }))}
           classNamePrefix="select"
           onChange={setSelectedBrand}
           ref={selectInputRefBrand}
@@ -186,6 +218,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           style={{ margin: "2rem 0" }}
           range
           defaultValue={[0, 2000]}
+          value={[selectedFilterRedux.priceMin, selectedFilterRedux.priceMax]}
           max={2000}
           min={0}
           tipFormatter={formatter}

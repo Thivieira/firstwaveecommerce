@@ -1,8 +1,14 @@
 const productsDefaultState = {
   products: [],
   pagination: [],
-  filter: [],
-  filterUrl: '',
+  filter: {
+    size: [],
+    color: [],
+    brand: [],
+    priceMin: 0,
+    priceMax: 2000,
+  },
+  filterUrl: "",
   sliderProducts: [],
   product: [],
   favoritesProducts: [],
@@ -16,20 +22,22 @@ const productsDefaultState = {
 const productsReducer = (state = productsDefaultState, action) => {
   switch (action.type) {
     case "GET_API_ALL_PRODUCTS":
-      let apiProducts = action.payload
+      let apiProducts = action.payload;
 
       if (!apiProducts) {
-        return state
+        return state;
       }
 
       apiProducts = apiProducts.map((element) => {
-        const favorite = state.favoritesProducts.find((product) => product.id === element.id)
+        const favorite = state.favoritesProducts.find(
+          (product) => product.id === element.id
+        );
 
         if (!favorite) {
           return {
             ...element,
             favorite: false,
-          }
+          };
         }
 
         return {
@@ -44,26 +52,23 @@ const productsReducer = (state = productsDefaultState, action) => {
       };
 
     case "GET_PAGINATION_PRODUCTS":
-
       return {
         ...state,
-        pagination: action.payload
+        pagination: action.payload,
       };
 
     case "GET_FILTER_DATA":
-
-    //filtros selecionados
+      //filtros selecionados
       return {
         ...state,
-        filter: action.payload
-      }
+        filter: action.payload,
+      };
 
     case "GET_FILTER_URL":
-
       return {
         ...state,
-        filterUrl: action.payload
-      }
+        filterUrl: action.payload,
+      };
 
     case "GET_API_SLIDER_PRODUCTS":
       let sliderProducts = action.payload;

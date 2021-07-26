@@ -13,12 +13,34 @@ import Breadcrumb from "../../components/Breadcrumb";
 import Filter from "../../components/Filter";
 import Product from "../../components/Products/ProductCard";
 import api from "../../services/api";
+import { getFilterUrl } from "../../store/selectors/products";
 
-import { getAllProducts, getLoading, getPaginationData} from "../../store/selectors/products";
-import { setProducts, clearProducts, setLoading, sortProducts, setPaginationProducts } from "../../store/actions/products";
+import {
+  getAllProducts,
+  getLoading,
+  getPaginationData,
+} from "../../store/selectors/products";
+import {
+  setProducts,
+  clearProducts,
+  setLoading,
+  sortProducts,
+  setPaginationProducts,
+} from "../../store/actions/products";
 
-export default function products({ prod, total, totalPages, per_page, category, subcategory, type, sizes, brands, colors }) {
-  const { getCategory, setCategory } = useContext(CategoryContext)
+export default function products({
+  prod,
+  total,
+  totalPages,
+  per_page,
+  category,
+  subcategory,
+  type,
+  sizes,
+  brands,
+  colors,
+}) {
+  const { getCategory, setCategory } = useContext(CategoryContext);
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
   const loading = useSelector(getLoading);
@@ -29,22 +51,28 @@ export default function products({ prod, total, totalPages, per_page, category, 
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(totalPages);
   const [theTotal, setTotal] = useState(total);
-  const [filterUrl,  setFilterUrl] = useState()
-  
-  const paginationRedux = useSelector(getPaginationData)
-  
+  // const [filterUrl, setFilterUrl] = useState();
+  const filterUrl = useSelector(getFilterUrl);
+
+  const paginationRedux = useSelector(getPaginationData);
+
   const showDrawerFilters = () => setVisible(true);
   const onCloseFilters = () => setVisible(false);
 
   useEffect(() => {
-    let page = currentPage + 1
+    let page = currentPage + 1;
+    dispatch(setPaginationProducts(totalPages, page, per_page, theTotal));
+  }, []);
+
+  useEffect(() => {
+    let page = currentPage + 1;
     dispatch(clearProducts());
     dispatch(setLoading(false));
     dispatch(setProducts(prod));
     setPageCount(theTotal / per_page);
     setCategory({ category: category, subcategory: subcategory, type: type });
     setCurrentPage(0);
-    dispatch(setPaginationProducts(totalPages, page, per_page, theTotal))
+    dispatch(setPaginationProducts(totalPages, page, per_page, theTotal));
   }, [dispatch, category, subcategory, type]);
 
   useEffect(() => {
@@ -80,19 +108,31 @@ export default function products({ prod, total, totalPages, per_page, category, 
   };
 
   useEffect(() => {
-    let filterString = ``;
-    category ? (filterString += `category=${category}`) : ``;
-    subcategory ? (filterString += `&subcategory=${subcategory}`) : ``;
-    type ? (filterString += `&type=${type}`) : ``;
+    let page = currentPage + 1;
+    let url = "";
+
+    if (filterUrl) {
+      console.log("FILTER", filterUrl);
+      url = `${filterUrl}&page=${page}`;
+    } else {
+      let filterString = ``;
+      category ? (filterString += `category=${category}`) : ``;
+      subcategory ? (filterString += `&subcategory=${subcategory}`) : ``;
+      type ? (filterString += `&type=${type}`) : ``;
+      url = `/products?${filterString}&page=${page}`;
+    }
+
     dispatch(setLoading(true));
     dispatch(clearProducts());
-    let page = currentPage + 1;
-    api.get(`/products?${filterString}&page=${page}`).then((res) => {
+
+    api.get(url).then(({ data }) => {
       dispatch(setLoading(false));
-      dispatch(setProducts(res.data.data));
-      setTotal(res.data.total);
-      setPageCount(res.data.total / res.data.per_page);
-      dispatch(setPaginationProducts(totalPages, page, per_page, theTotal))
+      dispatch(setProducts(data.data));
+      setTotal(data.total);
+      setPageCount(data.total / data.per_page);
+      dispatch(
+        setPaginationProducts(data.last_page, page, data.per_page, data.total)
+      );
     });
   }, [currentPage, dispatch]);
 
