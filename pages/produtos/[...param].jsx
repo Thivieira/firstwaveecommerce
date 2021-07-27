@@ -118,7 +118,7 @@ export default function products({
     let url = "";
 
     if (filterUrl) {
-      console.log("FILTER", filterUrl);
+      // console.log("FILTER", filterUrl);
       url = `${filterUrl}&page=${page}`;
     } else {
       let filterString = ``;
@@ -395,7 +395,7 @@ export async function getStaticProps(ctx) {
     res = await api.get(url);
     subcategory = null;
     type = null;
-    console.log("BORIS É O BERTO", res.data.data);
+    // console.log("BORIS É O BERTO", res.data.data);
   }
 
   products = res.data.data;

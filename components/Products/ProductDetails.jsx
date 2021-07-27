@@ -49,7 +49,7 @@ const ProductDetails = ({ product }) => {
 
   const estoque = variations.map((el) => el.supply);
 
-  console.log("VARIATIONS", variations);
+  // console.log("VARIATIONS", variations);
   const tamanhos = variations.map(
     (el) => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]
   );

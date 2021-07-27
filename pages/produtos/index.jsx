@@ -25,7 +25,7 @@ import {
 } from "../../store/actions/products";
 
 const products = () => {
-  const { getCategory } = useContext(CategoryContext)
+  const { getCategory } = useContext(CategoryContext);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -72,22 +72,22 @@ const products = () => {
   };
 
   const changePage = ({ selected }) => {
-    setCurrentPage(selected + 1)
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  }
+    setCurrentPage(selected + 1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   useEffect(async () => {
     dispatch(setLoading(true));
     const { data } = await api(`/products?search=${q}&page=${currentPage}`);
     dispatch(setProducts(data.data));
     dispatch(setLoading(false));
-    setTotalPages(data.total)
-    setPerPage(data.per_page)
+    setTotalPages(data.total);
+    setPerPage(data.per_page);
   }, [currentPage, q, perPage, totalPages]);
 
   const pages = totalPages / perPage;
 
-  console.log(perPage, pages, totalPages)
+  // console.log(perPage, pages, totalPages)
 
   const menu = (
     <Menu value={sort} onClick={(obj) => handleChangeSort(obj.item)}>
@@ -152,7 +152,7 @@ const products = () => {
                   key={removeIdDuplicate(product.id)}
                 />
               ))}
-              {totalPages > 15 ?
+              {totalPages > 15 ? (
                 <ReactPaginate
                   previousLabel={"<"}
                   nextLabel={">"}
@@ -164,8 +164,7 @@ const products = () => {
                   disabledClassName={"paginationDisabled"}
                   activeClassName={"paginationActive"}
                 />
-                : null
-              }
+              ) : null}
             </>
           ) : loading === true ? (
             <FadeLoader

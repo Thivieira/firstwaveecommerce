@@ -81,7 +81,7 @@ export default function PaymentBtn(props) {
         const preferenceObj = await create_preference(cart, address, account);
         init_point_link = preferenceObj.init_point;
         dispatch(setPreferenceId(preferenceObj.preferenceId));
-        console.log("preferenceObj", preferenceObj);
+        // console.log("preferenceObj", preferenceObj);
         mpRun(preferenceObj.preferenceId, init_point_link);
       });
     }
