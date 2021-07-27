@@ -50,25 +50,7 @@ const DetailsProduct = ({ product }) => {
 
 export default DetailsProduct;
 
-export const getStaticPaths = async () => {
-  const resMasc = await api.get("/products?all=true");
-  const prodMasc = resMasc.data;
-
-  const prodMasculino = prodMasc.map((p) => {
-    return {
-      params: {
-        codigo: p.code,
-      },
-    };
-  });
-
-  return {
-    paths: prodMasculino,
-    fallback: "blocking",
-  };
-};
-
-export const getStaticProps = async (ctx) => {
+export const getServerSideProps = async (ctx) => {
   const { codigo } = ctx.params;
   const res = await api.get(`/products/${codigo}`);
 
