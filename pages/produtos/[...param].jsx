@@ -99,16 +99,15 @@ export default function products({
   const handleCloseAlert = async () => {
     dispatch(setLoading(true));
     dispatch(clearProducts());
-    dispatch(setFilterUrl(''))
-    dispatch(setFilterData([], [], [], 0, 2000))
     const res = await api.get(`/products?category=${category}`);
     const prod = res.data.data;
-    dispatch(setPaginationProducts(totalPages, page, per_page, theTotal));
     setTotal(res.data.total);
     // totalPages = res.data.last_page;
     dispatch(setProducts(prod));
     dispatch(setLoading(false));
-    // mandar pro redux
+    dispatch(setFilterUrl(''))
+    dispatch(setFilterData([], [], [], 0, 2000))
+    dispatch(setPaginationProducts(res.data.last_page, (currentPage  + 1), res.data.per_page, res.data.total));
   };
 
   const changePage = ({ selected }) => {
