@@ -48,6 +48,7 @@ export default function index() {
   const filterUrl = useSelector(getFilterUrl);
   const router = useRouter();
   const { q } = router.query;
+  const [search, setSearch] = useState(q);
 
   router.events.on("routeChangeStart", () => {
     dispatch(setFilterUrl(""));
@@ -58,21 +59,6 @@ export default function index() {
 
   const showDrawerFilters = () => setVisible(true);
   const onCloseFilters = () => setVisible(false);
-
-  //   useEffect(() => {
-  //     let page = currentPage + 1;
-  //     dispatch(setPaginationProducts(totalPages, page, per_page, theTotal));
-  //   }, []);
-
-  //   useEffect(() => {
-  //     let page = currentPage + 1;
-  //     setCurrentPage(0);
-  //     dispatch(clearProducts());
-  //     dispatch(setLoading(false));
-  //     dispatch(setProducts(prod));
-  //     setCategory({ category: category, subcategory: subcategory, type: type });
-  //     dispatch(setPaginationProducts(totalPages, page, per_page, total));
-  //   }, [dispatch, category, subcategory, type]);
 
   useEffect(async () => {
     let sizeData;
@@ -125,13 +111,14 @@ export default function index() {
     setCurrentPage(0);
     dispatch(clearProducts());
     dispatch(setLoading(true));
-    const { data } = await api(`/products?search=${q}&page=${page}`);
+    setSearch(!search ? search : search.includes(('s' || 'S'), search.length - 1) ? search.slice(0, -1) : search)
+    const { data } = await api(`/products?search=${search}&page=${page}`);
     dispatch(setLoading(false));
     dispatch(setProducts(data.data));
     dispatch(
       setPaginationProducts(data.last_page, page, data.per_page, data.total)
     );
-  }, [currentPage, q, theTotal]);
+  }, [currentPage, search, theTotal]);
 
   useEffect(() => {
     updateDimensions();
