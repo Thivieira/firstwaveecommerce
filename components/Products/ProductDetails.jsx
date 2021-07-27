@@ -26,6 +26,8 @@ const ProductDetails = ({ product }) => {
   });
   const [thePrice, setPrice] = useState(product.price);
 
+  console.log(codigoVariacao)
+
   const variations = product.variations;
 
   if (!product) {
@@ -49,9 +51,7 @@ const ProductDetails = ({ product }) => {
 
   const estoque = variations.map((el) => el.supply);
 
-  const tamanhos = variations.map(
-    (el) => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0]
-  );
+  const tamanhos = variations.map(el => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0])
 
   const sizesNoRepeat = [...new Set(tamanhos)];
 
@@ -75,11 +75,7 @@ const ProductDetails = ({ product }) => {
   const onSelectedSizeChange = (value) => {
     setSelectedSize(value);
 
-    const variacaoDisponivel = variations.filter(
-      (el) =>
-        el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] ==
-        value
-    );
+    const variacaoDisponivel = variations.filter(el => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] == value)
 
     setAvailableColorVariations(variacaoDisponivel);
 
@@ -107,9 +103,7 @@ const ProductDetails = ({ product }) => {
 
     setImages(cor.image);
 
-    setCodigoVariacao(
-      `${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
-    );
+    setCodigoVariacao(`${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`)
     setEstoqueAtual(cor.supply);
     setPrice(cor.price ? cor.price : product.price);
     setColorTrigger(false);
@@ -307,15 +301,16 @@ const ProductDetails = ({ product }) => {
               <div className="colors-thumb">
                 {availableColorVariations.map((variation) => {
                   const color = variation.description
-                    .split(";")
-                    .slice(0, 1)[0]
-                    .split(":")
-                    .slice(1, 2)[0];
+                  .split(";")
+                  .slice(0, 1)[0]
+                  .split(":")
+                  .slice(1, 2)[0];
                   let image = JSON.parse(variation.image);
                   image = image.length > 0 ? image[0].link : "/noimage.png";
+                  console.log(image, variation)
                   return (
                     <img
-                      onClick={() => setSelectedColor(color)}
+                      onClick={() => {setSelectedColor(color);setImages(variation.image)}}
                       className={color === selectedColor ? "active" : ""}
                       key={variation.id}
                       src={image}
