@@ -107,11 +107,11 @@ export default function index() {
   }, []);
 
   useEffect(async () => {
+    setSearch(!search ? search : search.includes(('s' || 'S'), search.length - 1) ? search.slice(0, -1) : search)
     let page = currentPage + 1;
     setCurrentPage(0);
     dispatch(clearProducts());
     dispatch(setLoading(true));
-    setSearch(!search ? search : search.includes(('s' || 'S'), search.length - 1) ? search.slice(0, -1) : search)
     const { data } = await api(`/products?search=${search}&page=${page}`);
     dispatch(setLoading(false));
     dispatch(setProducts(data.data));
