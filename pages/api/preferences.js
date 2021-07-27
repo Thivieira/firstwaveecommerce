@@ -93,7 +93,7 @@ export default function handler(req, res) {
       statement_descriptor: "LIFESTYLEFLN",
     };
 
-    console.log("PREFERENCE", preference);
+    // console.log("PREFERENCE", preference);
 
     mercadopago.preferences
       .create(preference)
@@ -104,7 +104,7 @@ export default function handler(req, res) {
         });
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
         res.status(500).json({ error: "Ocorreu um erro no servidor." });
       });
   }

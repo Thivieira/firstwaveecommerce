@@ -28,7 +28,7 @@ import {
   sortProducts,
   setPaginationProducts,
   setFilterData,
-  setFilterUrl
+  setFilterUrl,
 } from "../../store/actions/products";
 
 export default function products({
@@ -52,15 +52,14 @@ export default function products({
   const [visible, setVisible] = useState(false);
   const [width, setWindowWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-  const [pageCount, setPageCount] = useState(totalPages);
   const [theTotal, setTotal] = useState(total);
   const filterUrl = useSelector(getFilterUrl);
   const router = useRouter();
 
   router.events.on("routeChangeStart", () => {
-    dispatch(setFilterUrl(''))
-    dispatch(setFilterData([], [], [], 0, 2000))
-  })
+    dispatch(setFilterUrl(""));
+    dispatch(setFilterData([], [], [], 0, 2000));
+  });
 
   const paginationRedux = useSelector(getPaginationData);
 
@@ -74,13 +73,12 @@ export default function products({
 
   useEffect(() => {
     let page = currentPage + 1;
+    setCurrentPage(0);
     dispatch(clearProducts());
     dispatch(setLoading(false));
     dispatch(setProducts(prod));
-    setPageCount(theTotal / per_page);
     setCategory({ category: category, subcategory: subcategory, type: type });
-    setCurrentPage(0);
-    dispatch(setPaginationProducts(totalPages, page, per_page, theTotal));
+    dispatch(setPaginationProducts(totalPages, page, per_page, total));
   }, [dispatch, category, subcategory, type]);
 
   useEffect(() => {
@@ -108,9 +106,9 @@ export default function products({
     dispatch(setPaginationProducts(totalPages, page, per_page, theTotal));
     setTotal(res.data.total);
     // totalPages = res.data.last_page;
-    setPageCount(res.data.total / res.data.per_page);
     dispatch(setProducts(prod));
     dispatch(setLoading(false));
+    // mandar pro redux
   };
 
   const changePage = ({ selected }) => {
@@ -123,7 +121,7 @@ export default function products({
     let url = "";
 
     if (filterUrl) {
-      console.log("FILTER", filterUrl);
+      // console.log("FILTER", filterUrl);
       url = `${filterUrl}&page=${page}`;
     } else {
       let filterString = ``;
@@ -140,7 +138,6 @@ export default function products({
       dispatch(setLoading(false));
       dispatch(setProducts(data.data));
       setTotal(data.total);
-      setPageCount(data.total / data.per_page);
       dispatch(
         setPaginationProducts(data.last_page, page, data.per_page, data.total)
       );
@@ -375,6 +372,7 @@ export async function getStaticProps(ctx) {
   let subcategory = ctx.params.param[1];
   let type = ctx.params.param[2];
 
+  let url;
   let products;
   let res;
   let total;
@@ -389,18 +387,18 @@ export async function getStaticProps(ctx) {
   let colors;
 
   if (category && subcategory && type) {
-    res = await api.get(
-      `/products?category=${category}&subcategory=${subcategory}&type=${type}`
-    );
+    url = `/products?category=${category}&subcategory=${subcategory}&type=${type}`;
+    res = await api.get(url);
   } else if (category && subcategory && !type) {
     type = null;
-    res = await api.get(
-      `/products?category=${category}&subcategory=${subcategory}`
-    );
+    url = `/products?category=${category}&subcategory=${subcategory}`;
+    res = await api.get(url);
   } else {
-    res = await api.get(`/products?category=${category}`);
+    url = `/products?category=${category}`;
+    res = await api.get(url);
     subcategory = null;
     type = null;
+    // console.log("BORIS É O BERTO", res.data.data);
   }
 
   products = res.data.data;

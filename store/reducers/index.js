@@ -5,9 +5,11 @@ import userReducer from "./user";
 const { persistReducer } = require("redux-persist");
 import storage from "../storage";
 
+//https://github.com/rt2zz/redux-persist/issues/816#issuecomment-757364129
 const productsPersistConfig = {
   key: "products",
   storage: storage,
+  timeout: 2000, //Set the timeout function to 2 seconds
   whitelist: ["cart", "total", "favoritesProducts"],
 };
 
