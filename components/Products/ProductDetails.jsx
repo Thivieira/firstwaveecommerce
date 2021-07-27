@@ -26,8 +26,6 @@ const ProductDetails = ({ product }) => {
   });
   const [thePrice, setPrice] = useState(product.price);
 
-  console.log(codigoVariacao)
-
   const variations = product.variations;
 
   if (!product) {
@@ -76,6 +74,7 @@ const ProductDetails = ({ product }) => {
     setSelectedSize(value);
 
     const variacaoDisponivel = variations.filter(el => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] == value)
+    // console.log(variacaoDisponivel.filter(el.code === variacaoDisponivel.map(el => el.code)))
 
     setAvailableColorVariations(variacaoDisponivel);
 
@@ -90,12 +89,7 @@ const ProductDetails = ({ product }) => {
   };
 
   const onSelectedColorChange = (value) => {
-    let cor = availableColorVariations.filter((el) => {
-      return (
-        el.description.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] ==
-        value
-      );
-    })[0];
+    let cor = availableColorVariations.filter(el => el.description.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] == value)[0]
 
     if (!cor) {
       return;
@@ -299,26 +293,27 @@ const ProductDetails = ({ product }) => {
                 </div>
               </span>
               <div className="colors-thumb">
-                {availableColorVariations.map((variation) => {
-                  const color = variation.description
-                  .split(";")
-                  .slice(0, 1)[0]
-                  .split(":")
-                  .slice(1, 2)[0];
-                  let image = JSON.parse(variation.image);
-                  image = image.length > 0 ? image[0].link : "/noimage.png";
-                  console.log(image, variation)
-                  return (
-                    <img
-                      onClick={() => {setSelectedColor(color);setImages(variation.image)}}
-                      className={color === selectedColor ? "active" : ""}
-                      key={variation.id}
-                      src={image}
-                      alt="img"
-                      style={{ height: "3rem" }}
-                    />
-                  );
-                })}
+                {availableColorVariations
+                  .filter((el, index, arr) => index ===  arr.findIndex(t => t.code === el.code))
+                  .map((variation) => {
+                    const color = variation.description
+                    .split(";")
+                    .slice(0, 1)[0]
+                    .split(":")
+                    .slice(1, 2)[0];
+                    let image = JSON.parse(variation.image);
+                    image = image.length > 0 ? image[0].link : "/noimage.png";
+                    return (
+                      <img
+                        onClick={() => {setSelectedColor(color);setImages(variation.image)}}
+                        className={color === selectedColor ? "active" : ""}
+                        key={variation.id}
+                        src={image}
+                        alt="img"
+                        style={{ height: "3rem" }}
+                      />
+                    );
+                  })}
               </div>
             </div>
           ) : null}
