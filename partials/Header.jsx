@@ -943,7 +943,7 @@ function Header() {
             }
             onMouseEnter={() => setShowFilter(0)}
           >
-            <NavLink href="/produtos/Calçado" onClick={showSideBar}>
+            <NavLink href="/produtos/Calcado" onClick={showSideBar}>
               Calçados
             </NavLink>
           </div>

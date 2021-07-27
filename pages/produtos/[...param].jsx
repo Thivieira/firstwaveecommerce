@@ -369,6 +369,7 @@ export async function getStaticProps(ctx) {
   let subcategory = ctx.params.param[1];
   let type = ctx.params.param[2];
 
+  let url;
   let products;
   let res;
   let total;
@@ -383,18 +384,18 @@ export async function getStaticProps(ctx) {
   let colors;
 
   if (category && subcategory && type) {
-    res = await api.get(
-      `/products?category=${category}&subcategory=${subcategory}&type=${type}`
-    );
+    url = `/products?category=${category}&subcategory=${subcategory}&type=${type}`;
+    res = await api.get(url);
   } else if (category && subcategory && !type) {
     type = null;
-    res = await api.get(
-      `/products?category=${category}&subcategory=${subcategory}`
-    );
+    url = `/products?category=${category}&subcategory=${subcategory}`;
+    res = await api.get(url);
   } else {
-    res = await api.get(`/products?category=${category}`);
+    url = `/products?category=${category}`;
+    res = await api.get(url);
     subcategory = null;
     type = null;
+    console.log("BORIS É O BERTO", res.data.data);
   }
 
   products = res.data.data;

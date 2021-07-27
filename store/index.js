@@ -18,8 +18,8 @@ function initStore(initialState) {
 }
 
 function initPersistedStore(initialState) {
-  const { persistReducer } = require("redux-persist");
-  const storage = require("redux-persist/lib/storage").default;
+  // const { persistReducer } = require("redux-persist");
+  // const storage = require("redux-persist/lib/storage").default;
 
   // const persistConfig = {
   //   key: "root",
