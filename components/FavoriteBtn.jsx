@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { HeartTwoTone } from "@ant-design/icons";
 import { Tooltip } from "antd";
+import api from "../services/api";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -30,13 +31,16 @@ export default function FavoriteBtn({ product }) {
   const MySwal = withReactContent(Swal);
   const [favorite, setFavoriteState] = useState(product.favorite);
 
-  const toggleFavorites = () => {
-    const existingProductInFavorites = productsFavorites.find(
-      (prod) => prod.id === product.id
+  const toggleFavorites = async () => {
+    let existingProductInFavorites = productsFavorites.find(
+      (favorite) => favorite.product.id === product.id
     );
 
     if (authorized) {
       if (existingProductInFavorites) {
+        existingProductInFavorites = existingProductInFavorites.map(
+          (favorite) => favorite.product
+        );
         dispatch(
           setFavorite({
             favorite: false,
@@ -45,8 +49,13 @@ export default function FavoriteBtn({ product }) {
         );
         dispatch(removeFromFavorites(existingProductInFavorites.id));
       } else {
-        dispatch(setFavorite({ favorite: true, id: product.id }));
-        dispatch(addToFavorites(product.id));
+        try {
+          const { data } = await api.post(`/favorites`, {
+            product_id: product.id,
+          });
+          dispatch(setFavorite({ favorite: true, id: data.product.id }));
+          dispatch(addToFavorites(data));
+        } catch (e) {}
       }
     } else {
       MySwal.fire({

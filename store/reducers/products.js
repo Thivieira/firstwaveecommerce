@@ -144,7 +144,9 @@ const productsReducer = (state = productsDefaultState, action) => {
       };
 
     case "ADD_TO_FAVORITES":
-      if (state.favoritesProducts.find((prod) => action.payload === prod.id)) {
+      if (
+        state.favoritesProducts.find((prod) => action.payload.id === prod.id)
+      ) {
         return {
           ...state,
         };
@@ -152,10 +154,7 @@ const productsReducer = (state = productsDefaultState, action) => {
 
       return {
         ...state,
-        favoritesProducts: [
-          ...state.favoritesProducts,
-          state.products.find((product) => product.id === action.payload),
-        ],
+        favoritesProducts: [...state.favoritesProducts, action.payload],
       };
 
     case "REMOVE_FROM_FAVORITES":
