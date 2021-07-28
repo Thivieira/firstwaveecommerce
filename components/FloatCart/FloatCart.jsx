@@ -5,6 +5,7 @@ import {
   getCartTotal,
   getCartState,
   getIsOpen,
+  getTotalState,
 } from "../../store/selectors/products";
 import Link from "next/link";
 import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
@@ -23,6 +24,7 @@ function FloatCart() {
   const isOpen = useSelector(getIsOpen);
 
   const productsCart = useSelector(getCartState);
+  const totalCart = useSelector(getTotalState);
 
   const total = useSelector(getCartTotal);
 
@@ -44,7 +46,7 @@ function FloatCart() {
 
   useEffect(() => {
     // dispatch(updateCart(cartStorage));
-    setCartStorage(productsCart);
+    setCartStorage({ cart: productsCart, total: totalCart });
   }, [productsCart]);
 
   useEffect(() => {

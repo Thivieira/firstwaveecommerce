@@ -48,7 +48,6 @@ export default function index() {
   const filterUrl = useSelector(getFilterUrl);
   const router = useRouter();
   const { q } = router.query;
-  const [search, setSearch] = useState(q);
 
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
@@ -116,25 +115,24 @@ export default function index() {
     setColors(colorData.data);
   }, []);
 
+  useEffect(() => setCurrentPage(0), [q]);
+
   useEffect(async () => {
-    setSearch(
-      !search
-        ? search
-        : search.includes("s" || "S", search.length - 1)
-        ? search.slice(0, -1)
-        : search
-    );
+    let apiSearch = !q
+      ? q
+      : q.includes("s" || "S", q.length - 1)
+      ? q.slice(0, -1)
+      : q;
     let page = currentPage + 1;
-    setCurrentPage(0);
-    dispatch(clearProducts());
     dispatch(setLoading(true));
-    const { data } = await api(`/products?search=${search}&page=${page}`);
-    dispatch(setLoading(false));
+    // dispatch(clearProducts());
+    const { data } = await api(`/products?search=${apiSearch}&page=${page}`);
     dispatch(setProducts(data.data));
+    dispatch(setLoading(false));
     dispatch(
       setPaginationProducts(data.last_page, page, data.per_page, data.total)
     );
-  }, [currentPage, search, theTotal]);
+  }, [currentPage, q]);
 
   useEffect(() => {
     updateDimensions();
@@ -177,37 +175,37 @@ export default function index() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  useEffect(() => {
-    let page = currentPage + 1;
-    let url = "";
+  // useEffect(() => {
+  //   let page = currentPage + 1;
+  //   let url = "";
 
-    if (filterUrl) {
-      // console.log("FILTER", filterUrl);
-      url = `${filterUrl}&page=${page}`;
-    } else {
-      let filterString = ``;
-      getCategory.category
-        ? (filterString += `category=${getCategory.category}`)
-        : ``;
-      getCategory.subcategory
-        ? (filterString += `&subcategory=${getCategory.subcategory}`)
-        : ``;
-      getCategory.type ? (filterString += `&type=${getCategory.type}`) : ``;
-      url = `/products?${filterString}&page=${page}`;
-    }
+  //   if (filterUrl) {
+  //     // console.log("FILTER", filterUrl);
+  //     url = `${filterUrl}&page=${page}`;
+  //   } else {
+  //     let filterString = ``;
+  //     getCategory.category
+  //       ? (filterString += `category=${getCategory.category}`)
+  //       : ``;
+  //     getCategory.subcategory
+  //       ? (filterString += `&subcategory=${getCategory.subcategory}`)
+  //       : ``;
+  //     getCategory.type ? (filterString += `&type=${getCategory.type}`) : ``;
+  //     url = `/products?${filterString}&page=${page}`;
+  //   }
 
-    dispatch(setLoading(true));
-    dispatch(clearProducts());
+  //   dispatch(setLoading(true));
+  //   dispatch(clearProducts());
 
-    api.get(url).then(({ data }) => {
-      dispatch(setLoading(false));
-      dispatch(setProducts(data.data));
-      setTotal(data.total);
-      dispatch(
-        setPaginationProducts(data.last_page, page, data.per_page, data.total)
-      );
-    });
-  }, [currentPage, dispatch]);
+  //   api.get(url).then(({ data }) => {
+  //     dispatch(setLoading(false));
+  //     dispatch(setProducts(data.data));
+  //     setTotal(data.total);
+  //     dispatch(
+  //       setPaginationProducts(data.last_page, page, data.per_page, data.total)
+  //     );
+  //   });
+  // }, [currentPage, dispatch]);
 
   const menu = (
     <Menu value={sort} onClick={(obj) => handleChangeSort(obj.item)}>

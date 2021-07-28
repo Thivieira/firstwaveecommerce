@@ -120,7 +120,7 @@ export const setPreferenceId = (preferenceId) => ({
   payload: preferenceId,
 });
 
-export const updateCart = (cart) => ({
+export const updateCart = (obj) => ({
   type: "UPDATE_CART",
-  payload: cart,
+  payload: { cart: obj.cart, total: obj.total },
 });

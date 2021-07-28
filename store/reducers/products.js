@@ -285,7 +285,8 @@ const productsReducer = (state = productsDefaultState, action) => {
     case "UPDATE_CART":
       return {
         ...state,
-        cart: action.payload,
+        cart: action.payload.cart,
+        total: action.payload.total,
       };
 
     case "CLEAR_PRODUCTS":

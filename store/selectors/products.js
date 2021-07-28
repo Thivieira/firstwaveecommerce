@@ -1,3 +1,5 @@
+export const getTotalState = (state) => state.products.total;
+
 export const getCartState = (state) => state.products.cart;
 
 export const getColorState = (state) => state.products.color;
@@ -23,8 +25,11 @@ export const getFavoritesProd = (state) => state.products.favoritesProducts;
 export const getAllProductBrands = (state) =>
   state.products.products
     .map((product) => product.brand)
-    .map(product => product.trim())
-    .reduce((unique, brand) => (unique.includes(brand) ? unique : [...unique, brand]), []);
+    .map((product) => product.trim())
+    .reduce(
+      (unique, brand) => (unique.includes(brand) ? unique : [...unique, brand]),
+      []
+    );
 
 export const getAllProductSize = (state) => {
   return state.products.products
@@ -47,10 +52,10 @@ export const getAllProductColor = (state) =>
     .map((el) => el.split(";"))
     .map((el) => el[0])
     .map((el) => el.split(":"))
-    .map((el) => el[1])
+    .map((el) => el[1]);
 
-export const getPaginationData = (state) => state.products.pagination
+export const getPaginationData = (state) => state.products.pagination;
 
-export const getFilterData = (state) => state.products.filter
+export const getFilterData = (state) => state.products.filter;
 
-export const getFilterUrl = (state) => state.products.filterUrl
+export const getFilterUrl = (state) => state.products.filterUrl;
