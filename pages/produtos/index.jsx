@@ -50,10 +50,20 @@ export default function index() {
   const { q } = router.query;
   const [search, setSearch] = useState(q);
 
-  router.events.on("routeChangeStart", () => {
-    dispatch(setFilterUrl(""));
-    dispatch(setFilterData([], [], [], 0, 2000));
-  });
+  useEffect(() => {
+    const handleRouteChange = (url, { shallow }) => {
+      dispatch(setFilterUrl(""));
+      dispatch(setFilterData([], [], [], 0, 2000));
+    };
+
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method:
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, [router]);
 
   const paginationRedux = useSelector(getPaginationData);
 
@@ -107,7 +117,13 @@ export default function index() {
   }, []);
 
   useEffect(async () => {
-    setSearch(!search ? search : search.includes(('s' || 'S'), search.length - 1) ? search.slice(0, -1) : search)
+    setSearch(
+      !search
+        ? search
+        : search.includes("s" || "S", search.length - 1)
+        ? search.slice(0, -1)
+        : search
+    );
     let page = currentPage + 1;
     setCurrentPage(0);
     dispatch(clearProducts());

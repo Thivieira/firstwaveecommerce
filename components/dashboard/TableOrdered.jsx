@@ -135,7 +135,7 @@ function TableOrdered() {
     getPedidos !== [] ? getPedidos.map((el) => el.pedido) : getPedidos;
 
   useEffect(() => {
-    getPedidosAPI();
+    // getPedidosAPI();
     getUserName();
     // postPedidosAPI()
   }, []);

@@ -119,3 +119,8 @@ export const setPreferenceId = (preferenceId) => ({
   type: "SET_ACTIVE_PREFERENCE_ID",
   payload: preferenceId,
 });
+
+export const updateCart = (cart) => ({
+  type: "UPDATE_CART",
+  payload: cart,
+});

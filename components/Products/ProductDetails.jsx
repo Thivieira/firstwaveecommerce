@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment, useRef } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart, changeIsOpen } from "../../store/actions/products";
 import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
@@ -25,15 +25,8 @@ const ProductDetails = ({ product }) => {
     backgroundPosition: "0% 0%",
   });
   const [thePrice, setPrice] = useState(product.price);
-
-  const variations = product.variations;
-
-  if (!product) {
-    return null;
-  }
-  if (variations.length == 0) {
-    return null;
-  }
+  const [codigoProduto, setCodigoProduto] = useState("");
+  const [supplyAndSize, setSupplyAndSize] = useState({});
 
   function setImages(imageJson) {
     let imageObj = JSON.parse(imageJson);
@@ -44,25 +37,42 @@ const ProductDetails = ({ product }) => {
     setFeaturedImage(imagesLink[0]);
   }
 
-  //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
-  const codigoProduto = variations.map((el) => el.code)[0].includes("-");
-
-  const estoque = variations.map((el) => el.supply);
-
-  const tamanhos = variations.map(el => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0])
-
-  const sizesNoRepeat = [...new Set(tamanhos)];
-
-  var supplyAndSize = {};
-  for (var i = 0; i < sizesNoRepeat.length; i++) {
-    supplyAndSize[sizesNoRepeat[i]] = estoque[i];
-  }
-
   useEffect(() => {
+    const variations = product.variations;
+
+    if (!product) {
+      return null;
+    }
+    if (variations.length == 0) {
+      return null;
+    }
+
+    //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
+    let codigoProduto = variations.map((el) => el.code)[0].includes("-");
+    setCodigoProduto(codigoProduto);
+
+    const estoque = variations.map((el) => el.supply);
+
+    const tamanhos = variations.map((el) => {
+      let sizes = el.description.split(";").slice(1, 2);
+      if (sizes.length > 0) {
+        return sizes[0].split(":").slice(1, 2)[0];
+      }
+    });
+
+    const sizesNoRepeat = [...new Set(tamanhos)];
+
+    var supplyAndSize = {};
+    for (var i = 0; i < sizesNoRepeat.length; i++) {
+      supplyAndSize[sizesNoRepeat[i]] = estoque[i];
+    }
+
+    setSupplyAndSize(supplyAndSize);
+
     const size = sizesNoRepeat[0];
 
     onSelectedSizeChange(size);
-  }, [variations]);
+  }, [product]);
 
   useEffect(() => {
     if (triggerColor) {
@@ -73,7 +83,12 @@ const ProductDetails = ({ product }) => {
   const onSelectedSizeChange = (value) => {
     setSelectedSize(value);
 
-    const variacaoDisponivel = variations.filter(el => el.description.split(";").slice(1, 2)[0].split(":").slice(1, 2)[0] == value)
+    const variacaoDisponivel = product.variations.filter((el) => {
+      let sizes = el.description.split(";").slice(1, 2);
+      if (sizes.length > 0) {
+        return sizes[0].split(":").slice(1, 2)[0] == value;
+      }
+    });
     // console.log(variacaoDisponivel.filter(el.code === variacaoDisponivel.map(el => el.code)))
 
     setAvailableColorVariations(variacaoDisponivel);
@@ -89,7 +104,11 @@ const ProductDetails = ({ product }) => {
   };
 
   const onSelectedColorChange = (value) => {
-    let cor = availableColorVariations.filter(el => el.description.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] == value)[0]
+    let cor = availableColorVariations.filter(
+      (el) =>
+        el.description.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] ==
+        value
+    )[0];
 
     if (!cor) {
       return;
@@ -97,7 +116,9 @@ const ProductDetails = ({ product }) => {
 
     setImages(cor.image);
 
-    setCodigoVariacao(`${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`)
+    setCodigoVariacao(
+      `${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
+    );
     setEstoqueAtual(cor.supply);
     setPrice(cor.price ? cor.price : product.price);
     setColorTrigger(false);
@@ -151,7 +172,7 @@ const ProductDetails = ({ product }) => {
   const MySwal = withReactContent(Swal);
 
   const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
-  const priceSale = `R$${parseFloat(variations[0].price)
+  const priceSale = `R$${parseFloat(product.variations[0].price)
     .toFixed(2)
     .replace(".", ",")}`;
 
@@ -294,18 +315,24 @@ const ProductDetails = ({ product }) => {
               </span>
               <div className="colors-thumb">
                 {availableColorVariations
-                  .filter((el, index, arr) => index ===  arr.findIndex(t => t.code === el.code))
+                  .filter(
+                    (el, index, arr) =>
+                      index === arr.findIndex((t) => t.code === el.code)
+                  )
                   .map((variation) => {
                     const color = variation.description
-                    .split(";")
-                    .slice(0, 1)[0]
-                    .split(":")
-                    .slice(1, 2)[0];
+                      .split(";")
+                      .slice(0, 1)[0]
+                      .split(":")
+                      .slice(1, 2)[0];
                     let image = JSON.parse(variation.image);
                     image = image.length > 0 ? image[0].link : "/noimage.png";
                     return (
                       <img
-                        onClick={() => {setSelectedColor(color);setImages(variation.image)}}
+                        onClick={() => {
+                          setSelectedColor(color);
+                          setImages(variation.image);
+                        }}
                         className={color === selectedColor ? "active" : ""}
                         key={variation.id}
                         src={image}

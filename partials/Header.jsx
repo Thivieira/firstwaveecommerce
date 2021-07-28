@@ -28,13 +28,13 @@ function Header() {
   const [mascDropDown, setMascDropDown] = useState(false);
   const [femDropDown, setFemDropDown] = useState(false);
   const [juvDropDown, setJuvDropDown] = useState(false);
-
-  const token = sessionStorage.getItem("key");
-  let authorized = sessionStorage.getItem("authorized");
-
-  api.defaults.headers.common["Authorization"] = "Bearer " + token;
+  const [authorized, setAuthorized] = useState(false);
 
   async function getUserData() {
+    const token = sessionStorage.getItem("key");
+    setAuthorized(sessionStorage.getItem("authorized"));
+
+    api.defaults.headers.common["Authorization"] = "Bearer " + token;
     await api
       .get("/auth/me")
       .then((res) => {

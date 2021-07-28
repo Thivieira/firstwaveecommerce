@@ -56,10 +56,20 @@ export default function products({
   const filterUrl = useSelector(getFilterUrl);
   const router = useRouter();
 
-  router.events.on("routeChangeStart", () => {
-    dispatch(setFilterUrl(""));
-    dispatch(setFilterData([], [], [], 0, 2000));
-  });
+  useEffect(() => {
+    const handleRouteChange = (url, { shallow }) => {
+      dispatch(setFilterUrl(""));
+      dispatch(setFilterData([], [], [], 0, 2000));
+    };
+
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method:
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, [router]);
 
   const paginationRedux = useSelector(getPaginationData);
 
@@ -105,9 +115,16 @@ export default function products({
     // totalPages = res.data.last_page;
     dispatch(setProducts(prod));
     dispatch(setLoading(false));
-    dispatch(setFilterUrl(''))
-    dispatch(setFilterData([], [], [], 0, 2000))
-    dispatch(setPaginationProducts(res.data.last_page, (currentPage  + 1), res.data.per_page, res.data.total));
+    dispatch(setFilterUrl(""));
+    dispatch(setFilterData([], [], [], 0, 2000));
+    dispatch(
+      setPaginationProducts(
+        res.data.last_page,
+        currentPage + 1,
+        res.data.per_page,
+        res.data.total
+      )
+    );
   };
 
   const changePage = ({ selected }) => {

@@ -2,7 +2,6 @@ import Router from "next/router";
 import Head from "next/head";
 import { Provider } from "react-redux";
 import { useStore } from "../store";
-import { PersistGate } from "redux-persist/integration/react";
 import SiteLayout from "../layouts/SiteLayout";
 import NProgress from "nprogress";
 import { CategoryContextProvider } from "../contexts/CategoryContext";
@@ -77,14 +76,12 @@ export default function App({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <PersistGate persistor={store.__PERSISTOR} loading={null}>
-        <Head>
-          <link rel="stylesheet" type="text/css" href="/nprogress.css" />
-        </Head>
-        <CategoryContextProvider>
-          {getLayout(<Component {...pageProps} />)}
-        </CategoryContextProvider>
-      </PersistGate>
+      <Head>
+        <link rel="stylesheet" type="text/css" href="/nprogress.css" />
+      </Head>
+      <CategoryContextProvider>
+        {getLayout(<Component {...pageProps} />)}
+      </CategoryContextProvider>
     </Provider>
   );
 }

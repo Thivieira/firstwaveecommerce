@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CartProduct from "./CartProduct";
 import {
@@ -10,9 +10,10 @@ import Link from "next/link";
 import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
 import { Badge } from "antd";
 
-import { changeIsOpen } from "../../store/actions/products";
+import { changeIsOpen, updateCart } from "../../store/actions/products";
 import { CloseSquareOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import useCart from "../../contexts/CartStorage";
 
 function FloatCart() {
   const dispatch = useDispatch();
@@ -25,7 +26,11 @@ function FloatCart() {
 
   const total = useSelector(getCartTotal);
 
-  const authorized = sessionStorage.getItem("authorized");
+  const [authorized, setAuthorized] = useState(false);
+
+  useEffect(() => {
+    setAuthorized(sessionStorage.getItem("authorized"));
+  }, []);
 
   const itemQuantity = productsCart
     .map((item) => item.quantity)
@@ -34,6 +39,17 @@ function FloatCart() {
   const openFloatCart = () => dispatch(changeIsOpen(true));
 
   const closeFloatCart = () => dispatch(changeIsOpen(false));
+
+  const [cartStorage, setCartStorage] = useCart("cart");
+
+  useEffect(() => {
+    // dispatch(updateCart(cartStorage));
+    setCartStorage(productsCart);
+  }, [productsCart]);
+
+  useEffect(() => {
+    dispatch(updateCart(cartStorage));
+  }, []);
 
   const noAuthorized = () => {
     closeFloatCart();

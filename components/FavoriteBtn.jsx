@@ -22,7 +22,11 @@ export default function FavoriteBtn({ product }) {
 
   const productsFavorites = useSelector(getFavoritesProd);
 
-  const authorized = sessionStorage.getItem("authorized");
+  const [authorized, setAuthorized] = useState(false);
+
+  useEffect(() => {
+    setAuthorized(sessionStorage.getItem("authorized"));
+  }, []);
   const MySwal = withReactContent(Swal);
   const [favorite, setFavoriteState] = useState(product.favorite);
 
