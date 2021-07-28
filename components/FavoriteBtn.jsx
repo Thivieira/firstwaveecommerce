@@ -31,29 +31,38 @@ export default function FavoriteBtn({ product }) {
   const MySwal = withReactContent(Swal);
   const [favorite, setFavoriteState] = useState(product.favorite);
 
+  useEffect(() => {
+    let isFavorite = productsFavorites.map(
+      (favorite) => product.id === favorite.product.id
+    )[0];
+    setFavoriteState(isFavorite);
+  }, [productsFavorites]);
+
   const toggleFavorites = async () => {
-    let existingProductInFavorites = productsFavorites.find(
+    let existingProductInFavorites = productsFavorites.filter(
       (favorite) => favorite.product.id === product.id
     );
 
     if (authorized) {
-      if (existingProductInFavorites) {
-        existingProductInFavorites = existingProductInFavorites.map(
-          (favorite) => favorite.product
-        );
-        dispatch(
-          setFavorite({
-            favorite: false,
-            id: existingProductInFavorites.id,
-          })
-        );
-        dispatch(removeFromFavorites(existingProductInFavorites.id));
+      if (existingProductInFavorites.length > 0) {
+        existingProductInFavorites = existingProductInFavorites[0];
+        const favoriteId = existingProductInFavorites.id;
+        try {
+          await api.delete(`/favorites/${favoriteId}`);
+          // dispatch(
+          //   setFavorite({
+          //     favorite: false,
+          //     id: existingProductInFavorites.product.id,
+          //   })
+          // );
+          dispatch(removeFromFavorites(existingProductInFavorites.product.id));
+        } catch (e) {}
       } else {
         try {
           const { data } = await api.post(`/favorites`, {
             product_id: product.id,
           });
-          dispatch(setFavorite({ favorite: true, id: data.product.id }));
+          // dispatch(setFavorite({ favorite: true, id: data.product.id }));
           dispatch(addToFavorites(data));
         } catch (e) {}
       }
