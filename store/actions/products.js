@@ -67,6 +67,11 @@ export const setLoading = (loading) => ({
 
 ////////////////////////////////////////////////////
 
+export const setFavorites = (arr) => ({
+  type: "SET_FAVORITES",
+  payload: arr,
+});
+
 export const setFavorite = (obj) => ({
   type: "SET_FAVORITE",
   payload: obj,

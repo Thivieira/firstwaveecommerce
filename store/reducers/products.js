@@ -91,7 +91,7 @@ const productsReducer = (state = productsDefaultState, action) => {
       apiProduct.favorite = false;
 
       const favorite = state.favoritesProducts.find(
-        (product) => product.id === apiProduct.id
+        (favorite) => favorite.product.id === apiProduct.id
       );
 
       if (favorite) {
@@ -119,6 +119,12 @@ const productsReducer = (state = productsDefaultState, action) => {
       };
 
     //////////////////////////////////////////////////////////////
+
+    case "SET_FAVORITES":
+      return {
+        ...state,
+        favoritesProducts: action.payload,
+      };
 
     case "SET_FAVORITE":
       return {
@@ -154,7 +160,7 @@ const productsReducer = (state = productsDefaultState, action) => {
 
     case "REMOVE_FROM_FAVORITES":
       const removeProductFavorites = state.favoritesProducts.filter(
-        (product) => action.payload !== product.id
+        (favorite) => action.payload !== favorite.product.id
       );
 
       return {

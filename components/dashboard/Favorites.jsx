@@ -1,45 +1,67 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import api from "../../services/api";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { getFavoritesProd } from "../../store/selectors/products";
-import { removeFromFavorites } from "../../store/actions/products";
+import {
+  removeFromFavorites,
+  setFavorites,
+} from "../../store/actions/products";
 import { List, Avatar, Empty } from "antd";
 import { CloseCircleTwoTone } from "@ant-design/icons";
 
 export default function Favorites() {
   const dispatch = useDispatch();
   const productsFavorites = useSelector(getFavoritesProd);
+  const [products, setProducts] = useState([]);
 
-  const disp = (item) => {
-    dispatch(removeFromFavorites(item));
+  const disp = async (item) => {
+    const favoriteId = productsFavorites
+      .filter((favorite) => favorite.product.id == item)
+      .map((favorite) => favorite.id);
+    try {
+      await api.delete(`/favorites/${favoriteId}`);
+      dispatch(removeFromFavorites(item));
+    } catch (e) {}
   };
 
   const headers = {
     Authorization: `Bearer ${localStorage.getItem("key")}`,
   };
 
-  const orderFavoritesGet = async () => {
-    await api
-      .get("/produtos/favoritos", { headers })
-      .then((res) => console.log(res));
-  };
+  // const orderFavoritesGet = async () => {
+  //   await api.get("/favorites", { headers });
+  // };
 
-  const postFavorites = productsFavorites.map((el) => el.codigo);
-  console.log(postFavorites);
+  // // const postFavorites = productsFavorites.map((el) => el.code);
+  // console.log(postFavorites);
 
-  const orderFavoritesPost = async () => {
-    await api
-      .post("/produtos/favoritos", {
-        produtoID: postFavorites[0],
-      })
-      .then((res) => console.log(res));
-  };
+  // const orderFavoritesPost = async () => {
+  //   await api
+  //     .post("/produtos/favoritos", {
+  //       produtoID: postFavorites[0],
+  //     })
+  //     .then((res) => console.log(res));
+  // };
+
+  useEffect(async () => {
+    // da api
+    try {
+      let { data } = await api.get("/favorites", { headers });
+      dispatch(setFavorites(data));
+      const favorites = data;
+      setProducts(favorites.map((favorite) => favorite.product));
+    } catch (e) {}
+    // redux
+    // productsFavorites
+
+    // orderFavoritesPost();
+    // orderFavoritesGet();
+  }, []);
 
   useEffect(() => {
-    orderFavoritesPost();
-    orderFavoritesGet();
-  }, []);
+    setProducts(productsFavorites.map((favorite) => favorite.product));
+  }, [productsFavorites]);
 
   return (
     <List
@@ -52,11 +74,11 @@ export default function Favorites() {
           ></Empty>
         ),
       }}
-      dataSource={productsFavorites}
+      dataSource={products}
       renderItem={(item) => {
-        const image = item.variacoes.map((el) => el.variacao)[0].imagem[0]
-          ? item.variacoes.map((el) => el.variacao)[0].imagem[0].link
-          : "/noimage.jpg";
+        const image = item.variations[0].image
+          ? JSON.parse(item.variations[0].image)[0]["link"]
+          : "/noimage.png";
         return (
           <List.Item
             actions={[
@@ -69,12 +91,12 @@ export default function Favorites() {
             <List.Item.Meta
               avatar={<Avatar shape="square" size={64} src={image} />}
               title={
-                <Link href={`/produto/${item.codigo}`}>
-                  {" " + item.descricao + " "}
+                <Link href={`/produto/${item.code}`}>
+                  {" " + item.description + " "}
                 </Link>
               }
               description={
-                "R$ " + parseFloat(item.preco).toFixed(2).replace(".", ",")
+                "R$ " + parseFloat(item.price).toFixed(2).replace(".", ",")
               }
             />
           </List.Item>
