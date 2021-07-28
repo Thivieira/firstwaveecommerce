@@ -15,10 +15,6 @@ function TableOrdered() {
   // console.log(cartTotal);
   // console.log(userName);
 
-  async function getUserName() {
-    await api.get("/auth/me").then((res) => setUserName(res.data.nomeCompleto));
-  }
-
   const postPedido = {
     pedido: {
       desconto: "0,00",
@@ -136,7 +132,6 @@ function TableOrdered() {
 
   useEffect(() => {
     // getPedidosAPI();
-    getUserName();
     // postPedidosAPI()
   }, []);
 
