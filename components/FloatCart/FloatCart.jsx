@@ -31,7 +31,7 @@ function FloatCart() {
   const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
-    setAuthorized(sessionStorage.getItem("authorized"));
+    setAuthorized(localStorage.getItem("authorized"));
   }, []);
 
   const itemQuantity = productsCart

@@ -52,9 +52,9 @@ function Form() {
           password: password,
         })
         .then((res) => {
-          sessionStorage.setItem("key", res.data.access_token);
+          localStorage.setItem("key", res.data.access_token);
 
-          sessionStorage.setItem("authorized", true);
+          localStorage.setItem("authorized", true);
 
           api.defaults.headers.common["Authorization"] =
             "Bearer " + res.data.access_token;

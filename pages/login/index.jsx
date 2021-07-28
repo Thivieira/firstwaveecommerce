@@ -34,8 +34,8 @@ function Login() {
         password: password,
       });
       const token = res.data.access_token;
-      sessionStorage.setItem("key", token);
-      sessionStorage.setItem("authorized", true);
+      localStorage.setItem("key", token);
+      localStorage.setItem("authorized", true);
       api.defaults.headers.common["Authorization"] = "Bearer " + token;
       try {
         const { data } = await api.get("/auth/me");

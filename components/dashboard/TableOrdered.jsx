@@ -116,7 +116,7 @@ function TableOrdered() {
   };
 
   const headers = {
-    Authorization: `Bearer ${sessionStorage.getItem("key")}`,
+    Authorization: `Bearer ${localStorage.getItem("key")}`,
   };
 
   const [getPedidos, setGetPedidos] = useState([]);

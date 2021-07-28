@@ -56,9 +56,9 @@ export default function App({ Component, pageProps }) {
     Component.getLayout || ((page) => <SiteLayout children={page} />);
 
   if (typeof window !== "undefined") {
-    const authenticated = Boolean(window.sessionStorage.getItem("authorized"));
+    const authenticated = Boolean(window.localStorage.getItem("authorized"));
     if (authenticated) {
-      const token = window.sessionStorage.getItem("key");
+      const token = window.localStorage.getItem("key");
       api.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
 
@@ -66,8 +66,8 @@ export default function App({ Component, pageProps }) {
       (response) => response,
       (error) => {
         if (error.response.status === 401) {
-          // console.log(window.sessionStorage);
-          window.sessionStorage.clear();
+          // console.log(window.localStorage);
+          window.localStorage.clear();
         }
         return error;
       }

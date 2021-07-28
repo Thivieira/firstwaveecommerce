@@ -16,28 +16,30 @@ export default function Favorites() {
   };
 
   const headers = {
-    Authorization: `Bearer ${sessionStorage.getItem("key")}`,
+    Authorization: `Bearer ${localStorage.getItem("key")}`,
   };
 
   const orderFavoritesGet = async () => {
-    await api.get('/produtos/favoritos', { headers })
-    .then(res => console.log(res))
-  }
+    await api
+      .get("/produtos/favoritos", { headers })
+      .then((res) => console.log(res));
+  };
 
-  const postFavorites = productsFavorites.map(el => el.codigo)
-  console.log(postFavorites)
+  const postFavorites = productsFavorites.map((el) => el.codigo);
+  console.log(postFavorites);
 
   const orderFavoritesPost = async () => {
-    await api.post('/produtos/favoritos', {
-      "produtoID": postFavorites[0]
-    })
-    .then(res => console.log(res))
-  }
+    await api
+      .post("/produtos/favoritos", {
+        produtoID: postFavorites[0],
+      })
+      .then((res) => console.log(res));
+  };
 
   useEffect(() => {
-    orderFavoritesPost()
-    orderFavoritesGet()
-  }, [])
+    orderFavoritesPost();
+    orderFavoritesGet();
+  }, []);
 
   return (
     <List

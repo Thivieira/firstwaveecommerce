@@ -18,26 +18,26 @@ import FloatCart from "../components/FloatCart/FloatCart";
 
 import api from "../services/api";
 import NavLink from "../components/NavLink";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveAccount, saveAddress } from "../store/actions/user";
+import { getAccount } from "../store/selectors/user";
 
 function Header() {
   const router = useRouter();
   const [sidebar, setSidebar] = useState(false);
   const [showFilter, setShowFilter] = useState(0);
-  const [userName, setUserName] = useState("");
   const [surfDropDown, setSurfDropDown] = useState(false);
   const [mascDropDown, setMascDropDown] = useState(false);
   const [femDropDown, setFemDropDown] = useState(false);
   const [juvDropDown, setJuvDropDown] = useState(false);
   const [authorized, setAuthorized] = useState(false);
   const dispatch = useDispatch();
+  const user = useSelector(getAccount);
 
   async function getUserData() {
     await api
       .get("/auth/me")
       .then((res) => {
-        setUserName(res.data.name);
         dispatch(
           saveAccount({
             cpf: res.data.cpf,
@@ -47,14 +47,12 @@ function Header() {
           })
         );
       })
-      .catch((e) => {
-        setUserName("");
-      });
+      .catch((e) => {});
   }
 
   useEffect(() => {
-    const token = sessionStorage.getItem("key");
-    setAuthorized(sessionStorage.getItem("authorized"));
+    const token = localStorage.getItem("key");
+    setAuthorized(localStorage.getItem("authorized"));
 
     api.defaults.headers.common["Authorization"] = "Bearer " + token;
   }, []);
@@ -712,7 +710,7 @@ function Header() {
   };
 
   const logOut = async () => {
-    sessionStorage.clear();
+    localStorage.clear();
     dispatch(saveAccount({}));
     dispatch(saveAddress({}));
     router.replace("/");
@@ -823,8 +821,7 @@ function Header() {
                   placement="bottomCenter"
                   icon={<UserOutlined />}
                 >
-                  {" "}
-                  {userName}{" "}
+                  {user.name}
                 </Dropdown.Button>
               ) : (
                 <Button placement="bottomCenter" icon={<UserOutlined />}>
@@ -855,7 +852,7 @@ function Header() {
               <>
                 <AccountCircle fontSize="large" />
                 <p className="nav-item-legenda">
-                  {authorized ? userName : "Entre ou cadastre-se"}
+                  {authorized ? user.name : "Entre ou cadastre-se"}
                 </p>
               </>
             </NavLink>

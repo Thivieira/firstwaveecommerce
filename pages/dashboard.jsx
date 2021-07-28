@@ -22,8 +22,8 @@ function Dashboard() {
   const [authorized, setAuthorized] = useState(true);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("key");
-    setAuthorized(Boolean(sessionStorage.getItem("authorized")));
+    const token = localStorage.getItem("key");
+    setAuthorized(Boolean(localStorage.getItem("authorized")));
 
     api.defaults.headers.common["Authorization"] = "Bearer " + token;
   }, []);
@@ -39,32 +39,31 @@ function Dashboard() {
   useEffect(() => {
     getUserData();
     getAdressData();
-  }, [formOption]);
+  }, []);
 
   async function getUserData() {
-    await api
-      .get("/auth/me")
-      .then((res) => {
-        setPersonalData({
+    try {
+      const res = await api.get("/auth/me");
+      setPersonalData({
+        cpf: res.data.cpf,
+        email: res.data.email,
+        name: res.data.name,
+        phone: res.data.mobile,
+      });
+      dispatch(
+        saveAccount({
           cpf: res.data.cpf,
           email: res.data.email,
           name: res.data.name,
           phone: res.data.mobile,
-        });
-        dispatch(
-          saveAccount({
-            cpf: res.data.cpf,
-            email: res.data.email,
-            name: res.data.name,
-            phone: res.data.mobile,
-          })
-        );
-      })
-      .catch(() => {});
+        })
+      );
+    } catch (e) {}
   }
 
   async function getAdressData() {
-    await api.get("auth/address").then((res) => {
+    try {
+      const res = await api.get("auth/address");
       setAddressData({
         cep: res.data.postalCode,
         rua: res.data.address,
@@ -85,7 +84,7 @@ function Dashboard() {
           neighborhood: res.data.province,
         })
       );
-    });
+    } catch (e) {}
   }
 
   async function updateUser({ name, password, email, phone, cpf }) {
@@ -100,10 +99,12 @@ function Dashboard() {
     } else {
       setJson({ email: email, name: name, mobile: phone, cpf });
     }
-    await api
-      .post("/auth/me", json)
-      .then(() => alert("usuário editado com sucesso!"))
-      .catch(() => alert("falha ao editar usuário!"));
+    try {
+      const res = await api.post("/auth/me", json);
+      alert("usuário editado com sucesso!");
+    } catch (e) {
+      alert("falha ao editar usuário!");
+    }
   }
 
   async function updateAddress({
@@ -115,8 +116,8 @@ function Dashboard() {
     city,
     state,
   }) {
-    await api
-      .post("/auth/address", {
+    try {
+      const res = await api.post("/auth/address", {
         province: neighborhood,
         postalCode: cep,
         city,
@@ -124,9 +125,11 @@ function Dashboard() {
         uf: state,
         addressNumber: number,
         address: street,
-      })
-      .then(() => alert("Endereço editado com sucesso!"))
-      .catch(() => alert("Falha ao editar endereço!"));
+      });
+      alert("Endereço editado com sucesso!");
+    } catch (e) {
+      alert("Falha ao editar endereço!");
+    }
   }
 
   function pageTitle() {
