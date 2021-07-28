@@ -19,14 +19,22 @@ function Dashboard() {
   const [addressData, setAddressData] = useState([]);
   const [json, setJson] = useState({});
   const dispatch = useDispatch();
-  const token = sessionStorage.getItem("key");
-  api.defaults.headers.common["Authorization"] = "Bearer " + token;
-  const authenticated = Boolean(sessionStorage.getItem("authorized"));
+  const [authorized, setAuthorized] = useState(true);
 
-  if (!authenticated) {
-    router.replace("/");
-    return null;
-  }
+  useEffect(() => {
+    const token = sessionStorage.getItem("key");
+    setAuthorized(Boolean(sessionStorage.getItem("authorized")));
+
+    api.defaults.headers.common["Authorization"] = "Bearer " + token;
+  }, []);
+
+  useEffect(() => {
+    console.log("AUTHORIZED", authorized);
+    if (!authorized) {
+      router.replace("/");
+      return null;
+    }
+  }, [authorized]);
 
   useEffect(() => {
     getUserData();

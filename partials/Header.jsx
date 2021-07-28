@@ -18,6 +18,8 @@ import FloatCart from "../components/FloatCart/FloatCart";
 
 import api from "../services/api";
 import NavLink from "../components/NavLink";
+import { useDispatch } from "react-redux";
+import { saveAccount, saveAddress } from "../store/actions/user";
 
 function Header() {
   const router = useRouter();
@@ -29,21 +31,33 @@ function Header() {
   const [femDropDown, setFemDropDown] = useState(false);
   const [juvDropDown, setJuvDropDown] = useState(false);
   const [authorized, setAuthorized] = useState(false);
+  const dispatch = useDispatch();
 
   async function getUserData() {
-    const token = sessionStorage.getItem("key");
-    setAuthorized(sessionStorage.getItem("authorized"));
-
-    api.defaults.headers.common["Authorization"] = "Bearer " + token;
     await api
       .get("/auth/me")
       .then((res) => {
         setUserName(res.data.name);
+        dispatch(
+          saveAccount({
+            cpf: res.data.cpf,
+            email: res.data.email,
+            name: res.data.name,
+            phone: res.data.mobile,
+          })
+        );
       })
       .catch((e) => {
         setUserName("");
       });
   }
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("key");
+    setAuthorized(sessionStorage.getItem("authorized"));
+
+    api.defaults.headers.common["Authorization"] = "Bearer " + token;
+  }, []);
 
   useEffect(() => getUserData(), [authorized]);
 
@@ -699,6 +713,8 @@ function Header() {
 
   const logOut = async () => {
     sessionStorage.clear();
+    dispatch(saveAccount({}));
+    dispatch(saveAddress({}));
     router.replace("/");
   };
 

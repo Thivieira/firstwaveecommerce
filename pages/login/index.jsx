@@ -11,14 +11,15 @@ import Separation from "../../Utils/Separation";
 import Box from "../../Utils/Box";
 import InputContainer from "../../Utils/InputContainer";
 import ButtonsContainer from "../../Utils/ButtonsContainer";
-
-import { auth, firebase } from "../../services/firebase";
+import { useDispatch } from "react-redux";
+import { saveAccount } from "../../store/actions/user";
 
 function Login() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   // const [ user, setUser ] = useState()
 
@@ -27,21 +28,32 @@ function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    await api
-      .post("/auth/login", {
+    try {
+      const res = await api.post("/auth/login", {
         email: email,
         password: password,
-      })
-      .then((res) => {
-        setLoading(false);
-        sessionStorage.setItem("key", res.data.access_token);
-        sessionStorage.setItem("authorized", true);
-        router.replace("/");
-      })
-      .catch(() => {
-        setLoading(false);
-        MySwal.fire("Usuário ou senha incorretos!");
       });
+      const token = res.data.access_token;
+      sessionStorage.setItem("key", token);
+      sessionStorage.setItem("authorized", true);
+      api.defaults.headers.common["Authorization"] = "Bearer " + token;
+      try {
+        const { data } = await api.get("/auth/me");
+        dispatch(
+          saveAccount({
+            name: data.name,
+            email: data.email,
+            phone: data.mobile,
+            cpf: data.cpf,
+          })
+        );
+        setLoading(false);
+        router.replace("/");
+      } catch (e) {}
+    } catch (e) {
+      setLoading(false);
+      MySwal.fire("Usuário ou senha incorretos!");
+    }
   }
 
   // useEffect(() => {
