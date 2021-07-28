@@ -69,9 +69,11 @@ const ProductDetails = ({ product }) => {
 
     setSupplyAndSize(supplyAndSize);
 
-    const size = sizesNoRepeat[0];
+    const firstSizeWithSupply = Object.keys(supplyAndSize)
+      .map(tamanho => supplyAndSize[tamanho] > 0 && tamanho)
+      .filter(el => el != false)[0]
 
-    onSelectedSizeChange(size);
+    onSelectedSizeChange(firstSizeWithSupply);
   }, [product]);
 
   useEffect(() => {
@@ -82,6 +84,7 @@ const ProductDetails = ({ product }) => {
 
   const onSelectedSizeChange = (value) => {
     setSelectedSize(value);
+    console.log(value)
 
     const variacaoDisponivel = product.variations.filter((el) => {
       let sizes = el.description.split(";").slice(1, 2);
