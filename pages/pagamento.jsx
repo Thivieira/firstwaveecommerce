@@ -10,7 +10,6 @@ import PaymentBox from "../components/Utils/PaymentBox";
 import PaypalButton from "../components/PaypalButton";
 import api from "../services/api";
 import PaymentBtn from "../components/PaymentBtn";
-import { SwapVerticalCircleTwoTone } from "@material-ui/icons";
 import { useRouter } from "next/router";
 
 function Payment() {
@@ -30,10 +29,10 @@ function Payment() {
   const [neighborhood, setNeighborhood] = useState("");
   const dispatch = useDispatch();
 
-  useEffect(()=>{
+  useEffect(() => {
     const token = localStorage.getItem("key");
     api.defaults.headers.common["Authorization"] = "Bearer " + token;
-  },[])
+  }, []);
 
   useEffect(() => {
     getUserData();
@@ -102,10 +101,12 @@ function Payment() {
     }
   }
 
-  if (cart.length == 0) {
-    router.push("/");
-    return null;
-  }
+  useEffect(() => {
+    if (cart.length == 0) {
+      router.push("/");
+      return null;
+    }
+  }, []);
 
   return (
     <div className="payment-container">
