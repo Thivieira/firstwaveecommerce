@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import { NextSeo } from 'next-seo'
+import {useState} from 'react'
 import {TextField, InputAdornment, Button } from '@material-ui/core'
 import {Person, LockOpen, Description} from '@material-ui/icons'
 
@@ -20,6 +21,7 @@ function ForgotPassword() {
                 title="Recuperar senha ou email - Lifestyle Floripa by Billabong"
                 description={"Recuperar senha ou email - Sua surf shop na Praia Mole."}
             />
+            <Title>Recuperar senha ou email</Title>
             <Box>
                 <InputContainer>
                     <TextField 
