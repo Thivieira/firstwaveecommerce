@@ -111,7 +111,7 @@ function Header() {
             <NavLink href="/produtos/Surf">
               <img
                 className="surf-image hide"
-                src="/4.jpg"
+                src="/navSurf.jpg"
                 alt="imagem de surf"
               />
             </NavLink>
@@ -251,7 +251,7 @@ function Header() {
             <NavLink href="/produtos/Masculino">
               <img
                 className="img-genre hide"
-                src={"/headerMasc.jpg"}
+                src="/navMasc.jpg"
                 alt="img-genre"
               />
             </NavLink>
@@ -419,7 +419,7 @@ function Header() {
             </div>
 
             <NavLink href="/produtos/Feminino">
-              <img className="img-genre hide" src="/12.jpg" alt="img-genre" />
+              <img className="img-genre hide" src="/navFem.jpg" alt="img-genre" />
             </NavLink>
           </div>
         );
@@ -482,7 +482,7 @@ function Header() {
             </div>
 
             <NavLink href="/produtos/Juvenil">
-              <img className="img-genre hide" src="/13.png" alt="img-genre" />
+              <img className="img-genre hide" src="/navKid.jpg" alt="img-genre" style={{width: 'auto', objectFit: 'contain'}}/>
             </NavLink>
           </div>
         );
