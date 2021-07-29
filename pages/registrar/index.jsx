@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { Stepper, Step, StepLabel, Container } from "@material-ui/core";
 import { useRouter } from "next/router";
-import UserData from "./UserData";
-import AddressData from "./AddressData";
+import UserData from "../../components/register/UserData";
+import AddressData from "../../components/register/AddressData";
 import {
   passwordValidator,
   cpfValidator,
@@ -33,6 +33,10 @@ function Form() {
   });
   const router = useRouter();
   const MySwal = withReactContent(Swal);
+
+  const next = () => setCurrentStep(currentStep + 1);
+
+  const goBack = () => setCurrentStep(currentStep - 1);
 
   async function signUpUser({
     name,
@@ -132,10 +136,6 @@ function Form() {
       signup={true}
     />,
   ];
-
-  const next = () => setCurrentStep(currentStep + 1);
-
-  const goBack = () => setCurrentStep(currentStep - 1);
 
   return (
     <Container component="article" maxWidth="sm" style={{ minHeight: "100vh" }}>

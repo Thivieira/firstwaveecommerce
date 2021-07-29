@@ -30,8 +30,10 @@ function Payment() {
   const [neighborhood, setNeighborhood] = useState("");
   const dispatch = useDispatch();
 
-  const token = localStorage.getItem("key");
-  api.defaults.headers.common["Authorization"] = "Bearer " + token;
+  useEffect(()=>{
+    const token = localStorage.getItem("key");
+    api.defaults.headers.common["Authorization"] = "Bearer " + token;
+  },[])
 
   useEffect(() => {
     getUserData();

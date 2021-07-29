@@ -792,9 +792,7 @@ function Header() {
         </NavLink>
 
         <Search
-          defaultValue={
-            router.query.hasOwnProperty("nome") ? router.query.nome : ""
-          }
+          defaultValue={router.query.hasOwnProperty("q") ? router.query.q : ""}
           placeholder="Digite o que você procura"
           allowClear
           onSearch={onSearch}
