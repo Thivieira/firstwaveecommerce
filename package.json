@@ -9,10 +9,7 @@
     "export": "next build && next export",
     "start-local": "next start"
   },
-  "cacheDirectories": [
-    ".next/cache",
-    "node_modules"
-  ],
+  "cacheDirectories": [],
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@material-ui/core": "^4.12.2",
