@@ -1,77 +1,170 @@
-export default function ResetPassword() {
+import { NextSeo } from "next-seo";
+import { TextField, Button, Typography } from "@material-ui/core";
+
+import Container from "../Utils/Container";
+import Title from "../Utils/Title";
+import Box from "../Utils/Box";
+import InputContainer from "../Utils/InputContainer";
+import ButtonsContainer from "../Utils/ButtonsContainer";
+import api from "../services/api";
+
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { useRouter } from "next/router";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { useEffect } from "react";
+
+function ResetPassword() {
+  const MySwal = withReactContent(Swal);
+  const router = useRouter();
+  const validationSchema = yup.object({
+    email: yup
+      .string("Digite seu email")
+      .email("Entre com um email válido")
+      .required("Email é obrigatório"),
+    password: yup
+      .string("Digite sua senha")
+      .min(8, "A senha deve ter no mínimo 8 caracteres")
+      .required("Senha requerida"),
+    password_confirmation: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "As senhas devem corresponder"),
+  });
+
+  useEffect(() => {
+    if (!router.query.token) {
+      //   router.push("/forgot-password");
+    }
+  }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      password_confirmation: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: async ({ email, password, password_confirmation }) => {
+      try {
+        const res = await api.post(`/auth/reset-password`, {
+          token: router.query.token,
+          email,
+          password,
+          password_confirmation,
+        });
+
+        if (res.response.status != 200) {
+          MySwal.fire({
+            title: <p>Erro</p>,
+            body: (
+              <ul>
+                {Object.keys(res.response.data.errors).map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            ),
+          });
+          return;
+        }
+
+        MySwal.fire({
+          title: <p>{res.response.data.status}</p>,
+        }).then((res) => {
+          if (res.isConfirmed) {
+            router.push("/login");
+          }
+        });
+      } catch (e) {
+        MySwal.fire({
+          title: <p>Erro</p>,
+          body: (
+            <ul>
+              {Object.keys(e.response.data.errors).map((error) => (
+                <li>{error}</li>
+              ))}
+            </ul>
+          ),
+        });
+      }
+    },
+  });
+
   return (
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="card">
-            <div class="card-header">Resetar Senha</div>
-            <div class="card-body">
-              <form method="POST" action="{{ route('password.update') }}">
-                <input type="hidden" name="token" value="{{ $token }}" />
-
-                <div class="form-group row">
-                  <label
-                    for="email"
-                    class="col-md-4 col-form-label text-md-right"
-                  >
-                    E-Mail Address
-                  </label>
-                  {/* 
-                                    <div class="col-md-6">
-                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                        @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div> */}
-                </div>
-
-                <div class="form-group row">
-                  <label
-                    for="password"
-                    class="col-md-4 col-form-label text-md-right"
-                  >
-                    Password
-                  </label>
-
-                  {/* <div class="col-md-6">
-                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                        @error('password')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div> */}
-                </div>
-
-                <div class="form-group row">
-                  <label
-                    for="password-confirm"
-                    class="col-md-4 col-form-label text-md-right"
-                  >
-                    Confirm Password
-                  </label>
-
-                  {/* <div class="col-md-6">
-                                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                                    </div> */}
-                </div>
-
-                <div class="form-group row mb-0">
-                  <div class="col-md-6 offset-md-4">
-                    <button type="submit" class="btn btn-primary">
-                      Reset Password
-                    </button>
-                  </div>
-                </div>
-              </form>
+    <Container>
+      <NextSeo
+        title="Resetar senha - Lifestyle Floripa by Billabong"
+        description={"Resetar senha - Sua surf shop na Praia Mole."}
+      />
+      <Box>
+        <InputContainer onSubmit={formik.handleSubmit}>
+          <Typography variant="subtitle1" component="h2" gutterBottom>
+            Resetar senha
+          </Typography>
+          <TextField
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+            id="email"
+            label="Email"
+            type="email"
+            variant="filled"
+            margin="normal"
+            fullWidth
+            required
+          />
+          <div className="input-container-form">
+            <div className="margin-form">
+              <TextField
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
+                id="password"
+                name="password"
+                label="Senha"
+                type="password"
+                autoComplete="new-password"
+                variant="filled"
+                margin="normal"
+                required={true}
+                className="inline-input"
+              />
             </div>
+            <TextField
+              value={formik.values.password_confirmation}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.password_confirmation &&
+                Boolean(formik.errors.password_confirmation)
+              }
+              helperText={
+                formik.touched.password_confirmation &&
+                formik.errors.password_confirmation
+              }
+              id="password_confirmation"
+              name="password_confirmation"
+              autoComplete="new-password"
+              label="Confirma Senha"
+              type="password"
+              variant="filled"
+              margin="normal"
+              required={true}
+              className="inline-input"
+            />
           </div>
-        </div>
-      </div>
-    </div>
+          <ButtonsContainer>
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              Resetar senha
+            </Button>
+          </ButtonsContainer>
+        </InputContainer>
+      </Box>
+    </Container>
   );
 }
+
+export default ResetPassword;

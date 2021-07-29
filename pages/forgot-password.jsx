@@ -1,19 +1,35 @@
 import { NextSeo } from "next-seo";
 import { useState } from "react";
 import { TextField, InputAdornment, Button } from "@material-ui/core";
-import { Person, LockOpen, Description } from "@material-ui/icons";
+import { EmailRounded } from "@material-ui/icons";
 
 import Container from "../Utils/Container";
 import Title from "../Utils/Title";
 import Box from "../Utils/Box";
-import Separation from "../Utils/Separation";
 import InputContainer from "../Utils/InputContainer";
 import ButtonsContainer from "../Utils/ButtonsContainer";
+import api from "../services/api";
+
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function ForgotPassword() {
+  const MySwal = withReactContent(Swal);
   const [email, setEmail] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [password, setPassword] = useState("");
+
+  const submit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await api.post(`/auth/forgot-password`, { email });
+      MySwal.fire({
+        title: <p>{data.status}</p>,
+      }).then((res) => {
+        if (res.isConfirmed) {
+          // router.push("/login");
+        }
+      });
+    } catch (e) {}
+  };
 
   return (
     <Container>
@@ -29,8 +45,8 @@ function ForgotPassword() {
             onChange={(e) => setEmail(e.target.value)}
             InputProps={{
               endAdornment: (
-                <InputAdornment>
-                  <Person />
+                <InputAdornment position="end">
+                  <EmailRounded />
                 </InputAdornment>
               ),
             }}
@@ -43,52 +59,14 @@ function ForgotPassword() {
             fullWidth
           />
           <ButtonsContainer>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
+            <Button
+              type="submit"
+              onClick={submit}
+              variant="contained"
+              color="primary"
+              fullWidth
+            >
               Recuperar senha
-            </Button>
-          </ButtonsContainer>
-        </InputContainer>
-        <Separation />
-        <InputContainer>
-          <TextField
-            value={cpf}
-            onChange={(e) => setCpf(e.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment>
-                  <Description />
-                </InputAdornment>
-              ),
-            }}
-            id="password"
-            label="CPF"
-            variant="filled"
-            size="small"
-            type="password"
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment>
-                  <LockOpen />
-                </InputAdornment>
-              ),
-            }}
-            id="password"
-            label="Senha"
-            variant="filled"
-            size="small"
-            type="password"
-            margin="normal"
-            fullWidth
-          />
-          <ButtonsContainer>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              Recuperar e-mail
             </Button>
           </ButtonsContainer>
         </InputContainer>
