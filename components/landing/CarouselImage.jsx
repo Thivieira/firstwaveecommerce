@@ -24,7 +24,7 @@ const ImageSlider = () => {
       <NavLink href='/produtos/Surf/Wetsuit'>
         <div className="wrapper-carousel-landing">
             <img
-              src="/1.png"
+              src="/banner1.png"
               alt="banner"
             />
         </div>
@@ -32,16 +32,16 @@ const ImageSlider = () => {
       <NavLink href='/produtos/Masculino/Vestuario/Bermuda'>
         <div className="wrapper-carousel-landing">
           <img
-            src="/13.png"
-            alt="banner"
+              src="/banner2.png"
+              alt="banner"
           />
         </div>
       </NavLink>
       <NavLink href='/produtos/Masculino/Vestuario/Camiseta'>
         <div className="wrapper-carousel-landing">
           <img
-            src="/6.png"
-            alt="banner"
+              src="/banner3.png"
+              alt="banner"
           />
         </div>
       </NavLink>

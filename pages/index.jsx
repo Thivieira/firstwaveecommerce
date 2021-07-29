@@ -43,7 +43,7 @@ const Index = ({ prod }) => {
 
       <div className="images-container-two">
         <div className="wrapper-equal-images">
-          <img src="/woman-landing.jpg" alt="banner" />
+          <img src="/landing1.jpg" alt="banner" />
           <Link href="/produtos/Feminino">
             <button type="button" className="btn-acess">
               FEMININO
@@ -55,7 +55,7 @@ const Index = ({ prod }) => {
         </div>
 
         <div className="wrapper-equal-images">
-          <img src="/8.jpg" alt="banner" />
+          <img src="/landing2.jpg" alt="banner" />
           <Link href="/produtos/Masculino">
             <button type="button" className="btn-infa">
               MASCULINO
@@ -74,7 +74,7 @@ const Index = ({ prod }) => {
 
       <div className="images-container-two">
         <div className="wrapper-equal-images">
-          <img src="/10.png" alt="banner" />
+          <img src="/landing3.png" alt="banner" />
           <Link href="/produtos/Surf">
             <button
               type="button"
@@ -90,7 +90,7 @@ const Index = ({ prod }) => {
         </div>
 
         <div className="wrapper-equal-images">
-          <img src="/2.jpeg" alt="banner" />
+          <img src="/landing4.jpeg" alt="banner" />
           <Link href="/produtos/Acessorio">
             <button type="button" className="btn-infa">
               ACESSÓRIOS
