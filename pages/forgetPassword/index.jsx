@@ -16,7 +16,10 @@ function ForgotPassword() {
 
     return (
         <Container>
-            <Title title='Recuperar senha ou email' />
+            <NextSeo
+                title="Recuperar senha ou email - Lifestyle Floripa by Billabong"
+                description={"Recuperar senha ou email - Sua surf shop na Praia Mole."}
+            />
             <Box>
                 <InputContainer>
                     <TextField 

@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo';
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { CategoryContext } from "../../contexts/CategoryContext";
@@ -63,9 +64,6 @@ export default function products({
     };
 
     router.events.on("routeChangeStart", handleRouteChange);
-
-    // If the component is unmounted, unsubscribe
-    // from the event with the `off` method:
     return () => {
       router.events.off("routeChangeStart", handleRouteChange);
     };
@@ -196,6 +194,10 @@ export default function products({
 
   return (
     <>
+      <NextSeo
+        title={`${category} - Lifestyle Floripa by Billabong`}
+        description={`${category/setCategory/type} - Sua surf shop na Praia Mole.`}
+      />
       <div className="products-wrapper">
         <div className="filter-sort">
           {products.length > 0 && (

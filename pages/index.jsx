@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo';
 import Link from "next/link";
 import api from "../services/api";
 
@@ -8,11 +9,14 @@ import ProductsSlider from "../components/landing/ProductsSlider";
 
 import { getLayout } from "../layouts/SiteLayout";
 import { RightCircleOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
 
 const Index = ({ prod }) => {
   return (
     <div className="landing-container">
+      <NextSeo
+        title="Lifestyle Floripa by Billabong"
+        description="Sua surf shop na Praia Mole."
+      />
       <CarouselImage />
 
       <div className="payment-information-container">

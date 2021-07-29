@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useRouter } from "next/router";
+import { NextSeo } from "next-seo";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoading, getProduct } from "../../store/selectors/products";
 import {
@@ -14,8 +14,6 @@ import api from "../../services/api";
 import ProductDetails from "../../components/Products/ProductDetails";
 
 const DetailsProduct = ({ product }) => {
-  // console.log(product)
-  const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,26 +23,37 @@ const DetailsProduct = ({ product }) => {
   }, [product.code]);
 
   const loading = useSelector(getLoading);
-  // const reduxProduct = useSelector(getProduct);
+
   return (
-    <div className="page">
-      {loading || product.length == 0 ? (
-        <div className="details-wrapper">
-          <div className="spinner-product">
-            <FadeLoader
-              color={"#0080A8"}
-              loading={loading}
-              height={35}
-              width={7.5}
-              radius={5}
-              margin={15}
-            />
+    <>
+      <NextSeo
+        title={`${product.description} - Lifestyle Floripa by Billabong`}
+        description={function stripHtml() {
+             let tmp = document.createElement("DIV");
+             tmp.innerHTML = product.short_description;
+             return tmp.textContent || tmp.innerText || "";
+        }}
+      />
+      
+      <div className="page">
+        {loading || product.length == 0 ? (
+          <div className="details-wrapper">
+            <div className="spinner-product">
+              <FadeLoader
+                color={"#0080A8"}
+                loading={loading}
+                height={35}
+                width={7.5}
+                radius={5}
+                margin={15}
+              />
+            </div>
           </div>
-        </div>
-      ) : (
-        <ProductDetails product={product} />
-      )}
-    </div>
+        ) : (
+          <ProductDetails product={product} />
+        )}
+      </div>
+    </>
   );
 };
 

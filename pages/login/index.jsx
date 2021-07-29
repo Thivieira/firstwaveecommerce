@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { NextSeo } from "next-seo";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import api from "../../services/api";
 import Swal from "sweetalert2";
@@ -107,6 +108,10 @@ function Login() {
 
   return (
     <div className="wrapper-login">
+      <NextSeo
+        title="Entre na sua conta pessoal - Lifestyle Floripa by Billabong"
+        description={"Identificação do Usuário - Sua surf shop na Praia Mole."}
+      />
       <h2>ACESSE SUA CONTA</h2>
       <Box>
         <InputContainer onSubmit={handleSubmit}>

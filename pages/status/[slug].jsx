@@ -20,6 +20,7 @@ export default function index(props) {
   const cart = useSelector(getCartState);
   const user = useSelector(getAccount);
   const address = useSelector(getAddress);
+  
   useEffect(async () => {
     // const orderResult = await axios.post("/api/order", {
     //   cart,
@@ -40,67 +41,99 @@ export default function index(props) {
     switch (props.slug) {
       case "sucesso":
         return (
-          <Status
-            status="success"
-            title="Sua compra foi efetuada com sucesso!"
-            subTitle={`Pedido #${router.query.payment_id} enviado, confira seu email para acompanhar a entrega.`}
-            extra={[
-              <Button
-                type="primary"
-                key="console"
-                onClick={() => {
-                  router.push("/");
-                }}
-              >
-                Ver mais produtos
-              </Button>,
-              <Button
-                key="buy"
-                onClick={() => {
-                  router.push("/dashboard");
-                }}
-              >
-                Conferir pedido
-              </Button>,
-            ]}
-          />
+          <>
+            <NextSeo
+                title="Sua compra foi efetuada com sucesso! - Lifestyle Floripa by Billabong"
+                description={"Status do pedido de compra - Sua surf shop na Praia Mole."}
+            />
+            <Status
+              status="success"
+              title="Sua compra foi efetuada com sucesso!"
+              subTitle={`Pedido #${router.query.payment_id} enviado, confira seu email para acompanhar a entrega.`}
+              extra={[
+                <Button
+                  type="primary"
+                  key="console"
+                  onClick={() => {
+                    router.push("/");
+                  }}
+                >
+                  Ver mais produtos
+                </Button>,
+                <Button
+                  key="buy"
+                  onClick={() => {
+                    router.push("/dashboard");
+                  }}
+                >
+                  Conferir pedido
+                </Button>,
+              ]}
+            />
+          </>
         );
       case "processando":
         return (
-          <Status
-            title="Successfully Purchased Cloud Server ECS!"
-            extra={[
-              <Button type="primary" key="console">
-                Go Console
-              </Button>,
-            ]}
-          />
+          <>
+            <NextSeo
+                title="Sua compra foi efetuada com sucesso! - Lifestyle Floripa by Billabong"
+                description={"Status do pedido de compra - Sua surf shop na Praia Mole."}
+            />
+            <Status
+              title="Sua compra foi efetuada com sucesso!"
+              extra={[
+                <Button
+                  type="primary"
+                  key="console"
+                  onClick={() => {
+                    router.push("/");
+                  }}
+                >
+                  Ver mais produtos
+                </Button>,
+                <Button
+                  key="buy"
+                  onClick={() => {
+                    router.push("/dashboard");
+                  }}
+                >
+                  Conferir pedido
+                </Button>,
+              ]}
+            />
+          </>
         );
       case "erro":
         return (
-          <Status
-            status="error"
-            title="Aconteceu um erro com o seu pedido."
-            extra={[
-              <Button
-                key="buy"
-                type="primary"
-                onClick={() => {
-                  router.push("/pagamento");
-                }}
-              >
-                Tentar novamente
-              </Button>,
-              <Button
-                key="console"
-                onClick={() => {
-                  router.push("/");
-                }}
-              >
-                Ver outros produtos
-              </Button>,
-            ]}
-          />
+          <>
+            <NextSeo
+                title="Aconteceu um erro com o seu pedido - Lifestyle Floripa by Billabong"
+                description={"Status do pedido de compra - Sua surf shop na Praia Mole."}
+            />
+            <Status
+              status="error"
+              title="Aconteceu um erro com o seu pedido."
+              extra={[
+                <Button
+                  key="buy"
+                  type="primary"
+                  onClick={() => {
+                    router.push("/pagamento");
+                  }}
+                >
+                  Tentar novamente
+                </Button>,
+                <Button
+                  key="console"
+                  onClick={() => {
+                    router.push("/");
+                  }}
+                >
+                  Ver outros produtos
+                </Button>,
+              ]}
+            />
+          </>
         );
       default:
         return null;

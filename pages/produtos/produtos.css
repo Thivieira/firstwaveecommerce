@@ -85,6 +85,11 @@ a {
   width: 100%;
 }
 
+.swal2-styled.swal2-confirm {
+  background-color: #0080a8 !important;
+  border: 1px solid #0080a8 !important;
+}
+
 @media (max-width: 1280px) {
   .products-wrapper {
     width: 90vw;

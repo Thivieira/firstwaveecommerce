@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { Stepper, Step, StepLabel, Container } from "@material-ui/core";
 import { useRouter } from "next/router";
@@ -13,6 +13,7 @@ import FormValidations from "../../contexts/FormValidations";
 import api from "../../services/api";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { NextSeo } from "next-seo";
 
 function Form() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -138,25 +139,31 @@ function Form() {
   ];
 
   return (
-    <Container component="article" maxWidth="sm" style={{ minHeight: "100vh" }}>
-      <Stepper activeStep={currentStep}>
-        <Step>
-          <StepLabel>Login</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel>Endereço</StepLabel>
-        </Step>
-      </Stepper>
-      <FormValidations.Provider
-        value={{
-          password: passwordValidator,
-          cpf: cpfValidator,
-          phone: phoneValidator,
-        }}
-      >
-        {forms[currentStep]}
-      </FormValidations.Provider>
-    </Container>
+    <>
+      <NextSeo
+        title="Cadastre sua conta - Lifestyle Floripa by Billabong"
+        description={"Identificação do Usuário - Sua surf shop na Praia Mole."}
+      />
+      <Container component="article" maxWidth="sm" style={{ minHeight: "100vh" }}>
+        <Stepper activeStep={currentStep}>
+          <Step>
+            <StepLabel>Login</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel>Endereço</StepLabel>
+          </Step>
+        </Stepper>
+        <FormValidations.Provider
+          value={{
+            password: passwordValidator,
+            cpf: cpfValidator,
+            phone: phoneValidator,
+          }}
+        >
+          {forms[currentStep]}
+        </FormValidations.Provider>
+      </Container>
+    </>
   );
 }
 
