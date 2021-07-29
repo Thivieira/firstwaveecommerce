@@ -120,7 +120,7 @@ function Login() {
             onChange={(e) => setEmail(e.target.value)}
             InputProps={{
               endAdornment: (
-                <InputAdornment>
+                <InputAdornment position="end">
                   <Person />
                 </InputAdornment>
               ),
@@ -138,7 +138,7 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             InputProps={{
               endAdornment: (
-                <InputAdornment>
+                <InputAdornment position="end">
                   <LockOpen />
                 </InputAdornment>
               ),

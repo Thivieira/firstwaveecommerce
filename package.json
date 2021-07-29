@@ -21,8 +21,6 @@
     "mercadopago": "^1.5.8",
     "minify-xml": "^2.5.0",
     "next": "^11.0.1",
-    "next-compose-plugins": "^2.2.1",
-    "next-images": "^1.8.1",
     "next-seo": "^4.26.0",
     "nprogress": "^0.2.0",
     "react": "^17.0.2",
