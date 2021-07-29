@@ -165,7 +165,7 @@ function Login() {
           </ButtonsContainer>
           <div className="forget-password">
             <p>
-              Esqueceu sua senha?<a href="/forgetPassword">Clique aqui</a>
+              Esqueceu sua senha?<a href="/forgot-password">Clique aqui</a>
             </p>
           </div>
         </InputContainer>
