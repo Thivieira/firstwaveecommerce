@@ -23,6 +23,7 @@
     "next": "^11.0.1",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.1",
+    "next-seo": "^4.26.0",
     "nprogress": "^0.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -52,7 +53,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "babel-plugin-inline-react-svg": "^2.0.1"
+    "babel-plugin-inline-react-svg": "^2.0.1",
+    "next-sitemap": "^1.6.140"
   },
   "engines": {
     "node": "14.x"
