@@ -788,7 +788,7 @@ function Header() {
         </div>
         <NavLink href="/" className="header-logo">
           <img 
-            src='/Logo-verde.png'
+            src='/logo-verde.png'
             alt="Logo do site" 
           />
         </NavLink>
