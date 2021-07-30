@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef, useEffect } from "react";
+import { useCallback, useState, useRef, useEffect } from "react";
 
 import { useRouter } from "next/router";
 import Select from "react-select";

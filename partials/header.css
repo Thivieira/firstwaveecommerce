@@ -16,10 +16,10 @@
   display: none;
 }
 
-.header-logo img {
+.header-logo {
   width: 15rem;
   height: auto;
-  padding: 0.2rem;
+  margin-top: 0.3rem !important;
 }
 
 .search-filter {
@@ -108,7 +108,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem 8rem;
+  padding: 1rem 6.5rem;
   z-index: 999;
 }
 
@@ -321,7 +321,7 @@
     transition: all ease-in-out 0.4s;
     flex-direction: column;
     padding: 0;
-
+    padding: 1rem 6rem;
     display: flex;
     align-items: center;
   }
@@ -390,7 +390,7 @@
   }
 
   .nav-item-legenda {
-    font-size: 1.2rem;
+    font-size: 1rem;
     max-width: 100%;
     /* margin-left: 5px; */
   }

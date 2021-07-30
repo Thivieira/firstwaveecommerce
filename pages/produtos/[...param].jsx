@@ -1,16 +1,14 @@
-import { NextSeo } from 'next-seo';
 import { useContext, useEffect, useState } from "react";
+import { NextSeo } from 'next-seo';
 import { useRouter } from "next/router";
-import { CategoryContext } from "../../contexts/CategoryContext";
+
 import FadeLoader from "react-spinners/FadeLoader";
 import ReactPaginate from "react-paginate";
-
 import { useDispatch, useSelector } from "react-redux";
-import { Drawer, Button, Alert } from "antd";
-import { FilterOutlined } from "@ant-design/icons";
-import { Menu, Dropdown } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { Drawer, Button, Alert, Menu, Dropdown } from "antd";
+import { FilterOutlined, DownOutlined } from "@ant-design/icons";
 
+import { CategoryContext } from "../../contexts/CategoryContext";
 import Breadcrumb from "../../components/Breadcrumb";
 import Filter from "../../components/Filter";
 import Product from "../../components/Products/ProductCard";

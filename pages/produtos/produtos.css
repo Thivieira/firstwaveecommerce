@@ -100,6 +100,13 @@ a {
 
   .products-wrapper .filter {
     z-index: 9998;
+    margin-top: 9rem;
+  }
+
+  .products-wrapper .filter .ant-drawer-close {
+    margin-top: 5rem;
+    color: #0080a8 !important;
+    display: none;
   }
 
   .filter-sort {
@@ -112,7 +119,7 @@ a {
 
   .btn-filter-mobile {
     position: fixed !important;
-    top: 9rem !important;
+    top: 9.5rem !important;
     background-color: #ff8b00;
     color: #fff;
     width: 6.5rem;
@@ -134,13 +141,13 @@ a {
 
 @media (max-width: 1020px) {
   .btn-filter-mobile {
-    top: 5.5rem !important;
+    top: 6rem !important;
   }
 }
 
 @media (max-width: 620px) {
   .btn-filter-mobile {
-    top: 9rem !important;
+    top: 9.5rem !important;
   }
 }
 

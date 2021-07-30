@@ -1,14 +1,13 @@
-import React from "react";
 import {
   Instagram,
   Facebook,
   WhatsApp,
-  MapRounded,
   PhoneEnabled,
   Mail,
 } from "@material-ui/icons";
 import NavLink from "../components/NavLink";
 import { Carousel } from "react-responsive-carousel";
+
 
 function Footer() {
   const getConfigurableProps = () => ({
@@ -25,7 +24,6 @@ function Footer() {
     selectedItem: 0,
     transitionTime: 900,
     swipeScrollTolerance: 5,
-    // width: "300px",
   });
 
   return (
@@ -34,8 +32,12 @@ function Footer() {
         <div className="container">
           <div className="container-col">
             <div className="sec aboutus">
-              <NavLink href="/" className="footer-logo">
-                <img src="/Logo-Lifestyle.jpg" alt="Logo" />
+              <NavLink href="/">
+                <img 
+                  src='/Logo-LifestylebyBillabong.jpg' 
+                  alt="Logo do rodapé" 
+                  className="footer-logo"
+                />
               </NavLink>
             </div>
             <div className="sec contact">

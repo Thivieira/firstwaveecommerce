@@ -13,7 +13,7 @@ import landing3 from '../public/landing3.png'
 import landing4 from '../public/landing4.jpeg'
 
 import { Payment, LocalShipping } from "@material-ui/icons";
-import { RightCircleOutlined } from "@ant-design/icons";
+import { RightCircleOutlined, BarcodeOutlined } from "@ant-design/icons";
 
 const Index = ({ prod }) => {
   return (
@@ -34,10 +34,7 @@ const Index = ({ prod }) => {
           <h2><strong></strong></h2>
         </div>
         <div className="payment-information">
-          <img 
-            src="/icon-boleto.png" 
-            alt="boleto" 
-          />
+          <BarcodeOutlined fontSize="large" style={{fontSize: '2.5rem', margin: '0.5rem'}} />
           <p className="payment-information-text">
             12% DE DESCONTO NO BOLETO
           </p>

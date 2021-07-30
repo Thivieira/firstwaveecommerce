@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Image from 'next/image'
 
 import { Menu, Dropdown, Button, Input, Divider } from "antd";
 import {
@@ -10,9 +11,8 @@ import {
   CaretRightOutlined,
   DownOutlined,
   CloseCircleOutlined,
+  MenuOutlined
 } from "@ant-design/icons";
-import { AccountCircle } from "@material-ui/icons";
-import { FaBars } from "react-icons/fa";
 
 import FloatCart from "../components/FloatCart/FloatCart";
 
@@ -785,10 +785,16 @@ function Header() {
     <header id="header">
       <nav className="header-top">
         <div onClick={showSideBar} className="navbar">
-          <FaBars />
+        <MenuOutlined />
         </div>
-        <NavLink href="/" className="header-logo">
-          <img src="/Logo-Lifestyle.jpg" alt="Logo" />
+        <NavLink href="/">
+          <Image 
+            src="/Logo-verde.png" 
+            alt="Logo do site" 
+            height={72}
+            width={240}
+            className="header-logo"
+          />
         </NavLink>
 
         <Search
@@ -848,7 +854,7 @@ function Header() {
               onClick={() => setSidebar(false)}
             >
               <>
-                <AccountCircle fontSize="large" />
+                <UserOutlined style={{fontSize: '2rem'}} />
                 <p className="nav-item-legenda">
                   {authorized ? user.name : "Entre ou cadastre-se"}
                 </p>
