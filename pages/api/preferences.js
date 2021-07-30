@@ -33,7 +33,7 @@ export default function handler(req, res) {
 
     const items = cart.map((item) => {
       return {
-        id: item.code,
+        id: item.codigoVariacao,
         title: item.description,
         description: `${item.description} - ${item.brand}`,
         picture_url: item.imagemVariacao,
