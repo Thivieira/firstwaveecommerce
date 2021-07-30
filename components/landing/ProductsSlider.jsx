@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
-import FadeLoader from "react-spinners/FadeLoader";
-
-import Slider from "react-slick";
-
+import Image from 'next/image'
 import Link from "next/link";
 import { useRouter } from "next/router";
+
+import Slider from "react-slick";
+import FadeLoader from "react-spinners/FadeLoader";
 
 export default function ProductsSlider({ prod }) {
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ export default function ProductsSlider({ prod }) {
 
     responsive: [
       {
-        breakpoint: 1400,
+        breakpoint: 1650,
         settings: {
           slidesToShow: 4,
           slidesToScroll: 2,
@@ -94,8 +94,7 @@ export default function ProductsSlider({ prod }) {
           {products.map((p, i) => {
             let test = p.variations.length > 0 ? p.variations[0] : [];
             let imageTest = JSON.parse(test.image);
-            const image =
-              imageTest.length > 0 ? imageTest[0].link : "/noimage.png";
+            const image = imageTest.length > 0 ? imageTest[0].link : "/noimage.png";
 
             return (
               <div
@@ -105,7 +104,14 @@ export default function ProductsSlider({ prod }) {
               >
                 <div className="card">
                   <div className="card-image">
-                    <img src={image} alt="imagem do produto" />
+                    <Image 
+                      src={image} 
+                      alt="imagem do produto"  
+                      // width={200}
+                      // height={270}
+                      className='image-slider'
+                      layout='fill'
+                    />
                   </div>
                   <div className="details">
                     <h5>

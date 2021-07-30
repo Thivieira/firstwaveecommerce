@@ -1,13 +1,18 @@
 import { NextSeo } from 'next-seo';
+import Image from 'next/image'
 import Link from "next/link";
-import api from "../services/api";
 
 import CarouselImage from "../components/landing/CarouselImage";
-import { Payment, LocalShipping, AttachMoney } from "@material-ui/icons";
-
 import ProductsSlider from "../components/landing/ProductsSlider";
-
 import { getLayout } from "../layouts/SiteLayout";
+import api from "../services/api";
+
+import landing1 from '../public/landing1.jpg'
+import landing2 from '../public/landing2.jpg'
+import landing3 from '../public/landing3.png'
+import landing4 from '../public/landing4.jpeg'
+
+import { Payment, LocalShipping } from "@material-ui/icons";
 import { RightCircleOutlined } from "@ant-design/icons";
 
 const Index = ({ prod }) => {
@@ -29,7 +34,10 @@ const Index = ({ prod }) => {
           <h2><strong></strong></h2>
         </div>
         <div className="payment-information">
-          <img src="/icon-boleto.png" alt="boleto" />
+          <img 
+            src="/icon-boleto.png" 
+            alt="boleto" 
+          />
           <p className="payment-information-text">
             12% DE DESCONTO NO BOLETO
           </p>
@@ -43,7 +51,14 @@ const Index = ({ prod }) => {
 
       <div className="images-container-two">
         <div className="wrapper-equal-images">
-          <img src="/landing1.jpg" alt="banner" />
+          <Image 
+            src={landing1}
+            alt="banner" 
+            // layout='fill'  
+            width={560}
+            height={640}
+            className='image-landing'
+          />
           <Link href="/produtos/Feminino">
             <button type="button" className="btn-acess">
               FEMININO
@@ -55,7 +70,14 @@ const Index = ({ prod }) => {
         </div>
 
         <div className="wrapper-equal-images">
-          <img src="/landing2.jpg" alt="banner" />
+          <Image 
+            src={landing2}
+            alt="banner" 
+            // layout='fill'  
+            width={560}
+            height={640}
+            className='image-landing'
+          />
           <Link href="/produtos/Masculino">
             <button type="button" className="btn-infa">
               MASCULINO
@@ -74,7 +96,14 @@ const Index = ({ prod }) => {
 
       <div className="images-container-two">
         <div className="wrapper-equal-images">
-          <img src="/landing3.png" alt="banner" />
+          <Image 
+            src={landing3}
+            alt="banner" 
+            // layout='fill'  
+            width={560}
+            height={640}
+            className='image-landing'
+          />
           <Link href="/produtos/Surf">
             <button
               type="button"
@@ -90,7 +119,14 @@ const Index = ({ prod }) => {
         </div>
 
         <div className="wrapper-equal-images">
-          <img src="/landing4.jpeg" alt="banner" />
+          <Image 
+            src={landing4}
+            alt="banner" 
+            // layout='fill'  
+            width={560}
+            height={640}
+            className='image-landing'
+          />
           <Link href="/produtos/Acessorio">
             <button type="button" className="btn-infa">
               ACESSÓRIOS

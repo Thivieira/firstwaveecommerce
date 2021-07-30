@@ -208,7 +208,7 @@
 }
 
 .images-container-two .wrapper-equal-images {
-  position: relative;
+  position: relative !important;
 }
 
 .images-container-two {
@@ -221,13 +221,16 @@
   padding: 2rem;
 }
 
-.wrapper-equal-images img {
+.wrapper-equal-images .image-landing {
   width: 35rem;
   height: auto;
-  object-fit: cover;
+  object-fit: contain;
   cursor: pointer;
   transition: all ease-in-out 0.4s;
 }
+
+
+
 
 .wrapper-equal-images button {
   position: absolute;
@@ -250,7 +253,7 @@
   transform: translate(0, -20%);
 }
 
-.wrapper-equal-images img:hover {
+.wrapper-equal-images .image-landing:hover {
   transform: scale(1.018);
   box-shadow: 2px 8px 20px #ddd;
   opacity: 0.7;
@@ -264,9 +267,9 @@
   opacity: 1;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1300px) {
   .products-carousel-container .slick-slider {
-    margin: 3rem 5rem;
+    margin: 3rem 4rem;
   }
 
   .payment-information {
@@ -285,10 +288,10 @@
     width: 100%;
   }
 
-  .wrapper-equal-images img {
+  .wrapper-equal-images .image-landing {
     /* width: 30rem; */
-    width: 100%;
-    height: auto;
+    width: 100% !important;
+    height: auto !important;
   }
 
   .wrapper-equal-images {
@@ -310,6 +313,10 @@
   .equal-images:first-child {
     margin-right: 0;
     margin-bottom: 1rem;
+  }
+
+  .products-carousel-container {
+    width: 100%;
   }
 
   .products-carousel-title {

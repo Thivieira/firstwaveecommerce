@@ -1,14 +1,14 @@
-import React, { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
+
 import { useDispatch } from "react-redux";
+import Slider from "react-slick";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 import { addToCart, changeIsOpen } from "../../store/actions/products";
 import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
 import FavoriteBtn from "../FavoriteBtn";
-import Slider from "react-slick";
-
 import noImage from "../../public/noimage.png";
-
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 
 const ProductDetails = ({ product }) => {
   const dispatch = useDispatch();
@@ -221,7 +221,7 @@ const ProductDetails = ({ product }) => {
                   <img
                     className={featuredImage === image ? "active" : ""}
                     src={image}
-                    alt="img"
+                    alt="imagem em miniatura do produto"
                   />
                 </div>
               ))}
@@ -232,7 +232,11 @@ const ProductDetails = ({ product }) => {
             <img className="big-img" src="/noimage.png" alt="img" />
           ) : (
             <figure style={zoomImage} onMouseMove={handleMouseMove}>
-              <img className="big-img" src={featuredImage} alt="img" />
+              <img 
+                src={featuredImage} 
+                alt="imagem do produto"
+                className="big-img"
+              />
             </figure>
           )}
         </div>
@@ -339,7 +343,7 @@ const ProductDetails = ({ product }) => {
                         className={color === selectedColor ? "active" : ""}
                         key={variation.id}
                         src={image}
-                        alt="img"
+                        alt="cor da imagem do produto"
                         style={{ height: "3rem" }}
                       />
                     );
