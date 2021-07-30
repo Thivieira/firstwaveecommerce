@@ -70,8 +70,8 @@ const ProductDetails = ({ product }) => {
     setSupplyAndSize(supplyAndSize);
 
     const firstSizeWithSupply = Object.keys(supplyAndSize)
-      .map(tamanho => supplyAndSize[tamanho] > 0 && tamanho)
-      .filter(el => el != false)[0]
+      .map((tamanho) => supplyAndSize[tamanho] > 0 && tamanho)
+      .filter((el) => el != false)[0];
 
     onSelectedSizeChange(firstSizeWithSupply);
   }, [product]);
@@ -84,7 +84,7 @@ const ProductDetails = ({ product }) => {
 
   const onSelectedSizeChange = (value) => {
     setSelectedSize(value);
-    console.log(value)
+    console.log(value);
 
     const variacaoDisponivel = product.variations.filter((el) => {
       let sizes = el.description.split(";").slice(1, 2);
@@ -119,9 +119,7 @@ const ProductDetails = ({ product }) => {
 
     setImages(cor.image);
 
-    setCodigoVariacao(
-      `${cor.code}-${selectedSize}-${selectedColor.replace(/\s/g, "_")}`
-    );
+    setCodigoVariacao(cor.external_id);
     setEstoqueAtual(cor.supply);
     setPrice(cor.price ? cor.price : product.price);
     setColorTrigger(false);
