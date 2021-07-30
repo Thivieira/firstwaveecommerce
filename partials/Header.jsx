@@ -786,11 +786,10 @@ function Header() {
         <div onClick={showSideBar} className="navbar">
         <MenuOutlined />
         </div>
-        <NavLink href="/">
+        <NavLink href="/" className="header-logo">
           <img 
-            src="/Logo-verde.png" 
+            src='/Logo-verde.png'
             alt="Logo do site" 
-            className="header-logo"
           />
         </NavLink>
 

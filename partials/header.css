@@ -16,8 +16,8 @@
   display: none;
 }
 
-.header-logo {
-  width: 15rem;
+.header-logo img {
+  width: 14rem;
   height: auto;
   margin-top: 0.3rem !important;
 }
@@ -444,7 +444,7 @@
     padding-bottom: 1rem;
   }
 
-  .header-logo {
+  .header-logo img {
     margin-bottom: 0.5rem;
   }
 
