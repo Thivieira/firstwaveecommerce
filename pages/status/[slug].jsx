@@ -8,7 +8,7 @@ import { getCartState } from "../../store/selectors/products";
 import { getAccount, getAddress } from "../../store/selectors/user";
 import { useDispatch, useSelector } from "react-redux";
 import blingStoreOrder from "../../services/blingStoreOrder";
-
+import NextSeo from "next-seo";
 // This gets called on every request
 export async function getServerSideProps(ctx) {
   return { props: { slug: ctx.params.slug } };
@@ -20,7 +20,7 @@ export default function index(props) {
   const cart = useSelector(getCartState);
   const user = useSelector(getAccount);
   const address = useSelector(getAddress);
-  
+
   useEffect(async () => {
     // const orderResult = await axios.post("/api/order", {
     //   cart,
@@ -43,8 +43,10 @@ export default function index(props) {
         return (
           <>
             <NextSeo
-                title="Sua compra foi efetuada com sucesso! - Lifestyle Floripa by Billabong"
-                description={"Status do pedido de compra - Sua surf shop na Praia Mole."}
+              title="Sua compra foi efetuada com sucesso! - Lifestyle Floripa by Billabong"
+              description={
+                "Status do pedido de compra - Sua surf shop na Praia Mole."
+              }
             />
             <Status
               status="success"
@@ -76,8 +78,10 @@ export default function index(props) {
         return (
           <>
             <NextSeo
-                title="Sua compra foi efetuada com sucesso! - Lifestyle Floripa by Billabong"
-                description={"Status do pedido de compra - Sua surf shop na Praia Mole."}
+              title="Sua compra foi efetuada com sucesso! - Lifestyle Floripa by Billabong"
+              description={
+                "Status do pedido de compra - Sua surf shop na Praia Mole."
+              }
             />
             <Status
               title="Sua compra foi efetuada com sucesso!"
@@ -107,8 +111,10 @@ export default function index(props) {
         return (
           <>
             <NextSeo
-                title="Aconteceu um erro com o seu pedido - Lifestyle Floripa by Billabong"
-                description={"Status do pedido de compra - Sua surf shop na Praia Mole."}
+              title="Aconteceu um erro com o seu pedido - Lifestyle Floripa by Billabong"
+              description={
+                "Status do pedido de compra - Sua surf shop na Praia Mole."
+              }
             />
             <Status
               status="error"
