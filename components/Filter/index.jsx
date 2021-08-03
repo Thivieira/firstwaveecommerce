@@ -1,33 +1,15 @@
 import { useCallback, useState, useRef, useEffect } from "react";
 
-import { useRouter } from "next/router";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { InputAdornment, TextField } from "@material-ui/core";
 import { Slider } from "antd";
-import api from "../../services/api";
 
 import { useSelector, useDispatch } from "react-redux";
-import {
-  getAllProducts,
-  getFilterData,
-  getAllProductSize,
-  getAllProductColor,
-  getAllProductBrands,
-  getLoading,
-} from "../../store/selectors/products";
-import {
-  setProducts,
-  clearProducts,
-  setLoading,
-  setFilterData,
-  setPaginationProducts,
-  setFilterUrl
-} from "../../store/actions/products";
+import { getFilterData } from "../../store/selectors/products";
+import { setFilterData, setFilterUrl } from "../../store/actions/products";
 
 function Filter({ category, subcategory, type, brands, sizes, colors }) {
   const dispatch = useDispatch();
-  const products = useSelector(getAllProducts);
 
   const selectedFilterRedux = useSelector(getFilterData);
 
@@ -42,19 +24,18 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     selectedFilterRedux.priceMax
   );
 
-  function galderio(el) {
-    if (typeof el === "object") {
-      return el.value;
-    }
-    return el;
-  }
-
   var filtersSize =
-    selectedSize.length > 0 ? selectedSize.map(galderio) : selectedSize;
+    selectedSize.length > 0
+      ? selectedSize.map((el) => (typeof el === "object" ? el.value : el))
+      : selectedSize;
   var filtersColor =
-    selectedColor.length > 0 ? selectedColor.map(galderio) : selectedColor;
+    selectedColor.length > 0
+      ? selectedColor.map((el) => (typeof el === "object" ? el.value : el))
+      : selectedColor;
   var filtersBrand =
-    selectedBrand.length > 0 ? selectedBrand.map(galderio) : selectedBrand;
+    selectedBrand.length > 0
+      ? selectedBrand.map((el) => (typeof el === "object" ? el.value : el))
+      : selectedBrand;
 
   const selectInputRefSize = useRef();
   const selectInputRefColor = useRef();
@@ -78,10 +59,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     selectedPriceMax,
   ]);
 
-  const addFilterApi = useCallback(async () => {
-    dispatch(clearProducts());
-    dispatch(setLoading(true));
-
+  const addFilterApi = () => {
     let url = "";
 
     if (subcategory && type && category) {
@@ -94,28 +72,8 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
       url = `/products/filters?size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`;
     }
 
-    const res = await api.get(url);
     dispatch(setFilterUrl(url));
-    dispatch(setProducts(res.data.data));
-    dispatch(
-      setPaginationProducts(
-        res.data.last_page,
-        res.data.currentPage,
-        res.data.per_page,
-        res.data.total
-      )
-    );
-    dispatch(setLoading(false));
-  }, [
-    dispatch,
-    products,
-    filtersColor,
-    filtersSize,
-    filtersBrand,
-    category,
-    subcategory,
-    type,
-  ]);
+  };
 
   const animatedComponents = makeAnimated();
 
@@ -141,8 +99,10 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     setSelectedPriceMax(value[1]);
   }
 
-  const defaultSelected = (type) => selectedFilterRedux[type].length > 0 ? selectedFilterRedux[type].map((el) => ({ label: el, value: el, })) : []
-  
+  const defaultSelected = (type) =>
+    selectedFilterRedux[type].length > 0
+      ? selectedFilterRedux[type].map((el) => ({ label: el, value: el }))
+      : [];
 
   return (
     <div className="filter">
@@ -160,11 +120,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
             label: el,
             value: el,
           }))}
-          // value={selectedFilterRedux.size.map((el) => ({
-          //   label: el,
-          //   value: el,
-          // }))}
-          value={defaultSelected('size')}
+          value={defaultSelected("size")}
           classNamePrefix="select"
           onChange={setSelectedSize}
           ref={selectInputRefSize}
@@ -183,11 +139,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
             label: el,
             value: el,
           }))}
-          // value={selectedFilterRedux.color.map((el) => ({
-          //   label: el,
-          //   value: el,
-          // }))}
-          value={defaultSelected('color')}
+          value={defaultSelected("color")}
           classNamePrefix="select"
           onChange={setSelectedColor}
           ref={selectInputRefColor}
@@ -206,11 +158,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
             label: el,
             value: el,
           }))}
-          // value={selectedFilterRedux.brand.map((el) => ({
-          //   label: el,
-          //   value: el,
-          // }))}
-          value={defaultSelected('brand')}
+          value={defaultSelected("brand")}
           classNamePrefix="select"
           onChange={setSelectedBrand}
           ref={selectInputRefBrand}

@@ -115,7 +115,6 @@ export default function products({
     let url = "";
 
     if (filterUrl) {
-      // console.log("FILTER", filterUrl);
       url = `${filterUrl}&page=${page}`;
     } else {
       let filterString = ``;
