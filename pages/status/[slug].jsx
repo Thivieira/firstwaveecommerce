@@ -8,7 +8,7 @@ import { getCartState } from "../../store/selectors/products";
 import { getAccount, getAddress } from "../../store/selectors/user";
 import { useDispatch, useSelector } from "react-redux";
 import blingStoreOrder from "../../services/blingStoreOrder";
-import NextSeo from "next-seo";
+import { NextSeo } from "next-seo";
 // This gets called on every request
 export async function getServerSideProps(ctx) {
   return { props: { slug: ctx.params.slug } };
@@ -44,9 +44,7 @@ export default function index(props) {
           <>
             <NextSeo
               title="Sua compra foi efetuada com sucesso! - Lifestyle Floripa by Billabong"
-              description={
-                "Status do pedido de compra - Sua surf shop na Praia Mole."
-              }
+              description="Status do pedido de compra - Sua surf shop na Praia Mole."
             />
             <Status
               status="success"
@@ -79,9 +77,7 @@ export default function index(props) {
           <>
             <NextSeo
               title="Sua compra foi efetuada com sucesso! - Lifestyle Floripa by Billabong"
-              description={
-                "Status do pedido de compra - Sua surf shop na Praia Mole."
-              }
+              description="Status do pedido de compra - Sua surf shop na Praia Mole."
             />
             <Status
               title="Sua compra foi efetuada com sucesso!"
@@ -112,9 +108,7 @@ export default function index(props) {
           <>
             <NextSeo
               title="Aconteceu um erro com o seu pedido - Lifestyle Floripa by Billabong"
-              description={
-                "Status do pedido de compra - Sua surf shop na Praia Mole."
-              }
+              description="Status do pedido de compra - Sua surf shop na Praia Mole."
             />
             <Status
               status="error"

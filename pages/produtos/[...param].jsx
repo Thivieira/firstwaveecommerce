@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { NextSeo } from 'next-seo';
+import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 
 import FadeLoader from "react-spinners/FadeLoader";
@@ -154,7 +154,7 @@ export default function products({
         setPaginationProducts(data.last_page, page, data.per_page, data.total)
       );
     });
-  }, [currentPage, dispatch]);
+  }, [filterUrl, currentPage]);
 
   const menu = (
     <Menu value={sort} onClick={(obj) => handleChangeSort(obj.item)}>
@@ -194,7 +194,9 @@ export default function products({
     <>
       <NextSeo
         title={`${category} - Lifestyle Floripa by Billabong`}
-        description={`${category/setCategory/type} - Sua surf shop na Praia Mole.`}
+        description={`${
+          category / setCategory / type
+        } - Sua surf shop na Praia Mole.`}
       />
       <div className="products-wrapper">
         <div className="filter-sort">
@@ -390,7 +392,6 @@ export async function getServerSideProps(ctx) {
 
   let url;
   let products;
-  let res;
   let total;
   let totalPages;
   let per_page;
@@ -404,18 +405,16 @@ export async function getServerSideProps(ctx) {
 
   if (category && subcategory && type) {
     url = `/products?category=${category}&subcategory=${subcategory}&type=${type}`;
-    res = await api.get(url);
   } else if (category && subcategory && !type) {
     type = null;
     url = `/products?category=${category}&subcategory=${subcategory}`;
-    res = await api.get(url);
   } else {
     url = `/products?category=${category}`;
-    res = await api.get(url);
     subcategory = null;
     type = null;
-    // console.log("BORIS É O BERTO", res.data.data);
   }
+
+  const res = await api.get(url);
 
   products = res.data.data;
   total = res.data.total;

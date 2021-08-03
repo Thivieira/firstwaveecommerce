@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Image from 'next/image'
+import Image from "next/image";
 
 import { Menu, Dropdown, Button, Input, Divider } from "antd";
 import {
@@ -11,7 +11,7 @@ import {
   CaretRightOutlined,
   DownOutlined,
   CloseCircleOutlined,
-  MenuOutlined
+  MenuOutlined,
 } from "@ant-design/icons";
 
 import FloatCart from "../components/FloatCart/FloatCart";
@@ -52,12 +52,12 @@ function Header() {
 
   useEffect(() => {
     const token = localStorage.getItem("key");
-    setAuthorized(localStorage.getItem("authorized"));
+    setAuthorized(Boolean(localStorage.getItem("authorized")));
 
     api.defaults.headers.common["Authorization"] = "Bearer " + token;
-  }, []);
+  }, [user]);
 
-  useEffect(() => getUserData(), [authorized]);
+  useEffect(() => getUserData(), [authorized, user]);
 
   const showSideBar = () => setSidebar(!sidebar);
 
@@ -419,7 +419,11 @@ function Header() {
             </div>
 
             <NavLink href="/produtos/Feminino">
-              <img className="img-genre hide" src="/navFem.jpg" alt="img-genre" />
+              <img
+                className="img-genre hide"
+                src="/navFem.jpg"
+                alt="img-genre"
+              />
             </NavLink>
           </div>
         );
@@ -482,7 +486,12 @@ function Header() {
             </div>
 
             <NavLink href="/produtos/Juvenil">
-              <img className="img-genre hide" src="/navKid.jpg" alt="img-genre" style={{width: 'auto', objectFit: 'contain'}}/>
+              <img
+                className="img-genre hide"
+                src="/navKid.jpg"
+                alt="img-genre"
+                style={{ width: "auto", objectFit: "contain" }}
+              />
             </NavLink>
           </div>
         );
@@ -785,12 +794,12 @@ function Header() {
     <header id="header">
       <nav className="header-top">
         <div onClick={showSideBar} className="navbar">
-        <MenuOutlined />
+          <MenuOutlined />
         </div>
         <NavLink href="/">
-          <Image 
-            src="/Logo-verde.png" 
-            alt="Logo do site" 
+          <Image
+            src="/Logo-verde.png"
+            alt="Logo do site"
             height={72}
             width={240}
             className="header-logo"
@@ -854,7 +863,7 @@ function Header() {
               onClick={() => setSidebar(false)}
             >
               <>
-                <UserOutlined style={{fontSize: '2rem'}} />
+                <UserOutlined style={{ fontSize: "2rem" }} />
                 <p className="nav-item-legenda">
                   {authorized ? user.name : "Entre ou cadastre-se"}
                 </p>
