@@ -2,10 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 
+import NoProductsAlert from "../../components/NoProductsAlert";
 import FadeLoader from "react-spinners/FadeLoader";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
-import { Drawer, Button, Alert, Menu, Dropdown } from "antd";
+import { Drawer, Button, Menu, Dropdown } from "antd";
 import { FilterOutlined, DownOutlined } from "@ant-design/icons";
 
 import { CategoryContext } from "../../contexts/CategoryContext";
@@ -29,6 +30,8 @@ import {
   setFilterData,
   setFilterUrl,
 } from "../../store/actions/products";
+
+import { removeIdDuplicate } from "../../helpers";
 
 export default function products({
   prod,
@@ -55,6 +58,31 @@ export default function products({
   const filterUrl = useSelector(getFilterUrl);
   const router = useRouter();
 
+  const updateDimensions = () => {
+    const width = window.innerWidth;
+    setWindowWidth(width);
+  };
+
+  useEffect(() => {
+    updateDimensions();
+
+    window.addEventListener("resize", updateDimensions);
+
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, [width]);
+
+  useEffect(() => {
+    width < 1280 ? setShowFilter(false) : setShowFilter(true);
+  });
+
+  const showDrawerFilters = () => setVisible(true);
+  const onCloseFilters = () => setVisible(false);
+
+  const changePage = ({ selected }) => {
+    setCurrentPage(selected);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
       dispatch(setFilterUrl(""));
@@ -68,9 +96,6 @@ export default function products({
   }, [router]);
 
   const paginationRedux = useSelector(getPaginationData);
-
-  const showDrawerFilters = () => setVisible(true);
-  const onCloseFilters = () => setVisible(false);
 
   useEffect(() => {
     let page = currentPage + 1;
@@ -86,47 +111,6 @@ export default function products({
     setCategory({ category: category, subcategory: subcategory, type: type });
     dispatch(setPaginationProducts(totalPages, page, per_page, total));
   }, [dispatch, category, subcategory, type]);
-
-  useEffect(() => {
-    updateDimensions();
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, [width]);
-
-  const updateDimensions = () => {
-    const width = window.innerWidth;
-    setWindowWidth(width);
-  };
-
-  useEffect(() => {
-    width < 1280 ? setShowFilter(false) : setShowFilter(true);
-  });
-
-  const handleCloseAlert = async () => {
-    dispatch(setLoading(true));
-    dispatch(clearProducts());
-    const res = await api.get(`/products?category=${category}`);
-    const prod = res.data.data;
-    setTotal(res.data.total);
-    // totalPages = res.data.last_page;
-    dispatch(setProducts(prod));
-    dispatch(setLoading(false));
-    dispatch(setFilterUrl(""));
-    dispatch(setFilterData([], [], [], 0, 2000));
-    dispatch(
-      setPaginationProducts(
-        res.data.last_page,
-        currentPage + 1,
-        res.data.per_page,
-        res.data.total
-      )
-    );
-  };
-
-  const changePage = ({ selected }) => {
-    setCurrentPage(selected);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   useEffect(() => {
     let page = currentPage + 1;
@@ -156,17 +140,6 @@ export default function products({
     });
   }, [filterUrl, currentPage]);
 
-  const menu = (
-    <Menu value={sort} onClick={(obj) => handleChangeSort(obj.item)}>
-      <Menu.Item value="menor">
-        <a>Menor para maior</a>
-      </Menu.Item>
-      <Menu.Item value="maior">
-        <a>Maior para menor</a>
-      </Menu.Item>
-    </Menu>
-  );
-
   const handleChangeSort = (item) => {
     let sortValue = item.props.value;
     setSort(sortValue);
@@ -184,11 +157,22 @@ export default function products({
     productsToSort.sort((a, b) => {
       return parseFloat(a.price) - parseFloat(b.price);
     });
+
     dispatch(sortProducts(productsToSort, sortValue));
+
     return true;
   };
 
-  const removeIdDuplicate = (id) => id + String(Math.random());
+  const menu = (
+    <Menu value={sort} onClick={(obj) => handleChangeSort(obj.item)}>
+      <Menu.Item value="menor">
+        <a>Menor para maior</a>
+      </Menu.Item>
+      <Menu.Item value="maior">
+        <a>Maior para menor</a>
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <>
@@ -251,14 +235,7 @@ export default function products({
               margin={15}
             />
           ) : (
-            <Alert
-              message="FILTROS"
-              description="NENHUM PRODUTO FOI ENCONTRADO COM OS FILTROS SELECIONADOS"
-              type="info"
-              showIcon
-              closable
-              afterClose={handleCloseAlert}
-            />
+            <NoProductsAlert category={category} currentPage={currentPage} />
           )}
         </div>
 

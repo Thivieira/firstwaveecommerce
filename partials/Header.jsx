@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 
 import { Menu, Dropdown, Button, Input, Divider } from "antd";
 import {
@@ -796,14 +795,8 @@ function Header() {
         <div onClick={showSideBar} className="navbar">
           <MenuOutlined />
         </div>
-        <NavLink href="/">
-          <Image
-            src="/Logo-verde.png"
-            alt="Logo do site"
-            height={72}
-            width={240}
-            className="header-logo"
-          />
+        <NavLink href="/" className="header-logo">
+          <img src="/logo-verde.png" alt="Logo do site" />
         </NavLink>
 
         <Search

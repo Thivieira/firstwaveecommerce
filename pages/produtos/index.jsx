@@ -30,6 +30,7 @@ import {
   setFilterData,
   setFilterUrl,
 } from "../../store/actions/products";
+import NoProductsAlert from "../../components/NoProductsAlert";
 
 export default function index() {
   const { getCategory, setCategory } = useContext(CategoryContext);
@@ -148,27 +149,6 @@ export default function index() {
   useEffect(() => {
     width < 1280 ? setShowFilter(false) : setShowFilter(true);
   });
-
-  const handleCloseAlert = async () => {
-    dispatch(setLoading(true));
-    dispatch(clearProducts());
-    const res = await api.get(`/products?category=${category}`);
-    const prod = res.data.data;
-    setTotal(res.data.total);
-    // totalPages = res.data.last_page;
-    dispatch(setProducts(prod));
-    dispatch(setLoading(false));
-    dispatch(setFilterUrl(""));
-    dispatch(setFilterData([], [], [], 0, 2000));
-    dispatch(
-      setPaginationProducts(
-        res.data.last_page,
-        currentPage + 1,
-        res.data.per_page,
-        res.data.total
-      )
-    );
-  };
 
   const changePage = ({ selected }) => {
     setCurrentPage(selected);
@@ -296,14 +276,7 @@ export default function index() {
               margin={15}
             />
           ) : (
-            <Alert
-              message="FILTROS"
-              description="NENHUM PRODUTO FOI ENCONTRADO COM OS FILTROS SELECIONADOS"
-              type="info"
-              showIcon
-              closable
-              afterClose={handleCloseAlert}
-            />
+            <NoProductsAlert category={category} currentPage={currentPage} />
           )}
         </div>
 
