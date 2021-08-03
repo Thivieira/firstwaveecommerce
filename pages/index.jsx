@@ -15,7 +15,7 @@ import landing4 from '../public/landing4.jpeg'
 import { Payment, LocalShipping } from "@material-ui/icons";
 import { RightCircleOutlined, BarcodeOutlined } from "@ant-design/icons";
 
-const Index = ({ prod }) => {
+const Index = ({ prodMasc, prodOutlet }) => {
   return (
     <div className="landing-container">
       <NextSeo
@@ -43,7 +43,7 @@ const Index = ({ prod }) => {
 
       <div className="products-carousel-container">
         <h3 className="products-carousel-title">NOVIDADES</h3>
-        <ProductsSlider prod={prod} />
+        <ProductsSlider prod={prodMasc} />
       </div>
 
       <div className="images-container-two">
@@ -51,9 +51,9 @@ const Index = ({ prod }) => {
           <Image 
             src={landing1}
             alt="banner" 
-            // layout='fill'  
             width={560}
             height={640}
+            priority
             className='image-landing'
           />
           <Link href="/produtos/Feminino">
@@ -70,9 +70,9 @@ const Index = ({ prod }) => {
           <Image 
             src={landing2}
             alt="banner" 
-            // layout='fill'  
             width={560}
             height={640}
+            priority
             className='image-landing'
           />
           <Link href="/produtos/Masculino">
@@ -88,7 +88,7 @@ const Index = ({ prod }) => {
 
       <div className="products-carousel-container">
         <h3 className="products-carousel-title">OUTLET</h3>
-        <ProductsSlider prod={prod} />
+        <ProductsSlider prod={prodOutlet} />
       </div>
 
       <div className="images-container-two">
@@ -96,9 +96,9 @@ const Index = ({ prod }) => {
           <Image 
             src={landing3}
             alt="banner" 
-            // layout='fill'  
             width={560}
             height={640}
+            priority
             className='image-landing'
           />
           <Link href="/produtos/Surf">
@@ -119,9 +119,9 @@ const Index = ({ prod }) => {
           <Image 
             src={landing4}
             alt="banner" 
-            // layout='fill'  
             width={560}
             height={640}
+            priority
             className='image-landing'
           />
           <Link href="/produtos/Acessorio">
@@ -143,12 +143,14 @@ Index.getLayout = getLayout;
 export default Index;
 
 export const getStaticProps = async () => {
-  const res = await api.get("/products?genre=masculino");
+  const resMasc = await api.get("/products?category=masculino")
+  const prodMasc = resMasc.data.data
 
-  const prod = res.data.data;
+  const resOutlet = await api.get("/products?category=outlet")
+  const prodOutlet = resOutlet.data.data
 
   return {
-    props: { prod },
+    props: { prodMasc, prodOutlet },
     revalidate: 60 * 60 * 1, //a cada 1 horas uma nova req na API será feita
-  };
-};
+  }
+}
