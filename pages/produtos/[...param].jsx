@@ -6,8 +6,8 @@ import NoProductsAlert from "../../components/NoProductsAlert";
 import FadeLoader from "react-spinners/FadeLoader";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
-import { Drawer, Button, Menu, Dropdown } from "antd";
-import { FilterOutlined, DownOutlined } from "@ant-design/icons";
+import { Drawer, Button } from "antd";
+import { FilterOutlined } from "@ant-design/icons";
 
 import { CategoryContext } from "../../contexts/CategoryContext";
 import Breadcrumb from "../../components/Breadcrumb";
@@ -32,6 +32,7 @@ import {
 } from "../../store/actions/products";
 
 import { removeIdDuplicate } from "../../helpers";
+import FilterSort from "../../components/FilterSort";
 
 export default function products({
   prod,
@@ -74,9 +75,6 @@ export default function products({
   useEffect(() => {
     width < 1280 ? setShowFilter(false) : setShowFilter(true);
   });
-
-  const showDrawerFilters = () => setVisible(true);
-  const onCloseFilters = () => setVisible(false);
 
   const changePage = ({ selected }) => {
     setCurrentPage(selected);
@@ -163,24 +161,11 @@ export default function products({
     return true;
   };
 
-  const menu = (
-    <Menu value={sort} onClick={(obj) => handleChangeSort(obj.item)}>
-      <Menu.Item value="menor">
-        <a>Menor para maior</a>
-      </Menu.Item>
-      <Menu.Item value="maior">
-        <a>Maior para menor</a>
-      </Menu.Item>
-    </Menu>
-  );
-
   return (
     <>
       <NextSeo
         title={`${category} - Lifestyle Floripa by Billabong`}
-        description={`${
-          category / setCategory / type
-        } - Sua surf shop na Praia Mole.`}
+        description={`${category} / ${subcategory} / ${type} - Sua surf shop na Praia Mole.`}
       />
       <div className="products-wrapper">
         <div className="filter-sort">
@@ -188,14 +173,7 @@ export default function products({
             <>
               <p>{paginationRedux.theTotal} Produto(s) Encontrados</p>
 
-              <Dropdown overlay={menu}>
-                <a
-                  className="ant-dropdown-link"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Ordernar por preço <DownOutlined />
-                </a>
-              </Dropdown>
+              <FilterSort handleChangeSort={handleChangeSort} sort={sort} />
             </>
           )}
         </div>
@@ -262,7 +240,7 @@ export default function products({
                 type="text"
                 size="small"
                 icon={<FilterOutlined />}
-                onClick={showDrawerFilters}
+                onClick={() => setVisible(true)}
                 className="btn-filter-mobile"
               >
                 FILTROS
@@ -271,7 +249,7 @@ export default function products({
               <Drawer
                 placement="left"
                 closable={true}
-                onClose={onCloseFilters}
+                onClose={() => setVisible(false)}
                 visible={visible}
                 getContainer={false}
               >

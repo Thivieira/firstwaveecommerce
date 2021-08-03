@@ -31,6 +31,8 @@ import {
   setFilterUrl,
 } from "../../store/actions/products";
 import NoProductsAlert from "../../components/NoProductsAlert";
+import { removeIdDuplicate } from "../../helpers";
+import FilterSort from "../../components/FilterSort";
 
 export default function index() {
   const { getCategory, setCategory } = useContext(CategoryContext);
@@ -51,6 +53,26 @@ export default function index() {
   const { q } = router.query;
 
   useEffect(() => {
+    updateDimensions();
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, [width]);
+
+  const updateDimensions = () => {
+    const width = window.innerWidth;
+    setWindowWidth(width);
+  };
+
+  useEffect(() => {
+    width < 1280 ? setShowFilter(false) : setShowFilter(true);
+  });
+
+  const changePage = ({ selected }) => {
+    setCurrentPage(selected);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
       dispatch(setFilterUrl(""));
       dispatch(setFilterData([], [], [], 0, 2000));
@@ -58,17 +80,12 @@ export default function index() {
 
     router.events.on("routeChangeStart", handleRouteChange);
 
-    // If the component is unmounted, unsubscribe
-    // from the event with the `off` method:
     return () => {
       router.events.off("routeChangeStart", handleRouteChange);
     };
   }, [router]);
 
   const paginationRedux = useSelector(getPaginationData);
-
-  const showDrawerFilters = () => setVisible(true);
-  const onCloseFilters = () => setVisible(false);
 
   useEffect(async () => {
     let sizeData;
@@ -135,26 +152,6 @@ export default function index() {
     );
   }, [currentPage, q]);
 
-  useEffect(() => {
-    updateDimensions();
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, [width]);
-
-  const updateDimensions = () => {
-    const width = window.innerWidth;
-    setWindowWidth(width);
-  };
-
-  useEffect(() => {
-    width < 1280 ? setShowFilter(false) : setShowFilter(true);
-  });
-
-  const changePage = ({ selected }) => {
-    setCurrentPage(selected);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   // useEffect(() => {
   //   let page = currentPage + 1;
   //   let url = "";
@@ -187,17 +184,6 @@ export default function index() {
   //   });
   // }, [currentPage, dispatch]);
 
-  const menu = (
-    <Menu value={sort} onClick={(obj) => handleChangeSort(obj.item)}>
-      <Menu.Item value="menor">
-        <a>Menor para maior</a>
-      </Menu.Item>
-      <Menu.Item value="maior">
-        <a>Maior para menor</a>
-      </Menu.Item>
-    </Menu>
-  );
-
   const handleChangeSort = (item) => {
     let sortValue = item.props.value;
     setSort(sortValue);
@@ -219,8 +205,6 @@ export default function index() {
     return true;
   };
 
-  const removeIdDuplicate = (id) => id + String(Math.random());
-
   return (
     <>
       <div className="products-wrapper">
@@ -229,14 +213,7 @@ export default function index() {
             <>
               <p>{paginationRedux.theTotal} Produto(s) Encontrados</p>
 
-              <Dropdown overlay={menu}>
-                <a
-                  className="ant-dropdown-link"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Ordernar por preço <DownOutlined />
-                </a>
-              </Dropdown>
+              <FilterSort handleChangeSort={handleChangeSort} sort={sort} />
             </>
           )}
         </div>
@@ -276,7 +253,10 @@ export default function index() {
               margin={15}
             />
           ) : (
-            <NoProductsAlert category={category} currentPage={currentPage} />
+            <NoProductsAlert
+              category={getCategory.category}
+              currentPage={currentPage}
+            />
           )}
         </div>
 
@@ -303,7 +283,7 @@ export default function index() {
                 type="text"
                 size="small"
                 icon={<FilterOutlined />}
-                onClick={showDrawerFilters}
+                onClick={() => setVisible(true)}
                 className="btn-filter-mobile"
               >
                 FILTROS
@@ -312,7 +292,7 @@ export default function index() {
               <Drawer
                 placement="left"
                 closable={true}
-                onClose={onCloseFilters}
+                onClose={() => setVisible(false)}
                 visible={visible}
                 getContainer={false}
               >
