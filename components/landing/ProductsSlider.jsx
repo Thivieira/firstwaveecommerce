@@ -20,8 +20,6 @@ export default function ProductsSlider({ prod }) {
   const settings = {
     dots: false,
     adaptiveHeight: true,
-    // autoplaySpeed: 3000,
-    // autoplay: true,
     speed: 1000,
     infinite: true,
     speed: 500,
@@ -74,7 +72,7 @@ export default function ProductsSlider({ prod }) {
         },
       },
     ],
-  };
+  }
 
   return (
     <>
@@ -107,10 +105,9 @@ export default function ProductsSlider({ prod }) {
                     <Image 
                       src={image} 
                       alt="imagem do produto"  
-                      // width={200}
-                      // height={270}
                       className='image-slider'
                       layout='fill'
+                      priority
                     />
                   </div>
                   <div className="details">
