@@ -11,6 +11,7 @@ import {
   DownOutlined,
   CloseCircleOutlined,
   MenuOutlined,
+  LogoutOutlined
 } from "@ant-design/icons";
 
 import FloatCart from "../components/FloatCart/FloatCart";
@@ -34,7 +35,7 @@ function Header() {
   const user = useSelector(getAccount);
 
   async function getUserData() {
-    await api
+    api
       .get("/auth/me")
       .then((res) => {
         dispatch(
@@ -51,12 +52,13 @@ function Header() {
 
   useEffect(() => {
     const token = localStorage.getItem("key");
-    setAuthorized(Boolean(localStorage.getItem("authorized")));
+    if(token){
+      setAuthorized(true)
+      api.defaults.headers.common["Authorization"] = "Bearer " + token;
+    }
+  }, []);
 
-    api.defaults.headers.common["Authorization"] = "Bearer " + token;
-  }, [user]);
-
-  useEffect(() => getUserData(), [authorized, user]);
+  useEffect(() => getUserData(), [authorized]);
 
   const showSideBar = () => setSidebar(!sidebar);
 
@@ -726,10 +728,7 @@ function Header() {
 
   const menuLoginOn = (
     <Menu>
-      <Menu.Item key="1" icon={<UserOutlined />}>
-        Minha conta
-      </Menu.Item>
-      <Menu.Item onClick={logOut} key="2" icon={<UserOutlined />}>
+      <Menu.Item onClick={logOut} key="2">
         Sair
       </Menu.Item>
     </Menu>
@@ -815,28 +814,27 @@ function Header() {
             </Button>
           </Dropdown>
 
-          <NavLink
-            href={authorized ? "/dashboard" : "/login"}
+          <span
+            // href={user.name ? "#" : "/login"}
             className="nav-item login"
             onClick={showSideBar}
           >
             <div>
-              {authorized ? (
+              {user.name ? (
                 <Dropdown.Button
                   overlay={menuLoginOn}
                   placement="bottomCenter"
-                  icon={<UserOutlined />}
                 >
-                  {user.name}
+                <span onClick={()=>{router.push("/dashboard")}}><UserOutlined /> {user.name}</span>
                 </Dropdown.Button>
               ) : (
-                <Button placement="bottomCenter" icon={<UserOutlined />}>
+                <Button onClick={()=>{router.push("/login")}} placement="bottomCenter" icon={<UserOutlined />}>
                   {" "}
                   Fazer login ou cadastrar-se{" "}
                 </Button>
               )}
             </div>
-          </NavLink>
+          </span>
           <div className="nav-item-cart">
             <FloatCart />
           </div>
@@ -851,14 +849,14 @@ function Header() {
               className="closeNavbar"
             />
             <NavLink
-              href={authorized ? "/dashboard" : "/login"}
+              href={user.name ? "/dashboard" : "/login"}
               className="sidebar-item"
               onClick={() => setSidebar(false)}
             >
               <>
                 <UserOutlined style={{ fontSize: "2rem" }} />
                 <p className="nav-item-legenda">
-                  {authorized ? user.name : "Entre ou cadastre-se"}
+                  {user.name ? user.name : "Entre ou cadastre-se"}
                 </p>
               </>
             </NavLink>

@@ -9,8 +9,9 @@ import AddressData from "../components/Form/AddressData";
 import TableOrdered from "../components/dashboard/TableOrdered";
 import Favorites from "../components/dashboard/Favorites";
 import Title from "../components/Utils/Title";
+import { getAccount } from "../store/selectors/user";
 import { saveAddress } from "../store/actions/user";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Dashboard() {
   const [formOption, setFormOption] = useState(1);
@@ -19,22 +20,19 @@ function Dashboard() {
   const [addressData, setAddressData] = useState([]);
   const [json, setJson] = useState({});
   const dispatch = useDispatch();
-  const [authorized, setAuthorized] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
+  const user = useSelector(getAccount);
 
   useEffect(() => {
     const token = localStorage.getItem("key");
-    setAuthorized(Boolean(localStorage.getItem("authorized")));
-
-    api.defaults.headers.common["Authorization"] = "Bearer " + token;
-  }, []);
-
-  useEffect(() => {
-    console.log("AUTHORIZED", authorized);
-    if (!authorized) {
+    if(token){
+      setAuthorized(true);
+      api.defaults.headers.common["Authorization"] = "Bearer " + token;
+    } else {
       router.replace("/");
       return null;
     }
-  }, [authorized]);
+  }, []);
 
   useEffect(() => {
     getUserData();
