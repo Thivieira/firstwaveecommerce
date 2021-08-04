@@ -76,9 +76,8 @@ export default function Favorites() {
       }}
       dataSource={products}
       renderItem={(item) => {
-        const image = item.variations[0].image
-          ? JSON.parse(item.variations[0].image)[0]["link"]
-          : "/noimage.png";
+        let image = JSON.parse(item.variations[0].image);
+        image = image.length > 0 ? image[0].link : "/noimage.png";
         return (
           <List.Item
             actions={[
