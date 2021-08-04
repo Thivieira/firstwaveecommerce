@@ -350,10 +350,21 @@
     font-size: 1.2rem;
     font-weight: 600;
     width: 200px;
+    padding-left: 1.5rem;
+    display: -moz-box;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     transition: all 0.3s ease-in-out;
+    border-bottom: 0.1rem solid rgb(125, 217, 245, 0.25);
+  }
+
+  .menu-item:first-of-type {
+    border-top: 0.1rem solid rgb(125, 217, 245, 0.25);
+  }
+
+  .menu-item:last-child {
+    border-bottom: 0.1rem solid rgb(125, 217, 245, 0.25);
   }
 
   .menu-item:hover {
@@ -368,13 +379,18 @@
 
   .down {
     position: absolute;
-    font-size: 1.5rem;
-    margin-top: 0.2rem;
-    right: 0.3rem;
+    font-size: 2rem !important;
+    right: 0;
+    color: lightblue;
     display: flex;
+    padding: 0.725rem 0.1rem;
   }
 
   .menu-item:hover .down {
+    display: flex;
+  }
+
+  .flex {
     display: flex;
   }
   

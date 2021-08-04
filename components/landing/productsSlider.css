@@ -130,7 +130,7 @@
   color: #3780a8;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 425px) {
   .slick-prev:before,
   .slick-next:before {
     font-size: 2rem;

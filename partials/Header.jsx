@@ -11,7 +11,6 @@ import {
   DownOutlined,
   CloseCircleOutlined,
   MenuOutlined,
-  LogoutOutlined,
 } from "@ant-design/icons";
 
 import FloatCart from "../components/FloatCart/FloatCart";
@@ -518,7 +517,12 @@ function Header() {
               setSurfDropDown(false);
             }}
           >
-            WETSUITS
+            <NavLink href="/produtos/Surf/">
+              <span>
+              WETSUITS
+
+              </span>
+            </NavLink>
           </NavLink>
           <NavLink
             href="/produtos/Surf/Quilha"
@@ -817,7 +821,13 @@ function Header() {
           <span
             // href={user.name ? "#" : "/login"}
             className="nav-item login"
-            onClick={showSideBar}
+            onClick={() => {
+              setSidebar(false) 
+              setSurfDropDown(false);
+              setMascDropDown(false);
+              setFemDropDown(false);
+              setJuvDropDown(false);
+          }}
           >
             <div>
               {user.name ? (
@@ -854,13 +864,25 @@ function Header() {
         <nav className={sidebar ? "menu-container active" : "menu-container"}>
           <div className="sidebar-top">
             <CloseCircleOutlined
-              onClick={showSideBar}
+              onClick={() => {
+                setSidebar(false) 
+                setSurfDropDown(false);
+                setMascDropDown(false);
+                setFemDropDown(false);
+                setJuvDropDown(false);
+              }}
               className="closeNavbar"
             />
             <NavLink
               href={user.name ? "/dashboard" : "/login"}
               className="sidebar-item"
-              onClick={() => setSidebar(false)}
+              onClick={() => {
+                setSidebar(false) 
+                setSurfDropDown(false);
+                setMascDropDown(false);
+                setFemDropDown(false);
+                setJuvDropDown(false);
+              }}
             >
               <>
                 <UserOutlined style={{ fontSize: "2rem" }} />
@@ -878,134 +900,185 @@ function Header() {
             </Dropdown>
           </div>
 
-          <div
-            className={
-              showFilter === 1 ? "menu-item menu-item-active" : "menu-item"
-            }
-            onMouseEnter={() => setShowFilter(1)}
-          >
-            <NavLink href="/produtos/Surf" onClick={showSideBar}>
-              {" "}
-              Surf{" "}
-            </NavLink>
-            <CaretRightOutlined
-              className="down"
+          <div className='flex'>
+            <NavLink 
+              href="/produtos/Surf"             
               onClick={() => {
-                setSurfDropDown(!surfDropDown);
+                setSidebar(false) 
+                setSurfDropDown(false);
                 setMascDropDown(false);
                 setFemDropDown(false);
                 setJuvDropDown(false);
               }}
-            />
-            {surfDropDown && dropDownNav("surf")}
-          </div>
-
-          <div
-            className={
-              showFilter === 2 ? "menu-item menu-item-active" : "menu-item"
-            }
-            onMouseEnter={() => setShowFilter(2)}
-          >
-            <NavLink href="/produtos/Masculino" onClick={showSideBar}>
-              Masculino
+              className={
+                showFilter === 1 ? "menu-item menu-item-active" : "menu-item"
+              }
+              onMouseEnter={() => setShowFilter(1)}
+            >
+                {" "}
+                Surf{" "}
+              {surfDropDown && dropDownNav("surf")}
             </NavLink>
             <CaretRightOutlined
-              className="down"
+                className="down"
+                onClick={() => {
+                  setSurfDropDown(!surfDropDown);
+                  setMascDropDown(false);
+                  setFemDropDown(false);
+                  setJuvDropDown(false);
+                }}
+            />
+          </div>
+
+          <div className='flex'>
+            <NavLink href="/produtos/Masculino"             
               onClick={() => {
-                setMascDropDown(!mascDropDown);
+                setSidebar(false) 
                 setSurfDropDown(false);
+                setMascDropDown(false);
                 setFemDropDown(false);
                 setJuvDropDown(false);
               }}
-            />
-            {mascDropDown && dropDownNav("masc")}
-          </div>
-
-          <div
-            className={
-              showFilter === 3 ? "menu-item menu-item-active" : "menu-item"
-            }
-            onMouseEnter={() => setShowFilter(3)}
-          >
-            <NavLink href="/produtos/Feminino" onClick={showSideBar}>
-              Feminino
+              className={
+                showFilter === 2 ? "menu-item menu-item-active" : "menu-item"
+              }
+              onMouseEnter={() => setShowFilter(2)}
+            >
+                Masculino
+              {mascDropDown && dropDownNav("masc")}
             </NavLink>
             <CaretRightOutlined
-              className="down"
+                className="down"
+                onClick={() => {
+                  setMascDropDown(!mascDropDown);
+                  setSurfDropDown(false);
+                  setFemDropDown(false);
+                  setJuvDropDown(false);
+                }}
+            />
+          </div>
+
+          <div className='flex'>
+            <NavLink href="/produtos/Feminino"             
               onClick={() => {
-                setMascDropDown(false);
+                setSidebar(false) 
                 setSurfDropDown(false);
-                setFemDropDown(!femDropDown);
+                setMascDropDown(false);
+                setFemDropDown(false);
                 setJuvDropDown(false);
               }}
-            />
-            {femDropDown && dropDownNav("fem")}
-          </div>
-
-          <div
-            className={
-              showFilter === 4 ? "menu-item menu-item-active" : "menu-item"
-            }
-            onMouseEnter={() => setShowFilter(4)}
-          >
-            <NavLink href="/produtos/Juvenil" onClick={showSideBar}>
-              Juvenil e Infantil
+              className={
+                showFilter === 3 ? "menu-item menu-item-active" : "menu-item"
+              }
+              onMouseEnter={() => setShowFilter(3)}
+            >
+                Feminino
+              {femDropDown && dropDownNav("fem")}
             </NavLink>
             <CaretRightOutlined
-              className="down"
-              onClick={() => {
-                setMascDropDown(false);
-                setSurfDropDown(false);
-                setFemDropDown(false);
-                setJuvDropDown(!juvDropDown);
-              }}
+                className="down"
+                onClick={() => {
+                  setMascDropDown(false);
+                  setSurfDropDown(false);
+                  setFemDropDown(!femDropDown);
+                  setJuvDropDown(false);
+                }}
             />
-            {juvDropDown && dropDownNav("juv")}
           </div>
-
-          <div
+          
+          <div className='flex'>
+            <NavLink href="/produtos/Juvenil"             
+            onClick={() => {
+                setSidebar(false) 
+                setSurfDropDown(false);
+                setMascDropDown(false);
+                setFemDropDown(false);
+                setJuvDropDown(false);
+              }}
+              className={
+                showFilter === 4 ? "menu-item menu-item-active" : "menu-item"
+              }
+              onMouseEnter={() => setShowFilter(4)}
+            >
+                Juvenil e Infantil
+              {juvDropDown && dropDownNav("juv")}
+            </NavLink>
+            <CaretRightOutlined
+                className="down"
+                onClick={() => {
+                  setMascDropDown(false);
+                  setSurfDropDown(false);
+                  setFemDropDown(false);
+                  setJuvDropDown(!juvDropDown);
+                }}
+            />
+          </div>
+          
+          <NavLink 
+            href="/produtos/Calcado" 
+            onClick={() => {
+                setSidebar(false) 
+                setSurfDropDown(false);
+                setMascDropDown(false);
+                setFemDropDown(false);
+                setJuvDropDown(false);
+            }}
             className={
               showFilter === 5 ? "menu-item menu-item-active" : "menu-item"
             }
             onMouseEnter={() => setShowFilter(0)}
           >
-            <NavLink href="/produtos/Calcado" onClick={showSideBar}>
               Calçados
-            </NavLink>
-          </div>
+          </NavLink>
 
-          <div
+          <NavLink 
+            href="/produtos/Acessorio"               
+            onClick={() => {
+                setSidebar(false) 
+                setSurfDropDown(false);
+                setMascDropDown(false);
+                setFemDropDown(false);
+                setJuvDropDown(false);
+            }}
             className={
               showFilter === 6 ? "menu-item menu-item-active" : "menu-item"
             }
             onMouseEnter={() => setShowFilter(0)}
           >
-            <NavLink href="/produtos/Acessorio" onClick={showSideBar}>
               Acessórios
-            </NavLink>
-          </div>
+          </NavLink>
 
-          <div
+          <NavLink href="/produtos/Acessorio/Oculos"               
+            onClick={() => {
+                setSidebar(false) 
+                setSurfDropDown(false);
+                setMascDropDown(false);
+                setFemDropDown(false);
+                setJuvDropDown(false);
+            }}
             className={
               showFilter === 7 ? "menu-item menu-item-active" : "menu-item"
             }
             onMouseEnter={() => setShowFilter(0)}
           >
-            <NavLink href="/produtos/Acessorio/Oculos" onClick={showSideBar}>
               Óculos
-            </NavLink>
-          </div>
+          </NavLink>
 
-          <div
+          <NavLink href="/produtos/Acessorio/Relogio"               
+          onClick={() => {
+                setSidebar(false) 
+                setSurfDropDown(false);
+                setMascDropDown(false);
+                setFemDropDown(false);
+                setJuvDropDown(false);
+              }}
             className={
               showFilter === 8 ? "menu-item menu-item-active" : "menu-item"
             }
             onMouseEnter={() => setShowFilter(0)}
           >
-            <NavLink href="/produtos/Acessorio/Relogio" onClick={showSideBar}>
               Relogio
-            </NavLink>
-          </div>
+          </NavLink>
 
           <NavLink
             href="/produtos/Outlet"
@@ -1013,7 +1086,13 @@ function Header() {
               showFilter === 9 ? "menu-item menu-item-active" : "menu-item"
             }
             onMouseEnter={() => setShowFilter(0)}
-            onClick={showSideBar}
+            onClick={() => {
+                setSidebar(false) 
+                setSurfDropDown(false);
+                setMascDropDown(false);
+                setFemDropDown(false);
+                setJuvDropDown(false);
+            }}
           >
             Outlet
           </NavLink>
