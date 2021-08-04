@@ -14,6 +14,8 @@ import api from "../../services/api";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { NextSeo } from "next-seo";
+import { saveAccount } from "../../store/actions/user";
+import { useDispatch } from "react-redux";
 
 function Form() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -33,6 +35,7 @@ function Form() {
     state: "",
   });
   const router = useRouter();
+  const dispatch = useDispatch();
   const MySwal = withReactContent(Swal);
 
   const next = () => setCurrentStep(currentStep + 1);
@@ -116,8 +119,24 @@ function Form() {
                 address: submitData.street,
               })
               .then(() => {
-                MySwal.fire("Conta cadastrada com sucesso!");
-                router.push("/");
+                api
+                  .get("/auth/me")
+                  .then((res) => {
+                    dispatch(
+                      saveAccount({
+                        cpf: res.data.cpf,
+                        email: res.data.email,
+                        name: res.data.name,
+                        phone: res.data.mobile,
+                      })
+                    );
+                    MySwal.fire("Conta cadastrada com sucesso!");
+                    router.push("/");
+                  })
+                  .catch((e) => {
+                    MySwal.fire("Conta cadastrada com sucesso!");
+                    router.push("/");
+                  });
               })
               .catch(() => {
                 MySwal.fire("Falha ao cadastrar endereço!");
@@ -144,7 +163,11 @@ function Form() {
         title="Cadastre sua conta - Lifestyle Floripa by Billabong"
         description={"Identificação do Usuário - Sua surf shop na Praia Mole."}
       />
-      <Container component="article" maxWidth="sm" style={{ minHeight: "100vh" }}>
+      <Container
+        component="article"
+        maxWidth="sm"
+        style={{ minHeight: "100vh" }}
+      >
         <Stepper activeStep={currentStep}>
           <Step>
             <StepLabel>Login</StepLabel>

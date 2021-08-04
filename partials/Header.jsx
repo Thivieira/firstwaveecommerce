@@ -11,7 +11,7 @@ import {
   DownOutlined,
   CloseCircleOutlined,
   MenuOutlined,
-  LogoutOutlined
+  LogoutOutlined,
 } from "@ant-design/icons";
 
 import FloatCart from "../components/FloatCart/FloatCart";
@@ -52,8 +52,8 @@ function Header() {
 
   useEffect(() => {
     const token = localStorage.getItem("key");
-    if(token){
-      setAuthorized(true)
+    if (token) {
+      setAuthorized(true);
       api.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
   }, []);
@@ -821,14 +821,23 @@ function Header() {
           >
             <div>
               {user.name ? (
-                <Dropdown.Button
-                  overlay={menuLoginOn}
-                  placement="bottomCenter"
-                >
-                <span onClick={()=>{router.push("/dashboard")}}><UserOutlined /> {user.name}</span>
+                <Dropdown.Button overlay={menuLoginOn} placement="bottomCenter">
+                  <span
+                    onClick={() => {
+                      router.push("/dashboard");
+                    }}
+                  >
+                    <UserOutlined /> {user.name}
+                  </span>
                 </Dropdown.Button>
               ) : (
-                <Button onClick={()=>{router.push("/login")}} placement="bottomCenter" icon={<UserOutlined />}>
+                <Button
+                  onClick={() => {
+                    router.push("/login");
+                  }}
+                  placement="bottomCenter"
+                  icon={<UserOutlined />}
+                >
                   {" "}
                   Fazer login ou cadastrar-se{" "}
                 </Button>
