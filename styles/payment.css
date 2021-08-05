@@ -11,7 +11,7 @@
 .payment-top-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
   font-size: 1rem;
   flex-direction: row;
@@ -95,8 +95,9 @@
 .cart-payment {
   display: flex;
   flex-direction: column;
-  height: 100%;
   position: relative;
+  height: 23.25rem;
+  overflow-y: auto;
 }
 
 .thumb-cart-pay {

@@ -7,7 +7,7 @@ import { saveAccount, saveAddress } from "../store/actions/user";
 
 import NumeratedTitled from "../components/Utils/NumeratedTitle";
 import PaymentBox from "../components/Utils/PaymentBox";
-import PaypalButton from "../components/PaypalButton";
+import NavLink from "../components/NavLink";
 import api from "../services/api";
 import PaymentBtn from "../components/PaymentBtn";
 import { useRouter } from "next/router";
@@ -325,7 +325,9 @@ function Payment() {
                       src={product.imagemVariacao}
                     />
                     <div className="desc">
-                      <h3 className="title-cart">{product.description}</h3>
+                      <NavLink href={`/produto/${product.code}`}>
+                        <h3 className="title-cart">{product.description}</h3>
+                      </NavLink>
                       <div className="color-size">
                         <p>Tamanho: {product.size}</p>
                         <p style={{ marginLeft: "10px" }}>

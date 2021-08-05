@@ -75,7 +75,7 @@
 .float-cart__shelf-container {
   position: relative;
   min-height: 280px;
-  padding-bottom: 200px;
+  padding-bottom: 250px;
 }
 
 .float-cart__shelf-container .shelf-empty {
@@ -131,13 +131,12 @@
   color: #ffa500 !important;
 }
 
-
 .float-cart__shelf-container .shelf-item__thumb,
 .float-cart__shelf-container .shelf-item__details,
 .float-cart__shelf-container .shelf-item__price {
   display: inline-block;
   vertical-align: middle;
-  font-size: 0.75rem
+  font-size: 0.75rem;
 }
 
 .float-cart__shelf-container .shelf-item__thumb {
@@ -302,7 +301,6 @@
   }
 }
 
-
 @media screen and (min-width: 640px) {
   .float-cart__content::-webkit-scrollbar {
     -webkit-appearance: none;
@@ -352,4 +350,3 @@
     left: -50px !important;
   }
 }
-
