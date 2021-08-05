@@ -33,6 +33,7 @@ const ImageSlider = () => {
             className='image-next'
             width={2048}
             height={1449}
+            priority
           />
         </div>
       </NavLink>
@@ -44,6 +45,7 @@ const ImageSlider = () => {
             className='image-next'
             width={2048}
             height={1449}
+            priority
           />
         </div>
       </NavLink>
@@ -55,6 +57,7 @@ const ImageSlider = () => {
             className='image-next'
             width={2048}
             height={1449}
+            priority
           />
         </div>
       </NavLink>
