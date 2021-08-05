@@ -95,7 +95,8 @@ export default function handler(req, res) {
       statement_descriptor: "LIFESTYLEFLN",
       //"http://api.lifestylefloripa.com.br/integrations/mercadopago/postback"
       notification_url:
-        "https://e215cea1384a.ngrok.io/integrations/mercadopago/postback",
+        "http://api.lifestylefloripa.com.br/integrations/mercadopago/postback",
+      // "https://e215cea1384a.ngrok.io/integrations/mercadopago/postback",
     };
 
     // console.log("PREFERENCE", preference);
