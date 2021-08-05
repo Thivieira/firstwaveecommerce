@@ -22,7 +22,12 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  // const [ user, setUser ] = useState()
+  useEffect(() => {
+    const token = localStorage.getItem("key");
+    if (token) {
+      router.push("/dashboard");
+    }
+  }, []);
 
   const MySwal = withReactContent(Swal);
 
@@ -56,55 +61,6 @@ function Login() {
       MySwal.fire("Usuário ou senha incorretos!");
     }
   }
-
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged(user => {
-  //     if (user) {
-  //       const { displayName, email, uid } = user
-
-  //       if (!displayName || !email) {
-  //         throw new Error('Missing information from Google account.')
-  //       }
-
-  //       setEmail()
-  //       setPassword()
-  //       // setUser({
-  //       //   id: uid,
-  //       //   name: displayName,
-  //       //   avatar: photoURL
-  //       // })
-  //     }
-  //   })
-
-  //   return () => {
-  //     unsubscribe()
-  //   }
-  // }, [])
-
-  // async function signInWithGoogle() {
-  //   const provider = new firebase.auth.GoogleAuthProvider()
-
-  //   const result = await auth.signInWithPopup(provider)
-
-  //   console.log(result.user)
-
-  //   if (result.user) {
-  //     const { displayName, email, uid } = result.user
-
-  //     if (!displayName || !email) {
-  //       throw new Error('Missing information from Google account.')
-  //     }
-
-  //     setEmail(email)
-  //     setPassword(uid)
-  //     handleSubmit()
-  //     // setUser({
-  //     //   id: uid,
-  //     //   name: displayName,
-  //     //   avatar: photoURL
-  //     // })
-  //   }
-  // }
 
   return (
     <div className="wrapper-login">

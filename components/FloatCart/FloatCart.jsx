@@ -31,7 +31,10 @@ function FloatCart() {
   const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
-    setAuthorized(localStorage.getItem("authorized"));
+    const token = localStorage.getItem("key");
+    if (token) {
+      setAuthorized(true);
+    }
   }, []);
 
   const itemQuantity = productsCart

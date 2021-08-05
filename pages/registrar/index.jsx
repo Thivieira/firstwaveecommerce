@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Stepper, Step, StepLabel, Container } from "@material-ui/core";
 import { useRouter } from "next/router";
@@ -41,6 +41,13 @@ function Form() {
   const next = () => setCurrentStep(currentStep + 1);
 
   const goBack = () => setCurrentStep(currentStep - 1);
+
+  useEffect(() => {
+    const token = localStorage.getItem("key");
+    if (token) {
+      router.push("/dashboard");
+    }
+  }, []);
 
   async function signUpUser({
     name,

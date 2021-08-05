@@ -26,6 +26,8 @@ export default function handler(req, res) {
     mercadopago.configure({
       access_token: process.env.ACCESS_TOKEN,
     });
+
+    console.log("GANGURNO", process.env.ACCESS_TOKEN);
     //cart array
     const cart = req.body.cart;
     const address = req.body.address;
@@ -91,6 +93,10 @@ export default function handler(req, res) {
         },
       },
       statement_descriptor: "LIFESTYLEFLN",
+      //"http://api.lifestylefloripa.com.br/integrations/mercadopago/postback"
+      notification_url:
+        "http://api.lifestylefloripa.com.br/integrations/mercadopago/postback",
+      // "https://e215cea1384a.ngrok.io/integrations/mercadopago/postback",
     };
 
     // console.log("PREFERENCE", preference);
