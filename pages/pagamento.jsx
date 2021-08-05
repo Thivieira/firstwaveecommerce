@@ -11,6 +11,7 @@ import PaypalButton from "../components/PaypalButton";
 import api from "../services/api";
 import PaymentBtn from "../components/PaymentBtn";
 import { useRouter } from "next/router";
+import { getAccount } from "../store/selectors/user";
 
 function Payment() {
   const router = useRouter();
@@ -27,12 +28,36 @@ function Payment() {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [neighborhood, setNeighborhood] = useState("");
+  const [authorized, setAuthorized] = useState(false);
   const dispatch = useDispatch();
+
+  const user = useSelector(getAccount);
+
+  async function getUserData() {
+    api
+      .get("/auth/me")
+      .then((res) => {
+        dispatch(
+          saveAccount({
+            cpf: res.data.cpf,
+            email: res.data.email,
+            name: res.data.name,
+            phone: res.data.mobile,
+          })
+        );
+      })
+      .catch((e) => {});
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("key");
-    api.defaults.headers.common["Authorization"] = "Bearer " + token;
+    if (token) {
+      setAuthorized(true);
+      api.defaults.headers.common["Authorization"] = "Bearer " + token;
+    }
   }, []);
+
+  useEffect(() => getUserData(), [authorized]);
 
   useEffect(() => {
     getUserData();
@@ -107,6 +132,10 @@ function Payment() {
       return null;
     }
   }, []);
+
+  if (cart.length == 0) {
+    return null;
+  }
 
   return (
     <div className="payment-container">

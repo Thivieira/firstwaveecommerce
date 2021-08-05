@@ -91,7 +91,8 @@ export default function PaymentBtn(props) {
     <div
       className={"pure-material-button-contained  cho-container"}
       onClick={() => {
-        loaded ? (window.location = `${init_point_link}`) : setClickState(true);
+        //(window.location = `${init_point_link}`)
+        !loaded && setClickState(true);
       }}
     >
       Pagar

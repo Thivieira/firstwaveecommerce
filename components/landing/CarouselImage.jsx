@@ -1,9 +1,9 @@
-import NavLink from '../../components/NavLink'
+import NavLink from "../../components/NavLink";
 import { Carousel } from "react-responsive-carousel";
-import Image from 'next/image'
-import banner1 from '../../public/banner1.png'
-import banner2 from '../../public/banner2.png'
-import banner3 from '../../public/banner3.png'
+import Image from "next/image";
+import banner1 from "../../public/banner1.png";
+import banner2 from "../../public/banner2.png";
+import banner3 from "../../public/banner3.png";
 
 const ImageSlider = () => {
   const getConfigurableProps = () => ({
@@ -25,34 +25,34 @@ const ImageSlider = () => {
 
   return (
     <Carousel {...getConfigurableProps()}>
-      <NavLink href='/produtos/Surf/Wetsuit'>
+      <NavLink href="/produtos/Surf/Wetsuit">
         <div className="wrapper-carousel-landing">
           <Image
             src={banner1}
             alt="banner1"
-            className='image-next'
+            className="image-next"
             width={2048}
             height={1449}
           />
         </div>
       </NavLink>
-      <NavLink href='/produtos/Masculino/Vestuario/Bermuda'>
+      <NavLink href="/produtos/Masculino/Vestuario/Bermuda">
         <div className="wrapper-carousel-landing">
           <Image
             src={banner2}
             alt="banner2"
-            className='image-next'
+            className="image-next"
             width={2048}
             height={1449}
           />
         </div>
       </NavLink>
-      <NavLink href='/produtos/Masculino/Vestuario/Camiseta'>
+      <NavLink href="/produtos/Masculino/Vestuario/Camiseta">
         <div className="wrapper-carousel-landing">
           <Image
             src={banner3}
             alt="banner3"
-            className='image-next'
+            className="image-next"
             width={2048}
             height={1449}
           />
