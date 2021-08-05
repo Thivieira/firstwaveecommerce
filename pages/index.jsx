@@ -1,11 +1,22 @@
-import { NextSeo } from 'next-seo';
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from "next/link";
+import { NextSeo } from 'next-seo';
 
-import CarouselImage from "../components/landing/CarouselImage";
-import ProductsSlider from "../components/landing/ProductsSlider";
-import { getLayout } from "../layouts/SiteLayout";
 import api from "../services/api";
+
+const CarouselImage = dynamic(() => import('../components/landing/CarouselImage'))
+const ProductsSlider = dynamic(() => import('../components/landing/ProductsSlider'))
+const {getLayout} = dynamic(() => import('../layouts/SiteLayout'))
+
+// const landing1 = dynamic(() => import('../public/landing1.jpg'))
+// const landing2 = dynamic(() => import('../public/landing2.jpg'))
+// const landing3 = dynamic(() => import('../public/landing3.png'))
+// const landing4 = dynamic(() => import('../public/landing4.jpeg'))
+
+// import CarouselImage from "../components/landing/CarouselImage";
+// import ProductsSlider from "../components/landing/ProductsSlider";
+// import getLayout from "../layouts/SiteLayout";
 
 import landing1 from '../public/landing1.jpg'
 import landing2 from '../public/landing2.jpg'

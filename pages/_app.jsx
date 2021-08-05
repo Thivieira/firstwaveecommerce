@@ -1,12 +1,12 @@
 import Router from "next/router";
+import dynamic from 'next/dynamic'
 import Head from "next/head";
 import { Provider } from "react-redux";
 import { useStore } from "../store";
-import SiteLayout from "../layouts/SiteLayout";
 import NProgress from "nprogress";
 import { CategoryContextProvider } from "../contexts/CategoryContext";
 
-import "../services/firebase";
+const SiteLayout = dynamic(() => import('../layouts/SiteLayout'))
 
 import "../styles/global.css";
 import "../styles/Landing.css";

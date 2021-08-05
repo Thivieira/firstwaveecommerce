@@ -1,5 +1,5 @@
 {
-  "name": "with-redux-thunk",
+  "name": "ecommerce-lifestyle-floripa",
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
@@ -13,6 +13,7 @@
     "@ant-design/icons": "^4.6.2",
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.11.2",
+    "@next/bundle-analyzer": "^11.0.1",
     "antd": "^4.16.8",
     "axios": "^0.21.1",
     "firebase": "^8.8.0",
@@ -56,5 +57,6 @@
   },
   "engines": {
     "node": "14.x"
-  }
+  },
+  "cacheDirectories": [".next/cache"]
 }
