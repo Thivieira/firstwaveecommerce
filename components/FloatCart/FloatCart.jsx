@@ -15,6 +15,8 @@ import { changeIsOpen, updateCart } from "../../store/actions/products";
 import { CloseSquareOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import useCart from "../../contexts/CartStorage";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function FloatCart() {
   const dispatch = useDispatch();
@@ -29,6 +31,8 @@ function FloatCart() {
   const total = useSelector(getCartTotal);
 
   const [authorized, setAuthorized] = useState(false);
+
+  const MySwal = withReactContent(Swal);
 
   useEffect(() => {
     const token = localStorage.getItem("key");
@@ -58,12 +62,30 @@ function FloatCart() {
 
   const noAuthorized = () => {
     closeFloatCart();
-    alert("Faça login ou cadastre-se antes de finalizar no carrinho");
+    MySwal.fire({
+      title: (
+        <p>Faça login ou cadastre-se antes de finalizar no carrinho</p>
+      ),
+      confirmButtonText: "OK",
+    }).then((res) => {
+        if (res.isConfirmed) {
+          router.push("/login");
+        }
+      });
   };
 
   const authorizedCart = () => {
     closeFloatCart();
-    total === 0 ? alert("Carrinho está vazio!") : closeFloatCart();
+    if(total === 0){
+      MySwal.fire({
+        title: (
+          <p>Carrinho está vazio!</p>
+        ),
+        confirmButtonText: "OK",
+      });
+      
+    }
+    
     router.push("/pagamento");
   };
 

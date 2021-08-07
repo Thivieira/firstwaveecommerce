@@ -1,4 +1,4 @@
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'http://www.lifestylefloripa.com.br/',
+  siteUrl: process.env.SITE_URL || 'https://www.lifestylefloripa.com.br/',
   generateRobotsTxt: true,  
 }

@@ -12,6 +12,8 @@ import api from "../services/api";
 import PaymentBtn from "../components/PaymentBtn";
 import { useRouter } from "next/router";
 import { getAccount } from "../store/selectors/user";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function Payment() {
   const router = useRouter();
@@ -30,6 +32,7 @@ function Payment() {
   const [neighborhood, setNeighborhood] = useState("");
   const [authorized, setAuthorized] = useState(false);
   const dispatch = useDispatch();
+  const MySwal = withReactContent(Swal);
 
   const user = useSelector(getAccount);
 
@@ -78,7 +81,14 @@ function Payment() {
           })
         );
       })
-      .catch(() => alert("Não foi possível pegar os dados!"));
+      .catch(() => {
+        /*
+        MySwal.fire({
+          title: <p>Não foi possível pegar os dados!</p>,
+          confirmButtonText: "OK",
+        });
+        */
+      });
   }
 
   async function getAddressData() {
@@ -104,7 +114,14 @@ function Payment() {
           })
         );
       })
-      .catch(() => alert("Falha ao obter dados de endereço!"));
+      .catch(() => {
+        /*
+        MySwal.fire({
+          title: <p>Falha ao obter dados de endereço!</p>,
+          confirmButtonText: "OK",
+        });
+        */
+      });
   }
 
   async function handleEditAddress() {
@@ -119,21 +136,31 @@ function Payment() {
           addressNumber: number,
           address: street,
         })
-        .then(() => alert("Endereço editado com sucesso!"))
-        .catch(() => alert("Falha ao editar endereço!"));
+        .then(() => {
+          MySwal.fire({
+            title: <p>Endereço editado com sucesso!</p>,
+            confirmButtonText: "OK",
+          });
+        })
+        .catch(() => {
+          MySwal.fire({
+            title: <p>Falha ao editar endereço!</p>,
+            confirmButtonText: "OK",
+          });
+        });
     } else {
       setEdit(true);
     }
   }
 
   useEffect(() => {
-    if (cart.length == 0) {
+    if (cart.length == 0 || !authorized) {
       router.push("/");
       return null;
     }
-  }, []);
+  }, [cart, authorized]);
 
-  if (cart.length == 0) {
+  if (cart.length == 0 || !authorized) {
     return null;
   }
 

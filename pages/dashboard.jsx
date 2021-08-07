@@ -12,6 +12,8 @@ import Title from "../components/Utils/Title";
 import { getAccount } from "../store/selectors/user";
 import { saveAddress } from "../store/actions/user";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function Dashboard() {
   const [formOption, setFormOption] = useState(1);
@@ -22,6 +24,7 @@ function Dashboard() {
   const dispatch = useDispatch();
   const [authorized, setAuthorized] = useState(false);
   const user = useSelector(getAccount);
+  const MySwal = withReactContent(Swal);
 
   useEffect(() => {
     const token = localStorage.getItem("key");
@@ -99,9 +102,19 @@ function Dashboard() {
     }
     try {
       const res = await api.post("/auth/me", json);
-      alert("usuário editado com sucesso!");
+      MySwal.fire({
+          title: (
+            <p>Usuário editado com sucesso!</p>
+          ),
+          confirmButtonText: "OK",
+      });
     } catch (e) {
-      alert("falha ao editar usuário!");
+      MySwal.fire({
+          title: (
+            <p>Falha ao editar usuário!</p>
+          ),
+          confirmButtonText: "OK",
+      });
     }
   }
 
@@ -124,9 +137,19 @@ function Dashboard() {
         addressNumber: number,
         address: street,
       });
-      alert("Endereço editado com sucesso!");
+      MySwal.fire({
+        title: (
+          <p>Endereço editado com sucesso!</p>
+        ),
+        confirmButtonText: "OK",
+      });
     } catch (e) {
-      alert("Falha ao editar endereço!");
+      MySwal.fire({
+        title: (
+          <p>Falha ao editar endereço!</p>
+        ),
+        confirmButtonText: "OK",
+      });
     }
   }
 

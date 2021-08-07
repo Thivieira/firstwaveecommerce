@@ -10,6 +10,8 @@ import {
 } from "../../models/Form";
 import FormValidations from "../../contexts/FormValidations";
 import api from "../../services/api";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function Form() {
   const history = useRouter();
@@ -29,7 +31,9 @@ function Form() {
     state: "",
   });
 
-  // console.log(collectedData.neighborhood);
+  const MySwal = withReactContent(Swal);
+
+
 
   async function signUpUser({ name, password, email, cpf, phone }) {
     setCollectedData((prevState) => ({
@@ -102,16 +106,42 @@ function Form() {
                 address: submitData.street,
               })
               .then(() => {
-                alert("Conta cadastrada com sucesso!");
-                history.push("/");
+                    MySwal.fire({
+                      title: (
+                        <p>Conta cadastrada com sucesso!</p>
+                      ),
+                      confirmButtonText: "OK",
+                    }).then((res) => {
+                        if (res.isConfirmed) {
+                          history.push("/");
+                        }
+                    });
               })
               .catch(() => {
-                alert("Falha ao cadastrar endereço!");
+                MySwal.fire({
+                      title: (
+                        <p>Falha ao cadastrar endereço!</p>
+                      ),
+                      confirmButtonText: "OK",
+                    }).then((res) => {
+                        if (res.isConfirmed) {
+                        }
+                    });
               });
           })
-          .catch(() => alert("Usuário ou senha incorretos!"));
+          .catch(() => MySwal.fire({
+                      title: (
+                        <p>Usuário ou senha incorretos!</p>
+                      ),
+                      confirmButtonText: "OK",
+                    }));
       })
-      .catch(() => alert("Falha ao cadastrar usuário"));
+      .catch(() => MySwal.fire({
+                      title: (
+                        <p>Falha ao cadastrar usuário.</p>
+                      ),
+                      confirmButtonText: "OK",
+                    }));
   }
 
   const forms = [
