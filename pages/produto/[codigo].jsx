@@ -1,12 +1,14 @@
 import { NextSeo } from "next-seo";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getLoading, getProduct } from "../../store/selectors/products";
+import { getLoading } from "../../store/selectors/products";
 import {
   clearProduct,
   openProduct,
   setLoading,
 } from "../../store/actions/products";
+
+import { stripHtml } from '../../helpers'
 
 import FadeLoader from "react-spinners/FadeLoader";
 import api from "../../services/api";
@@ -28,13 +30,9 @@ const DetailsProduct = ({ product }) => {
     <>
       <NextSeo
         title={`${product.description} - Lifestyle Floripa by Billabong`}
-        description={function stripHtml() {
-             let tmp = document.createElement("DIV");
-             tmp.innerHTML = product.short_description;
-             return tmp.textContent || tmp.innerText || "";
-        }}
+        description={product.variations.length > 0 ? stripHtml(product.variations[0].short_description) : product.description}
       />
-      
+
       <div className="page">
         {loading || product.length == 0 ? (
           <div className="details-wrapper">
@@ -59,7 +57,24 @@ const DetailsProduct = ({ product }) => {
 
 export default DetailsProduct;
 
-export const getServerSideProps = async (ctx) => {
+export const getStaticPaths = async () => {
+  const res = await api.get("/products?all=true");
+
+  const prodMasculino = res.data.map((p) => {
+    return {
+      params: {
+        codigo: p.code,
+      },
+    };
+  });
+
+  return {
+    paths: prodMasculino,
+    fallback: "blocking",
+  };
+};
+
+export const getStaticProps = async (ctx) => {
   const { codigo } = ctx.params;
   const res = await api.get(`/products/${codigo}`);
 
@@ -67,5 +82,6 @@ export const getServerSideProps = async (ctx) => {
 
   return {
     props: { product },
+    revalidate: 43200, // 12h
   };
 };

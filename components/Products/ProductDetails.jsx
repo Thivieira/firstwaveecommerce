@@ -84,7 +84,7 @@ const ProductDetails = ({ product }) => {
 
   const onSelectedSizeChange = (value) => {
     setSelectedSize(value);
-    console.log(value);
+    // console.log(value);
 
     const variacaoDisponivel = product.variations.filter((el) => {
       let sizes = el.description.split(";").slice(1, 2);

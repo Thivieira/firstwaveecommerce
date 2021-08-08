@@ -27,7 +27,7 @@ export default function handler(req, res) {
       access_token: process.env.ACCESS_TOKEN,
     });
 
-    console.log("GANGURNO", process.env.ACCESS_TOKEN);
+    // console.log("GANGURNO", process.env.ACCESS_TOKEN);
     //cart array
     const cart = req.body.cart;
     const address = req.body.address;
