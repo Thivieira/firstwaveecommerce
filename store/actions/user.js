@@ -7,3 +7,8 @@ export const saveAddress = (address) => ({
   type: "SAVE_ADDRESS",
   payload: address,
 });
+
+export const saveOrders = (orders) => ({
+  type: "SAVE_ORDERS",
+  payload: orders,
+});

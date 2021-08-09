@@ -9,10 +9,16 @@ import {
   Empty,
   Menu,
   Table,
+  Button,
 } from "antd";
+
 import api from "../../services/api";
 import { formatDate } from "../../date";
 import { formatToMoney } from "../../helpers";
+
+import { saveOrders } from "../../store/actions/user";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrders } from "../../store/selectors/user";
 
 const expandedRowRender = (order) => {
   const columns = [
@@ -64,19 +70,21 @@ const expandedRowRender = (order) => {
 };
 
 function Orders() {
-  const [orders, setOrders] = useState([]);
+  // const [orders, setOrders] = useState([]);
   const [activeOrder, setActiveOrder] = useState(null);
+  const orders = useSelector(getOrders);
+  const dispatch = useDispatch();
 
-  const getOrders = useCallback(async () => {
+  const getOrdersFromApi = useCallback(async () => {
     try {
       const res = await api.get("/orders");
-      setOrders(res.data);
+      dispatch(saveOrders(res.data));
     } catch (e) {}
-  }, [setOrders]);
+  }, [dispatch]);
 
   useEffect(() => {
-    getOrders();
-  }, [getOrders]);
+    getOrdersFromApi();
+  }, [getOrdersFromApi]);
 
   const columns = [
     { title: "Numero do Pedido", dataIndex: "external_id", key: "external_id" },
@@ -108,7 +116,7 @@ function Orders() {
       render: function render(text, record) {
         return (
           <span className="table-operation">
-            <a onClick={() => setActiveOrder(record.id)}>Abrir</a>
+            <a onClick={() => setActiveOrder(record)}>Abrir</a>
           </span>
         );
       },
@@ -116,44 +124,51 @@ function Orders() {
   ];
   if (activeOrder) {
     return (
-      <Row type="flex" justify="center" align="middle">
-        <Col span={24}>
-          <Card
-            cover={
-              <img
-                alt="example"
-                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-              />
-            }
-            actions={
-              [
-                // <Icon type="setting" key="setting" />,
-                // <Icon type="edit" key="edit" />,
-                // <Icon type="ellipsis" key="ellipsis" />,
-              ]
-            }
-          >
-            <Card.Meta
-              avatar={
-                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+      <>
+        <Row type="flex" justify="center" align="middle">
+          <Col span={24}>
+            <Card
+              cover={
+                <img
+                  alt="example"
+                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                />
               }
-              title="Card title"
-              description="This is the description"
-            />
-          </Card>
-          <Descriptions title="User Info">
-            <Descriptions.Item label="UserName">Zhou Maomao</Descriptions.Item>
-            <Descriptions.Item label="Telephone">1810000000</Descriptions.Item>
-            <Descriptions.Item label="Live">
-              Hangzhou, Zhejiang
-            </Descriptions.Item>
-            <Descriptions.Item label="Remark">empty</Descriptions.Item>
-            <Descriptions.Item label="Address">
-              No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
-            </Descriptions.Item>
-          </Descriptions>
-        </Col>
-      </Row>
+            >
+              <Card.Meta
+                avatar={
+                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                }
+                title="Card title"
+                description="This is the description"
+              />
+            </Card>
+            <Descriptions title="User Info">
+              <Descriptions.Item label="UserName"></Descriptions.Item>
+              <Descriptions.Item label="Telephone"></Descriptions.Item>
+              <Descriptions.Item label="Live"></Descriptions.Item>
+              <Descriptions.Item label="Remark"></Descriptions.Item>
+              <Descriptions.Item label="Address"></Descriptions.Item>
+            </Descriptions>
+          </Col>
+        </Row>
+        <Row>
+          <Col>{expandedRowRender(activeOrder)}</Col>
+        </Row>
+        <Row>
+          <Col>
+            <Button
+              type="primary"
+              onClick={() => {
+                setActiveOrder(null);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              Voltar
+            </Button>
+          </Col>
+        </Row>
+      </>
     );
   }
 
