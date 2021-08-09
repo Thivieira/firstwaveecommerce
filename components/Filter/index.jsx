@@ -57,6 +57,10 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     selectedBrand,
     selectedPriceMin,
     selectedPriceMax,
+    dispatch,
+    filtersSize,
+    filtersColor,
+    filtersBrand,
   ]);
 
   const addFilterApi = () => {
@@ -116,10 +120,14 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           name="marcas"
           components={animatedComponents}
           isMulti={true}
-          options={sizes.map((el) => ({
-            label: el,
-            value: el,
-          }))}
+          options={
+            sizes.length > 0
+              ? sizes.map((el) => ({
+                  label: el,
+                  value: el,
+                }))
+              : []
+          }
           value={defaultSelected("size")}
           classNamePrefix="select"
           onChange={setSelectedSize}
@@ -135,10 +143,14 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           name="marcas"
           components={animatedComponents}
           isMulti={true}
-          options={colors.map((el) => ({
-            label: el,
-            value: el,
-          }))}
+          options={
+            colors.length > 0
+              ? colors.map((el) => ({
+                  label: el,
+                  value: el,
+                }))
+              : []
+          }
           value={defaultSelected("color")}
           classNamePrefix="select"
           onChange={setSelectedColor}
@@ -154,10 +166,14 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           name="marcas"
           components={animatedComponents}
           isMulti={true}
-          options={brands.map((el) => ({
-            label: el,
-            value: el,
-          }))}
+          options={
+            brands.length > 0
+              ? brands.map((el) => ({
+                  label: el,
+                  value: el,
+                }))
+              : []
+          }
           value={defaultSelected("brand")}
           classNamePrefix="select"
           onChange={setSelectedBrand}

@@ -7,28 +7,34 @@ import {
   incrementFromCart,
   decrementFromCart,
 } from "../../store/actions/products";
-import { PlusOutlined, MinusOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import {
+  PlusOutlined,
+  MinusOutlined,
+  CloseCircleOutlined,
+} from "@ant-design/icons";
 
 function CartProduct({ product }) {
   const dispatch = useDispatch();
 
   const classes = ["shelf-item"];
 
-  const price =  `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`
-  const priceSale = `R$${parseFloat(product.variations[0].price).toFixed(2).replace(".", ",")}`
+  const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
+  const priceSale = `R$${parseFloat(product.variations[0].price)
+    .toFixed(2)
+    .replace(".", ",")}`;
 
   return (
     <>
       <div className={classes.join(" ")}>
-        <CloseCircleOutlined 
+        <CloseCircleOutlined
           onClick={() => dispatch(removeFromCart(product.codigoVariacao))}
-          className='removeCart'
+          className="removeCart"
         />
 
         <Thumb src={product.imagemVariacao} alt={product.description} />
 
         <div className="shelf-item__details">
-          <Link href={`/produto/${product.code}`}>
+          <Link href={`/produto/${product.code}`} passHref>
             <p className="title-cart">{product.description}</p>
           </Link>
 
@@ -40,7 +46,7 @@ function CartProduct({ product }) {
         </div>
 
         <div className="shelf-item__price">
-          {priceSale !== price ? <p>{priceSale}</p>: <p>{price}</p>}
+          {priceSale !== price ? <p>{priceSale}</p> : <p>{price}</p>}
           <div>
             <button
               className="change-product-button"

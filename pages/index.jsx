@@ -67,7 +67,7 @@ const Index = ({ prodMasc, prodOutlet }) => {
             priority
             className='image-landing'
           />
-          <Link href="/produtos/Feminino">
+          <Link href="/produtos/Feminino" passHref>
             <button type="button" className="btn-acess">
               FEMININO
               <RightCircleOutlined
@@ -86,7 +86,7 @@ const Index = ({ prodMasc, prodOutlet }) => {
             priority
             className='image-landing'
           />
-          <Link href="/produtos/Masculino">
+          <Link href="/produtos/Masculino" passHref>
             <button type="button" className="btn-infa">
               MASCULINO
               <RightCircleOutlined
@@ -112,7 +112,7 @@ const Index = ({ prodMasc, prodOutlet }) => {
             priority
             className='image-landing'
           />
-          <Link href="/produtos/Surf">
+          <Link href="/produtos/Surf" passHref>
             <button
               type="button"
               className="btn-acess"
@@ -135,7 +135,7 @@ const Index = ({ prodMasc, prodOutlet }) => {
             priority
             className='image-landing'
           />
-          <Link href="/produtos/Acessorio">
+          <Link href="/produtos/Acessorio" passHref>
             <button type="button" className="btn-infa">
               ACESSÓRIOS
               <RightCircleOutlined

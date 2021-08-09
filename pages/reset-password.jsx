@@ -34,9 +34,9 @@ function ResetPassword() {
 
   useEffect(() => {
     if (!router.query.token) {
-      //   router.push("/forgot-password");
+      router.push("/forgot-password");
     }
-  }, []);
+  }, [router]);
 
   const formik = useFormik({
     initialValues: {
@@ -81,7 +81,7 @@ function ResetPassword() {
           body: (
             <ul>
               {Object.keys(e.response.data.errors).map((error) => (
-                <li>{error}</li>
+                <li key={error}>{error}</li>
               ))}
             </ul>
           ),

@@ -57,8 +57,7 @@ function Form() {
           const token = res.data.access_token;
           localStorage.setItem("token", token);
 
-          api.defaults.headers.common["Authorization"] =
-            "Bearer " + token;
+          api.defaults.headers.common["Authorization"] = "Bearer " + token;
           resolve();
         })
         .catch(() => {
@@ -103,51 +102,53 @@ function Form() {
                 address: submitData.street,
               })
               .then(() => {
-                    MySwal.fire({
-                      title: (
-                        <p>Conta cadastrada com sucesso!</p>
-                      ),
-                      confirmButtonText: "OK",
-                    }).then((res) => {
-                        if (res.isConfirmed) {
-                          history.push("/");
-                        }
-                    });
+                MySwal.fire({
+                  title: <p>Conta cadastrada com sucesso!</p>,
+                  confirmButtonText: "OK",
+                }).then((res) => {
+                  if (res.isConfirmed) {
+                    history.push("/");
+                  }
+                });
               })
               .catch(() => {
                 MySwal.fire({
-                      title: (
-                        <p>Falha ao cadastrar endereço!</p>
-                      ),
-                      confirmButtonText: "OK",
-                    }).then((res) => {
-                        if (res.isConfirmed) {
-                        }
-                    });
+                  title: <p>Falha ao cadastrar endereço!</p>,
+                  confirmButtonText: "OK",
+                }).then((res) => {
+                  if (res.isConfirmed) {
+                  }
+                });
               });
           })
-          .catch(() => MySwal.fire({
-                      title: (
-                        <p>Usuário ou senha incorretos!</p>
-                      ),
-                      confirmButtonText: "OK",
-                    }));
+          .catch(() =>
+            MySwal.fire({
+              title: <p>Usuário ou senha incorretos!</p>,
+              confirmButtonText: "OK",
+            })
+          );
       })
-      .catch(() => MySwal.fire({
-                      title: (
-                        <p>Falha ao cadastrar usuário.</p>
-                      ),
-                      confirmButtonText: "OK",
-                    }));
+      .catch(() =>
+        MySwal.fire({
+          title: <p>Falha ao cadastrar usuário.</p>,
+          confirmButtonText: "OK",
+        })
+      );
   }
 
   const forms = [
-    <UserData data={collectedData} onSubmit={signUpUser} signup={true} />,
+    <UserData
+      data={collectedData}
+      onSubmit={signUpUser}
+      signup={true}
+      key="user-data"
+    />,
     <AddressData
       data={collectedData}
       onSubmit={signUpAddress}
       goBack={goBack}
       signup={true}
+      key="register-data"
     />,
   ];
 

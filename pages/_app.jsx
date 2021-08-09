@@ -1,18 +1,18 @@
 import Router from "next/router";
-import dynamic from 'next/dynamic'
-import Head from "next/head";
+import dynamic from "next/dynamic";
 import { Provider } from "react-redux";
 import { useStore } from "../store";
 import NProgress from "nprogress";
 import { CategoryContextProvider } from "../contexts/CategoryContext";
 
-const SiteLayout = dynamic(() => import('../layouts/SiteLayout'))
+const SiteLayout = dynamic(() => import("../layouts/SiteLayout"));
 
 import "../styles/global.css";
 import "../styles/Landing.css";
 import "../styles/table.css";
 import "../styles/editAccount.css";
 import "../styles/payment.css";
+import "../styles/nprogress.css";
 
 import "antd/dist/antd.css";
 import "slick-carousel/slick/slick.css";
@@ -42,7 +42,7 @@ import "../Utils/Container/container.css";
 import "../Utils/Title/title.css";
 import "../Utils/NumeratedTitle/numeratedTitle.css";
 import "../Utils/PaymentBox/paymentBox.css";
-import "../public/nprogress.css";
+
 import api from "../services/api";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -60,7 +60,7 @@ export default function App({ Component, pageProps }) {
     if (token) {
       api.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
-    
+
     api.interceptors.response.use(
       (response) => response,
       (error) => {
@@ -75,9 +75,6 @@ export default function App({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <Head>
-        <link rel="stylesheet" type="text/css" href="/nprogress.css" />
-      </Head>
       <CategoryContextProvider>
         {getLayout(<Component {...pageProps} />)}
       </CategoryContextProvider>

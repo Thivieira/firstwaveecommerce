@@ -14,14 +14,14 @@ export async function getServerSideProps(ctx) {
   return { props: { slug: ctx.params.slug } };
 }
 
-export default function index(props) {
+export default function Index(props) {
   const router = useRouter();
   const dispatch = useDispatch();
   const cart = useSelector(getCartState);
   const user = useSelector(getAccount);
   const address = useSelector(getAddress);
 
-  useEffect(async () => {
+  useEffect(() => {
     // const orderResult = await axios.post("/api/order", {
     //   cart,
     //   user: { ...user, ...address },
@@ -35,7 +35,7 @@ export default function index(props) {
         dispatch(clearCart());
         break;
     }
-  }, []);
+  }, [dispatch, props.slug]);
 
   const renderStatus = () => {
     switch (props.slug) {

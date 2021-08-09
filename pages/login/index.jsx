@@ -14,7 +14,8 @@ import InputContainer from "../../Utils/InputContainer";
 import ButtonsContainer from "../../Utils/ButtonsContainer";
 import { useDispatch } from "react-redux";
 import { saveAccount } from "../../store/actions/user";
-import useToken from '../../contexts/TokenStorage'
+import useToken from "../../contexts/TokenStorage";
+import Link from "next/link";
 
 function Login() {
   const router = useRouter();
@@ -23,14 +24,13 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const [token,setToken] = useToken();
+  const [token, setToken] = useToken();
 
   useEffect(() => {
     if (token) {
       router.push("/dashboard");
     }
-  }, [token]);
-  
+  }, [token, router]);
 
   const MySwal = withReactContent(Swal);
 
@@ -123,7 +123,8 @@ function Login() {
           </ButtonsContainer>
           <div className="forget-password">
             <p>
-              Esqueceu sua senha?<a href="/forgot-password">Clique aqui</a>
+              Esqueceu sua senha?{" "}
+              <Link href="/forgot-password">Clique aqui</Link>
             </p>
           </div>
         </InputContainer>

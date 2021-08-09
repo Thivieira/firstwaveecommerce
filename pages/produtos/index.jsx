@@ -5,10 +5,8 @@ import FadeLoader from "react-spinners/FadeLoader";
 import ReactPaginate from "react-paginate";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Drawer, Button, Alert } from "antd";
+import { Drawer, Button } from "antd";
 import { FilterOutlined } from "@ant-design/icons";
-import { Menu, Dropdown } from "antd";
-import { DownOutlined } from "@ant-design/icons";
 
 import Breadcrumb from "../../components/Breadcrumb";
 import Filter from "../../components/Filter";
@@ -34,7 +32,7 @@ import NoProductsAlert from "../../components/NoProductsAlert";
 import { removeIdDuplicate } from "../../helpers";
 import FilterSort from "../../components/FilterSort";
 
-export default function index() {
+export default function Index() {
   const { getCategory, setCategory } = useContext(CategoryContext);
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
@@ -64,7 +62,7 @@ export default function index() {
 
   useEffect(() => {
     width < 1280 ? setShowFilter(false) : setShowFilter(true);
-  });
+  }, [setShowFilter, width]);
 
   const changePage = ({ selected }) => {
     setCurrentPage(selected);
@@ -82,23 +80,28 @@ export default function index() {
     return () => {
       router.events.off("routeChangeStart", handleRouteChange);
     };
-  }, [router]);
+  }, [router, dispatch]);
 
   const paginationRedux = useSelector(getPaginationData);
 
-  useEffect(async () => {
+  useEffect(() => {
+    async function getData(url) {
+      const res = await api.get(url);
+      return res;
+    }
+
     let sizeData;
     let brandData;
     let colorData;
 
     if (getCategory.category && getCategory.subcategory && getCategory.type) {
-      sizeData = await api.get(
+      sizeData = getData(
         `/products/sizes?category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`
       );
-      brandData = await api.get(
+      brandData = getData(
         `/products/brands?category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`
       );
-      colorData = await api.get(
+      colorData = getData(
         `/products/colors?category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`
       );
     } else if (
@@ -106,50 +109,35 @@ export default function index() {
       getCategory.subcategory &&
       !getCategory.type
     ) {
-      sizeData = await api.get(
+      sizeData = getData(
         `/products/sizes?category=${getCategory.category}&subcategory=${getCategory.subcategory}`
       );
-      brandData = await api.get(
+      brandData = getData(
         `/products/brands?category=${getCategory.category}&subcategory=${getCategory.subcategory}`
       );
-      colorData = await api.get(
+      colorData = getData(
         `/products/colors?category=${getCategory.category}&subcategory=${getCategory.subcategory}`
       );
+    } else if (
+      getCategory.category &&
+      !getCategory.subcategory &&
+      !getCategory.type
+    ) {
+      sizeData = getData(`/products/sizes?category=${getCategory.category}`);
+      brandData = getData(`/products/brands?category=${getCategory.category}`);
+      colorData = getData(`/products/colors?category=${getCategory.category}`);
     } else {
-      sizeData = await api.get(
-        `/products/sizes?category=${getCategory.category}`
-      );
-      brandData = await api.get(
-        `/products/brands?category=${getCategory.category}`
-      );
-      colorData = await api.get(
-        `/products/colors?category=${getCategory.category}`
-      );
+      sizeData = getData(`/products/sizes`);
+      brandData = getData(`/products/brands`);
+      colorData = getData(`/products/colors`);
     }
 
     setSizes(sizeData.data);
     setBrands(brandData.data);
     setColors(colorData.data);
-  }, []);
+  }, [getCategory.category, getCategory.subcategory, getCategory.type]);
 
   useEffect(() => setCurrentPage(0), [q]);
-
-  // useEffect(async () => {
-  //   let apiSearch = !q
-  //     ? q
-  //     : q.includes("s" || "S", q.length - 1)
-  //     ? q.slice(0, -1)
-  //     : q;
-  //   let page = currentPage + 1;
-  //   dispatch(setLoading(true));
-  //   // dispatch(clearProducts());
-  //   const { data } = await api(`/products?search=${apiSearch}&page=${page}`);
-  //   dispatch(setProducts(data.data));
-  //   dispatch(setLoading(false));
-  //   dispatch(
-  //     setPaginationProducts(data.last_page, page, data.per_page, data.total)
-  //   );
-  // }, [currentPage, q]);
 
   useEffect(() => {
     let apiSearch = !q
@@ -185,7 +173,15 @@ export default function index() {
         setPaginationProducts(data.last_page, page, data.per_page, data.total)
       );
     });
-  }, [filterUrl, currentPage, q]);
+  }, [
+    filterUrl,
+    currentPage,
+    q,
+    dispatch,
+    getCategory.category,
+    getCategory.subcategory,
+    getCategory.type,
+  ]);
 
   const handleChangeSort = (item) => {
     let sortValue = item.props.value;

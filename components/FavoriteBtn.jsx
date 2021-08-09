@@ -16,7 +16,7 @@ import {
 import { getFavoritesProd } from "../store/selectors/products";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import useToken from '../contexts/TokenStorage'
+import useToken from "../contexts/TokenStorage";
 
 export default function FavoriteBtn({ product }) {
   const router = useRouter();
@@ -31,7 +31,7 @@ export default function FavoriteBtn({ product }) {
       api.defaults.headers.common["Authorization"] = "Bearer " + token;
       setToken(token);
     }
-  }, [token]);
+  }, [setToken, token]);
 
   const MySwal = withReactContent(Swal);
   const [favorite, setFavoriteState] = useState(product.favorite);
@@ -41,7 +41,7 @@ export default function FavoriteBtn({ product }) {
       (favorite) => product.id === favorite.product.id
     )[0];
     setFavoriteState(isFavorite);
-  }, [productsFavorites]);
+  }, [product.id, productsFavorites]);
 
   const toggleFavorites = async () => {
     let existingProductInFavorites = productsFavorites.filter(

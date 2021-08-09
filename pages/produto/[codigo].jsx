@@ -8,7 +8,7 @@ import {
   setLoading,
 } from "../../store/actions/products";
 
-import { stripHtml } from '../../helpers'
+import { stripHtml } from "../../helpers";
 
 import FadeLoader from "react-spinners/FadeLoader";
 import api from "../../services/api";
@@ -22,7 +22,7 @@ const DetailsProduct = ({ product }) => {
     dispatch(clearProduct());
     dispatch(setLoading(false));
     dispatch(openProduct(product));
-  }, [product.code]);
+  }, [product, dispatch]);
 
   const loading = useSelector(getLoading);
 
@@ -30,7 +30,11 @@ const DetailsProduct = ({ product }) => {
     <>
       <NextSeo
         title={`${product.description} - Lifestyle Floripa by Billabong`}
-        description={product.variations.length > 0 ? stripHtml(product.variations[0].short_description) : product.description}
+        description={
+          product.variations.length > 0
+            ? stripHtml(product.variations[0].short_description)
+            : product.description
+        }
       />
 
       <div className="page">

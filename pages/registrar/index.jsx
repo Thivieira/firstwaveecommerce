@@ -16,7 +16,7 @@ import withReactContent from "sweetalert2-react-content";
 import { NextSeo } from "next-seo";
 import { saveAccount } from "../../store/actions/user";
 import { useDispatch } from "react-redux";
-import useToken from '../../contexts/TokenStorage'
+import useToken from "../../contexts/TokenStorage";
 
 function Form() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -43,13 +43,13 @@ function Form() {
 
   const goBack = () => setCurrentStep(currentStep - 1);
 
-  const [token,setToken] = useToken();
+  const [token, setToken] = useToken();
 
   useEffect(() => {
     if (token) {
       router.push("/dashboard");
     }
-  }, [token]);
+  }, [router, token]);
 
   async function signUpUser({
     name,
@@ -82,8 +82,7 @@ function Form() {
         .then((res) => {
           const token = res.data.access_token;
           setToken(token);
-          api.defaults.headers.common["Authorization"] =
-            "Bearer " + token;
+          api.defaults.headers.common["Authorization"] = "Bearer " + token;
           resolve();
         })
         .catch(() => {
@@ -157,12 +156,18 @@ function Form() {
   }
 
   const forms = [
-    <UserData data={collectedData} onSubmit={signUpUser} signup={true} />,
+    <UserData
+      data={collectedData}
+      onSubmit={signUpUser}
+      key="user-data"
+      signup={true}
+    />,
     <AddressData
       data={collectedData}
       onSubmit={signUpAddress}
       goBack={goBack}
       signup={true}
+      key="register-data"
     />,
   ];
 

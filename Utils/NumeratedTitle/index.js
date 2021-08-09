@@ -6,7 +6,7 @@ function NumeratedTitle({title}) {
     return (
         <div className='numerated-title-container'>
 
-            <h3 className='numerated-title-title'>{title}</h3>
+            <h2 className='numerated-title-title'>{title}</h2>
         </div>
     )
 }

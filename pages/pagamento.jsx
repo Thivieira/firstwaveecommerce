@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TextField } from "@material-ui/core";
 
@@ -14,14 +14,19 @@ import { useRouter } from "next/router";
 import { getAccount } from "../store/selectors/user";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import useToken from '../contexts/TokenStorage'
+import useToken from "../contexts/TokenStorage";
 
 function Payment() {
   const router = useRouter();
   const cart = useSelector(getCartState);
   const cartTotal = useSelector(getCartTotal);
 
-  const [personalData, setPersonalData] = useState([]);
+  const [personalData, setPersonalData] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    cpf: "",
+  });
 
   const [edit, setEdit] = useState(false);
   const [street, setStreet] = useState("");
@@ -38,7 +43,7 @@ function Payment() {
 
   const [token, setToken] = useToken();
 
-  async function getUserData() {
+  const getUserData = useCallback(() => {
     api
       .get("/auth/me")
       .then((res) => {
@@ -52,47 +57,9 @@ function Payment() {
         );
       })
       .catch((e) => {});
-  }
+  }, [dispatch]);
 
-  useEffect(() => {
-    if (token) {
-      api.defaults.headers.common["Authorization"] = "Bearer " + token;
-      setToken(token);
-    }
-  }, [token]);
-  
-  useEffect(() => getUserData(), [token]);
-
-  useEffect(() => {
-    getUserData();
-    getAddressData();
-  }, [edit]);
-
-  async function getUserData() {
-    await api
-      .get("/auth/me")
-      .then((res) => {
-        setPersonalData(res.data);
-        dispatch(
-          saveAccount({
-            cpf: res.data.cpf,
-            email: res.data.email,
-            name: res.data.name,
-            phone: res.data.mobile,
-          })
-        );
-      })
-      .catch(() => {
-        /*
-        MySwal.fire({
-          title: <p>Não foi possível pegar os dados!</p>,
-          confirmButtonText: "OK",
-        });
-        */
-      });
-  }
-
-  async function getAddressData() {
+  const getAddressData = useCallback(() => {
     api
       .get("/auth/address")
       .then((res) => {
@@ -115,15 +82,21 @@ function Payment() {
           })
         );
       })
-      .catch(() => {
-        /*
-        MySwal.fire({
-          title: <p>Falha ao obter dados de endereço!</p>,
-          confirmButtonText: "OK",
-        });
-        */
-      });
-  }
+      .catch(() => {});
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (token) {
+      api.defaults.headers.common["Authorization"] = "Bearer " + token;
+      setToken(token);
+      getUserData();
+    }
+  }, [token, setToken, getUserData]);
+
+  useEffect(() => {
+    getUserData();
+    getAddressData();
+  }, [edit, getUserData, getAddressData]);
 
   async function handleEditAddress() {
     if (edit) {
@@ -157,23 +130,17 @@ function Payment() {
   useEffect(() => {
     if (cart.length == 0 || !token) {
       router.push("/");
-      return null;
     }
-  }, [cart, token]);
+  }, [cart, token, router]);
 
   if (cart.length == 0 || !token) {
-    return null;
-  }
-
-  return (
-    <div className="payment-container">
-      <div className="payment-top-container">
-        <div className="column">
-          <NumeratedTitled title="Dados Pessoais" />
-          <PaymentBox type={3}>
-            <form>
+    return (
+      <div className="payment-container">
+        <div className="payment-top-container">
+          <div className="column">
+            <NumeratedTitled title="Dados Pessoais" />
+            <PaymentBox type={3}>
               <TextField
-                value={personalData.name}
                 id="name"
                 label="Nome Completo"
                 variant="filled"
@@ -186,7 +153,6 @@ function Payment() {
                 fullWidth
               />
               <TextField
-                value={personalData.email}
                 id="email"
                 label="Email"
                 variant="filled"
@@ -199,7 +165,6 @@ function Payment() {
                 fullWidth
               />
               <TextField
-                value={personalData.mobile}
                 id="telefone"
                 label="Telefone"
                 variant="filled"
@@ -212,7 +177,6 @@ function Payment() {
                 fullWidth
               />
               <TextField
-                value={personalData.cpf}
                 id="cpf"
                 label="Cpf"
                 variant="filled"
@@ -224,13 +188,11 @@ function Payment() {
                 }}
                 fullWidth
               />
-            </form>
-          </PaymentBox>
-        </div>
-        <div className="column">
-          <NumeratedTitled title="Endereço de entrega" />
-          <PaymentBox type={1} onClick={handleEditAddress}>
-            <form>
+            </PaymentBox>
+          </div>
+          <div className="column">
+            <NumeratedTitled title="Endereço de entrega" />
+            <PaymentBox type={1} onClick={handleEditAddress}>
               <TextField
                 value={street}
                 onChange={(e) => setStreet(e.target.value)}
@@ -335,7 +297,193 @@ function Payment() {
                 }}
                 fullWidth
               />
-            </form>
+            </PaymentBox>
+          </div>
+          <div className="column">
+            <NumeratedTitled title="Seu pedido" />
+            <div className="cart-payment-container">
+              <div className="cart-payment"></div>
+              <div className="sub-price">
+                <p className="sub-price__val"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="payment-bottom-container">
+          <NumeratedTitled title="Pagamento" />
+          <div className="payment-data"></div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="payment-container">
+      <div className="payment-top-container">
+        <div className="column">
+          <NumeratedTitled title="Dados Pessoais" />
+          <PaymentBox type={3}>
+            <TextField
+              value={personalData.name}
+              id="name"
+              label="Nome Completo"
+              variant="filled"
+              margin="normal"
+              className="white-background"
+              size="small"
+              InputProps={{
+                readOnly: !edit,
+              }}
+              fullWidth
+            />
+            <TextField
+              value={personalData.email}
+              id="email"
+              label="Email"
+              variant="filled"
+              margin="normal"
+              className="white-background"
+              size="small"
+              InputProps={{
+                readOnly: !edit,
+              }}
+              fullWidth
+            />
+            <TextField
+              value={personalData.mobile}
+              id="telefone"
+              label="Telefone"
+              variant="filled"
+              margin="normal"
+              className="white-background"
+              size="small"
+              InputProps={{
+                readOnly: !edit,
+              }}
+              fullWidth
+            />
+            <TextField
+              value={personalData.cpf}
+              id="cpf"
+              label="Cpf"
+              variant="filled"
+              margin="normal"
+              className="white-background"
+              size="small"
+              InputProps={{
+                readOnly: !edit,
+              }}
+              fullWidth
+            />
+          </PaymentBox>
+        </div>
+        <div className="column">
+          <NumeratedTitled title="Endereço de entrega" />
+          <PaymentBox type={1} onClick={handleEditAddress}>
+            <TextField
+              value={street}
+              onChange={(e) => setStreet(e.target.value)}
+              id="street"
+              label="Rua"
+              variant="filled"
+              margin="normal"
+              className="white-background"
+              size="small"
+              InputProps={{
+                readOnly: !edit,
+              }}
+              fullWidth
+            />
+            <div className="line-input">
+              <div className="first-line-input">
+                <TextField
+                  value={number}
+                  onChange={(e) => setNumber(e.target.value)}
+                  id="number"
+                  label="Número"
+                  variant="filled"
+                  margin="normal"
+                  className="white-background"
+                  size="small"
+                  InputProps={{
+                    readOnly: !edit,
+                  }}
+                />
+              </div>
+              <TextField
+                value={complement}
+                onChange={(e) => setComplement(e.target.value)}
+                id="complement"
+                label="Complemento"
+                variant="filled"
+                margin="normal"
+                className="white-background"
+                size="small"
+                InputProps={{
+                  readOnly: !edit,
+                }}
+                fullWidth
+              />
+            </div>
+            <TextField
+              value={cep}
+              onChange={(e) => setCep(e.target.value)}
+              id="cep"
+              label="CEP"
+              variant="filled"
+              margin="normal"
+              className="white-background"
+              size="small"
+              InputProps={{
+                readOnly: !edit,
+              }}
+              fullWidth
+            />
+            <div className="line-input">
+              <div className="first-line-input">
+                <TextField
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                  id="state"
+                  label="Estado"
+                  variant="filled"
+                  margin="normal"
+                  className="white-background"
+                  size="small"
+                  InputProps={{
+                    readOnly: !edit,
+                  }}
+                />
+              </div>
+              <TextField
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                id="city"
+                label="Cidade"
+                variant="filled"
+                margin="normal"
+                className="white-background"
+                size="small"
+                InputProps={{
+                  readOnly: !edit,
+                }}
+                fullWidth
+              />
+            </div>
+            <TextField
+              value={neighborhood}
+              onChange={(e) => setNeighborhood(e.target.value)}
+              id="neighborhood"
+              label="Bairro"
+              variant="filled"
+              margin="normal"
+              className="white-background"
+              size="small"
+              InputProps={{
+                readOnly: !edit,
+              }}
+              fullWidth
+            />
           </PaymentBox>
         </div>
         <div className="column">
@@ -351,6 +499,7 @@ function Payment() {
                     <img
                       className="thumb-cart-pay"
                       src={product.imagemVariacao}
+                      alt={product.description}
                     />
                     <div className="desc">
                       <NavLink href={`/produto/${product.code}`}>

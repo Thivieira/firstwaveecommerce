@@ -2,7 +2,9 @@ module.exports = {
   images: {
     domains: ["orgbling.s3.amazonaws.com"],
   },
-  env: {
-    PUBLIC_KEY: "TEST-d7175695-a273-411f-aef9-2796b92731c2",
+  eslint: {
+    // Warning: Dangerously allow production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
   },
 };

@@ -29,7 +29,10 @@
 
 @media (max-width: 576px) {
   .payment-container {
-    padding: 0px;
+    /* padding: 0px; */
+    padding: 0rem;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
   }
 
   .payment-top-container {
@@ -155,6 +158,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .pure-material-button-contained {
@@ -163,9 +167,9 @@
   box-sizing: border-box;
   border: none;
   border-radius: 4px;
-  padding: 0 16px;
-  min-width: 64px;
-  height: 36px;
+  padding: 3px 30px;
+  /* min-width: 80px;
+  height: 36px; */
   vertical-align: middle;
   text-align: center;
   text-overflow: ellipsis;
@@ -182,7 +186,7 @@
     system-ui,
     -apple-system
   );
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 500;
   line-height: 36px;
   overflow: hidden;

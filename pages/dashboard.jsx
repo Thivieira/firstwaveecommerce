@@ -35,12 +35,12 @@ function Dashboard() {
     } else {
         router.replace("/");
     }
-  }, [token]);
+  }, [token, router]);
 
   useEffect(() => {
     getUserData();
     getAdressData();
-  }, []);
+  });
 
   async function getUserData() {
     try {
@@ -217,7 +217,7 @@ function Dashboard() {
             </Button>
           </li>
           <li>
-            <Link href="/">
+            <Link href="/" passHref>
               <Button color="primary">Voltar</Button>
             </Link>
           </li>

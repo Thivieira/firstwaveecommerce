@@ -34,7 +34,7 @@ import {
 import { removeIdDuplicate } from "../../helpers";
 import FilterSort from "../../components/FilterSort";
 
-export default function products({
+export default function Products({
   prod,
   total,
   totalPages,
@@ -74,7 +74,7 @@ export default function products({
 
   useEffect(() => {
     width < 1280 ? setShowFilter(false) : setShowFilter(true);
-  });
+  }, [setShowFilter, width]);
 
   const changePage = ({ selected }) => {
     setCurrentPage(selected);
@@ -91,14 +91,14 @@ export default function products({
     return () => {
       router.events.off("routeChangeStart", handleRouteChange);
     };
-  }, [router]);
+  }, [router, dispatch]);
 
   const paginationRedux = useSelector(getPaginationData);
 
   useEffect(() => {
     let page = currentPage + 1;
     dispatch(setPaginationProducts(totalPages, page, per_page, theTotal));
-  }, []);
+  }, [dispatch, currentPage, per_page, theTotal, totalPages]);
 
   useEffect(() => {
     let page = currentPage + 1;
@@ -108,7 +108,19 @@ export default function products({
     dispatch(setProducts(prod));
     setCategory({ category: category, subcategory: subcategory, type: type });
     dispatch(setPaginationProducts(totalPages, page, per_page, total));
-  }, [dispatch, category, subcategory, type]);
+  }, [
+    currentPage,
+    setCurrentPage,
+    dispatch,
+    prod,
+    setCategory,
+    category,
+    subcategory,
+    type,
+    totalPages,
+    per_page,
+    total,
+  ]);
 
   useEffect(() => {
     let page = currentPage + 1;
@@ -135,7 +147,17 @@ export default function products({
         setPaginationProducts(data.last_page, page, data.per_page, data.total)
       );
     });
-  }, [filterUrl, currentPage]);
+  }, [
+    dispatch,
+    filterUrl,
+    currentPage,
+    category,
+    subcategory,
+    type,
+    totalPages,
+    per_page,
+    total,
+  ]);
 
   const handleChangeSort = (item) => {
     let sortValue = item.props.value;
@@ -350,9 +372,9 @@ export async function getStaticProps(ctx) {
   let totalPages;
   let per_page;
 
-  let sizeData;
-  let brandData;
-  let colorData;
+  let sizeDataUrl;
+  let brandDataUrl;
+  let colorDataUrl;
   let sizes;
   let brands;
   let colors;
@@ -376,30 +398,22 @@ export async function getStaticProps(ctx) {
   per_page = res.data.per_page;
 
   if (category && subcategory && type) {
-    sizeData = await api.get(
-      `/products/sizes?category=${category}&subcategory=${subcategory}&type=${type}`
-    );
-    brandData = await api.get(
-      `/products/brands?category=${category}&subcategory=${subcategory}&type=${type}`
-    );
-    colorData = await api.get(
-      `/products/colors?category=${category}&subcategory=${subcategory}&type=${type}`
-    );
+    sizeDataUrl = `/products/sizes?category=${category}&subcategory=${subcategory}&type=${type}`;
+    brandDataUrl = `/products/brands?category=${category}&subcategory=${subcategory}&type=${type}`;
+    colorDataUrl = `/products/colors?category=${category}&subcategory=${subcategory}&type=${type}`;
   } else if (category && subcategory && !type) {
-    sizeData = await api.get(
-      `/products/sizes?category=${category}&subcategory=${subcategory}`
-    );
-    brandData = await api.get(
-      `/products/brands?category=${category}&subcategory=${subcategory}`
-    );
-    colorData = await api.get(
-      `/products/colors?category=${category}&subcategory=${subcategory}`
-    );
+    sizeDataUrl = `/products/sizes?category=${category}&subcategory=${subcategory}`;
+    brandDataUrl = `/products/brands?category=${category}&subcategory=${subcategory}`;
+    colorDataUrl = `/products/colors?category=${category}&subcategory=${subcategory}`;
   } else {
-    sizeData = await api.get(`/products/sizes?category=${category}`);
-    brandData = await api.get(`/products/brands?category=${category}`);
-    colorData = await api.get(`/products/colors?category=${category}`);
+    sizeDataUrl = `/products/sizes?category=${category}`;
+    brandDataUrl = `/products/brands?category=${category}`;
+    colorDataUrl = `/products/colors?category=${category}`;
   }
+
+  const sizeData = await api.get(sizeDataUrl);
+  const brandData = await api.get(brandDataUrl);
+  const colorData = await api.get(colorDataUrl);
 
   sizes = sizeData.data;
   brands = brandData.data;

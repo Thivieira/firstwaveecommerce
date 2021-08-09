@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start -p $PORT",
     "export": "next build && next export",
-    "start-local": "next start"
+    "start-local": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
@@ -53,6 +54,9 @@
   "license": "MIT",
   "devDependencies": {
     "babel-plugin-inline-react-svg": "^2.0.1",
+    "eslint": "^7.32.0",
+    "eslint-config-next": "^11.0.1",
+    "eslint-config-prettier": "^8.3.0",
     "next-sitemap": "^1.6.140"
   },
   "engines": {

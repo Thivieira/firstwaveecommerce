@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import useCart from "../../contexts/CartStorage";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import useToken from '../../contexts/TokenStorage';
+import useToken from "../../contexts/TokenStorage";
 
 function FloatCart() {
   const dispatch = useDispatch();
@@ -48,39 +48,34 @@ function FloatCart() {
   useEffect(() => {
     // dispatch(updateCart(cartStorage));
     setCartStorage({ cart: productsCart, total: totalCart });
-  }, [productsCart]);
+  }, [productsCart, setCartStorage, totalCart]);
 
   useEffect(() => {
     dispatch(updateCart(cartStorage));
-  }, []);
+  }, [cartStorage, dispatch]);
 
   const noAuthorized = () => {
     closeFloatCart();
     MySwal.fire({
-      title: (
-        <p>Faça login ou cadastre-se antes de finalizar no carrinho</p>
-      ),
+      title: <p>Faça login ou cadastre-se antes de finalizar no carrinho</p>,
       confirmButtonText: "OK",
     }).then((res) => {
-        if (res.isConfirmed) {
-          router.push("/login");
-        }
-      });
+      if (res.isConfirmed) {
+        router.push("/login");
+      }
+    });
   };
 
   const authorizedCart = () => {
     closeFloatCart();
-    if(total === 0){
+    if (total === 0) {
       MySwal.fire({
-        title: (
-          <p>Carrinho está vazio!</p>
-        ),
+        title: <p>Carrinho está vazio!</p>,
         confirmButtonText: "OK",
       });
-      
     } else {
       router.push("/pagamento");
-    }    
+    }
   };
 
   const cart = productsCart.map((p) => {
@@ -150,14 +145,14 @@ function FloatCart() {
                 )}
               </small>
             </div>
-              <div
-                className="buy-btn"
-                onClick={token ? authorizedCart : noAuthorized}
-                style={{ cursor: "pointer" }}
-                title="Finalizar"
-              >
-                <span className="logado">FINALIZAR</span>
-              </div>
+            <div
+              className="buy-btn"
+              onClick={token ? authorizedCart : noAuthorized}
+              style={{ cursor: "pointer" }}
+              title="Finalizar"
+            >
+              <span className="logado">FINALIZAR</span>
+            </div>
           </div>
         </div>
       </div>
