@@ -17,6 +17,7 @@
     "@next/bundle-analyzer": "^11.0.1",
     "antd": "^4.16.8",
     "axios": "^0.21.1",
+    "dayjs": "^1.10.6",
     "firebase": "^8.8.0",
     "formik": "^2.2.9",
     "jquery": "^3.6.0",

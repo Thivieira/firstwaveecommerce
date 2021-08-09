@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import api from "../services/api";
@@ -6,15 +6,15 @@ import { Button } from "@material-ui/core";
 
 import UserData from "../components/Form/UserData";
 import AddressData from "../components/Form/AddressData";
-import TableOrdered from "../components/dashboard/TableOrdered";
+import Orders from "../components/dashboard/Orders";
 import Favorites from "../components/dashboard/Favorites";
 import Title from "../components/Utils/Title";
 import { getAccount } from "../store/selectors/user";
-import { saveAddress } from "../store/actions/user";
+import { saveAccount, saveAddress } from "../store/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import useToken from '../contexts/TokenStorage'
+import useToken from "../contexts/TokenStorage";
 
 function Dashboard() {
   const [formOption, setFormOption] = useState(1);
@@ -26,23 +26,20 @@ function Dashboard() {
   const user = useSelector(getAccount);
   const MySwal = withReactContent(Swal);
 
-
   const [token, setToken] = useToken();
 
   useEffect(() => {
     if (token) {
       api.defaults.headers.common["Authorization"] = "Bearer " + token;
     } else {
-        router.replace("/");
+      localStorage.clear();
+      dispatch(saveAccount({}));
+      dispatch(saveAddress({}));
+      router.replace("/");
     }
-  }, [token, router]);
+  }, [token, router, dispatch]);
 
-  useEffect(() => {
-    getUserData();
-    getAdressData();
-  });
-
-  async function getUserData() {
+  const getUserData = useCallback(async () => {
     try {
       const res = await api.get("/auth/me");
       setPersonalData({
@@ -60,9 +57,9 @@ function Dashboard() {
         })
       );
     } catch (e) {}
-  }
+  }, [setPersonalData, dispatch]);
 
-  async function getAdressData() {
+  const getAdressData = useCallback(async () => {
     try {
       const res = await api.get("auth/address");
       setAddressData({
@@ -86,72 +83,67 @@ function Dashboard() {
         })
       );
     } catch (e) {}
-  }
+  }, [setAddressData, dispatch]);
 
-  async function updateUser({ name, password, email, phone, cpf }) {
-    if (password) {
-      setJson({
-        email: email,
-        name: name,
-        password: password,
-        mobile: phone,
-        cpf,
-      });
-    } else {
-      setJson({ email: email, name: name, mobile: phone, cpf });
-    }
-    try {
-      const res = await api.post("/auth/me", json);
-      MySwal.fire({
-          title: (
-            <p>Usuário editado com sucesso!</p>
-          ),
+  const updateUser = useCallback(
+    async ({ name, password, email, phone, cpf }) => {
+      if (password) {
+        setJson({
+          email: email,
+          name: name,
+          password: password,
+          mobile: phone,
+          cpf,
+        });
+      } else {
+        setJson({ email: email, name: name, mobile: phone, cpf });
+      }
+      try {
+        const res = await api.post("/auth/me", json);
+        MySwal.fire({
+          title: <p>Usuário editado com sucesso!</p>,
           confirmButtonText: "OK",
-      });
-    } catch (e) {
-      MySwal.fire({
-          title: (
-            <p>Falha ao editar usuário!</p>
-          ),
+        });
+      } catch (e) {
+        MySwal.fire({
+          title: <p>Falha ao editar usuário!</p>,
           confirmButtonText: "OK",
-      });
-    }
-  }
+        });
+      }
+    },
+    [json, MySwal]
+  );
 
-  async function updateAddress({
-    cep,
-    street,
-    number,
-    complement,
-    neighborhood,
-    city,
-    state,
-  }) {
-    try {
-      const res = await api.post("/auth/address", {
-        province: neighborhood,
-        postalCode: cep,
-        city,
-        complement,
-        uf: state,
-        addressNumber: number,
-        address: street,
-      });
-      MySwal.fire({
-        title: (
-          <p>Endereço editado com sucesso!</p>
-        ),
-        confirmButtonText: "OK",
-      });
-    } catch (e) {
-      MySwal.fire({
-        title: (
-          <p>Falha ao editar endereço!</p>
-        ),
-        confirmButtonText: "OK",
-      });
-    }
-  }
+  const updateAddress = useCallback(
+    async ({ cep, street, number, complement, neighborhood, city, state }) => {
+      try {
+        const res = await api.post("/auth/address", {
+          province: neighborhood,
+          postalCode: cep,
+          city,
+          complement,
+          uf: state,
+          addressNumber: number,
+          address: street,
+        });
+        MySwal.fire({
+          title: <p>Endereço editado com sucesso!</p>,
+          confirmButtonText: "OK",
+        });
+      } catch (e) {
+        MySwal.fire({
+          title: <p>Falha ao editar endereço!</p>,
+          confirmButtonText: "OK",
+        });
+      }
+    },
+    [MySwal]
+  );
+
+  useEffect(() => {
+    getUserData();
+    getAdressData();
+  }, [getUserData, getAdressData]);
 
   function pageTitle() {
     switch (formOption) {
@@ -171,7 +163,7 @@ function Dashboard() {
   function switchFormOption() {
     switch (formOption) {
       case 1:
-        return <TableOrdered />;
+        return <Orders />;
       case 2:
         return (
           <UserData onSubmit={updateUser} data={personalData} signup={false} />

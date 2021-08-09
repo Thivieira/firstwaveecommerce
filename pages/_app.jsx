@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import { useStore } from "../store";
 import NProgress from "nprogress";
 import { CategoryContextProvider } from "../contexts/CategoryContext";
+import { ConfigProvider } from "antd";
+import ptBR from "antd/lib/locale/pt_BR";
 
 const SiteLayout = dynamic(() => import("../layouts/SiteLayout"));
 
@@ -75,9 +77,11 @@ export default function App({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <CategoryContextProvider>
-        {getLayout(<Component {...pageProps} />)}
-      </CategoryContextProvider>
+      <ConfigProvider locale={ptBR}>
+        <CategoryContextProvider>
+          {getLayout(<Component {...pageProps} />)}
+        </CategoryContextProvider>
+      </ConfigProvider>
     </Provider>
   );
 }
