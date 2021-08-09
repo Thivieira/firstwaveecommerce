@@ -16,14 +16,14 @@ function Product({ product }) {
     <div className="card-grid" key={product.id}>
       <div className="img-content">
         <img src={image} alt={product.title} />
-        <Link href={`/produto/${product.code}`}>
+        <Link href={`/produto/${product.code}`} passHref>
           <button>Ver detalhes</button>
         </Link>
       </div>
 
       <div className="content">
         <div className="title-and-heart">
-          <Link href={`/produto/${product.code}`}>
+          <Link href={`/produto/${product.code}`} passHref>
             <h4>{product.description}</h4>
           </Link>
           <FavoriteBtn product={product} />

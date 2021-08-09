@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import Image from 'next/image'
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -15,7 +15,7 @@ export default function ProductsSlider({ prod }) {
   useMemo(() => {
     products.length > 0 ? setLoading(false) : setLoading(true);
     setProducts(prod);
-  }, [products]);
+  }, [prod, products.length]);
 
   const settings = {
     dots: false,
@@ -72,7 +72,7 @@ export default function ProductsSlider({ prod }) {
         },
       },
     ],
-  }
+  };
 
   return (
     <>
@@ -92,7 +92,8 @@ export default function ProductsSlider({ prod }) {
           {products.map((p, i) => {
             let test = p.variations.length > 0 ? p.variations[0] : [];
             let imageTest = JSON.parse(test.image);
-            const image = imageTest.length > 0 ? imageTest[0].link : "/noimage.png";
+            const image =
+              imageTest.length > 0 ? imageTest[0].link : "/noimage.png";
 
             return (
               <div
@@ -102,11 +103,11 @@ export default function ProductsSlider({ prod }) {
               >
                 <div className="card">
                   <div className="card-image">
-                    <Image 
-                      src={image} 
-                      alt="imagem do produto"  
-                      className='image-slider'
-                      layout='fill'
+                    <Image
+                      src={image}
+                      alt="imagem do produto"
+                      className="image-slider"
+                      layout="fill"
                       priority
                     />
                   </div>
@@ -116,15 +117,25 @@ export default function ProductsSlider({ prod }) {
                       <span className="price">
                         {p.price !== p.variations[0].price ? (
                           <div className="priceSale">
-                            <p>R${parseFloat(p.price).toFixed(2).replace(".", ",")}</p>
-                            <p>R${parseFloat(p.variations[0].price).toFixed(2).replace(".", ",")}</p>
+                            <p>
+                              R$
+                              {parseFloat(p.price).toFixed(2).replace(".", ",")}
+                            </p>
+                            <p>
+                              R$
+                              {parseFloat(p.variations[0].price)
+                                .toFixed(2)
+                                .replace(".", ",")}
+                            </p>
                           </div>
                         ) : (
-                          <p>R${parseFloat(p.price).toFixed(2).replace(".", ",")}</p>  
+                          <p>
+                            R${parseFloat(p.price).toFixed(2).replace(".", ",")}
+                          </p>
                         )}
                       </span>
                     </h5>
-                    <Link href={`/produto/${p.code}`}>
+                    <Link href={`/produto/${p.code}`} passHref>
                       <button type="button">VER DETALHES</button>
                     </Link>
                   </div>

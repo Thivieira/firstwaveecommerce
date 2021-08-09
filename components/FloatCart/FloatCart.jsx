@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CartProduct from "./CartProduct";
 import {
@@ -7,7 +7,7 @@ import {
   getIsOpen,
   getTotalState,
 } from "../../store/selectors/products";
-import Link from "next/link";
+
 import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
 import { Badge } from "antd";
 
@@ -45,14 +45,15 @@ function FloatCart() {
 
   const [cartStorage, setCartStorage] = useCart("cart");
 
-  useEffect(() => {
-    // dispatch(updateCart(cartStorage));
-    setCartStorage({ cart: productsCart, total: totalCart });
-  }, [productsCart, setCartStorage, totalCart]);
+  // useEffect(() => {
+  //   // dispatch(updateCart(cartStorage));
+  //   setCartStorage({ cart: productsCart, total: totalCart });
+  // }, [cartStorage, dispatch, productsCart, setCartStorage, totalCart]);
 
   useEffect(() => {
-    dispatch(updateCart(cartStorage));
-  }, [cartStorage, dispatch]);
+    setCartStorage({ cart: productsCart, total: totalCart });
+    dispatch(updateCart({ cart: productsCart, total: totalCart }));
+  }, [dispatch, productsCart, setCartStorage, totalCart]);
 
   const noAuthorized = () => {
     closeFloatCart();

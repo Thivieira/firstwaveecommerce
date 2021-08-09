@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { useDispatch } from "react-redux";
 import Slider from "react-slick";
@@ -37,6 +37,55 @@ const ProductDetails = ({ product }) => {
     setFeaturedImage(imagesLink[0]);
   }
 
+  const onSelectedSizeChange = useCallback(
+    (value) => {
+      setSelectedSize(value);
+      // console.log(value);
+
+      const variacaoDisponivel = product.variations.filter((el) => {
+        let sizes = el.description.split(";").slice(1, 2);
+        if (sizes.length > 0) {
+          return sizes[0].split(":").slice(1, 2)[0] == value;
+        }
+      });
+      // console.log(variacaoDisponivel.filter(el.code === variacaoDisponivel.map(el => el.code)))
+
+      setAvailableColorVariations(variacaoDisponivel);
+
+      let color = variacaoDisponivel[0].description
+        .split(";")
+        .slice(0, 1)[0]
+        .split(":")
+        .slice(1, 2)[0];
+
+      setSelectedColor(color);
+      setColorTrigger(true);
+    },
+    [product.variations]
+  );
+
+  const onSelectedColorChange = useCallback(
+    (value) => {
+      let cor = availableColorVariations.filter(
+        (el) =>
+          el.description.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] ==
+          value
+      )[0];
+
+      if (!cor) {
+        return;
+      }
+
+      setImages(cor.image);
+
+      setCodigoVariacao(cor.external_id);
+      setEstoqueAtual(cor.supply);
+      setPrice(cor.price ? cor.price : product.price);
+      setColorTrigger(false);
+    },
+    [availableColorVariations, product.price]
+  );
+
   useEffect(() => {
     const variations = product.variations;
 
@@ -74,56 +123,13 @@ const ProductDetails = ({ product }) => {
       .filter((el) => el != false)[0];
 
     onSelectedSizeChange(firstSizeWithSupply);
-  }, [product]);
+  }, [onSelectedSizeChange, product]);
 
   useEffect(() => {
     if (triggerColor) {
       onSelectedColorChange(selectedColor);
     }
-  }, [triggerColor]);
-
-  const onSelectedSizeChange = (value) => {
-    setSelectedSize(value);
-    // console.log(value);
-
-    const variacaoDisponivel = product.variations.filter((el) => {
-      let sizes = el.description.split(";").slice(1, 2);
-      if (sizes.length > 0) {
-        return sizes[0].split(":").slice(1, 2)[0] == value;
-      }
-    });
-    // console.log(variacaoDisponivel.filter(el.code === variacaoDisponivel.map(el => el.code)))
-
-    setAvailableColorVariations(variacaoDisponivel);
-
-    let color = variacaoDisponivel[0].description
-      .split(";")
-      .slice(0, 1)[0]
-      .split(":")
-      .slice(1, 2)[0];
-
-    setSelectedColor(color);
-    setColorTrigger(true);
-  };
-
-  const onSelectedColorChange = (value) => {
-    let cor = availableColorVariations.filter(
-      (el) =>
-        el.description.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] ==
-        value
-    )[0];
-
-    if (!cor) {
-      return;
-    }
-
-    setImages(cor.image);
-
-    setCodigoVariacao(cor.external_id);
-    setEstoqueAtual(cor.supply);
-    setPrice(cor.price ? cor.price : product.price);
-    setColorTrigger(false);
-  };
+  }, [onSelectedColorChange, selectedColor, triggerColor]);
 
   const addToCartFn = () => {
     if (codigoProduto) {
@@ -209,7 +215,7 @@ const ProductDetails = ({ product }) => {
   };
 
   return (
-    <Fragment>
+    <>
       <div className="details-wrapper">
         <div className="gallery-img">
           <div className="thumb">
@@ -230,8 +236,8 @@ const ProductDetails = ({ product }) => {
             <img className="big-img" src="/noimage.png" alt="img" />
           ) : (
             <figure style={zoomImage} onMouseMove={handleMouseMove}>
-              <img 
-                src={featuredImage} 
+              <img
+                src={featuredImage}
                 alt="imagem do produto"
                 className="big-img"
               />
@@ -360,7 +366,7 @@ const ProductDetails = ({ product }) => {
           </div>
         </div>
       </div>
-    </Fragment>
+    </>
   );
 };
 

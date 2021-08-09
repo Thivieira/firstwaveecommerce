@@ -9,11 +9,21 @@ import {
 } from "../../store/actions/products";
 import { List, Avatar, Empty } from "antd";
 import { CloseCircleTwoTone } from "@ant-design/icons";
+import useToken from "../../contexts/TokenStorage";
 
 export default function Favorites() {
   const dispatch = useDispatch();
   const productsFavorites = useSelector(getFavoritesProd);
   const [products, setProducts] = useState([]);
+
+  const [token, setToken] = useToken();
+
+  useEffect(() => {
+    if (token) {
+      api.defaults.headers.common["Authorization"] = "Bearer " + token;
+      setToken(token);
+    }
+  }, [setToken, token]);
 
   const disp = async (item) => {
     const favoriteId = productsFavorites
@@ -23,10 +33,6 @@ export default function Favorites() {
       await api.delete(`/favorites/${favoriteId}`);
       dispatch(removeFromFavorites(item));
     } catch (e) {}
-  };
-
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
   };
 
   // const orderFavoritesGet = async () => {
@@ -44,20 +50,22 @@ export default function Favorites() {
   //     .then((res) => console.log(res));
   // };
 
-  useEffect(async () => {
-    // da api
-    try {
-      let { data } = await api.get("/favorites", { headers });
-      dispatch(setFavorites(data));
-      const favorites = data;
-      setProducts(favorites.map((favorite) => favorite.product));
-    } catch (e) {}
+  useEffect(() => {
+    async function fetchFavorites() {
+      try {
+        let { data } = await api.get("/favorites");
+        dispatch(setFavorites(data));
+        const favorites = data;
+        setProducts(favorites.map((favorite) => favorite.product));
+      } catch (e) {}
+    }
+    fetchFavorites();
     // redux
     // productsFavorites
 
     // orderFavoritesPost();
     // orderFavoritesGet();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setProducts(productsFavorites.map((favorite) => favorite.product));

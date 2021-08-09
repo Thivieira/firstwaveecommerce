@@ -1,7 +1,8 @@
-import { useCallback, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+
 import { Slider } from "antd";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -23,6 +24,22 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
   const [selectedPriceMax, setSelectedPriceMax] = useState(
     selectedFilterRedux.priceMax
   );
+
+  const [brandsArr, setBrandsArr] = useState([]);
+  const [sizesArr, setSizesArr] = useState([]);
+  const [colorsArr, setColorsArr] = useState([]);
+
+  useEffect(() => {
+    if (brands) {
+      setBrandsArr(brands);
+    }
+    if (sizes) {
+      setSizesArr(sizes);
+    }
+    if (colors) {
+      setColorsArr(colors);
+    }
+  }, [setBrandsArr, setSizesArr, setColorsArr, brands, sizes, colors]);
 
   var filtersSize =
     selectedSize.length > 0
@@ -121,8 +138,8 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           components={animatedComponents}
           isMulti={true}
           options={
-            sizes.length > 0
-              ? sizes.map((el) => ({
+            sizesArr.length > 0
+              ? sizesArr.map((el) => ({
                   label: el,
                   value: el,
                 }))
@@ -132,6 +149,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           classNamePrefix="select"
           onChange={setSelectedSize}
           ref={selectInputRefSize}
+          instanceId="sizesId"
         />
       </div>
 
@@ -144,8 +162,8 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           components={animatedComponents}
           isMulti={true}
           options={
-            colors.length > 0
-              ? colors.map((el) => ({
+            colorsArr.length > 0
+              ? colorsArr.map((el) => ({
                   label: el,
                   value: el,
                 }))
@@ -155,6 +173,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           classNamePrefix="select"
           onChange={setSelectedColor}
           ref={selectInputRefColor}
+          instanceId="colorsId"
         />
       </div>
 
@@ -167,8 +186,8 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           components={animatedComponents}
           isMulti={true}
           options={
-            brands.length > 0
-              ? brands.map((el) => ({
+            brandsArr.length > 0
+              ? brandsArr.map((el) => ({
                   label: el,
                   value: el,
                 }))
@@ -178,6 +197,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           classNamePrefix="select"
           onChange={setSelectedBrand}
           ref={selectInputRefBrand}
+          instanceId="brandsId"
         />
       </div>
 
