@@ -1,7 +1,7 @@
 import Link from "next/link";
 import FavoriteBtn from "../FavoriteBtn";
 
-function Product({ product }) {
+function ProductCard({ product }) {
   const test = product.variations.length > 0 ? product.variations[0] : [];
 
   const testImage = JSON.parse(test.image);
@@ -47,4 +47,4 @@ function Product({ product }) {
   );
 }
 
-export default Product;
+export default ProductCard;

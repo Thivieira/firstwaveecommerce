@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
@@ -7,7 +7,11 @@ import { Slider } from "antd";
 
 import { useSelector, useDispatch } from "react-redux";
 import { getFilterData } from "../../store/selectors/products";
-import { setFilterData, setFilterUrl } from "../../store/actions/products";
+import {
+  setFilterData,
+  setFilterUrl,
+  setFilterMode,
+} from "../../store/actions/products";
 
 function Filter({ category, subcategory, type, brands, sizes, colors }) {
   const dispatch = useDispatch();
@@ -69,9 +73,9 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
       )
     );
   }, [
-    selectedSize,
-    selectedColor,
-    selectedBrand,
+    // selectedSize,
+    // selectedColor,
+    // selectedBrand,
     selectedPriceMin,
     selectedPriceMax,
     dispatch,
@@ -80,7 +84,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     filtersBrand,
   ]);
 
-  const addFilterApi = () => {
+  const addFilterApi = useCallback(() => {
     let url = "";
 
     if (subcategory && type && category) {
@@ -94,11 +98,22 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     }
 
     dispatch(setFilterUrl(url));
-  };
+    dispatch(setFilterMode(true));
+  }, [
+    category,
+    dispatch,
+    filtersBrand,
+    filtersColor,
+    filtersSize,
+    selectedPriceMax,
+    selectedPriceMin,
+    subcategory,
+    type,
+  ]);
 
   const animatedComponents = makeAnimated();
 
-  const cleanFilters = () => {
+  const cleanFilters = useCallback(() => {
     selectInputRefSize.current.select.clearValue();
     selectInputRefColor.current.select.clearValue();
     selectInputRefBrand.current.select.clearValue();
@@ -109,9 +124,8 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     setSelectedPriceMin(0);
     setSelectedPriceMax(2000);
     dispatch(setFilterUrl(""));
-
-    addFilterApi();
-  };
+    dispatch(setFilterMode(false));
+  }, []);
 
   const formatter = (value) => `R$${value},00`;
 

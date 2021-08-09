@@ -59,3 +59,4 @@ export const getPaginationData = (state) => state.products.pagination;
 export const getFilterData = (state) => state.products.filter;
 
 export const getFilterUrl = (state) => state.products.filterUrl;
+export const getFilterMode = (state) => state.products.filterMode;

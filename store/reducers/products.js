@@ -9,6 +9,7 @@ const productsDefaultState = {
     priceMax: 2000,
   },
   filterUrl: "",
+  filterMode: false,
   sliderProducts: [],
   product: [],
   favoritesProducts: [],
@@ -64,10 +65,15 @@ const productsReducer = (state = productsDefaultState, action) => {
         filter: action.payload,
       };
 
-    case "GET_FILTER_URL":
+    case "SET_FILTER_URL":
       return {
         ...state,
         filterUrl: action.payload,
+      };
+    case "SET_FILTER_MODE":
+      return {
+        ...state,
+        filterMode: action.payload,
       };
 
     case "GET_API_SLIDER_PRODUCTS":

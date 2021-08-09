@@ -10,7 +10,7 @@ import { FilterOutlined } from "@ant-design/icons";
 
 import Breadcrumb from "../../components/Breadcrumb";
 import Filter from "../../components/Filter";
-import Product from "../../components/Products/ProductCard";
+import ProductCard from "../../components/Products/ProductCard";
 import api from "../../services/api";
 import { getFilterUrl } from "../../store/selectors/products";
 
@@ -221,7 +221,7 @@ export default function Index() {
           {products.length > 0 ? (
             <>
               {products.map((product) => (
-                <Product
+                <ProductCard
                   product={product}
                   key={removeIdDuplicate(product.id)}
                 />

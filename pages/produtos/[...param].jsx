@@ -12,9 +12,13 @@ import { FilterOutlined } from "@ant-design/icons";
 import { CategoryContext } from "../../contexts/CategoryContext";
 import Breadcrumb from "../../components/Breadcrumb";
 import Filter from "../../components/Filter";
-import Product from "../../components/Products/ProductCard";
+import ProductCard from "../../components/Products/ProductCard";
 import api from "../../services/api";
-import { getFilterUrl } from "../../store/selectors/products";
+import {
+  getFilterData,
+  getFilterMode,
+  getFilterUrl,
+} from "../../store/selectors/products";
 
 import {
   getAllProducts,
@@ -57,6 +61,7 @@ export default function Products({
   const [currentPage, setCurrentPage] = useState(0);
   const [theTotal, setTotal] = useState(total);
   const filterUrl = useSelector(getFilterUrl);
+  const filterMode = useSelector(getFilterMode);
   const router = useRouter();
 
   const updateDimensions = () => {
@@ -94,33 +99,12 @@ export default function Products({
   }, [router, dispatch]);
 
   const paginationRedux = useSelector(getPaginationData);
+  // const filterData = useSelector(getFilterData);
 
   useEffect(() => {
-    let page = currentPage + 1;
-    dispatch(setPaginationProducts(totalPages, page, per_page, theTotal));
-  }, [dispatch, currentPage, per_page, theTotal, totalPages]);
-
-  useEffect(() => {
-    let page = currentPage + 1;
     setCurrentPage(0);
-    dispatch(clearProducts());
-    dispatch(setLoading(false));
-    dispatch(setProducts(prod));
     setCategory({ category: category, subcategory: subcategory, type: type });
-    dispatch(setPaginationProducts(totalPages, page, per_page, total));
-  }, [
-    currentPage,
-    setCurrentPage,
-    dispatch,
-    prod,
-    setCategory,
-    category,
-    subcategory,
-    type,
-    totalPages,
-    per_page,
-    total,
-  ]);
+  }, [setCurrentPage, setCategory, category, subcategory, type, filterUrl]);
 
   useEffect(() => {
     let page = currentPage + 1;
@@ -149,6 +133,7 @@ export default function Products({
     });
   }, [
     dispatch,
+    filterMode,
     filterUrl,
     currentPage,
     category,
@@ -203,7 +188,7 @@ export default function Products({
           {products.length > 0 ? (
             <>
               {products.map((product) => (
-                <Product
+                <ProductCard
                   product={product}
                   key={removeIdDuplicate(product.id)}
                 />

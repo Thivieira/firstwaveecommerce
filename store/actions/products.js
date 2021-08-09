@@ -31,8 +31,13 @@ export const setFilterData = (
 });
 
 export const setFilterUrl = (url) => ({
-  type: "GET_FILTER_URL",
+  type: "SET_FILTER_URL",
   payload: url,
+});
+
+export const setFilterMode = (boolean) => ({
+  type: "SET_FILTER_MODE",
+  payload: boolean,
 });
 
 export const sortProducts = (products, sort) => ({
