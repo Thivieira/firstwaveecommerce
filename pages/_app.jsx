@@ -56,12 +56,11 @@ export default function App({ Component, pageProps }) {
     Component.getLayout || ((page) => <SiteLayout children={page} />);
 
   if (typeof window !== "undefined") {
-    const authenticated = Boolean(window.localStorage.getItem("authorized"));
-    if (authenticated) {
-      const token = window.localStorage.getItem("key");
+    const token = window.localStorage.getItem("token");
+    if (token) {
       api.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
-
+    
     api.interceptors.response.use(
       (response) => response,
       (error) => {

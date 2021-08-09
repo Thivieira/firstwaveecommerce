@@ -14,6 +14,7 @@ import { saveAddress } from "../store/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import useToken from '../contexts/TokenStorage'
 
 function Dashboard() {
   const [formOption, setFormOption] = useState(1);
@@ -22,20 +23,19 @@ function Dashboard() {
   const [addressData, setAddressData] = useState([]);
   const [json, setJson] = useState({});
   const dispatch = useDispatch();
-  const [authorized, setAuthorized] = useState(false);
   const user = useSelector(getAccount);
   const MySwal = withReactContent(Swal);
 
+
+  const [token, setToken] = useToken();
+
   useEffect(() => {
-    const token = localStorage.getItem("key");
-    if(token){
-      setAuthorized(true);
+    if (token) {
       api.defaults.headers.common["Authorization"] = "Bearer " + token;
     } else {
-      router.replace("/");
-      return null;
+        router.replace("/");
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     getUserData();

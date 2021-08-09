@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { getAccount } from "../store/selectors/user";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import useToken from '../contexts/TokenStorage'
 
 function Payment() {
   const router = useRouter();
@@ -30,11 +31,12 @@ function Payment() {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [neighborhood, setNeighborhood] = useState("");
-  const [authorized, setAuthorized] = useState(false);
   const dispatch = useDispatch();
   const MySwal = withReactContent(Swal);
 
   const user = useSelector(getAccount);
+
+  const [token, setToken] = useToken();
 
   async function getUserData() {
     api
@@ -53,14 +55,13 @@ function Payment() {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("key");
     if (token) {
-      setAuthorized(true);
       api.defaults.headers.common["Authorization"] = "Bearer " + token;
+      setToken(token);
     }
-  }, []);
-
-  useEffect(() => getUserData(), [authorized]);
+  }, [token]);
+  
+  useEffect(() => getUserData(), [token]);
 
   useEffect(() => {
     getUserData();
@@ -154,13 +155,13 @@ function Payment() {
   }
 
   useEffect(() => {
-    if (cart.length == 0 || !authorized) {
+    if (cart.length == 0 || !token) {
       router.push("/");
       return null;
     }
-  }, [cart, authorized]);
+  }, [cart, token]);
 
-  if (cart.length == 0 || !authorized) {
+  if (cart.length == 0 || !token) {
     return null;
   }
 

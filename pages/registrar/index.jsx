@@ -16,6 +16,7 @@ import withReactContent from "sweetalert2-react-content";
 import { NextSeo } from "next-seo";
 import { saveAccount } from "../../store/actions/user";
 import { useDispatch } from "react-redux";
+import useToken from '../../contexts/TokenStorage'
 
 function Form() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -42,12 +43,13 @@ function Form() {
 
   const goBack = () => setCurrentStep(currentStep - 1);
 
+  const [token,setToken] = useToken();
+
   useEffect(() => {
-    const token = localStorage.getItem("key");
     if (token) {
       router.push("/dashboard");
     }
-  }, []);
+  }, [token]);
 
   async function signUpUser({
     name,
@@ -78,10 +80,10 @@ function Form() {
           password: password,
         })
         .then((res) => {
-          localStorage.setItem("key", res.data.access_token);
-          localStorage.setItem("authorized", true);
+          const token = res.data.access_token;
+          setToken(token);
           api.defaults.headers.common["Authorization"] =
-            "Bearer " + res.data.access_token;
+            "Bearer " + token;
           resolve();
         })
         .catch(() => {

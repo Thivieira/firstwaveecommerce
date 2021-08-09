@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import useCart from "../../contexts/CartStorage";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import useToken from '../../contexts/TokenStorage';
 
 function FloatCart() {
   const dispatch = useDispatch();
@@ -30,16 +31,9 @@ function FloatCart() {
 
   const total = useSelector(getCartTotal);
 
-  const [authorized, setAuthorized] = useState(false);
-
   const MySwal = withReactContent(Swal);
 
-  useEffect(() => {
-    const token = localStorage.getItem("key");
-    if (token) {
-      setAuthorized(true);
-    }
-  }, []);
+  const [token] = useToken();
 
   const itemQuantity = productsCart
     .map((item) => item.quantity)
@@ -84,9 +78,9 @@ function FloatCart() {
         confirmButtonText: "OK",
       });
       
-    }
-    
-    router.push("/pagamento");
+    } else {
+      router.push("/pagamento");
+    }    
   };
 
   const cart = productsCart.map((p) => {
@@ -139,7 +133,6 @@ function FloatCart() {
               <p className="shelf-empty">Adicione algum produto no carrinho</p>
             )}
           </div>
-
           <div className="float-cart__footer">
             <div className="sub">TOTAL</div>
             <div className="sub-price">
@@ -157,29 +150,14 @@ function FloatCart() {
                 )}
               </small>
             </div>
-            {authorized ? (
               <div
                 className="buy-btn"
-                onClick={authorizedCart}
+                onClick={token ? authorizedCart : noAuthorized}
                 style={{ cursor: "pointer" }}
                 title="Finalizar"
               >
-                <Link href={total !== 0 ? "/pagamento" : ""} className="logado">
-                  FINALIZAR
-                </Link>
+                <span className="logado">FINALIZAR</span>
               </div>
-            ) : (
-              <div
-                className="buy-btn"
-                onClick={noAuthorized}
-                style={{ cursor: "pointer" }}
-                title="Finalizar"
-              >
-                <Link href="/login" className="Nlogado">
-                  FINALIZAR
-                </Link>
-              </div>
-            )}
           </div>
         </div>
       </div>

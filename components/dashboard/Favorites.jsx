@@ -26,7 +26,7 @@ export default function Favorites() {
   };
 
   const headers = {
-    Authorization: `Bearer ${localStorage.getItem("key")}`,
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
   };
 
   // const orderFavoritesGet = async () => {

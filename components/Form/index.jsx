@@ -33,8 +33,6 @@ function Form() {
 
   const MySwal = withReactContent(Swal);
 
-
-
   async function signUpUser({ name, password, email, cpf, phone }) {
     setCollectedData((prevState) => ({
       ...prevState,
@@ -56,12 +54,11 @@ function Form() {
           password: password,
         })
         .then((res) => {
-          localStorage.setItem("key", res.data.access_token);
-
-          localStorage.setItem("authorized", true);
+          const token = res.data.access_token;
+          localStorage.setItem("token", token);
 
           api.defaults.headers.common["Authorization"] =
-            "Bearer " + res.data.access_token;
+            "Bearer " + token;
           resolve();
         })
         .catch(() => {

@@ -16,6 +16,7 @@ import {
 import { getFavoritesProd } from "../store/selectors/products";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import useToken from '../contexts/TokenStorage'
 
 export default function FavoriteBtn({ product }) {
   const router = useRouter();
@@ -23,11 +24,15 @@ export default function FavoriteBtn({ product }) {
 
   const productsFavorites = useSelector(getFavoritesProd);
 
-  const [authorized, setAuthorized] = useState(false);
+  const [token, setToken] = useToken();
 
   useEffect(() => {
-    setAuthorized(localStorage.getItem("authorized"));
-  }, []);
+    if (token) {
+      api.defaults.headers.common["Authorization"] = "Bearer " + token;
+      setToken(token);
+    }
+  }, [token]);
+
   const MySwal = withReactContent(Swal);
   const [favorite, setFavoriteState] = useState(product.favorite);
 
@@ -43,7 +48,7 @@ export default function FavoriteBtn({ product }) {
       (favorite) => favorite.product.id === product.id
     );
 
-    if (authorized) {
+    if (token) {
       if (existingProductInFavorites.length > 0) {
         existingProductInFavorites = existingProductInFavorites[0];
         const favoriteId = existingProductInFavorites.id;

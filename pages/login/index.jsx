@@ -14,6 +14,7 @@ import InputContainer from "../../Utils/InputContainer";
 import ButtonsContainer from "../../Utils/ButtonsContainer";
 import { useDispatch } from "react-redux";
 import { saveAccount } from "../../store/actions/user";
+import useToken from '../../contexts/TokenStorage'
 
 function Login() {
   const router = useRouter();
@@ -22,12 +23,14 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const [token,setToken] = useToken();
+
   useEffect(() => {
-    const token = localStorage.getItem("key");
     if (token) {
       router.push("/dashboard");
     }
-  }, []);
+  }, [token]);
+  
 
   const MySwal = withReactContent(Swal);
 
@@ -40,8 +43,7 @@ function Login() {
         password: password,
       });
       const token = res.data.access_token;
-      localStorage.setItem("key", token);
-      localStorage.setItem("authorized", true);
+      setToken(token);
       api.defaults.headers.common["Authorization"] = "Bearer " + token;
       try {
         const { data } = await api.get("/auth/me");

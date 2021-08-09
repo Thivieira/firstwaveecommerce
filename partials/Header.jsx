@@ -20,6 +20,7 @@ import NavLink from "../components/NavLink";
 import { useDispatch, useSelector } from "react-redux";
 import { saveAccount, saveAddress } from "../store/actions/user";
 import { getAccount } from "../store/selectors/user";
+import useToken from "../contexts/TokenStorage"
 
 function Header() {
   const router = useRouter();
@@ -29,7 +30,6 @@ function Header() {
   const [mascDropDown, setMascDropDown] = useState(false);
   const [femDropDown, setFemDropDown] = useState(false);
   const [juvDropDown, setJuvDropDown] = useState(false);
-  const [authorized, setAuthorized] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector(getAccount);
 
@@ -49,15 +49,16 @@ function Header() {
       .catch((e) => {});
   }
 
-  useEffect(() => {
-    const token = localStorage.getItem("key");
-    if (token) {
-      setAuthorized(true);
-      api.defaults.headers.common["Authorization"] = "Bearer " + token;
-    }
-  }, []);
+  const [token, setToken] = useToken();
 
-  useEffect(() => getUserData(), [authorized]);
+  useEffect(() => {
+    if (token) {
+      api.defaults.headers.common["Authorization"] = "Bearer " + token;
+      setToken(token);
+    }
+  }, [token]);
+  
+  useEffect(() => getUserData(), [token]);
 
   const showSideBar = () => setSidebar(!sidebar);
 
