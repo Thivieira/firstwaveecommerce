@@ -13,6 +13,11 @@ const ProductsSlider = dynamic(() =>
 );
 const { getLayout } = dynamic(() => import("../layouts/SiteLayout"));
 
+// const landing1 = dynamic(() => import('../public/landing1.jpg'))
+// const landing2 = dynamic(() => import('../public/landing2.jpg'))
+// const landing3 = dynamic(() => import('../public/landing3.png'))
+// const landing4 = dynamic(() => import('../public/landing4.jpeg'))
+
 // import CarouselImage from "../components/landing/CarouselImage";
 // import ProductsSlider from "../components/landing/ProductsSlider";
 // import getLayout from "../layouts/SiteLayout";
@@ -70,6 +75,8 @@ const Index = ({ prodMasc, prodOutlet }) => {
           <Image
             src={landing1}
             alt="banner"
+            width={560}
+            height={640}
             priority
             className="image-landing"
           />
@@ -87,6 +94,8 @@ const Index = ({ prodMasc, prodOutlet }) => {
           <Image
             src={landing2}
             alt="banner"
+            width={560}
+            height={640}
             priority
             className="image-landing"
           />
@@ -111,6 +120,8 @@ const Index = ({ prodMasc, prodOutlet }) => {
           <Image
             src={landing3}
             alt="banner"
+            width={560}
+            height={640}
             priority
             className="image-landing"
           />
@@ -132,6 +143,8 @@ const Index = ({ prodMasc, prodOutlet }) => {
           <Image
             src={landing4}
             alt="banner"
+            width={560}
+            height={640}
             priority
             className="image-landing"
           />
