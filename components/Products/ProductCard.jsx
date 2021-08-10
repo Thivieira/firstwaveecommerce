@@ -2,12 +2,13 @@ import Link from "next/link";
 import { defaultBlur } from "../../helpers";
 import FavoriteBtn from "../FavoriteBtn";
 import Image from "next/image";
+import noImage from "../../public/noimage.png";
 
 function ProductCard({ product }) {
   const test = product.variations.length > 0 ? product.variations[0] : [];
 
   const testImage = JSON.parse(test.image);
-  const image = testImage.length > 0 ? testImage[0].link : "/noimage.png";
+  const image = testImage.length > 0 ? testImage[0].link : noImage;
 
   const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
   const priceSale = `R$${parseFloat(product.variations[0].price)

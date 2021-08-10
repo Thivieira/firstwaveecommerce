@@ -73,42 +73,39 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
       )
     );
   }, [
-    // selectedSize,
-    // selectedColor,
-    // selectedBrand,
     selectedPriceMin,
     selectedPriceMax,
     dispatch,
-    filtersSize,
-    filtersColor,
-    filtersBrand,
+    selectedSize,
+    selectedColor,
+    selectedBrand,
   ]);
 
   const addFilterApi = useCallback(() => {
     let url = "";
 
     if (subcategory && type && category) {
-      url = `/products/filters?category=${category}&subcategory=${subcategory}&type=${type}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`;
+      url = `/products/filters?category=${category}&subcategory=${subcategory}&type=${type}&size=${selectedFilterRedux.size}&color=${selectedFilterRedux.color}&brand=${selectedFilterRedux.brand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`;
     } else if (!type && subcategory && category) {
-      url = `/products/filters?category=${category}&subcategory=${subcategory}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`;
+      url = `/products/filters?category=${category}&subcategory=${subcategory}&size=${selectedFilterRedux.size}&color=${selectedFilterRedux.color}&brand=${selectedFilterRedux.brand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`;
     } else if (!subcategory && !type && category) {
-      url = `/products/filters?category=${category}&size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`;
+      url = `/products/filters?category=${category}&size=${selectedFilterRedux.size}&color=${selectedFilterRedux.color}&brand=${selectedFilterRedux.brand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`;
     } else {
-      url = `/products/filters?size=${filtersSize}&color=${filtersColor}&brand=${filtersBrand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`;
+      url = `/products/filters?size=${selectedFilterRedux.size}&color=${selectedFilterRedux.color}&brand=${selectedFilterRedux.brand}&maxPrice=${selectedPriceMax}&minPrice=${selectedPriceMin}`;
     }
 
     dispatch(setFilterUrl(url));
     dispatch(setFilterMode(true));
   }, [
-    category,
-    dispatch,
-    filtersBrand,
-    filtersColor,
-    filtersSize,
-    selectedPriceMax,
-    selectedPriceMin,
     subcategory,
     type,
+    category,
+    dispatch,
+    selectedFilterRedux.size,
+    selectedFilterRedux.color,
+    selectedFilterRedux.brand,
+    selectedPriceMax,
+    selectedPriceMin,
   ]);
 
   const animatedComponents = makeAnimated();

@@ -31,6 +31,7 @@ import {
 import NoProductsAlert from "../../components/NoProductsAlert";
 import { removeIdDuplicate } from "../../helpers";
 import FilterSort from "../../components/FilterSort";
+import { useCallback } from "react";
 
 export default function Index() {
   const { getCategory, setCategory } = useContext(CategoryContext);
@@ -42,6 +43,7 @@ export default function Index() {
   const [visible, setVisible] = useState(false);
   const [width, setWindowWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [theTotal, setTotal] = useState(0);
   const [sizes, setSizes] = useState([]);
   const [brands, setBrands] = useState([]);
   const [colors, setColors] = useState([]);
@@ -49,16 +51,18 @@ export default function Index() {
   const router = useRouter();
   const { q } = router.query;
 
-  useEffect(() => {
-    updateDimensions();
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, [width]);
-
   const updateDimensions = () => {
     const width = window.innerWidth;
     setWindowWidth(width);
   };
+
+  useEffect(() => {
+    updateDimensions();
+
+    window.addEventListener("resize", updateDimensions);
+
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, [width]);
 
   useEffect(() => {
     width < 1280 ? setShowFilter(false) : setShowFilter(true);
@@ -76,7 +80,6 @@ export default function Index() {
     };
 
     router.events.on("routeChangeStart", handleRouteChange);
-
     return () => {
       router.events.off("routeChangeStart", handleRouteChange);
     };
@@ -84,58 +87,77 @@ export default function Index() {
 
   const paginationRedux = useSelector(getPaginationData);
 
-  useEffect(() => {
-    async function getData(url) {
+  const getData = useCallback(
+    async (url, type) => {
       const res = await api.get(url);
-      return res;
-    }
+      switch (type) {
+        case "size":
+          setSizes(res.data);
+          break;
+        case "brand":
+          setBrands(res.data);
+          break;
+        case "color":
+          setColors(res.data);
+          break;
+      }
+      return res.data;
+    },
+    []
+    // [sizes, brands, colors]
+  );
 
-    let sizeData;
-    let brandData;
-    let colorData;
-
+  useEffect(() => {
     if (getCategory.category && getCategory.subcategory && getCategory.type) {
-      sizeData = getData(
-        `/products/sizes?category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`
+      getData(
+        `/products/sizes?category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`,
+        "size"
       );
-      brandData = getData(
-        `/products/brands?category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`
+      getData(
+        `/products/brands?category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`,
+        "brand"
       );
-      colorData = getData(
-        `/products/colors?category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`
+      getData(
+        `/products/colors?category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`,
+        "color"
       );
     } else if (
       getCategory.category &&
       getCategory.subcategory &&
       !getCategory.type
     ) {
-      sizeData = getData(
-        `/products/sizes?category=${getCategory.category}&subcategory=${getCategory.subcategory}`
+      getData(
+        `/products/sizes?category=${getCategory.category}&subcategory=${getCategory.subcategory}`,
+        "size"
       );
-      brandData = getData(
-        `/products/brands?category=${getCategory.category}&subcategory=${getCategory.subcategory}`
+      getData(
+        `/products/brands?category=${getCategory.category}&subcategory=${getCategory.subcategory}`,
+        "brand"
       );
-      colorData = getData(
-        `/products/colors?category=${getCategory.category}&subcategory=${getCategory.subcategory}`
+      getData(
+        `/products/colors?category=${getCategory.category}&subcategory=${getCategory.subcategory}`,
+        "color"
       );
     } else if (
       getCategory.category &&
       !getCategory.subcategory &&
       !getCategory.type
     ) {
-      sizeData = getData(`/products/sizes?category=${getCategory.category}`);
-      brandData = getData(`/products/brands?category=${getCategory.category}`);
-      colorData = getData(`/products/colors?category=${getCategory.category}`);
+      getData(`/products/sizes?category=${getCategory.category}`, "size");
+      getData(`/products/brands?category=${getCategory.category}`, "brand");
+      getData(`/products/colors?category=${getCategory.category}`, "color");
     } else {
-      sizeData = getData(`/products/sizes`);
-      brandData = getData(`/products/brands`);
-      colorData = getData(`/products/colors`);
+      getData(`/products/sizes`, "size");
+      getData(`/products/brands`, "brand");
+      getData(`/products/colors`, "color");
     }
-
-    setSizes(sizeData.data);
-    setBrands(brandData.data);
-    setColors(colorData.data);
-  }, [getCategory.category, getCategory.subcategory, getCategory.type]);
+  }, [
+    q,
+    getCategory.category,
+    getCategory.subcategory,
+    getCategory.type,
+    getData,
+  ]);
 
   useEffect(() => setCurrentPage(0), [q]);
 
@@ -169,6 +191,7 @@ export default function Index() {
     api.get(url).then(({ data }) => {
       dispatch(setLoading(false));
       dispatch(setProducts(data.data));
+      setTotal(data.total);
       dispatch(
         setPaginationProducts(data.last_page, page, data.per_page, data.total)
       );
