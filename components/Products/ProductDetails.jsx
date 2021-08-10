@@ -20,7 +20,7 @@ const ProductDetails = ({ product }) => {
   const [codigoVariacao, setCodigoVariacao] = useState("");
   const [estoqueAtual, setEstoqueAtual] = useState("");
   const [imageThumbs, setImageThumbs] = useState([]);
-  const [featuredImage, setFeaturedImage] = useState(null);
+  const [featuredImage, setFeaturedImage] = useState("");
   const [zoomImage, setZoomImage] = useState({
     backgroundImage: `url(${featuredImage})`,
     backgroundPosition: "0% 0%",
@@ -230,7 +230,16 @@ const ProductDetails = ({ product }) => {
           {!featuredImage ? (
             <Image className="big-img" src={noImage} alt="img" />
           ) : (
-            <figure style={zoomImage} onMouseMove={handleMouseMove}>
+            <figure
+              style={zoomImage}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={(e) => {
+                setZoomImage({
+                  backgroundImage: `url('')`,
+                  backgroundPosition: `0% 0%`,
+                });
+              }}
+            >
               <Image
                 src={featuredImage ? featuredImage : noImage}
                 alt="imagem do produto"

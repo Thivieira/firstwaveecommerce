@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getCartState } from "../store/selectors/products";
@@ -79,7 +79,7 @@ export default function PaymentBtn(props) {
 
   const mpRun = useCallback((preferenceId, init_point_arg) => {
     // Adicione as credenciais do SDK
-    const mp = new MercadoPago(process.env.PUBLIC_KEY, {
+    const mp = new MercadoPago(process.env.NEXT_PUBLIC_PUBLIC_KEY, {
       locale: "pt-BR",
     });
 

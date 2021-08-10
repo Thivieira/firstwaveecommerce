@@ -134,12 +134,12 @@ function Orders() {
         <Row type="flex" justify="center" align="middle">
           <Col span={24}>
             <Card
-              cover={
-                <img
-                  alt="example"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                />
-              }
+            // cover={
+            //   // <img
+            //   //   alt="example"
+            //   //   src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+            //   // />
+            // }
             >
               <Card.Meta
                 avatar={

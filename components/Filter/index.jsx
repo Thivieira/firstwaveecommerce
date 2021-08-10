@@ -118,14 +118,11 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     selectInputRefColor.current.select.clearValue();
     selectInputRefBrand.current.select.clearValue();
 
-    filtersSize = "";
-    filtersColor = "";
-    filtersBrand = "";
     setSelectedPriceMin(0);
     setSelectedPriceMax(2000);
     dispatch(setFilterUrl(""));
     dispatch(setFilterMode(false));
-  }, []);
+  }, [dispatch]);
 
   const formatter = (value) => `R$${value},00`;
 

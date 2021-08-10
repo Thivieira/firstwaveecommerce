@@ -15,6 +15,8 @@ import { getAccount } from "../store/selectors/user";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import useToken from "../contexts/TokenStorage";
+import Image from "next/image";
+import noImage from "../public/noimage.png";
 
 function Payment() {
   const router = useRouter();
@@ -55,6 +57,12 @@ function Payment() {
             phone: res.data.mobile,
           })
         );
+        setPersonalData({
+          cpf: res.data.cpf,
+          email: res.data.email,
+          name: res.data.name,
+          mobile: res.data.mobile,
+        });
       })
       .catch((e) => {});
   }, [dispatch]);
@@ -496,10 +504,16 @@ function Payment() {
                     className="cart-payment__details"
                     key={product.codigoVariacao}
                   >
-                    <img
+                    <Image
                       className="thumb-cart-pay"
-                      src={product.imagemVariacao}
+                      src={
+                        product.imagemVariacao
+                          ? product.imagemVariacao
+                          : noImage
+                      }
                       alt={product.description}
+                      width={80}
+                      height={80}
                     />
                     <div className="desc">
                       <NavLink href={`/produto/${product.code}`}>
