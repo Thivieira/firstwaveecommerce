@@ -41,8 +41,6 @@ function Payment() {
   const dispatch = useDispatch();
   const MySwal = withReactContent(Swal);
 
-  const user = useSelector(getAccount);
-
   const [token, setToken] = useToken();
 
   const getUserData = useCallback(() => {
@@ -97,9 +95,8 @@ function Payment() {
     if (token) {
       api.defaults.headers.common["Authorization"] = "Bearer " + token;
       setToken(token);
-      getUserData();
     }
-  }, [token, setToken, getUserData]);
+  }, [token, setToken]);
 
   useEffect(() => {
     getUserData();

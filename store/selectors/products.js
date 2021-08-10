@@ -1,5 +1,3 @@
-export const getTotalState = (state) => state.products.total;
-
 export const getCartState = (state) => state.products.cart;
 
 export const getColorState = (state) => state.products.color;

@@ -5,7 +5,6 @@ import {
   getCartTotal,
   getCartState,
   getIsOpen,
-  getTotalState,
 } from "../../store/selectors/products";
 
 import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
@@ -26,16 +25,16 @@ function FloatCart() {
 
   const isOpen = useSelector(getIsOpen);
 
-  const productsCart = useSelector(getCartState);
-  const totalCart = useSelector(getTotalState);
-
+  const cart = useSelector(getCartState);
   const total = useSelector(getCartTotal);
+
+  const [cartStorage, setCartStorage] = useCart("cart");
 
   const MySwal = withReactContent(Swal);
 
   const [token] = useToken();
 
-  const itemQuantity = productsCart
+  const itemQuantity = cart
     .map((item) => item.quantity)
     .reduce((item, total) => item + total, 0);
 
@@ -43,28 +42,32 @@ function FloatCart() {
 
   const closeFloatCart = () => dispatch(changeIsOpen(false));
 
-  const [cartStorage, setCartStorage] = useCart("cart");
-
-  // useEffect(() => {
-  //   // dispatch(updateCart(cartStorage));
-  //   setCartStorage({ cart: productsCart, total: totalCart });
-  // }, [cartStorage, dispatch, productsCart, setCartStorage, totalCart]);
+  useEffect(() => {
+    setCartStorage({ cart, total });
+  }, [cart, setCartStorage, total]);
 
   useEffect(() => {
-    setCartStorage({ cart: productsCart, total: totalCart });
-    dispatch(updateCart({ cart: productsCart, total: totalCart }));
-  }, [dispatch, productsCart, setCartStorage, totalCart]);
+    dispatch(updateCart({ cart: cartStorage.cart, total: cartStorage.total }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const noAuthorized = () => {
     closeFloatCart();
-    MySwal.fire({
-      title: <p>Faça login ou cadastre-se antes de finalizar no carrinho</p>,
-      confirmButtonText: "OK",
-    }).then((res) => {
-      if (res.isConfirmed) {
-        router.push("/login");
-      }
-    });
+    if (total === 0) {
+      MySwal.fire({
+        title: <p>Carrinho está vazio!</p>,
+        confirmButtonText: "OK",
+      });
+    } else {
+      MySwal.fire({
+        title: <p>Faça login ou cadastre-se antes de finalizar no carrinho</p>,
+        confirmButtonText: "OK",
+      }).then((res) => {
+        if (res.isConfirmed) {
+          router.push("/login");
+        }
+      });
+    }
   };
 
   const authorizedCart = () => {
@@ -78,10 +81,6 @@ function FloatCart() {
       router.push("/pagamento");
     }
   };
-
-  const cart = productsCart.map((p) => {
-    return <CartProduct product={p} key={p.codigoVariacao} />;
-  });
 
   const classes = ["float-cart"];
 
@@ -123,9 +122,11 @@ function FloatCart() {
           </div>
 
           <div className="float-cart__shelf-container">
-            {cart}
+            {cart.map((p) => {
+              return <CartProduct product={p} key={p.codigoVariacao} />;
+            })}
 
-            {productsCart.length === 0 && (
+            {cart.length === 0 && (
               <p className="shelf-empty">Adicione algum produto no carrinho</p>
             )}
           </div>
@@ -137,7 +138,7 @@ function FloatCart() {
               </p>
 
               <small className="sub-price__installment">
-                {!productsCart.installments && (
+                {!cart.installments && (
                   <span>
                     {`EM ATÉ 6 x R$ ${(total / 6)
                       .toFixed(2)

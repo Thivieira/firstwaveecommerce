@@ -7,7 +7,6 @@ import { clearCart } from "../../store/actions/products";
 import { getCartState } from "../../store/selectors/products";
 import { getAccount, getAddress } from "../../store/selectors/user";
 import { useDispatch, useSelector } from "react-redux";
-import blingStoreOrder from "../../services/blingStoreOrder";
 import { NextSeo } from "next-seo";
 // This gets called on every request
 export async function getServerSideProps(ctx) {
@@ -22,11 +21,6 @@ export default function Index(props) {
   const address = useSelector(getAddress);
 
   useEffect(() => {
-    // const orderResult = await axios.post("/api/order", {
-    //   cart,
-    //   user: { ...user, ...address },
-    // });
-
     switch (props.slug) {
       case "sucesso":
         dispatch(clearCart());

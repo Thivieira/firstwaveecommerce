@@ -32,7 +32,7 @@ function Dashboard() {
     if (token) {
       api.defaults.headers.common["Authorization"] = "Bearer " + token;
     } else {
-      localStorage.clear();
+      localStorage.removeItem("token");
       dispatch(saveAccount({}));
       dispatch(saveAddress({}));
       router.replace("/");

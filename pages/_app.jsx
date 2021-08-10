@@ -68,7 +68,7 @@ export default function App({ Component, pageProps }) {
       (error) => {
         if (error.response.status === 401) {
           // console.log(window.localStorage);
-          window.localStorage.clear();
+          window.localStorage.removeItem("token");
         }
         return error;
       }
