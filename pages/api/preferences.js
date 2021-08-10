@@ -96,7 +96,7 @@ export default function handler(req, res) {
       //"http://api.lifestylefloripa.com.br/integrations/mercadopago/postback"
       notification_url:
         "https://api.lifestylefloripa.com.br/integrations/mercadopago/postback",
-        // "https://c2675c6a1835.ngrok.io/integrations/mercadopago/postback",
+      // "https://c2675c6a1835.ngrok.io/integrations/mercadopago/postback",
     };
 
     // console.log("PREFERENCE", preference);
