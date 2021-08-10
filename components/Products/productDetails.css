@@ -14,6 +14,7 @@
 
 .big-img {
   height: auto;
+  max-height: 400px;
   max-width: 400px;
   object-fit: cover;
   cursor: -webkit-zoom-in;
@@ -22,6 +23,7 @@
 
 figure {
   height: auto;
+  max-height: 400px;
   max-width: 400px;
   background-repeat: no-repeat;
   object-fit: cover;
@@ -156,7 +158,6 @@ figure:hover img {
   color: #0080a8;
 }
 
-
 .details-content .info-product p:nth-child(1) {
   margin-bottom: 0;
   font-family: Inter, sans-serif !important;
@@ -200,9 +201,6 @@ figure:hover img {
   border-color: rgb(16, 179, 238);
   background-color: rgba(255, 165, 0, 0.2);
 }
-
-
-
 
 .sizes-btn ul li.disabled {
   opacity: 0.5;
@@ -294,10 +292,12 @@ figure:hover img {
 
 @media (max-width: 425px) {
   .big-img {
+    max-height: 350px;
     max-width: 350px;
   }
-  
+
   figure {
+    max-height: 350px;
     max-width: 350px;
   }
 
@@ -308,10 +308,12 @@ figure:hover img {
 
 @media (max-width: 325px) {
   .big-img {
+    max-height: 320px;
     max-width: 320px;
   }
-  
+
   figure {
+    max-height: 320px;
     max-width: 320px;
   }
 
@@ -321,5 +323,3 @@ figure:hover img {
     margin-left: 1rem;
   }
 }
-
-

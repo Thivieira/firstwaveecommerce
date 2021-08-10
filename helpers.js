@@ -5,13 +5,19 @@ export const stripHtml = (text) => text.replace(/(<([^>]+)>)/gi, "");
 
 export const convert_mercadopago_payment_methods = (payment_method) => {
   switch (payment_method) {
-    case "":
+    case "account_money":
       return "";
-    case "":
+    case "ticket":
+      return "Boleto";
+    case "bank_transfer":
+      return "Transferência Bancária";
+    case "atm":
+      return "ATM";
+    case "credit_card":
       return "";
-    case "":
+    case "debit_card":
       return "";
-    case "":
+    case "prepaid_card":
       return "";
   }
 };
@@ -19,13 +25,34 @@ export const convert_mercadopago_payment_methods = (payment_method) => {
 export const convert_mercadopago_status = (status) => {
   switch (status) {
     case "approved":
-      return "";
-    case "":
-      return "";
-    case "":
-      return "";
-    case "":
-      return "";
+      // verde
+      return "Pago";
+    case "pending":
+      // amarelo
+      return "Aguardando pagamento";
+    case "authorized":
+      // verde
+      return "Autorizado";
+    case "in_process":
+      // amarelo
+      return "Pagamento em revisão";
+    case "in_mediation":
+      // amarelo
+      return "Em disputa";
+    case "rejected":
+      // vermelho
+      // tentar novamente
+      return "Pagamento rejeitado.";
+    case "cancelled":
+      // vermelho
+      // amarelo
+      return "Pagamento cancelado.";
+    case "refunded":
+      // vermelho
+      return "Pagamento estornado.";
+    case "charged_back":
+      // vermelho
+      return "Chargeback";
   }
 };
 
@@ -41,3 +68,7 @@ export const formatToMoney = (money, currency = true) => {
     );
   }
 };
+
+export function defaultBlur() {
+  return `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=`;
+}

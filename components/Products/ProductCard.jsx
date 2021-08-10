@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { defaultBlur } from "../../helpers";
 import FavoriteBtn from "../FavoriteBtn";
+import Image from "next/image";
 
 function ProductCard({ product }) {
   const test = product.variations.length > 0 ? product.variations[0] : [];
@@ -15,7 +17,13 @@ function ProductCard({ product }) {
   return (
     <div className="card-grid" key={product.id}>
       <div className="img-content">
-        <img src={image} alt={product.title} />
+        <Image
+          src={image}
+          alt={product.title}
+          width={270}
+          height={270}
+          blurDataURL={defaultBlur()}
+        />
         <Link href={`/produto/${product.code}`} passHref>
           <button>Ver detalhes</button>
         </Link>

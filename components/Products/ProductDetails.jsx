@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-
+import Image from "next/image";
 import { useDispatch } from "react-redux";
 import Slider from "react-slick";
 import Swal from "sweetalert2";
@@ -9,6 +9,7 @@ import { addToCart, changeIsOpen } from "../../store/actions/products";
 import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
 import FavoriteBtn from "../FavoriteBtn";
 import noImage from "../../public/noimage.png";
+import { defaultBlur } from "../../helpers";
 
 const ProductDetails = ({ product }) => {
   const dispatch = useDispatch();
@@ -18,8 +19,8 @@ const ProductDetails = ({ product }) => {
   const [triggerColor, setColorTrigger] = useState(false);
   const [codigoVariacao, setCodigoVariacao] = useState("");
   const [estoqueAtual, setEstoqueAtual] = useState("");
-  const [imageThumbs, setImageThumbs] = useState([noImage]);
-  const [featuredImage, setFeaturedImage] = useState([noImage]);
+  const [imageThumbs, setImageThumbs] = useState([]);
+  const [featuredImage, setFeaturedImage] = useState(null);
   const [zoomImage, setZoomImage] = useState({
     backgroundImage: `url(${featuredImage})`,
     backgroundPosition: "0% 0%",
@@ -27,6 +28,44 @@ const ProductDetails = ({ product }) => {
   const [thePrice, setPrice] = useState(product.price);
   const [codigoProduto, setCodigoProduto] = useState("");
   const [supplyAndSize, setSupplyAndSize] = useState({});
+
+  const MySwal = withReactContent(Swal);
+
+  const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
+  const priceSale = `R$${parseFloat(product.variations[0].price)
+    .toFixed(2)
+    .replace(".", ",")}`;
+
+  const handleMouseMove = (e) => {
+    const { left, top, width, height } = e.target.getBoundingClientRect();
+    const x = ((e.pageX - left) / width) * 100;
+    const y = ((e.pageY - top) / height) * 100;
+    setZoomImage({
+      backgroundImage: `url(${featuredImage})`,
+      backgroundPosition: `${x}% ${y}%`,
+    });
+  };
+
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    infinite: imageThumbs.length > 3,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    vertical: true,
+    verticalSwiping: true,
+    swipeToSlide: true,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          vertical: false,
+        },
+      },
+    ],
+  };
 
   function setImages(imageJson) {
     let imageObj = JSON.parse(imageJson);
@@ -40,7 +79,6 @@ const ProductDetails = ({ product }) => {
   const onSelectedSizeChange = useCallback(
     (value) => {
       setSelectedSize(value);
-      // console.log(value);
 
       const variacaoDisponivel = product.variations.filter((el) => {
         let sizes = el.description.split(";").slice(1, 2);
@@ -48,7 +86,6 @@ const ProductDetails = ({ product }) => {
           return sizes[0].split(":").slice(1, 2)[0] == value;
         }
       });
-      // console.log(variacaoDisponivel.filter(el.code === variacaoDisponivel.map(el => el.code)))
 
       setAvailableColorVariations(variacaoDisponivel);
 
@@ -85,51 +122,6 @@ const ProductDetails = ({ product }) => {
     },
     [availableColorVariations, product.price]
   );
-
-  useEffect(() => {
-    const variations = product.variations;
-
-    if (!product) {
-      return null;
-    }
-    if (variations.length == 0) {
-      return null;
-    }
-
-    //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
-    let codigoProduto = variations.map((el) => el.code)[0].includes("-");
-    setCodigoProduto(codigoProduto);
-
-    const estoque = variations.map((el) => el.supply);
-
-    const tamanhos = variations.map((el) => {
-      let sizes = el.description.split(";").slice(1, 2);
-      if (sizes.length > 0) {
-        return sizes[0].split(":").slice(1, 2)[0];
-      }
-    });
-
-    const sizesNoRepeat = [...new Set(tamanhos)];
-
-    var supplyAndSize = {};
-    for (var i = 0; i < sizesNoRepeat.length; i++) {
-      supplyAndSize[sizesNoRepeat[i]] = estoque[i];
-    }
-
-    setSupplyAndSize(supplyAndSize);
-
-    const firstSizeWithSupply = Object.keys(supplyAndSize)
-      .map((tamanho) => supplyAndSize[tamanho] > 0 && tamanho)
-      .filter((el) => el != false)[0];
-
-    onSelectedSizeChange(firstSizeWithSupply);
-  }, [onSelectedSizeChange, product]);
-
-  useEffect(() => {
-    if (triggerColor) {
-      onSelectedColorChange(selectedColor);
-    }
-  }, [onSelectedColorChange, selectedColor, triggerColor]);
 
   const addToCartFn = () => {
     if (codigoProduto) {
@@ -176,43 +168,44 @@ const ProductDetails = ({ product }) => {
     }
   };
 
-  const MySwal = withReactContent(Swal);
+  useEffect(() => {
+    const variations = product.variations;
 
-  const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
-  const priceSale = `R$${parseFloat(product.variations[0].price)
-    .toFixed(2)
-    .replace(".", ",")}`;
+    //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
+    let codigoProduto = variations.map((el) => el.code)[0].includes("-");
 
-  const handleMouseMove = (e) => {
-    const { left, top, width, height } = e.target.getBoundingClientRect();
-    const x = ((e.pageX - left) / width) * 100;
-    const y = ((e.pageY - top) / height) * 100;
-    setZoomImage({
-      backgroundImage: `url(${featuredImage})`,
-      backgroundPosition: `${x}% ${y}%`,
+    setCodigoProduto(codigoProduto);
+
+    const estoque = variations.map((el) => el.supply);
+
+    const tamanhos = variations.map((el) => {
+      let sizes = el.description.split(";").slice(1, 2);
+      if (sizes.length > 0) {
+        return sizes[0].split(":").slice(1, 2)[0];
+      }
     });
-  };
 
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    infinite: imageThumbs.length > 3,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    vertical: true,
-    verticalSwiping: true,
-    swipeToSlide: true,
-    arrows: false,
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          vertical: false,
-        },
-      },
-    ],
-  };
+    const sizesNoRepeat = [...new Set(tamanhos)];
+
+    var supplyAndSize = {};
+    for (var i = 0; i < sizesNoRepeat.length; i++) {
+      supplyAndSize[sizesNoRepeat[i]] = estoque[i];
+    }
+
+    setSupplyAndSize(supplyAndSize);
+
+    const firstSizeWithSupply = Object.keys(supplyAndSize)
+      .map((tamanho) => supplyAndSize[tamanho] > 0 && tamanho)
+      .filter((el) => el != false)[0];
+
+    onSelectedSizeChange(firstSizeWithSupply);
+  }, [onSelectedSizeChange, product]);
+
+  useEffect(() => {
+    if (triggerColor) {
+      onSelectedColorChange(selectedColor);
+    }
+  }, [onSelectedColorChange, selectedColor, triggerColor]);
 
   return (
     <>
@@ -222,10 +215,12 @@ const ProductDetails = ({ product }) => {
             <Slider {...settings}>
               {imageThumbs.map((image) => (
                 <div key={image} onClick={() => setFeaturedImage(image)}>
-                  <img
+                  <Image
                     className={featuredImage === image ? "active" : ""}
                     src={image}
                     alt="imagem em miniatura do produto"
+                    width={70}
+                    height={70}
                   />
                 </div>
               ))}
@@ -233,13 +228,16 @@ const ProductDetails = ({ product }) => {
           </div>
 
           {!featuredImage ? (
-            <img className="big-img" src="/noimage.png" alt="img" />
+            <Image className="big-img" src={noImage} alt="img" />
           ) : (
             <figure style={zoomImage} onMouseMove={handleMouseMove}>
-              <img
-                src={featuredImage}
+              <Image
+                src={featuredImage ? featuredImage : noImage}
                 alt="imagem do produto"
                 className="big-img"
+                width={400}
+                height={400}
+                blurDataURL={defaultBlur()}
               />
             </figure>
           )}
@@ -337,9 +335,9 @@ const ProductDetails = ({ product }) => {
                       .split(":")
                       .slice(1, 2)[0];
                     let image = JSON.parse(variation.image);
-                    image = image.length > 0 ? image[0].link : "/noimage.png";
+                    image = image.length > 0 ? image[0].link : noImage.src;
                     return (
-                      <img
+                      <Image
                         onClick={() => {
                           setSelectedColor(color);
                           setImages(variation.image);
@@ -347,6 +345,8 @@ const ProductDetails = ({ product }) => {
                         className={color === selectedColor ? "active" : ""}
                         key={variation.id}
                         src={image}
+                        width={48}
+                        height={48}
                         alt="cor da imagem do produto"
                         style={{ height: "3rem" }}
                       />

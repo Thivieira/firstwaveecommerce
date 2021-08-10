@@ -14,7 +14,11 @@ import {
 
 import api from "../../services/api";
 import { formatDate } from "../../date";
-import { formatToMoney } from "../../helpers";
+import {
+  convert_mercadopago_payment_methods,
+  convert_mercadopago_status,
+  formatToMoney,
+} from "../../helpers";
 
 import { saveOrders } from "../../store/actions/user";
 import { useDispatch, useSelector } from "react-redux";
@@ -116,7 +120,9 @@ function Orders() {
       render: function render(text, record) {
         return (
           <span className="table-operation">
-            <a onClick={() => setActiveOrder(record)}>Abrir</a>
+            <a title="Abrir pedido" onClick={() => setActiveOrder(record)}>
+              Abrir
+            </a>
           </span>
         );
       },
@@ -187,6 +193,8 @@ function Orders() {
             order.created_at,
             "DD [de] MMMM [de] YYYY"
           ).toLowerCase(),
+          status: convert_mercadopago_status(order.status),
+          billingType: convert_mercadopago_payment_methods(order.billingType),
         };
       })}
       locale={{
