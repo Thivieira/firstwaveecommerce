@@ -4,10 +4,8 @@ import {
   Col,
   Descriptions,
   Card,
-  Icon,
   Avatar,
   Empty,
-  Menu,
   Table,
   Button,
 } from "antd";
@@ -74,7 +72,6 @@ const expandedRowRender = (order) => {
 };
 
 function Orders() {
-  // const [orders, setOrders] = useState([]);
   const [activeOrder, setActiveOrder] = useState(null);
   const orders = useSelector(getOrders);
   const dispatch = useDispatch();
@@ -113,20 +110,20 @@ function Orders() {
       dataIndex: "billingType",
       key: "billingType",
     },
-    {
-      title: "Ações",
-      dataIndex: "operation",
-      key: "operation",
-      render: function render(text, record) {
-        return (
-          <span className="table-operation">
-            <a title="Abrir pedido" onClick={() => setActiveOrder(record)}>
-              Abrir
-            </a>
-          </span>
-        );
-      },
-    },
+    // {
+    //   title: "Ações",
+    //   dataIndex: "operation",
+    //   key: "operation",
+    //   render: function render(text, record) {
+    //     return (
+    //       <span className="table-operation">
+    //         <a title="Abrir pedido" onClick={() => setActiveOrder(record)}>
+    //           Abrir
+    //         </a>
+    //       </span>
+    //     );
+    //   },
+    // },
   ];
   if (activeOrder) {
     return (
@@ -184,10 +181,14 @@ function Orders() {
       columns={columns}
       expandedRowRender={(order) => expandedRowRender(order)}
       dataSource={orders.map((order) => {
+        let count = 0;
+        order.products.forEach((product) => {
+          count += product.pivot.quantity;
+        });
         return {
           ...order,
           value: formatToMoney(order.value),
-          quantity: order.products.length,
+          quantity: count,
           key: order.id,
           created_at: formatDate(
             order.created_at,

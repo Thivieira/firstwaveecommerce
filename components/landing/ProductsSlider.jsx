@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import Slider from "react-slick";
 import FadeLoader from "react-spinners/FadeLoader";
 
+import noImage from "../../public/noimage.png";
+
 export default function ProductsSlider({ prod }) {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
@@ -92,8 +94,7 @@ export default function ProductsSlider({ prod }) {
           {products.map((p, i) => {
             let test = p.variations.length > 0 ? p.variations[0] : [];
             let imageTest = JSON.parse(test.image);
-            const image =
-              imageTest.length > 0 ? imageTest[0].link : "/noimage.png";
+            const image = imageTest.length > 0 ? imageTest[0].link : noImage;
 
             return (
               <div

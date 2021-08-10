@@ -6,19 +6,19 @@ export const stripHtml = (text) => text.replace(/(<([^>]+)>)/gi, "");
 export const convert_mercadopago_payment_methods = (payment_method) => {
   switch (payment_method) {
     case "account_money":
-      return "";
+      return "Dinheiro na conta do Mercado Pago.";
     case "ticket":
       return "Boleto";
     case "bank_transfer":
       return "Transferência Bancária";
     case "atm":
-      return "ATM";
+      return "Caixa Eletrônico";
     case "credit_card":
-      return "";
+      return "Cartão de crédito";
     case "debit_card":
-      return "";
+      return "Cartão de débito";
     case "prepaid_card":
-      return "";
+      return "Cartão pré-pago";
   }
 };
 
