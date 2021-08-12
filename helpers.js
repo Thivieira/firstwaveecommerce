@@ -10,7 +10,7 @@ export const convert_mercadopago_payment_methods = (payment_method) => {
     case "ticket":
       return "Boleto";
     case "bank_transfer":
-      return "Transferência Bancária";
+      return "PIX ou Transferência bancária";
     case "atm":
       return "Caixa Eletrônico";
     case "credit_card":
@@ -22,38 +22,84 @@ export const convert_mercadopago_payment_methods = (payment_method) => {
   }
 };
 
-export const convert_mercadopago_status = (status) => {
+export const convert_mercadopago_status = (status, type = "names") => {
+  var string = null;
   switch (status) {
     case "approved":
       // verde
-      return "Pago";
+      if (type == "colors") {
+        string = "#3FB57A";
+      } else {
+        string = "Pago";
+      }
+      break;
     case "pending":
       // amarelo
-      return "Aguardando pagamento";
+      if (type == "colors") {
+        string = "#E9DC40";
+      } else {
+        string = "Aguardando";
+      }
+      break;
     case "authorized":
       // verde
-      return "Autorizado";
+      if (type == "colors") {
+        string = "#3FB57A";
+      } else {
+        string = "Autorizado";
+      }
     case "in_process":
       // amarelo
-      return "Pagamento em revisão";
+      if (type == "colors") {
+        string = "#E9DC40";
+      } else {
+        string = "Em revisão";
+      }
+      break;
     case "in_mediation":
       // amarelo
-      return "Em disputa";
+      if (type == "colors") {
+        string = "";
+      } else {
+        string = "Em disputa";
+      }
+      break;
     case "rejected":
       // vermelho
       // tentar novamente
-      return "Pagamento rejeitado.";
+      if (type == "colors") {
+        string = "#ff4d4f";
+      } else {
+        string = "Rejeitado";
+      }
+      break;
     case "cancelled":
       // vermelho
       // amarelo
-      return "Pagamento cancelado.";
+      if (type == "colors") {
+        string = "#ff4d4f";
+      } else {
+        string = "Cancelado";
+      }
+      break;
     case "refunded":
       // vermelho
-      return "Pagamento estornado.";
+      if (type == "colors") {
+        string = "#FF66E3";
+      } else {
+        string = "Estornado";
+      }
+      break;
     case "charged_back":
       // vermelho
-      return "Chargeback";
+      if (type == "colors") {
+        string = "#FF66E3";
+      } else {
+        string = "Chargeback";
+      }
+      break;
   }
+  return string;
 };
 
 export const formatToMoney = (money, currency = true) => {

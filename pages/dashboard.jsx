@@ -184,38 +184,40 @@ function Dashboard() {
   }
 
   return (
-    <div id="edit-account">
-      <Title title={pageTitle()} />
-      <div className="edit-account-container">
-        <ul className="edit-account-list" style={{ overflow: "auto" }}>
-          <li className={formOption === 1 ? "edit-bordered" : ""}>
-            <Button onClick={() => setFormOption(1)} color="primary">
-              Pedidos
-            </Button>
-          </li>
-          <li className={formOption === 2 ? "edit-bordered" : ""}>
-            <Button onClick={() => setFormOption(2)} color="primary">
-              Usuário
-            </Button>
-          </li>
-          <li className={formOption === 3 ? "edit-bordered" : ""}>
-            <Button onClick={() => setFormOption(3)} color="primary">
-              Endereço
-            </Button>
-          </li>
-          <li className={formOption === 4 ? "edit-bordered" : ""}>
-            <Button onClick={() => setFormOption(4)} color="primary">
-              Favoritos
-            </Button>
-          </li>
-          <li>
-            <Link href="/" passHref>
-              <Button color="primary">Voltar</Button>
-            </Link>
-          </li>
-        </ul>
-        <div className="form-container">
-          {personalData.length !== 0 ? switchFormOption() : ""}
+    <div className="dashboard-container">
+      <div id="edit-account">
+        <Title title={pageTitle()} />
+        <div className="edit-account-container">
+          <ul className="edit-account-list" style={{ overflow: "auto" }}>
+            <li className={formOption === 1 ? "edit-bordered" : ""}>
+              <Button onClick={() => setFormOption(1)} color="primary">
+                Pedidos
+              </Button>
+            </li>
+            <li className={formOption === 2 ? "edit-bordered" : ""}>
+              <Button onClick={() => setFormOption(2)} color="primary">
+                Usuário
+              </Button>
+            </li>
+            <li className={formOption === 3 ? "edit-bordered" : ""}>
+              <Button onClick={() => setFormOption(3)} color="primary">
+                Endereço
+              </Button>
+            </li>
+            <li className={formOption === 4 ? "edit-bordered" : ""}>
+              <Button onClick={() => setFormOption(4)} color="primary">
+                Favoritos
+              </Button>
+            </li>
+            <li>
+              <Link href="/" passHref>
+                <Button color="primary">Voltar</Button>
+              </Link>
+            </li>
+          </ul>
+          <div className="form-container">
+            {personalData.length !== 0 ? switchFormOption() : ""}
+          </div>
         </div>
       </div>
     </div>

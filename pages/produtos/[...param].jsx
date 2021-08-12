@@ -38,6 +38,158 @@ import {
 import { removeIdDuplicate } from "../../helpers";
 import FilterSort from "../../components/FilterSort";
 
+export async function getStaticPaths() {
+  let paths = [
+    { params: { param: ["surf"] } },
+    { params: { param: ["masculino"] } },
+    { params: { param: ["feminino"] } },
+    { params: { param: ["juvenil"] } },
+    { params: { param: ["calcado"] } },
+    { params: { param: ["acessorio"] } },
+    { params: { param: ["acessorio", "oculos"] } },
+    { params: { param: ["acessorio", "relogio"] } },
+    { params: { param: ["surf", "wetsuit"] } },
+    { params: { param: ["surf", "quilha"] } },
+    { params: { param: ["surf", "leash"] } },
+    { params: { param: ["surf", "lycra"] } },
+    { params: { param: ["surf", "prancha"] } },
+    { params: { param: ["surf", "capa"] } },
+    { params: { param: ["surf", "deck"] } },
+    { params: { param: ["surf", "bone"] } },
+    { params: { param: ["masculino", "vestuario"] } },
+    { params: { param: ["masculino", "vestuario", "bermuda"] } },
+    { params: { param: ["masculino", "vestuario", "camiseta"] } },
+    { params: { param: ["masculino", "vestuario", "camisa"] } },
+    { params: { param: ["masculino", "vestuario", "regata"] } },
+    { params: { param: ["masculino", "vestuario", "calca"] } },
+    { params: { param: ["masculino", "vestuario", "jaqueta"] } },
+    { params: { param: ["masculino", "vestuario", "sunga"] } },
+    { params: { param: ["masculino", "acessorio"] } },
+    { params: { param: ["masculino", "acessorio", "bone"] } },
+    { params: { param: ["masculino", "acessorio", "mochila"] } },
+    { params: { param: ["masculino", "acessorio", "carteira"] } },
+    { params: { param: ["masculino", "acessorio", "cinto"] } },
+    { params: { param: ["masculino", "acessorio", "pochete"] } },
+    { params: { param: ["masculino", "acessorio", "gorro"] } },
+    { params: { param: ["masculino", "acessorio", "meia"] } },
+    { params: { param: ["feminino", "vestuario"] } },
+    { params: { param: ["feminino", "vestuario", "short"] } },
+    { params: { param: ["feminino", "vestuario", "saia"] } },
+    { params: { param: ["feminino", "vestuario", "calca"] } },
+    { params: { param: ["feminino", "vestuario", "camiseta"] } },
+    { params: { param: ["feminino", "vestuario", "regata"] } },
+    { params: { param: ["feminino", "vestuario", "vestido"] } },
+    { params: { param: ["feminino", "vestuario", "macaquinho"] } },
+    { params: { param: ["feminino", "vestuario", "body"] } },
+    { params: { param: ["feminino", "vestuario", "jaqueta"] } },
+    { params: { param: ["feminino", "vestuario", "biquini"] } },
+    { params: { param: ["feminino", "acessorio"] } },
+    { params: { param: ["feminino", "acessorio", "pochete"] } },
+    { params: { param: ["feminino", "acessorio", "mochila"] } },
+    { params: { param: ["feminino", "acessorio", "bone"] } },
+    { params: { param: ["feminino", "acessorio", "cinto"] } },
+    { params: { param: ["feminino", "acessorio", "carteira"] } },
+    { params: { param: ["feminino", "acessorio", "gorro"] } },
+    { params: { param: ["feminino", "acessorio", "necessaire"] } },
+    { params: { param: ["feminino", "acessorio", "meia"] } },
+    { params: { param: ["juvenil", "vestuario"] } },
+    { params: { param: ["juvenil", "vestuario", "camiseta"] } },
+    { params: { param: ["juvenil", "vestuario", "regata"] } },
+    { params: { param: ["juvenil", "vestuario", "bermuda"] } },
+    { params: { param: ["juvenil", "vestuario", "calca"] } },
+    { params: { param: ["juvenil", "vestuario", "jaqueta"] } },
+  ];
+
+  return {
+    paths,
+    fallback: "blocking",
+  };
+}
+
+export async function getStaticProps(ctx) {
+  let category = ctx.params.param[0];
+  let subcategory = ctx.params.param[1];
+  let type = ctx.params.param[2];
+
+  let url;
+  let products;
+  let total;
+  let totalPages;
+  let per_page;
+
+  let sizeDataUrl;
+  let brandDataUrl;
+  let colorDataUrl;
+  let sizes;
+  let brands;
+  let colors;
+
+  if (category && subcategory && type) {
+    url = `/products?category=${category}&subcategory=${subcategory}&type=${type}`;
+  } else if (category && subcategory && !type) {
+    type = null;
+    url = `/products?category=${category}&subcategory=${subcategory}`;
+  } else {
+    url = `/products?category=${category}`;
+    subcategory = null;
+    type = null;
+  }
+
+  const res = await api.get(url);
+
+  products = res.data.data;
+  total = res.data.total;
+  totalPages = res.data.last_page;
+  per_page = res.data.per_page;
+
+  if (category && subcategory && type) {
+    sizeDataUrl = `/products/sizes?category=${category}&subcategory=${subcategory}&type=${type}`;
+    brandDataUrl = `/products/brands?category=${category}&subcategory=${subcategory}&type=${type}`;
+    colorDataUrl = `/products/colors?category=${category}&subcategory=${subcategory}&type=${type}`;
+  } else if (category && subcategory && !type) {
+    sizeDataUrl = `/products/sizes?category=${category}&subcategory=${subcategory}`;
+    brandDataUrl = `/products/brands?category=${category}&subcategory=${subcategory}`;
+    colorDataUrl = `/products/colors?category=${category}&subcategory=${subcategory}`;
+  } else {
+    sizeDataUrl = `/products/sizes?category=${category}`;
+    brandDataUrl = `/products/brands?category=${category}`;
+    colorDataUrl = `/products/colors?category=${category}`;
+  }
+
+  const sizeData = await api.get(sizeDataUrl);
+  const brandData = await api.get(brandDataUrl);
+  const colorData = await api.get(colorDataUrl);
+
+  sizes = sizeData.data;
+  brands = brandData.data;
+  colors = colorData.data;
+
+  if (!products) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      prod: products,
+      total,
+      totalPages,
+      per_page,
+      category,
+      subcategory,
+      type,
+      sizes,
+      brands,
+      colors,
+    },
+    revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
+  };
+}
+
 export default function Products({
   prod,
   total,
@@ -193,7 +345,7 @@ export default function Products({
                   key={removeIdDuplicate(product.id)}
                 />
               ))}
-              {paginationRedux.theTotal > 15 ? (
+              {paginationRedux.totalPages > 1 ? (
                 <ReactPaginate
                   previousLabel={"<"}
                   nextLabel={">"}
@@ -276,156 +428,4 @@ export default function Products({
       </div>
     </>
   );
-}
-
-export async function getStaticPaths() {
-  let paths = [
-    { params: { param: ["surf"] } },
-    { params: { param: ["masculino"] } },
-    { params: { param: ["feminino"] } },
-    { params: { param: ["juvenil"] } },
-    { params: { param: ["calcado"] } },
-    { params: { param: ["acessorio"] } },
-    { params: { param: ["acessorio", "oculos"] } },
-    { params: { param: ["acessorio", "relogio"] } },
-    { params: { param: ["surf", "wetsuit"] } },
-    { params: { param: ["surf", "quilha"] } },
-    { params: { param: ["surf", "leash"] } },
-    { params: { param: ["surf", "lycra"] } },
-    { params: { param: ["surf", "prancha"] } },
-    { params: { param: ["surf", "capa"] } },
-    { params: { param: ["surf", "deck"] } },
-    { params: { param: ["surf", "bone"] } },
-    { params: { param: ["masculino", "vestuario"] } },
-    { params: { param: ["masculino", "vestuario", "bermuda"] } },
-    { params: { param: ["masculino", "vestuario", "camiseta"] } },
-    { params: { param: ["masculino", "vestuario", "camisa"] } },
-    { params: { param: ["masculino", "vestuario", "regata"] } },
-    { params: { param: ["masculino", "vestuario", "calca"] } },
-    { params: { param: ["masculino", "vestuario", "jaqueta"] } },
-    { params: { param: ["masculino", "vestuario", "sunga"] } },
-    { params: { param: ["masculino", "acessorio"] } },
-    { params: { param: ["masculino", "acessorio", "bone"] } },
-    { params: { param: ["masculino", "acessorio", "mochila"] } },
-    { params: { param: ["masculino", "acessorio", "carteira"] } },
-    { params: { param: ["masculino", "acessorio", "cinto"] } },
-    { params: { param: ["masculino", "acessorio", "pochete"] } },
-    { params: { param: ["masculino", "acessorio", "gorro"] } },
-    { params: { param: ["masculino", "acessorio", "meia"] } },
-    { params: { param: ["feminino", "vestuario"] } },
-    { params: { param: ["feminino", "vestuario", "short"] } },
-    { params: { param: ["feminino", "vestuario", "saia"] } },
-    { params: { param: ["feminino", "vestuario", "calca"] } },
-    { params: { param: ["feminino", "vestuario", "camiseta"] } },
-    { params: { param: ["feminino", "vestuario", "regata"] } },
-    { params: { param: ["feminino", "vestuario", "vestido"] } },
-    { params: { param: ["feminino", "vestuario", "macaquinho"] } },
-    { params: { param: ["feminino", "vestuario", "body"] } },
-    { params: { param: ["feminino", "vestuario", "jaqueta"] } },
-    { params: { param: ["feminino", "vestuario", "biquini"] } },
-    { params: { param: ["feminino", "acessorio"] } },
-    { params: { param: ["feminino", "acessorio", "pochete"] } },
-    { params: { param: ["feminino", "acessorio", "mochila"] } },
-    { params: { param: ["feminino", "acessorio", "bone"] } },
-    { params: { param: ["feminino", "acessorio", "cinto"] } },
-    { params: { param: ["feminino", "acessorio", "carteira"] } },
-    { params: { param: ["feminino", "acessorio", "gorro"] } },
-    { params: { param: ["feminino", "acessorio", "necessaire"] } },
-    { params: { param: ["feminino", "acessorio", "meia"] } },
-    { params: { param: ["juvenil", "vestuario"] } },
-    { params: { param: ["juvenil", "vestuario", "camiseta"] } },
-    { params: { param: ["juvenil", "vestuario", "regata"] } },
-    { params: { param: ["juvenil", "vestuario", "bermuda"] } },
-    { params: { param: ["juvenil", "vestuario", "calca"] } },
-    { params: { param: ["juvenil", "vestuario", "jaqueta"] } },
-  ];
-
-  return {
-    paths,
-    fallback: "blocking",
-  };
-}
-
-export async function getStaticProps(ctx) {
-  let category = ctx.params.param[0];
-  let subcategory = ctx.params.param[1];
-  let type = ctx.params.param[2];
-
-  let url;
-  let products;
-  let total;
-  let totalPages;
-  let per_page;
-
-  let sizeDataUrl;
-  let brandDataUrl;
-  let colorDataUrl;
-  let sizes;
-  let brands;
-  let colors;
-
-  if (category && subcategory && type) {
-    url = `/products?category=${category}&subcategory=${subcategory}&type=${type}`;
-  } else if (category && subcategory && !type) {
-    type = null;
-    url = `/products?category=${category}&subcategory=${subcategory}`;
-  } else {
-    url = `/products?category=${category}`;
-    subcategory = null;
-    type = null;
-  }
-
-  const res = await api.get(url);
-
-  products = res.data.data;
-  total = res.data.total;
-  totalPages = res.data.last_page;
-  per_page = res.data.per_page;
-
-  if (category && subcategory && type) {
-    sizeDataUrl = `/products/sizes?category=${category}&subcategory=${subcategory}&type=${type}`;
-    brandDataUrl = `/products/brands?category=${category}&subcategory=${subcategory}&type=${type}`;
-    colorDataUrl = `/products/colors?category=${category}&subcategory=${subcategory}&type=${type}`;
-  } else if (category && subcategory && !type) {
-    sizeDataUrl = `/products/sizes?category=${category}&subcategory=${subcategory}`;
-    brandDataUrl = `/products/brands?category=${category}&subcategory=${subcategory}`;
-    colorDataUrl = `/products/colors?category=${category}&subcategory=${subcategory}`;
-  } else {
-    sizeDataUrl = `/products/sizes?category=${category}`;
-    brandDataUrl = `/products/brands?category=${category}`;
-    colorDataUrl = `/products/colors?category=${category}`;
-  }
-
-  const sizeData = await api.get(sizeDataUrl);
-  const brandData = await api.get(brandDataUrl);
-  const colorData = await api.get(colorDataUrl);
-
-  sizes = sizeData.data;
-  brands = brandData.data;
-  colors = colorData.data;
-
-  if (!products) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      prod: products,
-      total,
-      totalPages,
-      per_page,
-      category,
-      subcategory,
-      type,
-      sizes,
-      brands,
-      colors,
-    },
-    revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
-  };
 }

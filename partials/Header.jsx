@@ -30,8 +30,22 @@ function Header() {
   const [mascDropDown, setMascDropDown] = useState(false);
   const [femDropDown, setFemDropDown] = useState(false);
   const [juvDropDown, setJuvDropDown] = useState(false);
+  const [width, setWindowWidth] = useState(0);
   const dispatch = useDispatch();
   const user = useSelector(getAccount);
+
+  const updateDimensions = () => {
+    const width = window.innerWidth;
+    setWindowWidth(width);
+  };
+
+  useEffect(() => {
+    updateDimensions();
+
+    window.addEventListener("resize", updateDimensions);
+
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, [width]);
 
   const getUserData = useCallback(async () => {
     api
@@ -1098,6 +1112,22 @@ function Header() {
           >
             Outlet
           </NavLink>
+          {user.name && width < 1010 ? (
+            <a
+              title="Sair"
+              className="menu-item"
+              onClick={() => {
+                logOut();
+                setSidebar(false);
+                setSurfDropDown(false);
+                setMascDropDown(false);
+                setFemDropDown(false);
+                setJuvDropDown(false);
+              }}
+            >
+              Sair
+            </a>
+          ) : null}
         </nav>
 
         <div

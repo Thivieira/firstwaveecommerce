@@ -249,7 +249,7 @@ export default function Index() {
                   key={removeIdDuplicate(product.id)}
                 />
               ))}
-              {paginationRedux.theTotal > 15 ? (
+              {paginationRedux.totalPages > 1 ? (
                 <ReactPaginate
                   previousLabel={"<"}
                   nextLabel={">"}

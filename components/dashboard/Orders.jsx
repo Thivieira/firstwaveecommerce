@@ -8,6 +8,7 @@ import {
   Empty,
   Table,
   Button,
+  Tag,
 } from "antd";
 
 import api from "../../services/api";
@@ -21,10 +22,21 @@ import {
 import { saveOrders } from "../../store/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders } from "../../store/selectors/user";
+import Link from "next/link";
 
 const expandedRowRender = (order) => {
   const columns = [
-    { title: "Código", dataIndex: "code", key: "code" },
+    {
+      title: "Código",
+      dataIndex: "code",
+      key: "code",
+      // eslint-disable-next-line react/display-name
+      render: (code, row) => (
+        <Link href={`/produto/${row.father_code}`} passHref>
+          <a title="Abrir produto">{code}</a>
+        </Link>
+      ),
+    },
     { title: "Descrição", dataIndex: "description", key: "description" },
     { title: "Quantidade", dataIndex: "quantity", key: "quantity" },
     { title: "Preço", dataIndex: "price", key: "price" },
@@ -88,7 +100,11 @@ function Orders() {
   }, [getOrdersFromApi]);
 
   const columns = [
-    { title: "Numero do Pedido", dataIndex: "external_id", key: "external_id" },
+    {
+      title: "Numero do Pedido",
+      dataIndex: "external_id",
+      key: "external_id",
+    },
     { title: "Pedido Realizado", dataIndex: "created_at", key: "created_at" },
     {
       title: "Quantidade de itens",
@@ -99,6 +115,16 @@ function Orders() {
       title: "Status de Pagamento",
       dataIndex: "status",
       key: "status",
+      // eslint-disable-next-line react/display-name
+      render: (status) => (
+        <Tag
+          color={convert_mercadopago_status(status, "colors")}
+          title={convert_mercadopago_status(status)}
+          style={{ textTransform: "uppercase", cursor: "default" }}
+        >
+          {convert_mercadopago_status(status)}
+        </Tag>
+      ),
     },
     {
       title: "Total",
@@ -116,11 +142,26 @@ function Orders() {
     //   key: "operation",
     //   render: function render(text, record) {
     //     return (
-    //       <span className="table-operation">
-    //         <a title="Abrir pedido" onClick={() => setActiveOrder(record)}>
-    //           Abrir
-    //         </a>
-    //       </span>
+    //       <div className="table-operation">
+    //         <Row>
+    //           <Col>
+    //             <Button
+    //               title="Abrir pedido"
+    //               onClick={() => setActiveOrder(record)}
+    //             >
+    //               Abrir
+    //             </Button>
+    //           </Col>
+    //           <Col>
+    //             <Button
+    //               title="Tentar Pagamento"
+    //               onClick={() => setActiveOrder(record)}
+    //             >
+    //               Tentar novamente
+    //             </Button>
+    //           </Col>
+    //         </Row>
+    //       </div>
     //     );
     //   },
     // },
@@ -187,6 +228,7 @@ function Orders() {
         });
         return {
           ...order,
+          external_id: order.external_id ? order.external_id : order.id,
           value: formatToMoney(order.value),
           quantity: count,
           key: order.id,
@@ -194,7 +236,6 @@ function Orders() {
             order.created_at,
             "DD [de] MMMM [de] YYYY"
           ).toLowerCase(),
-          status: convert_mercadopago_status(order.status),
           billingType: convert_mercadopago_payment_methods(order.billingType),
         };
       })}
