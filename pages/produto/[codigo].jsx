@@ -86,6 +86,7 @@ export const getStaticProps = async (ctx) => {
 
   return {
     props: { product },
-    revalidate: 43200, // 12h
+    //https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration
+    revalidate: 60, // 12h
   };
 };

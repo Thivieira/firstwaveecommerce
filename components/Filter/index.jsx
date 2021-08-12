@@ -12,6 +12,7 @@ import {
   setFilterUrl,
   setFilterMode,
 } from "../../store/actions/products";
+import { removeFromArray } from "../../helpers";
 
 function Filter({ category, subcategory, type, brands, sizes, colors }) {
   const dispatch = useDispatch();
@@ -38,7 +39,16 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
       setBrandsArr(brands);
     }
     if (sizes) {
-      setSizesArr(sizes);
+      const sizeOrder = removeFromArray(sizes, [
+        "",
+        "G",
+        "GG",
+        "GG1",
+        "M",
+        "P",
+        "U",
+      ]).concat(["P", "M", "G", "GG", "GG1", "U"]);
+      setSizesArr(sizeOrder);
     }
     if (colors) {
       setColorsArr(colors);
@@ -72,6 +82,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
         selectedPriceMax
       )
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     selectedPriceMin,
     selectedPriceMax,

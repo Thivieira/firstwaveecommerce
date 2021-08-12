@@ -1,5 +1,9 @@
 export const removeIdDuplicate = (id) => id + String(Math.random());
 
+export function removeFromArray(arr, toRemove) {
+  return arr.filter((item) => toRemove.indexOf(item) === -1);
+}
+
 //https://stackoverflow.com/questions/822452/strip-html-from-text-javascript
 export const stripHtml = (text) => text.replace(/(<([^>]+)>)/gi, "");
 
