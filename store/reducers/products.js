@@ -179,7 +179,7 @@ const productsReducer = (state = productsDefaultState, action) => {
       const color = action.payload.color;
       const size = action.payload.size;
       const codigoVariacao = action.payload.codigoVariacao;
-      const estoqueAtual = action.payload.estoqueAtual;
+      const activeSupply = action.payload.activeSupply;
       const imagemVariacao = action.payload.imagemVariacao;
       const thePrice = action.payload.thePrice;
 
@@ -198,14 +198,14 @@ const productsReducer = (state = productsDefaultState, action) => {
           (product) => codigoVariacao === product.codigoVariacao
         );
 
-        if (productsIncrement.estoqueAtual === 0) {
+        if (productsIncrement.activeSupply === 0) {
           return {
             ...state,
           };
         }
 
         productsIncrement.quantity += 1;
-        productsIncrement.estoqueAtual -= 1;
+        productsIncrement.activeSupply -= 1;
         productsIncrement.thePrice = thePrice;
         const newTotalIncrement =
           state.total + parseFloat(productsIncrement.thePrice);
@@ -218,7 +218,7 @@ const productsReducer = (state = productsDefaultState, action) => {
         const addedProduct = Object.assign({}, state.product);
 
         addedProduct.quantity = 1;
-        addedProduct.estoqueAtual = estoqueAtual - 1;
+        addedProduct.activeSupply = activeSupply - 1;
         addedProduct.size = size;
         addedProduct.color = color;
         addedProduct.codigoVariacao = codigoVariacao;
@@ -261,7 +261,7 @@ const productsReducer = (state = productsDefaultState, action) => {
 
       if (products.quantity > 1) {
         products.quantity -= 1;
-        products.estoqueAtual += 1;
+        products.activeSupply += 1;
         const newTotalDecrement = state.total - parseFloat(products.thePrice);
 
         return {
@@ -277,14 +277,14 @@ const productsReducer = (state = productsDefaultState, action) => {
         (product) => action.codigoVariacao === product.codigoVariacao
       );
 
-      if (productsIncrement.estoqueAtual === 0) {
+      if (productsIncrement.activeSupply === 0) {
         return {
           ...state,
         };
       }
 
       productsIncrement.quantity += 1;
-      productsIncrement.estoqueAtual -= 1;
+      productsIncrement.activeSupply -= 1;
       const newTotalIncrement =
         state.total + parseFloat(productsIncrement.thePrice);
 

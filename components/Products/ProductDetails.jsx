@@ -18,7 +18,7 @@ const ProductDetails = ({ product }) => {
   const [selectedColor, setSelectedColor] = useState("");
   const [triggerColor, setColorTrigger] = useState(false);
   const [codigoVariacao, setCodigoVariacao] = useState("");
-  const [estoqueAtual, setEstoqueAtual] = useState("");
+  const [activeSupply, setActiveSupply] = useState("");
   const [imageThumbs, setImageThumbs] = useState([]);
   const [featuredImage, setFeaturedImage] = useState("");
   const [zoomImage, setZoomImage] = useState({
@@ -116,7 +116,7 @@ const ProductDetails = ({ product }) => {
       setImages(cor.image);
 
       setCodigoVariacao(cor.external_id);
-      setEstoqueAtual(cor.supply);
+      setActiveSupply(cor.supply);
       setPrice(cor.price ? cor.price : product.price);
       setColorTrigger(false);
     },
@@ -139,7 +139,7 @@ const ProductDetails = ({ product }) => {
             size: selectedSize,
             color: selectedColor,
             codigoVariacao: codigoVariacao,
-            estoqueAtual: estoqueAtual,
+            activeSupply: activeSupply,
             imagemVariacao: featuredImage,
             thePrice,
           })
@@ -158,7 +158,7 @@ const ProductDetails = ({ product }) => {
             ...product,
             color: selectedColor,
             codigoVariacao: codigoVariacao,
-            estoqueAtual: estoqueAtual,
+            activeSupply: activeSupply,
             imagemVariacao: featuredImage,
             thePrice,
           })
@@ -283,9 +283,9 @@ const ProductDetails = ({ product }) => {
           <div className="btn-buy">
             <button
               onClick={() => addToCartFn()}
-              disabled={estoqueAtual === 0 ? true : false}
+              disabled={activeSupply === 0 ? true : false}
               title={
-                estoqueAtual === 0
+                activeSupply === 0
                   ? "Este produto não tem esta quantidade disponível."
                   : null
               }

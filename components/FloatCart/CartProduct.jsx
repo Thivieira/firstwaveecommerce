@@ -59,9 +59,9 @@ function CartProduct({ product }) {
             </button>
             <button
               className="change-product-button"
-              disabled={product.estoqueAtual < 1 ? true : false}
+              disabled={product.activeSupply < 1 ? true : false}
               title={
-                product.estoqueAtual < 1
+                product.activeSupply < 1
                   ? "Este produto não tem esta quantidade disponível."
                   : null
               }
