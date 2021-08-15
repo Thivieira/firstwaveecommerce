@@ -13,13 +13,15 @@ import {
   CloseCircleOutlined,
 } from "@ant-design/icons";
 
-function CartProduct({ product }) {
+function CartProduct({ product_variation }) {
   const dispatch = useDispatch();
 
   const classes = ["shelf-item"];
 
-  const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
-  const priceSale = `R$${parseFloat(product.variations[0].price)
+  const price = `R$${parseFloat(product_variation.product.price)
+    .toFixed(2)
+    .replace(".", ",")}`;
+  const priceSale = `R$${parseFloat(product_variation.price)
     .toFixed(2)
     .replace(".", ",")}`;
 
@@ -27,21 +29,28 @@ function CartProduct({ product }) {
     <>
       <div className={classes.join(" ")}>
         <CloseCircleOutlined
-          onClick={() => dispatch(removeFromCart(product.codigoVariacao))}
+          onClick={() =>
+            dispatch(removeFromCart(product_variation.external_id))
+          }
           className="removeCart"
         />
 
-        <Thumb src={product.imagemVariacao} alt={product.description} />
+        <Thumb
+          src={product_variation.imagemVariacao}
+          alt={product_variation.description}
+        />
 
         <div className="shelf-item__details">
-          <Link href={`/produto/${product.code}`} passHref>
-            <p className="title-cart">{product.description}</p>
+          <Link href={`/produto/${product_variation.code}`} passHref>
+            <p className="title-cart">{product_variation.description}</p>
           </Link>
 
           <div className="desc">
-            {product.size ? <p> Tamanho: {product.size} </p> : null}
-            <p> Cor: {product.color} </p>
-            <p> Quantidade: {product.quantity} </p>
+            {product_variation.size ? (
+              <p> Tamanho: {product_variation.size} </p>
+            ) : null}
+            <p> Cor: {product_variation.color} </p>
+            <p> Quantidade: {product_variation.quantity} </p>
           </div>
         </div>
 
@@ -49,24 +58,24 @@ function CartProduct({ product }) {
           {priceSale !== price ? <p>{priceSale}</p> : <p>{price}</p>}
           <div>
             <button
-              className="change-product-button"
+              className="change-product_variation-button"
               onClick={() =>
-                dispatch(decrementFromCart(product.codigoVariacao))
+                dispatch(decrementFromCart(product_variation.external_id))
               }
-              disabled={product.quantity === 1 ? true : false}
+              disabled={product_variation.quantity === 1 ? true : false}
             >
               <MinusOutlined />
             </button>
             <button
-              className="change-product-button"
-              disabled={product.activeSupply < 1 ? true : false}
+              className="change-product_variation-button"
+              disabled={product_variation.supply < 1 ? true : false}
               title={
-                product.activeSupply < 1
+                product_variation.supply < 1
                   ? "Este produto não tem esta quantidade disponível."
                   : null
               }
               onClick={() =>
-                dispatch(incrementFromCart(product.codigoVariacao))
+                dispatch(incrementFromCart(product_variation.external_id))
               }
             >
               <PlusOutlined />

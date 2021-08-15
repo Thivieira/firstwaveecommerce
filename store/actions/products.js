@@ -94,19 +94,19 @@ export const removeFromFavorites = (id) => ({
 
 ////////////////////////////////////////////////////
 
-export const removeFromCart = (codigoVariacao) => ({
+export const removeFromCart = (external_id) => ({
   type: "REMOVE_FROM_CART",
-  codigoVariacao,
+  external_id,
 });
 
-export const decrementFromCart = (codigoVariacao) => ({
+export const decrementFromCart = (external_id) => ({
   type: "DECREMENT",
-  codigoVariacao,
+  external_id,
 });
 
-export const incrementFromCart = (codigoVariacao) => ({
+export const incrementFromCart = (external_id) => ({
   type: "INCREMENT",
-  codigoVariacao,
+  external_id,
 });
 
 export const clearProducts = () => ({

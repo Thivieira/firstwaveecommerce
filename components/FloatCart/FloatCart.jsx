@@ -122,8 +122,10 @@ function FloatCart() {
           </div>
 
           <div className="float-cart__shelf-container">
-            {cart.map((p) => {
-              return <CartProduct product={p} key={p.codigoVariacao} />;
+            {cart.map((pv) => {
+              return (
+                <CartProduct product_variation={pv} key={pv.external_id} />
+              );
             })}
 
             {cart.length === 0 && (

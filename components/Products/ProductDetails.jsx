@@ -17,16 +17,14 @@ const ProductDetails = ({ product }) => {
   const [availableColorVariations, setAvailableColorVariations] = useState([]);
   const [selectedColor, setSelectedColor] = useState("");
   const [triggerColor, setColorTrigger] = useState(false);
-  const [codigoVariacao, setCodigoVariacao] = useState("");
-  const [activeSupply, setActiveSupply] = useState("");
+  const [activeVariation, setActiveVariation] = useState("");
   const [imageThumbs, setImageThumbs] = useState([]);
   const [featuredImage, setFeaturedImage] = useState("");
   const [zoomImage, setZoomImage] = useState({
     backgroundImage: `url(${featuredImage})`,
     backgroundPosition: "0% 0%",
   });
-  const [thePrice, setPrice] = useState(product.price);
-  const [codigoProduto, setCodigoProduto] = useState("");
+  const [hasSizeVariation, setHasZizeVariation] = useState(false);
   const [supplyAndSize, setSupplyAndSize] = useState({});
 
   const MySwal = withReactContent(Swal);
@@ -103,28 +101,27 @@ const ProductDetails = ({ product }) => {
 
   const onSelectedColorChange = useCallback(
     (value) => {
-      let cor = availableColorVariations.filter(
+      let product_variation = availableColorVariations.filter(
         (el) =>
           el.description.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] ==
           value
       )[0];
 
-      if (!cor) {
+      if (!product_variation) {
         return;
       }
 
-      setImages(cor.image);
+      setImages(product_variation.image);
 
-      setCodigoVariacao(cor.external_id);
-      setActiveSupply(cor.supply);
-      setPrice(cor.price ? cor.price : product.price);
       setColorTrigger(false);
+
+      setActiveVariation(product_variation);
     },
-    [availableColorVariations, product.price]
+    [availableColorVariations]
   );
 
   const addToCartFn = () => {
-    if (codigoProduto) {
+    if (hasSizeVariation) {
       if (selectedSize === "" || selectedColor === "") {
         MySwal.fire({
           title: (
@@ -133,17 +130,7 @@ const ProductDetails = ({ product }) => {
           confirmButtonText: "OK",
         });
       } else {
-        dispatch(
-          addToCart({
-            ...product,
-            size: selectedSize,
-            color: selectedColor,
-            codigoVariacao: codigoVariacao,
-            activeSupply: activeSupply,
-            imagemVariacao: featuredImage,
-            thePrice,
-          })
-        );
+        dispatch(addToCart({ ...activeVariation, product }));
         dispatch(changeIsOpen(true));
       }
     } else {
@@ -153,16 +140,7 @@ const ProductDetails = ({ product }) => {
           confirmButtonText: "OK",
         });
       } else {
-        dispatch(
-          addToCart({
-            ...product,
-            color: selectedColor,
-            codigoVariacao: codigoVariacao,
-            activeSupply: activeSupply,
-            imagemVariacao: featuredImage,
-            thePrice,
-          })
-        );
+        dispatch(addToCart({ ...activeVariation, product }));
         dispatch(changeIsOpen(true));
       }
     }
@@ -171,10 +149,7 @@ const ProductDetails = ({ product }) => {
   useEffect(() => {
     const variations = product.variations;
 
-    //CONDIÇÃO PARA EXIBIR SELECT DE TAMANHO
-    let codigoProduto = variations.map((el) => el.code)[0].includes("-");
-
-    setCodigoProduto(codigoProduto);
+    setHasZizeVariation(variations.map((el) => el.code)[0].includes("-"));
 
     const estoque = variations.map((el) => el.supply);
 
@@ -283,11 +258,11 @@ const ProductDetails = ({ product }) => {
           <div className="btn-buy">
             <button
               onClick={() => addToCartFn()}
-              disabled={activeSupply === 0 ? true : false}
+              disabled={activeVariation.supply <= 0 ? true : false}
               title={
-                activeSupply === 0
+                activeVariation.supply <= 0
                   ? "Este produto não tem esta quantidade disponível."
-                  : null
+                  : "Adicionar ao carrinho."
               }
             >
               ADICIONAR AO
@@ -295,7 +270,7 @@ const ProductDetails = ({ product }) => {
             </button>
           </div>
 
-          {codigoProduto ? (
+          {hasSizeVariation ? (
             <div className="sizes-btn">
               <strong>Tamanhos:</strong>
               <ul>

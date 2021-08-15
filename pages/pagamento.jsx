@@ -495,37 +495,41 @@ function Payment() {
           <NumeratedTitled title="Seu pedido" />
           <div className="cart-payment-container">
             <div className="cart-payment">
-              {cart.map((product) => {
+              {cart.map((product_variation) => {
                 return (
                   <div
                     className="cart-payment__details"
-                    key={product.codigoVariacao}
+                    key={product_variation.codigoVariacao}
                   >
                     <Image
                       className="thumb-cart-pay"
                       src={
-                        product.imagemVariacao
-                          ? product.imagemVariacao
+                        product_variation.thumbnail
+                          ? product_variation.thumbnail
                           : noImage
                       }
-                      alt={product.description}
+                      alt={product_variation.product.description}
                       width={80}
                       height={80}
                     />
                     <div className="desc">
-                      <NavLink href={`/produto/${product.code}`}>
-                        <h3 className="title-cart">{product.description}</h3>
+                      <NavLink
+                        href={`/produto/${product_variation.product.code}`}
+                      >
+                        <h3 className="title-cart">
+                          {product_variation.product.description}
+                        </h3>
                       </NavLink>
                       <div className="color-size">
-                        <p>Tamanho: {product.size}</p>
+                        <p>Tamanho: {product_variation.size}</p>
                         <p style={{ marginLeft: "10px" }}>
-                          Cor: {product.color}
+                          Cor: {product_variation.color}
                         </p>
                       </div>
                       <div className="color-size">
                         <p>Quantidade: {product.quantity}</p>
                         <p style={{ marginLeft: "10px" }}>
-                          {`R$ ${parseFloat(product.price)
+                          {`R$ ${parseFloat(product_variation.price)
                             .toFixed(2)
                             .replace(".", ",")}`}
                         </p>

@@ -122,3 +122,7 @@ export const formatToMoney = (money, currency = true) => {
 export function defaultBlur() {
   return `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=`;
 }
+
+export function extractSizeFromVariation(variation) {}
+
+export function extractColorFromVariation(variation) {}

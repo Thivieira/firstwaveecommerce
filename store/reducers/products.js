@@ -176,58 +176,47 @@ const productsReducer = (state = productsDefaultState, action) => {
     ///////////////////////////////////////////////////////////////////////
 
     case "ADD_TO_CART":
-      const color = action.payload.color;
-      const size = action.payload.size;
-      const codigoVariacao = action.payload.codigoVariacao;
-      const activeSupply = action.payload.activeSupply;
-      const imagemVariacao = action.payload.imagemVariacao;
-      const thePrice = action.payload.thePrice;
+      const product_variation = action.payload;
+      const external_id = product_variation.external_id;
 
-      const existingProductInCart = state.cart.find((existingProd) => {
-        if (
-          existingProd.color === color &&
-          existingProd.size === size &&
-          existingProd.codigoVariacao === codigoVariacao
-        ) {
-          return codigoVariacao === existingProd.codigoVariacao;
+      const existingProductVariationInCart = state.cart.find(
+        (existingProductInCart) => {
+          if (existingProductInCart.external_id === external_id) {
+            return true;
+          }
         }
-      });
+      );
 
-      if (existingProductInCart) {
+      if (existingProductVariationInCart) {
         const productsIncrement = state.cart.find(
-          (product) => codigoVariacao === product.codigoVariacao
+          (existingProductInCart) =>
+            external_id === existingProductInCart.external_id
         );
 
-        if (productsIncrement.activeSupply === 0) {
+        if (productsIncrement.supply <= 0) {
           return {
             ...state,
           };
         }
 
         productsIncrement.quantity += 1;
-        productsIncrement.activeSupply -= 1;
-        productsIncrement.thePrice = thePrice;
+        productsIncrement.supply -= 1;
+
         const newTotalIncrement =
-          state.total + parseFloat(productsIncrement.thePrice);
+          state.total + parseFloat(productsIncrement.price);
 
         return {
           ...state,
           total: newTotalIncrement,
         };
       } else {
-        const addedProduct = Object.assign({}, state.product);
+        const addedProduct = Object.assign({}, product_variation);
 
         addedProduct.quantity = 1;
-        addedProduct.activeSupply = activeSupply - 1;
-        addedProduct.size = size;
-        addedProduct.color = color;
-        addedProduct.codigoVariacao = codigoVariacao;
-        addedProduct.imagemVariacao = imagemVariacao;
-        addedProduct.thePrice = thePrice;
+        addedProduct.supply = product_variation.supply - 1;
 
-        const newTotal = state.total + parseFloat(addedProduct.thePrice);
-        // console.log(addedProduct);
-        // console.log("addedProduct DETECTED", addedProduct, codigoVariacao);
+        const newTotal = state.total + parseFloat(addedProduct.price);
+
         return {
           ...state,
           cart: [...state.cart, addedProduct],
@@ -237,16 +226,23 @@ const productsReducer = (state = productsDefaultState, action) => {
 
     case "REMOVE_FROM_CART":
       const productToRemove = state.cart.find(
-        (product) => action.codigoVariacao === product.codigoVariacao
+        (product_variation) =>
+          action.external_id === product_variation.external_id
       );
 
+      if (!productToRemove) {
+        return state;
+      }
+
+      //testar logica
       const removeProduct = state.cart.filter(
-        (product) => action.codigoVariacao !== product.codigoVariacao
+        (product_variation) =>
+          action.external_id !== product_variation.external_id
       );
 
       const newTotal =
         state.total -
-        parseFloat(productToRemove.thePrice) * productToRemove.quantity;
+        parseFloat(productToRemove.price) * productToRemove.quantity;
 
       return {
         ...state,
@@ -255,17 +251,21 @@ const productsReducer = (state = productsDefaultState, action) => {
       };
 
     case "DECREMENT":
-      const products = state.cart.find(
-        (product) => action.codigoVariacao === product.codigoVariacao
+      const productVariationInCartToDecrement = state.cart.find(
+        (product_variation) =>
+          action.external_id === product_variation.external_id
       );
 
-      if (products.quantity > 1) {
-        products.quantity -= 1;
-        products.activeSupply += 1;
-        const newTotalDecrement = state.total - parseFloat(products.thePrice);
+      if (productVariationInCartToDecrement.quantity > 1) {
+        productVariationInCartToDecrement.quantity -= 1;
+        productVariationInCartToDecrement.supply += 1;
+
+        const newTotalDecrement =
+          state.total - parseFloat(productVariationInCartToDecrement.price);
 
         return {
           ...state,
+          cart: [...state.cart, productVariationInCartToDecrement],
           total: newTotalDecrement,
         };
       } else {
@@ -273,23 +273,25 @@ const productsReducer = (state = productsDefaultState, action) => {
       }
 
     case "INCREMENT":
-      const productsIncrement = state.cart.find(
-        (product) => action.codigoVariacao === product.codigoVariacao
+      const productVariationInCartToIncrement = state.cart.find(
+        (product_variation) =>
+          action.external_id === product_variation.external_id
       );
 
-      if (productsIncrement.activeSupply === 0) {
+      if (productVariationInCartToIncrement.supply <= 0) {
         return {
           ...state,
         };
       }
 
-      productsIncrement.quantity += 1;
-      productsIncrement.activeSupply -= 1;
+      productVariationInCartToIncrement.quantity += 1;
+      productVariationInCartToIncrement.supply -= 1;
       const newTotalIncrement =
-        state.total + parseFloat(productsIncrement.thePrice);
+        state.total + parseFloat(productVariationInCartToIncrement.price);
 
       return {
         ...state,
+        cart: [...state.cart, productVariationInCartToIncrement],
         total: newTotalIncrement,
       };
 
