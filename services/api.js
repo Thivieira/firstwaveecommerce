@@ -5,3 +5,5 @@ const api = axios.create({
 });
 
 export default api;
+
+export const fetcher = (url) => api.get(url).then((res) => res.data);

@@ -3,11 +3,11 @@ import { useState } from "react";
 import { TextField, InputAdornment, Button } from "@material-ui/core";
 import { EmailRounded } from "@material-ui/icons";
 
-import Container from "../Utils/Container";
-import Title from "../Utils/Title";
-import Box from "../Utils/Box";
-import InputContainer from "../Utils/InputContainer";
-import ButtonsContainer from "../Utils/ButtonsContainer";
+import Container from "../components/Utils/Container";
+import Title from "../components/Utils/Title";
+import Box from "../components/Utils/Box";
+import InputContainer from "../components/Utils/InputContainer";
+import ButtonsContainer from "../components/Utils/ButtonsContainer";
 import api from "../services/api";
 
 import Swal from "sweetalert2";

@@ -1,9 +1,11 @@
 .box {
+    width: 64vw;
     display: flex;
     border: 1px solid #0080a8;
     justify-content: space-around;
     align-items: center;
     border-radius: 6px;
+    padding: 2rem;
 }
 
 @media(max-width: 850px) {
@@ -12,11 +14,8 @@
     }
 }
 
-@media(max-width: 380px) {
+@media(max-width: 550px) {
     .box {
-        padding: 3rem;
+        width: 90vw;
     }
 }
-
-
-

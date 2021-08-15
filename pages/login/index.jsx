@@ -8,10 +8,10 @@ import withReactContent from "sweetalert2-react-content";
 import { TextField, InputAdornment, Button } from "@material-ui/core";
 import { Person, LockOpen, GroupAdd } from "@material-ui/icons";
 
-import Separation from "../../Utils/Separation";
-import Box from "../../Utils/Box";
-import InputContainer from "../../Utils/InputContainer";
-import ButtonsContainer from "../../Utils/ButtonsContainer";
+import Separation from "../../components/Utils/Separation";
+import Box from "../../components/Utils/Box";
+import InputContainer from "../../components/Utils/InputContainer";
+import ButtonsContainer from "../../components/Utils/ButtonsContainer";
 import { useDispatch } from "react-redux";
 import { saveAccount } from "../../store/actions/user";
 import useToken from "../../contexts/TokenStorage";

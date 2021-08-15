@@ -1,11 +1,11 @@
 import { NextSeo } from "next-seo";
 import { TextField, Button, Typography } from "@material-ui/core";
 
-import Container from "../Utils/Container";
-import Title from "../Utils/Title";
-import Box from "../Utils/Box";
-import InputContainer from "../Utils/InputContainer";
-import ButtonsContainer from "../Utils/ButtonsContainer";
+import Container from "../components/Utils/Container";
+import Title from "../components/Utils/Title";
+import Box from "../components/Utils/Box";
+import InputContainer from "../components/Utils/InputContainer";
+import ButtonsContainer from "../components/Utils/ButtonsContainer";
 import api from "../services/api";
 
 import Swal from "sweetalert2";

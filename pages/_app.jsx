@@ -36,14 +36,14 @@ import "./login/login.css";
 import "./registrar/form.css";
 import "./produtos/produtos.css";
 
-import "../Utils/Box/box.css";
-import "../Utils/ButtonsContainer/buttonsContainer.css";
-import "../Utils/Separation/separation.css";
-import "../Utils/InputContainer/inputContainer.css";
-import "../Utils/Container/container.css";
-import "../Utils/Title/title.css";
-import "../Utils/NumeratedTitle/numeratedTitle.css";
-import "../Utils/PaymentBox/paymentBox.css";
+import "../components/Utils/Box/box.css";
+import "../components/Utils/ButtonsContainer/buttonsContainer.css";
+import "../components/Utils/Separation/separation.css";
+import "../components/Utils/InputContainer/inputContainer.css";
+import "../components/Utils/Container/container.css";
+import "../components/Utils/Title/title.css";
+import "../components/Utils/NumeratedTitle/numeratedTitle.css";
+import "../components/Utils/PaymentBox/paymentBox.css";
 
 import api from "../services/api";
 
