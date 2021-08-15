@@ -130,10 +130,6 @@ function Login() {
         </InputContainer>
         <Separation />
         <div className="sign-up">
-          {/* <Button onClick={signInWithGoogle} className='create-google' variant="contained" color="primary">
-            <img src='/google-icon.svg' alt="Logo do Google" />
-            Criar conta com o Google
-          </Button> */}
           <Button
             className="login-button"
             href="/registrar"
