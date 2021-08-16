@@ -70,7 +70,6 @@
 }
 
 .menu-call-2 .menu-call-2-in {
-  
 }
 
 .menu-call-2 .menu-call-2-in p {
@@ -84,11 +83,10 @@
   text-align: center;
 }
 
-
 .nav-item {
   display: flex;
   align-items: center;
-  margin-right: 2rem;  
+  margin-right: 2rem;
 }
 
 .nav-item-cart {
@@ -180,7 +178,7 @@
   height: 20rem;
   padding: 0.5rem 0;
   cursor: pointer;
-  object-fit: cover;
+  object-fit: contain;
   transition: all ease-in-out 0.3s;
 }
 
@@ -221,7 +219,7 @@
   height: 20rem;
   padding: 0.5rem 0;
   cursor: pointer;
-  object-fit: cover;
+  object-fit: contain;
   transition: all ease-in-out 0.3s;
 }
 
@@ -307,7 +305,8 @@
     color: #0080a8;
   }
 
-  .btn-nav-call, .login {
+  .btn-nav-call,
+  .login {
     display: none;
   }
 
@@ -393,7 +392,7 @@
   .flex {
     display: flex;
   }
-  
+
   .atend {
     display: flex;
     align-items: center;
@@ -419,11 +418,12 @@
     display: none;
   }
 
-  .menu-item-active .down  {
-    display: flex; 
+  .menu-item-active .down {
+    display: flex;
   }
 
-  .navbar-mobile-surf, .navbar-mobile-masc {
+  .navbar-mobile-surf,
+  .navbar-mobile-masc {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -439,7 +439,6 @@
     font-size: 1rem;
     margin: 10px 0;
   }
-
 }
 
 @media (max-width: 680px) {
@@ -475,4 +474,3 @@
     width: 17rem;
   }
 }
-

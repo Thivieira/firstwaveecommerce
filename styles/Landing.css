@@ -27,19 +27,19 @@
 }
 
 .payment-information strong::before {
-  content: '';
+  content: "";
   animation: animate infinite 6s;
 }
 
 @keyframes animate {
   0% {
-    content: 'FRETE GRATIS';
+    content: "FRETE GRATIS";
   }
   50% {
-    content: 'ACIMA DE R$199,00';
+    content: "ACIMA DE R$199,00";
   }
   100% {
-    content: 'REGIÕES SUL E SUDESTE';
+    content: "REGIÕES SUL E SUDESTE";
   }
 }
 
@@ -224,13 +224,10 @@
 .wrapper-equal-images .image-landing {
   width: 35rem;
   height: auto;
-  object-fit: contain;
+  object-fit: cover;
   cursor: pointer;
   transition: all ease-in-out 0.4s;
 }
-
-
-
 
 .wrapper-equal-images button {
   position: absolute;

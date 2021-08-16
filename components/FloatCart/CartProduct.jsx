@@ -12,6 +12,10 @@ import {
   MinusOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
+import {
+  extractColorFromVariation,
+  extractSizeFromVariation,
+} from "../../helpers";
 
 function CartProduct({ product_variation }) {
   const dispatch = useDispatch();
@@ -36,20 +40,22 @@ function CartProduct({ product_variation }) {
         />
 
         <Thumb
-          src={product_variation.imagemVariacao}
-          alt={product_variation.description}
+          src={product_variation.thumbnail}
+          alt={product_variation.product.description}
         />
 
         <div className="shelf-item__details">
           <Link href={`/produto/${product_variation.code}`} passHref>
-            <p className="title-cart">{product_variation.description}</p>
+            <p className="title-cart">
+              {product_variation.product.description}
+            </p>
           </Link>
 
           <div className="desc">
-            {product_variation.size ? (
-              <p> Tamanho: {product_variation.size} </p>
+            {extractSizeFromVariation(product_variation) ? (
+              <p> Tamanho: {extractSizeFromVariation(product_variation)} </p>
             ) : null}
-            <p> Cor: {product_variation.color} </p>
+            <p> Cor: {extractColorFromVariation(product_variation)} </p>
             <p> Quantidade: {product_variation.quantity} </p>
           </div>
         </div>
@@ -58,7 +64,7 @@ function CartProduct({ product_variation }) {
           {priceSale !== price ? <p>{priceSale}</p> : <p>{price}</p>}
           <div>
             <button
-              className="change-product_variation-button"
+              className="change-product-button"
               onClick={() =>
                 dispatch(decrementFromCart(product_variation.external_id))
               }
@@ -67,7 +73,7 @@ function CartProduct({ product_variation }) {
               <MinusOutlined />
             </button>
             <button
-              className="change-product_variation-button"
+              className="change-product-button"
               disabled={product_variation.supply < 1 ? true : false}
               title={
                 product_variation.supply < 1

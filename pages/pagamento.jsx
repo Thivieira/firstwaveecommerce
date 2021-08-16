@@ -5,7 +5,7 @@ import { TextField } from "@material-ui/core";
 import { getCartState, getCartTotal } from "../store/selectors/products";
 import { saveAccount, saveAddress } from "../store/actions/user";
 
-import NumeratedTitled from "../components/Utils/NumeratedTitle";
+import NumeratedTitle from "../components/Utils/NumeratedTitle";
 import PaymentBox from "../components/Utils/PaymentBox";
 import NavLink from "../components/NavLink";
 import api from "../services/api";
@@ -15,8 +15,13 @@ import { getAccount } from "../store/selectors/user";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import useToken from "../contexts/TokenStorage";
-import Image from "next/image";
+// import Image from "next/image";
 import noImage from "../public/noimage.png";
+import {
+  extractColorFromVariation,
+  extractSizeFromVariation,
+} from "../helpers";
+import PaymentPlaceholder from "../components/Payments/PaymentPlaceholder";
 
 function Payment() {
   const router = useRouter();
@@ -139,194 +144,14 @@ function Payment() {
   }, [cart, token, router]);
 
   if (cart.length == 0 || !token) {
-    return (
-      <div className="payment-container">
-        <div className="payment-top-container">
-          <div className="column">
-            <NumeratedTitled title="Dados Pessoais" />
-            <PaymentBox type={3}>
-              <TextField
-                id="name"
-                label="Nome Completo"
-                variant="filled"
-                margin="normal"
-                className="white-background"
-                size="small"
-                InputProps={{
-                  readOnly: !edit,
-                }}
-                fullWidth
-              />
-              <TextField
-                id="email"
-                label="Email"
-                variant="filled"
-                margin="normal"
-                className="white-background"
-                size="small"
-                InputProps={{
-                  readOnly: !edit,
-                }}
-                fullWidth
-              />
-              <TextField
-                id="telefone"
-                label="Telefone"
-                variant="filled"
-                margin="normal"
-                className="white-background"
-                size="small"
-                InputProps={{
-                  readOnly: !edit,
-                }}
-                fullWidth
-              />
-              <TextField
-                id="cpf"
-                label="Cpf"
-                variant="filled"
-                margin="normal"
-                className="white-background"
-                size="small"
-                InputProps={{
-                  readOnly: !edit,
-                }}
-                fullWidth
-              />
-            </PaymentBox>
-          </div>
-          <div className="column">
-            <NumeratedTitled title="Endereço de entrega" />
-            <PaymentBox type={1} onClick={handleEditAddress}>
-              <TextField
-                value={street}
-                onChange={(e) => setStreet(e.target.value)}
-                id="street"
-                label="Rua"
-                variant="filled"
-                margin="normal"
-                className="white-background"
-                size="small"
-                InputProps={{
-                  readOnly: !edit,
-                }}
-                fullWidth
-              />
-              <div className="line-input">
-                <div className="first-line-input">
-                  <TextField
-                    value={number}
-                    onChange={(e) => setNumber(e.target.value)}
-                    id="number"
-                    label="Número"
-                    variant="filled"
-                    margin="normal"
-                    className="white-background"
-                    size="small"
-                    InputProps={{
-                      readOnly: !edit,
-                    }}
-                  />
-                </div>
-                <TextField
-                  value={complement}
-                  onChange={(e) => setComplement(e.target.value)}
-                  id="complement"
-                  label="Complemento"
-                  variant="filled"
-                  margin="normal"
-                  className="white-background"
-                  size="small"
-                  InputProps={{
-                    readOnly: !edit,
-                  }}
-                  fullWidth
-                />
-              </div>
-              <TextField
-                value={cep}
-                onChange={(e) => setCep(e.target.value)}
-                id="cep"
-                label="CEP"
-                variant="filled"
-                margin="normal"
-                className="white-background"
-                size="small"
-                InputProps={{
-                  readOnly: !edit,
-                }}
-                fullWidth
-              />
-              <div className="line-input">
-                <div className="first-line-input">
-                  <TextField
-                    value={state}
-                    onChange={(e) => setState(e.target.value)}
-                    id="state"
-                    label="Estado"
-                    variant="filled"
-                    margin="normal"
-                    className="white-background"
-                    size="small"
-                    InputProps={{
-                      readOnly: !edit,
-                    }}
-                  />
-                </div>
-                <TextField
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  id="city"
-                  label="Cidade"
-                  variant="filled"
-                  margin="normal"
-                  className="white-background"
-                  size="small"
-                  InputProps={{
-                    readOnly: !edit,
-                  }}
-                  fullWidth
-                />
-              </div>
-              <TextField
-                value={neighborhood}
-                onChange={(e) => setNeighborhood(e.target.value)}
-                id="neighborhood"
-                label="Bairro"
-                variant="filled"
-                margin="normal"
-                className="white-background"
-                size="small"
-                InputProps={{
-                  readOnly: !edit,
-                }}
-                fullWidth
-              />
-            </PaymentBox>
-          </div>
-          <div className="column">
-            <NumeratedTitled title="Seu pedido" />
-            <div className="cart-payment-container">
-              <div className="cart-payment"></div>
-              <div className="sub-price">
-                <p className="sub-price__val"></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="payment-bottom-container">
-          <NumeratedTitled title="Pagamento" />
-          <div className="payment-data"></div>
-        </div>
-      </div>
-    );
+    return <PaymentPlaceholder />;
   }
 
   return (
     <div className="payment-container">
       <div className="payment-top-container">
         <div className="column">
-          <NumeratedTitled title="Dados Pessoais" />
+          <NumeratedTitle title="Dados Pessoais" />
           <PaymentBox type={3}>
             <TextField
               value={personalData.name}
@@ -383,7 +208,7 @@ function Payment() {
           </PaymentBox>
         </div>
         <div className="column">
-          <NumeratedTitled title="Endereço de entrega" />
+          <NumeratedTitle title="Endereço de entrega" />
           <PaymentBox type={1} onClick={handleEditAddress}>
             <TextField
               value={street}
@@ -492,16 +317,16 @@ function Payment() {
           </PaymentBox>
         </div>
         <div className="column">
-          <NumeratedTitled title="Seu pedido" />
+          <NumeratedTitle title="Seu pedido" />
           <div className="cart-payment-container">
             <div className="cart-payment">
               {cart.map((product_variation) => {
                 return (
                   <div
                     className="cart-payment__details"
-                    key={product_variation.codigoVariacao}
+                    key={product_variation.external_id}
                   >
-                    <Image
+                    <img
                       className="thumb-cart-pay"
                       src={
                         product_variation.thumbnail
@@ -521,13 +346,15 @@ function Payment() {
                         </h3>
                       </NavLink>
                       <div className="color-size">
-                        <p>Tamanho: {product_variation.size}</p>
+                        <p>
+                          Tamanho: {extractSizeFromVariation(product_variation)}
+                        </p>
                         <p style={{ marginLeft: "10px" }}>
-                          Cor: {product_variation.color}
+                          Cor: {extractColorFromVariation(product_variation)}
                         </p>
                       </div>
                       <div className="color-size">
-                        <p>Quantidade: {product.quantity}</p>
+                        <p>Quantidade: {product_variation.quantity}</p>
                         <p style={{ marginLeft: "10px" }}>
                           {`R$ ${parseFloat(product_variation.price)
                             .toFixed(2)
@@ -548,7 +375,7 @@ function Payment() {
         </div>
       </div>
       <div className="payment-bottom-container">
-        <NumeratedTitled title="Pagamento" />
+        <NumeratedTitle title="Pagamento" />
         <div className="payment-data">
           <PaymentBtn />
         </div>

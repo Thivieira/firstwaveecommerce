@@ -11,7 +11,7 @@
 
 .wrapper-carousel-landing .image-next {
   width: 100%;
-  object-fit: cover;
+  object-fit: contain;
   background-size: 100% 100%;
 }
 

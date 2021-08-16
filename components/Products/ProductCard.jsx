@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { defaultBlur } from "../../helpers";
 import FavoriteBtn from "../FavoriteBtn";
-import Image from "next/image";
+// import Image from "next/image";
 import noImage from "../../public/noimage.png";
 
 function ProductCard({ product }) {
@@ -18,7 +18,7 @@ function ProductCard({ product }) {
   return (
     <div className="card-grid" key={product.id}>
       <div className="img-content">
-        <Image
+        <img
           src={image}
           alt={product.title}
           width={270}

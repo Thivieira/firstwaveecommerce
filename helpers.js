@@ -123,6 +123,14 @@ export function defaultBlur() {
   return `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=`;
 }
 
-export function extractSizeFromVariation(variation) {}
+export function extractSizeFromVariation(variation) {
+  return variation.description.split(";").slice(1, 2)[0].split(":")[1];
+}
 
-export function extractColorFromVariation(variation) {}
+export function extractColorFromVariation(variation) {
+  return variation.description
+    .split(";")
+    .slice(0, 1)[0]
+    .split(":")
+    .slice(1, 2)[0];
+}

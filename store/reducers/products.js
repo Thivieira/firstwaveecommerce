@@ -265,7 +265,6 @@ const productsReducer = (state = productsDefaultState, action) => {
 
         return {
           ...state,
-          cart: [...state.cart, productVariationInCartToDecrement],
           total: newTotalDecrement,
         };
       } else {
@@ -291,7 +290,6 @@ const productsReducer = (state = productsDefaultState, action) => {
 
       return {
         ...state,
-        cart: [...state.cart, productVariationInCartToIncrement],
         total: newTotalIncrement,
       };
 

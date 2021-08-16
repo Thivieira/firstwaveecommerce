@@ -90,7 +90,7 @@
   margin-right: 5px;
   font-size: 0.8rem;
   text-decoration: line-through;
-} 
+}
 
 .card:hover .details {
   bottom: 0;
@@ -140,4 +140,3 @@
     left: -33px !important;
   }
 }
-

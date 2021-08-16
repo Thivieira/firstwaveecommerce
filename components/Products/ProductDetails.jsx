@@ -190,7 +190,7 @@ const ProductDetails = ({ product }) => {
             <Slider {...settings}>
               {imageThumbs.map((image) => (
                 <div key={image} onClick={() => setFeaturedImage(image)}>
-                  <Image
+                  <img
                     className={featuredImage === image ? "active" : ""}
                     src={image}
                     alt="imagem em miniatura do produto"
@@ -203,7 +203,7 @@ const ProductDetails = ({ product }) => {
           </div>
 
           {!featuredImage ? (
-            <Image className="big-img" src={noImage} alt="img" />
+            <img className="big-img" src={noImage} alt="img" />
           ) : (
             <figure
               style={zoomImage}
@@ -215,7 +215,7 @@ const ProductDetails = ({ product }) => {
                 });
               }}
             >
-              <Image
+              <img
                 src={featuredImage ? featuredImage : noImage}
                 alt="imagem do produto"
                 className="big-img"
@@ -321,7 +321,7 @@ const ProductDetails = ({ product }) => {
                     let image = JSON.parse(variation.image);
                     image = image.length > 0 ? image[0].link : noImage.src;
                     return (
-                      <Image
+                      <img
                         onClick={() => {
                           setSelectedColor(color);
                           setImages(variation.image);

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -104,7 +104,7 @@ export default function ProductsSlider({ prod }) {
               >
                 <div className="card">
                   <div className="card-image">
-                    <Image
+                    <img
                       src={image}
                       alt="imagem do produto"
                       className="image-slider"
