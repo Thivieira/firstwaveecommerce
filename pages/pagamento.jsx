@@ -141,7 +141,6 @@ function Payment() {
   }
 
   useEffect(() => {
-    console.log(cartStorage, token);
     if (cartStorage.cart.length == 0 || !token) {
       router.push("/");
     }

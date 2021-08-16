@@ -87,14 +87,16 @@ const ProductDetails = ({ product }) => {
 
       setAvailableColorVariations(variacaoDisponivel);
 
-      let color = variacaoDisponivel[0].description
-        .split(";")
-        .slice(0, 1)[0]
-        .split(":")
-        .slice(1, 2)[0];
+      if (variacaoDisponivel.length > 0) {
+        let color = variacaoDisponivel[0].description
+          .split(";")
+          .slice(0, 1)[0]
+          .split(":")
+          .slice(1, 2)[0];
 
-      setSelectedColor(color);
-      setColorTrigger(true);
+        setSelectedColor(color);
+        setColorTrigger(true);
+      }
     },
     [product.variations]
   );
@@ -147,6 +149,9 @@ const ProductDetails = ({ product }) => {
   };
 
   useEffect(() => {
+    /**
+     *  INIT PRODUCT
+     */
     const variations = product.variations;
 
     setHasZizeVariation(variations.map((el) => el.code)[0].includes("-"));
@@ -172,8 +177,11 @@ const ProductDetails = ({ product }) => {
     const firstSizeWithSupply = Object.keys(supplyAndSize)
       .map((tamanho) => supplyAndSize[tamanho] > 0 && tamanho)
       .filter((el) => el != false)[0];
-
+    // if (variations.length > 0) {
+    setImages(variations[0].image);
     onSelectedSizeChange(firstSizeWithSupply);
+    // } else {
+    // }
   }, [onSelectedSizeChange, product]);
 
   useEffect(() => {

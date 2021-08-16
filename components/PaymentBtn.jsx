@@ -6,6 +6,7 @@ import { getAccount, getAddress } from "../store/selectors/user";
 import { setPreferenceId } from "../store/actions/products";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
 const loadMercadoPago = (callback) => {
   const existingScript = document.getElementById("mercadoPagoSdkScript");
@@ -37,60 +38,26 @@ async function create_preference(cart, address, account) {
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 export default function PaymentBtn(props) {
+  const router = useRouter();
   const [loaded, setLoaded] = useState(false);
   const [clicked, setClickState] = useState(false);
-  const [initPointLink, setInitPointLink] = useState(false);
   const cart = useSelector(getCartState);
   const address = useSelector(getAddress);
   const account = useSelector(getAccount);
   const dispatch = useDispatch();
 
-  // setPreferenceId
-  /**
-   * Salvar no backend a preferencia da compra (cart), receber a preferencia, atualizar o id da preferencia na lib frontend
-   */
-  // const mpRun = (preferenceId, init_point_arg) => {
-  //   // Adicione as credenciais do SDK
-  //   mp = new MercadoPago(process.env.PUBLIC_KEY, {
-  //     locale: "pt-BR",
-  //   });
-
-  //   // Inicialize o checkout
-  //   checkout = mp.checkout({
-  //     preference: {
-  //       id: preferenceId,
-  //     },
-  //     render: {
-  //       container: ".cho-container", // Indica onde o botão de pagamento será exibido
-  //       label: "Pagar", // Muda o texto do botão de pagamento (opcional)
-  //     },
-  //     theme: {
-  //       elementsColor: "#1890ff",
-  //       headerColor: "#1890ff",
-  //     },
-  //     autoOpen: true,
-  //     init_point: "redirect",
-  //   });
-
-  //   window.mp = mp;
-  //   window.checkout = checkout;
-  //   window.location = `${init_point_arg}`;
-  // };
-
   const mpRun = useCallback((preferenceId, init_point_arg) => {
-    // Adicione as credenciais do SDK
     const mp = new MercadoPago(process.env.NEXT_PUBLIC_PUBLIC_KEY, {
       locale: "pt-BR",
     });
 
-    // Inicialize o checkout
     const checkout = mp.checkout({
       preference: {
         id: preferenceId,
       },
       render: {
-        container: ".cho-container", // Indica onde o botão de pagamento será exibido
-        label: "Pagar", // Muda o texto do botão de pagamento (opcional)
+        container: ".cho-container",
+        label: "Pagar",
       },
       theme: {
         elementsColor: "#1890ff",
@@ -106,13 +73,17 @@ export default function PaymentBtn(props) {
   }, []);
 
   useEffect(() => {
+    if (!account) {
+      router.push("/");
+    }
+  }, [account]);
+
+  useEffect(() => {
     if (clicked) {
       loadMercadoPago(async () => {
         setLoaded(true);
         const preferenceObj = await create_preference(cart, address, account);
-        setInitPointLink(preferenceObj.init_point);
         dispatch(setPreferenceId(preferenceObj.preferenceId));
-        // console.log("preferenceObj", preferenceObj);
         mpRun(preferenceObj.preferenceId, preferenceObj.init_point);
       });
     }
