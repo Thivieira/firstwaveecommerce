@@ -1,4 +1,5 @@
 import { TextField } from "@material-ui/core";
+import { Skeleton } from "antd";
 
 import NumeratedTitle from "../Utils/NumeratedTitle";
 import PaymentBox from "../Utils/PaymentBox";
@@ -158,7 +159,11 @@ export default function PaymentPlaceholder() {
         <div className="column">
           <NumeratedTitle title="Seu pedido" />
           <div className="cart-payment-container">
-            <div className="cart-payment"></div>
+            <div className="cart-payment">
+              <div className="cart-payment__details">
+                <Skeleton avatar paragraph={{ rows: 4 }} />
+              </div>
+            </div>
             <div className="sub-price">
               <p className="sub-price__val"></p>
             </div>

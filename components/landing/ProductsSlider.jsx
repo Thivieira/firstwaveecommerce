@@ -109,7 +109,7 @@ export default function ProductsSlider({ prod }) {
                       alt="imagem do produto"
                       className="image-slider"
                       layout="fill"
-                      priority
+                      // priority
                     />
                   </div>
                   <div className="details">

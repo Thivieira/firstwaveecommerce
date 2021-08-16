@@ -16,10 +16,12 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import useToken from "../contexts/TokenStorage";
 // import Image from "next/image";
-import noImage from "../public/noimage.png";
+// import noImage from "../public/noimage.png";
+import useCart from "../contexts/CartStorage";
 import {
   extractColorFromVariation,
   extractSizeFromVariation,
+  getFeaturedImage,
 } from "../helpers";
 import PaymentPlaceholder from "../components/Payments/PaymentPlaceholder";
 
@@ -27,6 +29,7 @@ function Payment() {
   const router = useRouter();
   const cart = useSelector(getCartState);
   const cartTotal = useSelector(getCartTotal);
+  const [cartStorage, setCartStorage] = useCart("cart");
 
   const [personalData, setPersonalData] = useState({
     name: "",
@@ -138,10 +141,11 @@ function Payment() {
   }
 
   useEffect(() => {
-    if (cart.length == 0 || !token) {
+    console.log(cartStorage, token);
+    if (cartStorage.cart.length == 0 || !token) {
       router.push("/");
     }
-  }, [cart, token, router]);
+  }, [cartStorage, token, router]);
 
   if (cart.length == 0 || !token) {
     return <PaymentPlaceholder />;
@@ -328,11 +332,7 @@ function Payment() {
                   >
                     <img
                       className="thumb-cart-pay"
-                      src={
-                        product_variation.thumbnail
-                          ? product_variation.thumbnail
-                          : noImage
-                      }
+                      src={getFeaturedImage(product_variation.image)}
                       alt={product_variation.product.description}
                       width={80}
                       height={80}

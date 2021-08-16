@@ -15,6 +15,7 @@ import {
 import {
   extractColorFromVariation,
   extractSizeFromVariation,
+  getFeaturedImage,
 } from "../../helpers";
 
 function CartProduct({ product_variation }) {
@@ -40,7 +41,7 @@ function CartProduct({ product_variation }) {
         />
 
         <Thumb
-          src={product_variation.thumbnail}
+          src={getFeaturedImage(product_variation.image)}
           alt={product_variation.product.description}
         />
 

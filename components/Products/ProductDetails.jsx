@@ -221,7 +221,7 @@ const ProductDetails = ({ product }) => {
                 className="big-img"
                 width={400}
                 height={400}
-                blurDataURL={defaultBlur()}
+                // blurDataURL={defaultBlur()}
               />
             </figure>
           )}

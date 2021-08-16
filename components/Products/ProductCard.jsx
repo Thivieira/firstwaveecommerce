@@ -23,7 +23,7 @@ function ProductCard({ product }) {
           alt={product.title}
           width={270}
           height={270}
-          blurDataURL={defaultBlur()}
+          // blurDataURL={defaultBlur()}
         />
         <Link href={`/produto/${product.code}`} passHref>
           <button>Ver detalhes</button>

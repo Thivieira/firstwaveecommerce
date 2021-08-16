@@ -35,12 +35,12 @@ export default function handler(req, res) {
 
     const items = cart.map((item) => {
       return {
-        id: item.codigoVariacao,
-        title: item.description,
-        description: `${item.description} - ${item.brand}`,
-        picture_url: item.imagemVariacao,
+        id: item.external_id,
+        title: item.product.description,
+        description: `${item.product.description} - ${item.brand}`,
+        picture_url: getFeaturedImage(item.image),
         quantity: parseInt(item.quantity),
-        unit_price: parseInt(item.thePrice),
+        unit_price: parseInt(item.price),
         currency_id: "BRL",
         category_id: "fashion",
       };

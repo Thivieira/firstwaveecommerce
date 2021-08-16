@@ -134,3 +134,16 @@ export function extractColorFromVariation(variation) {
     .split(":")
     .slice(1, 2)[0];
 }
+
+export function getFeaturedImage(imageJson) {
+  let imageObj;
+  try {
+    imageObj = JSON.parse(imageJson);
+  } catch (e) {
+    return "/noimage.png";
+  }
+
+  const imagesLink = imageObj.map((el) => el.link);
+
+  return imagesLink.length > 0 ? imagesLink[0] : "/noimage.png";
+}
