@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
 import { useDispatch } from "react-redux";
 import Slider from "react-slick";
 import Swal from "sweetalert2";
@@ -9,7 +8,6 @@ import { addToCart, changeIsOpen } from "../../store/actions/products";
 import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
 import FavoriteBtn from "../FavoriteBtn";
 import noImage from "../../public/noimage.png";
-import { defaultBlur } from "../../helpers";
 
 const ProductDetails = ({ product }) => {
   const dispatch = useDispatch();
@@ -84,6 +82,8 @@ const ProductDetails = ({ product }) => {
           return sizes[0].split(":").slice(1, 2)[0] == value;
         }
       });
+
+      console.log(availableSizeVariations);
 
       setAvailableColorVariations(availableSizeVariations);
 
@@ -184,6 +184,8 @@ const ProductDetails = ({ product }) => {
 
     if (firstSizeWithSupply) {
       onSelectedSizeChange(firstSizeWithSupply);
+    } else {
+      setAvailableColorVariations(product_variations);
     }
   }, [onSelectedSizeChange, product]);
 
@@ -232,7 +234,6 @@ const ProductDetails = ({ product }) => {
                 className="big-img"
                 width={400}
                 height={400}
-                // blurDataURL={defaultBlur()}
               />
             </figure>
           )}

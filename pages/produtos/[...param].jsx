@@ -209,7 +209,6 @@ export default function Products({
   const [visible, setVisible] = useState(false);
   const [width, setWindowWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-  const [theTotal, setTotal] = useState(total);
   const filterUrl = useSelector(getFilterUrl);
   const filterMode = useSelector(getFilterMode);
   const router = useRouter();
@@ -249,7 +248,6 @@ export default function Products({
   }, [router, dispatch]);
 
   const paginationRedux = useSelector(getPaginationData);
-  // const filterData = useSelector(getFilterData);
 
   useEffect(() => {
     setCurrentPage(0);
@@ -276,7 +274,6 @@ export default function Products({
     api.get(url).then(({ data }) => {
       dispatch(setLoading(false));
       dispatch(setProducts(data.data));
-      setTotal(data.total);
       dispatch(
         setPaginationProducts(data.last_page, page, data.per_page, data.total)
       );

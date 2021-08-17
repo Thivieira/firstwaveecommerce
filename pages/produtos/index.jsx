@@ -43,7 +43,6 @@ export default function Index() {
   const [visible, setVisible] = useState(false);
   const [width, setWindowWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-  const [theTotal, setTotal] = useState(0);
   const [sizes, setSizes] = useState([]);
   const [brands, setBrands] = useState([]);
   const [colors, setColors] = useState([]);
@@ -191,7 +190,6 @@ export default function Index() {
     api.get(url).then(({ data }) => {
       dispatch(setLoading(false));
       dispatch(setProducts(data.data));
-      setTotal(data.total);
       dispatch(
         setPaginationProducts(data.last_page, page, data.per_page, data.total)
       );

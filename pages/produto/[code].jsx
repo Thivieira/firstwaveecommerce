@@ -16,6 +16,35 @@ import { fetcher } from "../../services/api";
 import ProductDetails from "../../components/Products/ProductDetails";
 import useSWR from "swr";
 
+export const getStaticPaths = async () => {
+  const res = await fetcher("/products?all=true");
+
+  const prodMasculino = res.map((p) => {
+    return {
+      params: {
+        code: p.code,
+      },
+    };
+  });
+
+  return {
+    paths: prodMasculino,
+    fallback: "blocking",
+  };
+};
+
+export const getStaticProps = async (ctx) => {
+  const { code } = ctx.params;
+
+  const product = await fetcher(`/products/${code}`);
+
+  return {
+    props: { product, code },
+    //https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration
+    revalidate: 60, // 12h
+  };
+};
+
 const DetailsProduct = ({ product, code }) => {
   const dispatch = useDispatch();
 
@@ -65,32 +94,3 @@ const DetailsProduct = ({ product, code }) => {
 };
 
 export default DetailsProduct;
-
-export const getStaticPaths = async () => {
-  const res = await fetcher("/products?all=true");
-
-  const prodMasculino = res.map((p) => {
-    return {
-      params: {
-        code: p.code,
-      },
-    };
-  });
-
-  return {
-    paths: prodMasculino,
-    fallback: "blocking",
-  };
-};
-
-export const getStaticProps = async (ctx) => {
-  const { code } = ctx.params;
-
-  const product = await fetcher(`/products/${code}`);
-
-  return {
-    props: { product, code },
-    //https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration
-    revalidate: 60, // 12h
-  };
-};
