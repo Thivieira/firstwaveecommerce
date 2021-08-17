@@ -36,6 +36,19 @@ export default function FavoriteBtn({ product }) {
   const MySwal = withReactContent(Swal);
   const [favorite, setFavoriteState] = useState(product.favorite);
 
+  function alertLogin() {
+    MySwal.fire({
+      title: <p>Para favoritar um produto é necessário se logar.</p>,
+      confirmButtonText: "Entrar",
+      cancelButtonText: "Cancelar",
+      showCancelButton: true,
+    }).then((res) => {
+      if (res.isConfirmed) {
+        router.push("/login");
+      }
+    });
+  }
+
   useEffect(() => {
     let isFavorite = productsFavorites.map(
       (favorite) => product.id === favorite.product.id
@@ -54,12 +67,6 @@ export default function FavoriteBtn({ product }) {
         const favoriteId = existingProductInFavorites.id;
         try {
           await api.delete(`/favorites/${favoriteId}`);
-          // dispatch(
-          //   setFavorite({
-          //     favorite: false,
-          //     id: existingProductInFavorites.product.id,
-          //   })
-          // );
           dispatch(removeFromFavorites(existingProductInFavorites.product.id));
         } catch (e) {}
       } else {
@@ -67,21 +74,11 @@ export default function FavoriteBtn({ product }) {
           const { data } = await api.post(`/favorites`, {
             product_id: product.id,
           });
-          // dispatch(setFavorite({ favorite: true, id: data.product.id }));
           dispatch(addToFavorites(data));
         } catch (e) {}
       }
     } else {
-      MySwal.fire({
-        title: <p>Para favoritar um produto é necessário se logar.</p>,
-        confirmButtonText: "Entrar",
-        cancelButtonText: "Cancelar",
-        showCancelButton: true,
-      }).then((res) => {
-        if (res.isConfirmed) {
-          router.push("/login");
-        }
-      });
+      alertLogin();
     }
   };
 
@@ -94,8 +91,12 @@ export default function FavoriteBtn({ product }) {
         className="heart"
         twoToneColor={favorite ? "#ff0000" : "#0080A8"}
         onClick={() => {
-          setFavoriteState(!favorite);
-          toggleFavorites();
+          if (token) {
+            setFavoriteState(!favorite);
+            toggleFavorites();
+          } else {
+            alertLogin();
+          }
         }}
       />
     </Tooltip>

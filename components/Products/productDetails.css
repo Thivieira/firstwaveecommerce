@@ -207,7 +207,7 @@ figure:hover img {
 }
 
 .sizes-btn ul li.disabled:hover {
-  cursor: default;
+  cursor: not-allowed;
 }
 
 .colors-product span {
@@ -240,6 +240,11 @@ figure:hover img {
 .colors-thumb img.active {
   opacity: 1;
   border: 1px solid rgb(16, 179, 238);
+}
+
+.colors-thumb img.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .cart-btn {

@@ -182,7 +182,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           isMulti={true}
           options={
             colorsArr.length > 0
-              ? colorsArr.map((el) => ({
+              ? removeFromArray(colorsArr, [""]).map((el) => ({
                   label: el,
                   value: el,
                 }))
@@ -206,7 +206,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           isMulti={true}
           options={
             brandsArr.length > 0
-              ? brandsArr.map((el) => ({
+              ? removeFromArray(brandsArr, [""]).map((el) => ({
                   label: el,
                   value: el,
                 }))
@@ -223,7 +223,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
       <div className="filter-option-price">
         <h4 style={{ color: "#FF8B00" }}>Filtro de preço</h4>
         <Slider
-          style={{ margin: "2rem 0" }}
+          style={{ marginTop: "3.5rem", marginBottom: "1.5rem" }}
           range
           defaultValue={[0, 2000]}
           value={[selectedFilterRedux.priceMin, selectedFilterRedux.priceMax]}
@@ -231,6 +231,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           min={0}
           tipFormatter={formatter}
           onChange={selectedPrice}
+          tooltipVisible
           step={100}
         />
       </div>

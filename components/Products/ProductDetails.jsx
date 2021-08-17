@@ -111,7 +111,7 @@ const ProductDetails = ({ product }) => {
 
       setColorTrigger(false);
     },
-    [availableColorVariations]
+    [availableColorVariations, selectedColor]
   );
 
   const addToCartFn = () => {
@@ -277,6 +277,7 @@ const ProductDetails = ({ product }) => {
                   <li
                     onClick={() => onSelectedSizeChange(size)}
                     key={size}
+                    title={`Tamanho ${size}`}
                     className={size == selectedSize ? "active" : null}
                   >
                     {size}
@@ -320,7 +321,8 @@ const ProductDetails = ({ product }) => {
                     src={image}
                     width={48}
                     height={48}
-                    alt="cor da imagem do produto"
+                    alt="Cor da imagem do produto"
+                    title={`Cor ${color.toLowerCase()}`}
                     style={{ height: "3rem" }}
                   />
                 ) : (
@@ -330,7 +332,8 @@ const ProductDetails = ({ product }) => {
                     src={image}
                     width={48}
                     height={48}
-                    alt="cor da imagem do produto"
+                    title="Cor não disponível."
+                    alt="Cor da imagem do produto"
                     style={{ height: "3rem" }}
                   />
                 );
