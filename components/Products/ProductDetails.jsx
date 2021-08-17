@@ -78,17 +78,17 @@ const ProductDetails = ({ product }) => {
     (value) => {
       setSelectedSize(value);
 
-      const variacaoDisponivel = product.variations.filter((el) => {
+      const availableSizeVariations = product.variations.filter((el) => {
         let sizes = el.description.split(";").slice(1, 2);
         if (sizes.length > 0) {
           return sizes[0].split(":").slice(1, 2)[0] == value;
         }
       });
 
-      setAvailableColorVariations(variacaoDisponivel);
+      setAvailableColorVariations(availableSizeVariations);
 
-      if (variacaoDisponivel.length > 0) {
-        let color = variacaoDisponivel[0].description
+      if (availableSizeVariations.length > 0) {
+        let color = availableSizeVariations[0].description
           .split(";")
           .slice(0, 1)[0]
           .split(":")
@@ -152,36 +152,39 @@ const ProductDetails = ({ product }) => {
     /**
      *  INIT PRODUCT
      */
-    const variations = product.variations;
+    const product_variations = product.variations;
 
-    setHasZizeVariation(variations.map((el) => el.code)[0].includes("-"));
+    setHasZizeVariation(
+      product_variations.map((el) => el.code)[0].includes("-")
+    );
 
-    const estoque = variations.map((el) => el.supply);
+    const supplys = product_variations.map((el) => el.supply);
 
-    const tamanhos = variations.map((el) => {
-      let sizes = el.description.split(";").slice(1, 2);
-      if (sizes.length > 0) {
-        return sizes[0].split(":").slice(1, 2)[0];
+    const sizes = product_variations.map((el) => {
+      let splitters = el.description.split(";").slice(1, 2);
+      if (splitters.length > 0) {
+        return splitters[0].split(":").slice(1, 2)[0];
       }
     });
 
-    const sizesNoRepeat = [...new Set(tamanhos)];
+    const sizesNoRepeat = [...new Set(sizes)];
 
     var supplyAndSize = {};
     for (var i = 0; i < sizesNoRepeat.length; i++) {
-      supplyAndSize[sizesNoRepeat[i]] = estoque[i];
+      supplyAndSize[sizesNoRepeat[i]] = supplys[i];
     }
 
     setSupplyAndSize(supplyAndSize);
 
     const firstSizeWithSupply = Object.keys(supplyAndSize)
-      .map((tamanho) => supplyAndSize[tamanho] > 0 && tamanho)
+      .map((size) => supplyAndSize[size] > 0 && size)
       .filter((el) => el != false)[0];
-    // if (variations.length > 0) {
-    setImages(variations[0].image);
-    onSelectedSizeChange(firstSizeWithSupply);
-    // } else {
-    // }
+
+    setImages(product_variations[0].image);
+
+    if (firstSizeWithSupply) {
+      onSelectedSizeChange(firstSizeWithSupply);
+    }
   }, [onSelectedSizeChange, product]);
 
   useEffect(() => {
@@ -328,13 +331,24 @@ const ProductDetails = ({ product }) => {
                       .slice(1, 2)[0];
                     let image = JSON.parse(variation.image);
                     image = image.length > 0 ? image[0].link : noImage.src;
-                    return (
+                    console.log(variation, "ha!");
+                    return variation.supply > 0 ? (
                       <img
                         onClick={() => {
                           setSelectedColor(color);
                           setImages(variation.image);
                         }}
                         className={color === selectedColor ? "active" : ""}
+                        key={variation.id}
+                        src={image}
+                        width={48}
+                        height={48}
+                        alt="cor da imagem do produto"
+                        style={{ height: "3rem" }}
+                      />
+                    ) : (
+                      <img
+                        className={"disabled"}
                         key={variation.id}
                         src={image}
                         width={48}

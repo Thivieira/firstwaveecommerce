@@ -14,17 +14,15 @@ import Breadcrumb from "../../components/Breadcrumb";
 import Filter from "../../components/Filter";
 import ProductCard from "../../components/Products/ProductCard";
 import api from "../../services/api";
-import {
-  getFilterData,
-  getFilterMode,
-  getFilterUrl,
-} from "../../store/selectors/products";
+
+import { getFilterMode, getFilterUrl } from "../../store/selectors/products";
 
 import {
   getAllProducts,
   getLoading,
   getPaginationData,
 } from "../../store/selectors/products";
+
 import {
   setProducts,
   clearProducts,
@@ -135,7 +133,7 @@ export async function getStaticProps(ctx) {
     type = null;
   }
 
-  const res = await api.get(url);
+  const res = await api(url);
 
   products = res.data.data;
   total = res.data.total;
