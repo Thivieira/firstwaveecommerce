@@ -8,39 +8,20 @@ import { addToCart, changeIsOpen } from "../../store/actions/products";
 import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
 import FavoriteBtn from "../FavoriteBtn";
 import noImage from "../../public/noimage.png";
+import { upFirst } from "../../helpers";
 
 const ProductDetails = ({ product }) => {
   const dispatch = useDispatch();
+  const MySwal = withReactContent(Swal);
   const [selectedSize, setSelectedSize] = useState("");
-  const [availableColorVariations, setAvailableColorVariations] = useState([]);
   const [selectedColor, setSelectedColor] = useState("");
+  const [availableColorVariations, setAvailableColorVariations] = useState([]);
   const [triggerColor, setColorTrigger] = useState(false);
   const [activeVariation, setActiveVariation] = useState("");
-  const [imageThumbs, setImageThumbs] = useState([]);
   const [featuredImage, setFeaturedImage] = useState("");
-  const [zoomImage, setZoomImage] = useState({
-    backgroundImage: `url(${featuredImage})`,
-    backgroundPosition: "0% 0%",
-  });
   const [hasSizeVariation, setHasZizeVariation] = useState(false);
   const [supplyAndSize, setSupplyAndSize] = useState({});
-
-  const MySwal = withReactContent(Swal);
-
-  const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
-  const priceSale = `R$${parseFloat(product.variations[0].price)
-    .toFixed(2)
-    .replace(".", ",")}`;
-
-  const handleMouseMove = (e) => {
-    const { left, top, width, height } = e.target.getBoundingClientRect();
-    const x = ((e.pageX - left) / width) * 100;
-    const y = ((e.pageY - top) / height) * 100;
-    setZoomImage({
-      backgroundImage: `url(${featuredImage})`,
-      backgroundPosition: `${x}% ${y}%`,
-    });
-  };
+  const [imageThumbs, setImageThumbs] = useState([]);
 
   const settings = {
     dots: false,
@@ -63,6 +44,26 @@ const ProductDetails = ({ product }) => {
     ],
   };
 
+  const [zoomImage, setZoomImage] = useState({
+    backgroundImage: `url(${featuredImage})`,
+    backgroundPosition: "0% 0%",
+  });
+
+  const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
+  const priceSale = `R$${parseFloat(product.variations[0].price)
+    .toFixed(2)
+    .replace(".", ",")}`;
+
+  const handleMouseMove = (e) => {
+    const { left, top, width, height } = e.target.getBoundingClientRect();
+    const x = ((e.pageX - left) / width) * 100;
+    const y = ((e.pageY - top) / height) * 100;
+    setZoomImage({
+      backgroundImage: `url(${featuredImage})`,
+      backgroundPosition: `${x}% ${y}%`,
+    });
+  };
+
   function setImages(imageJson) {
     let imageObj = JSON.parse(imageJson);
     const imagesLink = imageObj.map((el) => el.link);
@@ -76,48 +77,39 @@ const ProductDetails = ({ product }) => {
     (value) => {
       setSelectedSize(value);
 
-      const availableSizeVariations = product.variations.filter((el) => {
-        let sizes = el.description.split(";").slice(1, 2);
-        if (sizes.length > 0) {
-          return sizes[0].split(":").slice(1, 2)[0] == value;
-        }
-      });
-
-      console.log(availableSizeVariations);
+      const availableSizeVariations = product.variations.filter(
+        (el) => el.size == value
+      );
 
       setAvailableColorVariations(availableSizeVariations);
 
-      if (availableSizeVariations.length > 0) {
-        let color = availableSizeVariations[0].description
-          .split(";")
-          .slice(0, 1)[0]
-          .split(":")
-          .slice(1, 2)[0];
-
-        setSelectedColor(color);
-        setColorTrigger(true);
+      if (availableSizeVariations.length == 0) {
+        return false;
       }
+
+      setSelectedColor(availableSizeVariations[0].color);
+      setColorTrigger(true);
     },
     [product.variations]
   );
 
   const onSelectedColorChange = useCallback(
     (value) => {
-      let product_variation = availableColorVariations.filter(
-        (el) =>
-          el.description.split(";").slice(0, 1)[0].split(":").slice(1, 2)[0] ==
-          value
-      )[0];
+      const product_variations = availableColorVariations.filter(
+        (el) => el.color == value
+      );
 
-      if (!product_variation) {
-        return;
+      if (product_variations.length == 0) {
+        return false;
       }
+
+      const product_variation = product_variations[0];
 
       setImages(product_variation.image);
 
-      setColorTrigger(false);
-
       setActiveVariation(product_variation);
+
+      setColorTrigger(false);
     },
     [availableColorVariations]
   );
@@ -149,23 +141,24 @@ const ProductDetails = ({ product }) => {
   };
 
   useEffect(() => {
+    if (triggerColor) {
+      onSelectedColorChange(selectedColor);
+    }
+  }, [onSelectedColorChange, selectedColor, triggerColor]);
+
+  useEffect(() => {
     /**
      *  INIT PRODUCT
      */
     const product_variations = product.variations;
 
     setHasZizeVariation(
-      product_variations.map((el) => el.code)[0].includes("-")
+      product_variations.filter((el) => (el.size ? true : false))
     );
 
     const supplys = product_variations.map((el) => el.supply);
 
-    const sizes = product_variations.map((el) => {
-      let splitters = el.description.split(";").slice(1, 2);
-      if (splitters.length > 0) {
-        return splitters[0].split(":").slice(1, 2)[0];
-      }
-    });
+    const sizes = product_variations.map((el) => el.size);
 
     const sizesNoRepeat = [...new Set(sizes)];
 
@@ -189,191 +182,173 @@ const ProductDetails = ({ product }) => {
     }
   }, [onSelectedSizeChange, product]);
 
-  useEffect(() => {
-    if (triggerColor) {
-      onSelectedColorChange(selectedColor);
-    }
-  }, [onSelectedColorChange, selectedColor, triggerColor]);
-
   return (
-    <>
-      <div className="details-wrapper">
-        <div className="gallery-img">
-          <div className="thumb">
-            <Slider {...settings}>
-              {imageThumbs.map((image) => (
-                <div key={image} onClick={() => setFeaturedImage(image)}>
-                  <img
-                    className={featuredImage === image ? "active" : ""}
-                    src={image}
-                    alt="imagem em miniatura do produto"
-                    width={70}
-                    height={70}
-                  />
-                </div>
-              ))}
-            </Slider>
-          </div>
-
-          {!featuredImage ? (
-            <img className="big-img" src={noImage} alt="img" />
-          ) : (
-            <figure
-              style={zoomImage}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={(e) => {
-                setZoomImage({
-                  backgroundImage: `url('')`,
-                  backgroundPosition: `0% 0%`,
-                });
-              }}
-            >
-              <img
-                src={featuredImage ? featuredImage : noImage}
-                alt="imagem do produto"
-                className="big-img"
-                width={400}
-                height={400}
-              />
-            </figure>
-          )}
+    <div className="details-wrapper">
+      <div className="gallery-img">
+        <div className="thumb">
+          <Slider {...settings}>
+            {imageThumbs.map((image) => (
+              <div key={image} onClick={() => setFeaturedImage(image)}>
+                <img
+                  className={featuredImage === image ? "active" : ""}
+                  src={image}
+                  alt="imagem em miniatura do produto"
+                  width={70}
+                  height={70}
+                />
+              </div>
+            ))}
+          </Slider>
         </div>
 
-        <div className="details-content">
-          <div className="title-and-heart">
-            <h1 className="title-product">
-              {product.description}{" "}
-              <FavoriteBtn product={product}></FavoriteBtn>
-            </h1>
-          </div>
+        {!featuredImage ? (
+          <img className="big-img" src={noImage} alt="img" />
+        ) : (
+          <figure
+            style={zoomImage}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={(e) => {
+              setZoomImage({
+                backgroundImage: `url('')`,
+                backgroundPosition: `0% 0%`,
+              });
+            }}
+          >
+            <img
+              src={featuredImage ? featuredImage : noImage}
+              alt="imagem do produto"
+              className="big-img"
+              width={400}
+              height={400}
+            />
+          </figure>
+        )}
+      </div>
 
-          <h5>{product.code}</h5>
+      <div className="details-content">
+        <div className="title-and-heart">
+          <h1 className="title-product">
+            {product.description} <FavoriteBtn product={product}></FavoriteBtn>
+          </h1>
+        </div>
 
-          <span className="price-product">
-            {priceSale !== price ? (
-              <>
-                <div className="priceSaleProduct">
-                  <span>
-                    De: <p>{price}</p>
-                  </span>
-                  <p>
-                    <span>Por:</span>
-                    {priceSale}
-                  </p>
-                </div>
-              </>
-            ) : (
-              price
-            )}
-          </span>
+        <h5>{product.code}</h5>
 
-          <div className="btn-buy">
-            <button
-              onClick={() => addToCartFn()}
-              disabled={activeVariation.supply <= 0 ? true : false}
-              title={
-                activeVariation.supply <= 0
-                  ? "Este produto não tem esta quantidade disponível."
-                  : "Adicionar ao carrinho."
-              }
-            >
-              ADICIONAR AO
-              {<Cart height="20" width="20" color="#fff" />}
-            </button>
-          </div>
-
-          {hasSizeVariation ? (
-            <div className="sizes-btn">
-              <strong>Tamanhos:</strong>
-              <ul>
-                {Object.keys(supplyAndSize).map((tamanho, index) =>
-                  supplyAndSize[tamanho] > 0 ? (
-                    <li
-                      onClick={() => onSelectedSizeChange(tamanho)}
-                      key={tamanho}
-                      className={tamanho == selectedSize ? "active" : null}
-                    >
-                      {tamanho}
-                    </li>
-                  ) : (
-                    <li
-                      key={tamanho}
-                      title="Tamanho não disponível."
-                      className="disabled"
-                    >
-                      {tamanho}
-                    </li>
-                  )
-                )}
-              </ul>
-            </div>
-          ) : null}
-
-          {availableColorVariations ? (
-            <div className="colors-product">
-              <span>
-                <b>Cor:</b>
-                <div className="color-text-selected">
-                  {selectedColor.charAt(0).toUpperCase() +
-                    selectedColor.toLowerCase().slice(1)}
-                </div>
-              </span>
-              <div className="colors-thumb">
-                {availableColorVariations
-                  .filter(
-                    (el, index, arr) =>
-                      index === arr.findIndex((t) => t.code === el.code)
-                  )
-                  .map((variation) => {
-                    const color = variation.description
-                      .split(";")
-                      .slice(0, 1)[0]
-                      .split(":")
-                      .slice(1, 2)[0];
-                    let image = JSON.parse(variation.image);
-                    image = image.length > 0 ? image[0].link : noImage.src;
-                    console.log(variation, "ha!");
-                    return variation.supply > 0 ? (
-                      <img
-                        onClick={() => {
-                          setSelectedColor(color);
-                          setImages(variation.image);
-                        }}
-                        className={color === selectedColor ? "active" : ""}
-                        key={variation.id}
-                        src={image}
-                        width={48}
-                        height={48}
-                        alt="cor da imagem do produto"
-                        style={{ height: "3rem" }}
-                      />
-                    ) : (
-                      <img
-                        className={"disabled"}
-                        key={variation.id}
-                        src={image}
-                        width={48}
-                        height={48}
-                        alt="cor da imagem do produto"
-                        style={{ height: "3rem" }}
-                      />
-                    );
-                  })}
+        <span className="price-product">
+          {priceSale !== price ? (
+            <>
+              <div className="priceSaleProduct">
+                <span>
+                  De: <p>{price}</p>
+                </span>
+                <p>
+                  <span>Por:</span>
+                  {priceSale}
+                </p>
               </div>
-            </div>
-          ) : null}
+            </>
+          ) : (
+            price
+          )}
+        </span>
 
-          <div className="info-product">
-            <h3>DESCRIÇÃO</h3>
-            <p>Marca: {product.brand}</p>
-            <div
-              className="description"
-              dangerouslySetInnerHTML={{ __html: product.short_description }}
-            ></div>
+        <div className="btn-buy">
+          <button
+            onClick={() => addToCartFn()}
+            disabled={activeVariation.supply <= 0 ? true : false}
+            title={
+              activeVariation.supply <= 0
+                ? "Este produto não tem esta quantidade disponível."
+                : "Adicionar ao carrinho."
+            }
+          >
+            ADICIONAR AO {<Cart height="20" width="20" color="#fff" />}
+          </button>
+        </div>
+
+        {hasSizeVariation ? (
+          <div className="sizes-btn">
+            <strong>Tamanhos:</strong>
+            <ul>
+              {Object.keys(supplyAndSize).map((size, index) => {
+                const supply = supplyAndSize[size];
+                console.log(supply, size);
+                return supply > 0 ? (
+                  <li
+                    onClick={() => onSelectedSizeChange(size)}
+                    key={size}
+                    className={size == selectedSize ? "active" : null}
+                  >
+                    {size}
+                  </li>
+                ) : (
+                  <li
+                    key={size}
+                    title="Tamanho não disponível."
+                    className="disabled"
+                  >
+                    {size}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
+        ) : null}
+
+        {availableColorVariations ? (
+          <div className="colors-product">
+            <span>
+              <b>Cor:</b>
+              <div className="color-text-selected">
+                {upFirst(selectedColor)}
+              </div>
+            </span>
+            <div className="colors-thumb">
+              {availableColorVariations.map((variation) => {
+                const color = variation.color;
+                let image = JSON.parse(variation.image);
+                image = image.length > 0 ? image[0].link : noImage.src;
+
+                return variation.supply > 0 ? (
+                  <img
+                    onClick={() => {
+                      setSelectedColor(color);
+                      setImages(variation.image);
+                    }}
+                    className={color === selectedColor ? "active" : ""}
+                    key={variation.external_id}
+                    src={image}
+                    width={48}
+                    height={48}
+                    alt="cor da imagem do produto"
+                    style={{ height: "3rem" }}
+                  />
+                ) : (
+                  <img
+                    className={"disabled"}
+                    key={variation.external_id}
+                    src={image}
+                    width={48}
+                    height={48}
+                    alt="cor da imagem do produto"
+                    style={{ height: "3rem" }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
+
+        <div className="info-product">
+          <h3>DESCRIÇÃO</h3>
+          <p>Marca: {product.brand}</p>
+          <div
+            className="description"
+            dangerouslySetInnerHTML={{ __html: product.short_description }}
+          ></div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

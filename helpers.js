@@ -147,3 +147,7 @@ export function getFeaturedImage(imageJson) {
 
   return imagesLink.length > 0 ? imagesLink[0] : "/noimage.png";
 }
+
+export function upFirst(text) {
+  return text.charAt(0).toUpperCase() + text.toLowerCase().slice(1);
+}
