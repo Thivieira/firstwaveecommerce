@@ -321,8 +321,8 @@ const ProductDetails = ({ product }) => {
                     src={image}
                     width={48}
                     height={48}
-                    alt="Cor da imagem do produto"
-                    title={`Cor ${color.toLowerCase()}`}
+                    alt="Cor da imagem do produto."
+                    title={`Cor ${color.toLowerCase()}.`}
                     style={{ height: "3rem" }}
                   />
                 ) : (
@@ -332,8 +332,8 @@ const ProductDetails = ({ product }) => {
                     src={image}
                     width={48}
                     height={48}
+                    alt="Cor da imagem do produto."
                     title="Cor não disponível."
-                    alt="Cor da imagem do produto"
                     style={{ height: "3rem" }}
                   />
                 );
