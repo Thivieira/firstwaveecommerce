@@ -19,7 +19,7 @@ import useSWR from "swr";
 export const getStaticPaths = async () => {
   const res = await fetcher("/products?all=true");
 
-  const prodMasculino = res.map((p) => {
+  const prodMasculino = res.data.map((p) => {
     return {
       params: {
         code: p.code,
@@ -36,10 +36,10 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (ctx) => {
   const { code } = ctx.params;
 
-  const product = await fetcher(`/products/${code}`);
+  const { data } = await fetcher(`/products/${code}`);
 
   return {
-    props: { product, code },
+    props: { product: data, code },
     //https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration
     revalidate: 60, // 1min
   };

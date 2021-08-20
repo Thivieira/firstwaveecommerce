@@ -23,7 +23,6 @@ function Dashboard() {
   const [addressData, setAddressData] = useState([]);
   const [json, setJson] = useState({});
   const dispatch = useDispatch();
-  const user = useSelector(getAccount);
   const MySwal = withReactContent(Swal);
 
   const [token, setToken] = useToken();

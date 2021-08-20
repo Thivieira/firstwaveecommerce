@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../../services/api";
+import api, { fetcher } from "../../services/api";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { getFavoritesProd } from "../../store/selectors/products";
@@ -10,6 +10,7 @@ import {
 import { List, Avatar, Empty } from "antd";
 import { CloseCircleTwoTone } from "@ant-design/icons";
 import useToken from "../../contexts/TokenStorage";
+import useSWR from "swr";
 
 export default function Favorites() {
   const dispatch = useDispatch();
@@ -50,22 +51,32 @@ export default function Favorites() {
   //     .then((res) => console.log(res));
   // };
 
-  useEffect(() => {
-    async function fetchFavorites() {
-      try {
-        let { data } = await api.get("/favorites");
-        dispatch(setFavorites(data));
-        const favorites = data;
-        setProducts(favorites.map((favorite) => favorite.product));
-      } catch (e) {}
-    }
-    fetchFavorites();
-    // redux
-    // productsFavorites
+  // useEffect(() => {
+  //   async function fetchFavorites() {
+  //     try {
+  //       let { data } = await api.get("/favorites");
+  //       dispatch(setFavorites(data));
+  //       const favorites = data;
+  //       setProducts(favorites.map((favorite) => favorite.product));
+  //     } catch (e) {}
+  //   }
+  //   fetchFavorites();
+  //   // redux
+  //   // productsFavorites
 
-    // orderFavoritesPost();
-    // orderFavoritesGet();
-  }, [dispatch]);
+  //   // orderFavoritesPost();
+  //   // orderFavoritesGet();
+  // }, [dispatch]);
+
+  const { data } = useSWR(`/favorites`, fetcher);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setFavorites(data.data));
+      const favorites = data.data;
+      setProducts(favorites.map((favorite) => favorite.product));
+    }
+  }, [data, dispatch]);
 
   useEffect(() => {
     setProducts(productsFavorites.map((favorite) => favorite.product));

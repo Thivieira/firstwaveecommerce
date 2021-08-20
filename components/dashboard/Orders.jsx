@@ -11,7 +11,7 @@ import {
   Tag,
 } from "antd";
 
-import api from "../../services/api";
+import api, { fetcher } from "../../services/api";
 import { formatDate } from "../../date";
 import {
   convert_mercadopago_payment_methods,
@@ -23,6 +23,7 @@ import { saveOrders } from "../../store/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders } from "../../store/selectors/user";
 import Link from "next/link";
+import useSWR from "swr";
 
 const expandedRowRender = (order) => {
   const columns = [
@@ -88,16 +89,13 @@ function Orders() {
   const orders = useSelector(getOrders);
   const dispatch = useDispatch();
 
-  const getOrdersFromApi = useCallback(async () => {
-    try {
-      const res = await api.get("/orders");
-      dispatch(saveOrders(res.data));
-    } catch (e) {}
-  }, [dispatch]);
+  const { data } = useSWR(`/orders`, fetcher);
 
   useEffect(() => {
-    getOrdersFromApi();
-  }, [getOrdersFromApi]);
+    if (data) {
+      dispatch(saveOrders(data.data));
+    }
+  }, [data, dispatch]);
 
   const columns = [
     {
@@ -166,6 +164,7 @@ function Orders() {
     //   },
     // },
   ];
+
   if (activeOrder) {
     return (
       <>
@@ -214,6 +213,10 @@ function Orders() {
         </Row>
       </>
     );
+  }
+
+  if (!orders) {
+    return null;
   }
 
   return (
