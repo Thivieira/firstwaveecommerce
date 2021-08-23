@@ -787,8 +787,7 @@ function Header() {
           <div className="menu-call-2-in">
             <h2>Loja Física</h2>
             <p style={{ display: "flex", flexDirection: "column" }}>
-              <PhoneOutlined style={{ marginBottom: "0.2rem" }} /> (48)
-              3045-1663
+              <PhoneOutlined style={{ marginBottom: "0.2rem" }} /> (48) 98828-1903
             </p>
           </div>
           <span>

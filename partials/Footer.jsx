@@ -24,7 +24,7 @@ function Footer() {
     selectedItem: 0,
     transitionTime: 900,
     swipeScrollTolerance: 5,
-  });
+  })
 
   return (
     <>
@@ -75,12 +75,12 @@ function Footer() {
               <li>
                 <a href="mailto:contato@lifestyle.com.br">
                   <Mail style={{ marginRight: "5px" }} />{" "}
-                  contato@lifestyle.com.br
+                  contato@lifestylesc.com.br
                 </a>
               </li>
               <li>
                 <a href="tel:+554830451663">
-                  <PhoneEnabled style={{ marginRight: "5px" }} /> (48) 3045-1663
+                  <PhoneEnabled style={{ marginRight: "5px" }} /> (48) 98828-1903
                 </a>
               </li>
             </ul>

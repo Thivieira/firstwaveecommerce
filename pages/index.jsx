@@ -1,26 +1,19 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
 import { NextSeo } from "next-seo";
 
 import api from "../services/api";
+import NavLink from '../components/NavLink'
 
 const CarouselImage = dynamic(() =>
   import("../components/landing/CarouselImage")
 );
+
 const ProductsSlider = dynamic(() =>
   import("../components/landing/ProductsSlider")
 );
+
 const { getLayout } = dynamic(() => import("../layouts/SiteLayout"));
-
-// const landing1 = dynamic(() => import('../public/landing1.jpg'))
-// const landing2 = dynamic(() => import('../public/landing2.jpg'))
-// const landing3 = dynamic(() => import('../public/landing3.png'))
-// const landing4 = dynamic(() => import('../public/landing4.jpeg'))
-
-// import CarouselImage from "../components/landing/CarouselImage";
-// import ProductsSlider from "../components/landing/ProductsSlider";
-// import getLayout from "../layouts/SiteLayout";
 
 import landing1 from "../public/landing1.jpg";
 import landing2 from "../public/landing2.jpg";
@@ -45,7 +38,7 @@ const Index = ({ prodMasc, prodOutlet }) => {
             fontSize="large"
             style={{ fontSize: "2.5rem", marginRight: "5px" }}
           />
-          <p className="payment-information-text">EM ATÉ 6X NO CARTÃO</p>
+          <p className="payment-information-text">EM ATÉ 6X NO CARTÃO SEM JUROS</p>
         </div>
         <div className="payment-information">
           <LocalShipping
@@ -61,7 +54,7 @@ const Index = ({ prodMasc, prodOutlet }) => {
             fontSize="large"
             style={{ fontSize: "2.5rem", margin: "0.5rem" }}
           />
-          <p className="payment-information-text">12% DE DESCONTO NO BOLETO</p>
+          <p className="payment-information-text">12% DE DESCONTO NO BOLETO E PIX</p>
         </div>
       </div>
 
@@ -80,14 +73,14 @@ const Index = ({ prodMasc, prodOutlet }) => {
             priority
             className="image-landing"
           />
-          <Link href="/produtos/Feminino" passHref>
+          <NavLink href="/produtos/Feminino" passHref>
             <button type="button" className="btn-acess">
               FEMININO
               <RightCircleOutlined
                 style={{ fontSize: "1.1rem", margin: "0 5px" }}
               />
             </button>
-          </Link>
+          </NavLink>
         </div>
 
         <div className="wrapper-equal-images">
@@ -99,19 +92,24 @@ const Index = ({ prodMasc, prodOutlet }) => {
             priority
             className="image-landing"
           />
-          <Link href="/produtos/Masculino" passHref>
+          <NavLink href="/produtos/Masculino" passHref>
             <button type="button" className="btn-infa">
               MASCULINO
               <RightCircleOutlined
                 style={{ fontSize: "1.1rem", margin: "0 5px" }}
               />
             </button>
-          </Link>
+          </NavLink>
         </div>
       </div>
 
       <div className="products-carousel-container">
-        <h3 className="products-carousel-title">OUTLET</h3>
+        <NavLink 
+          className="products-carousel-title"
+          href='/produtos/Outlet'
+        >
+            OUTLET
+        </NavLink>
         <ProductsSlider prod={prodOutlet} />
       </div>
 
@@ -125,7 +123,7 @@ const Index = ({ prodMasc, prodOutlet }) => {
             priority
             className="image-landing"
           />
-          <Link href="/produtos/Surf" passHref>
+          <NavLink href="/produtos/Surf" passHref>
             <button
               type="button"
               className="btn-acess"
@@ -136,7 +134,7 @@ const Index = ({ prodMasc, prodOutlet }) => {
                 style={{ fontSize: "1.1rem", margin: "0 5px" }}
               />
             </button>
-          </Link>
+          </NavLink>
         </div>
 
         <div className="wrapper-equal-images">
@@ -148,14 +146,14 @@ const Index = ({ prodMasc, prodOutlet }) => {
             priority
             className="image-landing"
           />
-          <Link href="/produtos/Acessorio" passHref>
+          <NavLink href="/produtos/Acessorio" passHref>
             <button type="button" className="btn-infa">
               ACESSÓRIOS
               <RightCircleOutlined
                 style={{ fontSize: "1.1rem", margin: "0 5px" }}
               />
             </button>
-          </Link>
+          </NavLink>
         </div>
       </div>
     </div>

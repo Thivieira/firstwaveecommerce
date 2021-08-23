@@ -78,19 +78,10 @@
   justify-content: center;
   font-size: 2rem;
   margin: 3rem 7rem;
-  color: #0080a8;
+  color: #0080a8 !important;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-
-/* .products-carousel-title::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 2px;
-  background: #0080a8;
-  transition: all 0.2s ease-out;
-} */
 
 .images-container {
   width: 95%;
