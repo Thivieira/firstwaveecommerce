@@ -46,7 +46,9 @@ const ProductDetails = ({ product }) => {
     .toFixed(2)
     .replace(".", ",")}`;
 
-  const installmentPrice = `R$${parseFloat(product.price / 6.0).toFixed(2).replace(".", ",")}`
+  const installmentPrice = `R$${parseFloat(product.price / 6.0)
+    .toFixed(2)
+    .replace(".", ",")}`;
 
   const handleMouseMove = (e) => {
     const { left, top, width, height } = e.target.getBoundingClientRect();
@@ -246,9 +248,9 @@ const ProductDetails = ({ product }) => {
           )}
         </span>
 
-        <p className='installment'>
-          <strong>6x</strong> de <strong>{installmentPrice}</strong> sem juros no cartão 
-          ou <strong>12%</strong> de desconto no boleto ou pix.
+        <p className="installment">
+          <strong>6x</strong> de <strong>{installmentPrice}</strong> sem juros
+          no cartão ou <strong>12%</strong> de desconto no boleto ou pix.
         </p>
 
         <div className="btn-buy">
@@ -271,7 +273,6 @@ const ProductDetails = ({ product }) => {
             <ul>
               {Object.keys(supplyAndSize).map((size, index) => {
                 const supply = supplyAndSize[size];
-                console.log(supply, size);
                 return supply > 0 ? (
                   <li
                     onClick={() => onSelectedSizeChange(size)}

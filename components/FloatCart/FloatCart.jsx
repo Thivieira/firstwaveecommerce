@@ -139,9 +139,14 @@ function FloatCart() {
                 {`R$${total.toFixed(2).replace(".", ",")}`}
               </p>
 
-              {!cart.installments && (
+              {cart.length > 0 && (
                 <span className="sub-price__installment">
-                  {`6x de R$${(total / 6).toFixed(2).replace(".", ",")} sem juros no cartão ou 12% de desconto no boleto e pix`}
+                  {`6x de R$${(total / 6)
+                    .toFixed(2)
+                    .replace(
+                      ".",
+                      ","
+                    )} sem juros no cartão ou 12% de desconto no boleto e pix`}
                 </span>
               )}
             </div>
