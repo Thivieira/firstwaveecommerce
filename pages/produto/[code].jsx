@@ -11,7 +11,7 @@ import {
 import { stripHtml } from "../../helpers";
 
 import FadeLoader from "react-spinners/FadeLoader";
-import { fetcher } from "../../services/api";
+import { fetcher, serverFetcher } from "../../services/api";
 
 import ProductDetails from "../../components/Products/ProductDetails";
 import useSWR from "swr";
@@ -36,10 +36,10 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (ctx) => {
   const { code } = ctx.params;
 
-  const { data } = await fetcher(`/products/${code}`);
+  const product = await serverFetcher(`/products/${code}`);
 
   return {
-    props: { product: data, code },
+    props: { product, code },
     //https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration
     revalidate: 60, // 1min
   };
@@ -48,7 +48,7 @@ export const getStaticProps = async (ctx) => {
 const DetailsProduct = ({ product, code }) => {
   const dispatch = useDispatch();
 
-  const { data } = useSWR(`/products/${code}`, fetcher, {
+  const { data } = useSWR(`/products/${code}`, serverFetcher, {
     initialData: product,
   });
 
