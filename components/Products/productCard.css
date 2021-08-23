@@ -1,11 +1,11 @@
 .card-grid {
   position: relative;
-  width: 280px;
+  width: 240px;
   height: auto;
   border: 1px solid #eee;
   overflow: hidden;
-  box-shadow: 2px 8px 20px #ddd;
-  margin: 10px;
+  box-shadow: 1px 4px 10px #ddd;
+  margin: 7px;
   transition: all 0.4s ease;
 }
 
@@ -32,8 +32,8 @@
 }
 
 .img-content img {
-  width: 280px;
-  height: 280px;
+  width: 240px;
+  height: 240px;
   padding: 0.3rem;
   display: block;
   object-fit: cover;
@@ -128,4 +128,19 @@
 
 .content h4:hover {
   color: rgba(51, 51, 51, 0.7);
+}
+
+@media(max-width: 425px) {
+  .card-grid {
+    width: 150px;
+  }
+
+  .img-content img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .content .price {
+    font-size: 1rem;
+  }
 }

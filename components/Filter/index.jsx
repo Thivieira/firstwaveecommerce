@@ -223,7 +223,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
       <div className="filter-option-price">
         <h4 style={{ color: "#FF8B00" }}>Filtro de preço</h4>
         <Slider
-          style={{ marginTop: "3.5rem", marginBottom: "1.5rem" }}
+          style={{ marginTop: "1.5rem", marginBottom: "1.5rem" }}
           range
           defaultValue={[0, 2000]}
           value={[selectedFilterRedux.priceMin, selectedFilterRedux.priceMax]}
@@ -231,7 +231,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           min={0}
           tipFormatter={formatter}
           onChange={selectedPrice}
-          tooltipVisible
+          // tooltipVisible
           step={100}
         />
       </div>

@@ -52,7 +52,7 @@ figure:hover img {
 }
 
 .thumb .slick-track {
-  width: 5.5rem;
+  width: 5rem;
   height: auto !important;
 }
 
@@ -97,7 +97,7 @@ figure:hover img {
 
 .details-content .price-product {
   font-size: 1.2rem;
-  padding: 1rem 0;
+  padding: 0.7rem 0;
   color: #0080a8;
 }
 
@@ -117,6 +117,18 @@ figure:hover img {
   align-items: center;
   margin-bottom: 0em;
 }
+
+.details-content .installment {
+  max-width: 350px;
+  color: #000;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.details-content .installment strong {
+  font-weight: 600;
+}
+
 
 .details-content .btn-buy {
   max-width: 450px;
@@ -266,13 +278,7 @@ figure:hover img {
   }
 
   .gallery-img {
-    flex-direction: column-reverse;
     margin: 1rem;
-  }
-
-  .thumb {
-    width: 60%;
-    flex-direction: row;
   }
 
   .colors-product {
@@ -280,12 +286,12 @@ figure:hover img {
     flex-direction: column;
     align-items: flex-start;
   }
-
+/* 
   .thumb .slick-list {
     flex-direction: row;
     width: 23rem;
     margin-left: 1rem;
-  }
+  } */
 }
 
 @media (max-width: 600px) {
@@ -297,34 +303,62 @@ figure:hover img {
 
 @media (max-width: 425px) {
   .big-img {
-    max-height: 350px;
-    max-width: 350px;
+    max-height: 330px;
+    max-width: 330px;
   }
 
   figure {
-    max-height: 350px;
-    max-width: 350px;
+    max-height: 330px;
+    max-width: 330px;
   }
 
-  .details-content {
-    margin: 1rem;
+  .details-content .title-product {
+    font-size: 1.3rem;
   }
+}
+
+@media (max-width: 375px) {
+  .big-img {
+    max-height: 280px;
+    max-width: 280px;
+  }
+
+  figure {
+    max-height: 280px;
+    max-width: 280px;
+  }
+
+  .thumb {
+    margin: 0;
+  }
+
+  .thumb img {
+    margin: 0;
+    width: auto;
+    height: 4.5rem;
+  }
+  
 }
 
 @media (max-width: 325px) {
   .big-img {
-    max-height: 320px;
-    max-width: 320px;
+    max-height: 230px;
+    max-width: 230px;
   }
 
   figure {
-    max-height: 320px;
-    max-width: 320px;
+    max-height: 230px;
+    max-width: 230px;
   }
 
-  .thumb .slick-list {
-    flex-direction: row;
-    width: 21rem;
-    margin-left: 1rem;
+  .thumb {
+    margin: 0;
   }
+
+  .thumb img {
+    height: 3.6rem;
+    margin-left: 0.6rem
+  }
+
+  
 }

@@ -34,14 +34,6 @@ const ProductDetails = ({ product }) => {
     verticalSwiping: true,
     swipeToSlide: true,
     arrows: false,
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          vertical: false,
-        },
-      },
-    ],
   };
 
   const [zoomImage, setZoomImage] = useState({
@@ -53,6 +45,8 @@ const ProductDetails = ({ product }) => {
   const priceSale = `R$${parseFloat(product.variations[0].price)
     .toFixed(2)
     .replace(".", ",")}`;
+
+  const installmentPrice = `R$${parseFloat(product.price / 6.0).toFixed(2).replace(".", ",")}`
 
   const handleMouseMove = (e) => {
     const { left, top, width, height } = e.target.getBoundingClientRect();
@@ -251,6 +245,11 @@ const ProductDetails = ({ product }) => {
             price
           )}
         </span>
+
+        <p className='installment'>
+          <strong>6x</strong> de <strong>{installmentPrice}</strong> sem juros no cartão 
+          ou <strong>12%</strong> de desconto no boleto ou pix.
+        </p>
 
         <div className="btn-buy">
           <button
