@@ -23,7 +23,7 @@ export default function ProductsSlider({ prod }) {
     dots: false,
     adaptiveHeight: true,
     speed: 1000,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 2,
@@ -76,6 +76,8 @@ export default function ProductsSlider({ prod }) {
     ],
   };
 
+  const installmentPrice = (price) => `R$${parseFloat(price / 6.0).toFixed(2).replace(".", ",")}`;
+
   return (
     <>
       {loading === true ? (
@@ -97,48 +99,31 @@ export default function ProductsSlider({ prod }) {
             const image = imageTest.length > 0 ? imageTest[0].link : noImage;
 
             return (
-              <div
-                className="card-wrapper"
-                key={i}
-                onClick={() => router.push(`/produto/${p.code}`)}
-              >
+              <div className="card-wrapper" key={i} onClick={() => router.push(`/produto/${p.code}`)}>
                 <div className="card">
                   <div className="card-image">
                     <img
                       src={image}
                       alt="imagem do produto"
                       className="image-slider"
-                      layout="fill"
-                      // priority
                     />
                   </div>
                   <div className="details">
-                    <h5>
-                      {p.description}
-                      <span className="price">
-                        {p.price !== p.variations[0].price ? (
-                          <div className="priceSale">
-                            <p>
-                              R$
-                              {parseFloat(p.price).toFixed(2).replace(".", ",")}
-                            </p>
-                            <p>
-                              R$
-                              {parseFloat(p.variations[0].price)
-                                .toFixed(2)
-                                .replace(".", ",")}
-                            </p>
-                          </div>
-                        ) : (
-                          <p>
-                            R${parseFloat(p.price).toFixed(2).replace(".", ",")}
-                          </p>
-                        )}
-                      </span>
-                    </h5>
-                    <Link href={`/produto/${p.code}`} passHref>
-                      <button type="button">VER DETALHES</button>
-                    </Link>
+                    <h3 className='title-card'>{p.description}</h3>
+                    <div className="price">
+                      {p.price !== p.variations[0].price ? (
+                        <div className="priceSale">
+                          <p className='firstPrice'>R${parseFloat(p.price).toFixed(2).replace(".", ",")} </p>
+                          <p className='promoPrice'>R${parseFloat(p.variations[0].price).toFixed(2).replace(".", ",")}</p>
+                        </div>
+                      ) : (
+                        <p> R${parseFloat(p.price).toFixed(2).replace(".", ",")} </p>
+                      )}
+                    </div>
+                    <p className="installment-owl">
+                      <strong>6x</strong> de <strong>{installmentPrice(p.price !== p.variations[0].price ? p.variations[0].price : p.price)}</strong> sem juros
+                      no cartão.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -149,3 +134,6 @@ export default function ProductsSlider({ prod }) {
     </>
   );
 }
+
+
+

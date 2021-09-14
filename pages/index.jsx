@@ -108,7 +108,7 @@ const Index = ({ prodMasc, prodOutlet }) => {
           className="products-carousel-title"
           href='/produtos/Outlet'
         >
-            OUTLET
+            Promoções
         </NavLink>
         <ProductsSlider prod={prodOutlet} />
       </div>
