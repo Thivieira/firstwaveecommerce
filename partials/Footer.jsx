@@ -8,7 +8,6 @@ import {
 import NavLink from "../components/NavLink";
 import { Carousel } from "react-responsive-carousel";
 
-
 function Footer() {
   const getConfigurableProps = () => ({
     showArrows: true,
