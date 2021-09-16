@@ -9,11 +9,9 @@ function ProductCard({ product }) {
   const image = testImage.length > 0 ? testImage[0].link : noImage;
 
   const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
-  const priceSale = `R$${parseFloat(product.variations[0].price)
-    .toFixed(2)
-    .replace(".", ",")}`;
+  const priceSale = `R$${parseFloat(product.variations[0].price).toFixed(2).replace(".", ",")}`;
 
-  const installmentPrice = (price) => `R$${parseFloat(price / 6.0)}`
+  const installmentPrice = (price) => `R$${parseFloat(price / 6.0).toFixed(2).replace(".", ",")}`
 
   return (
     <div className="card-grid" key={product.id}>
@@ -53,7 +51,18 @@ function ProductCard({ product }) {
           )}
         </div>
         <p className="discount">
-          <strong>6x</strong> de <strong>{price !== priceSale ? parseFloat(priceSale / 6.0) : parseFloat(price / 6.0)}</strong> sem juros no cartão.
+          {priceSale !== price ? 
+            (
+              <>
+                <strong>6x</strong> de <strong>{installmentPrice(product.variations[0].price)}</strong> sem juros no cartão.
+              </>
+            ) : 
+            (
+              <>
+                <strong>6x</strong> de <strong>{installmentPrice(product.price)}</strong> sem juros no cartão.
+              </>
+            )
+          }
         </p>
       </div>
     </div>

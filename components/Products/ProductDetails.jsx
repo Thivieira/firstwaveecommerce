@@ -46,9 +46,7 @@ const ProductDetails = ({ product }) => {
     .toFixed(2)
     .replace(".", ",")}`;
 
-  const installmentPrice = `R$${parseFloat(product.price / 6.0)
-    .toFixed(2)
-    .replace(".", ",")}`;
+  const installmentPrice = (price) => `R$${parseFloat(price / 6.0).toFixed(2).replace(".", ",")}`
 
   const handleMouseMove = (e) => {
     const { left, top, width, height } = e.target.getBoundingClientRect();
@@ -249,8 +247,19 @@ const ProductDetails = ({ product }) => {
         </span>
 
         <p className="installment">
-          <strong>6x</strong> de <strong>{installmentPrice}</strong> sem juros
-          no cartão ou <strong>12%</strong> de desconto no boleto ou pix.
+          {priceSale !== price ? (
+            <>
+              <strong>6x</strong> de <strong>{installmentPrice(product.variations[0].price)}</strong> sem juros
+              no cartão ou <strong>12%</strong> de desconto no boleto ou pix.
+            </>
+          ) :
+          (
+            <>
+              <strong>6x</strong> de <strong>{installmentPrice(product.price)}</strong> sem juros
+              no cartão ou <strong>12%</strong> de desconto no boleto ou pix.
+            </>
+          )
+          }
         </p>
 
         <div className="btn-buy">
