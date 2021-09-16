@@ -113,16 +113,24 @@ function Footer() {
                 </NavLink>
               </li>
             </ul>
+
+            <div className="sec institucional">
+              <h2>Institucional</h2>
+              <NavLink href='/condicoes'><li>Termos e Condições</li></NavLink>
+              <NavLink href='/privacidade'><li>Política de Privacidade</li></NavLink>
+            </div>
           </div>
 
           <div className="sec payments">
             <h2>Meios de Pagamento</h2>
             <img src="/mercadopago-logo.png" alt="" />
+
+            <div className="sec certificate">
+              <h2>Segurança</h2>
+              <img src="/ssl.png" alt="" />
+            </div>
           </div>
-          <div className="sec certificate">
-            <h2>Segurança</h2>
-            <img src="/ssl.png" alt="" />
-          </div>
+
         </div>
       </footer>
       <div className="copyrightText">

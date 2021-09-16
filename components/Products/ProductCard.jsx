@@ -3,15 +3,17 @@ import FavoriteBtn from "../FavoriteBtn";
 import noImage from "../../public/noimage.png";
 
 function ProductCard({ product }) {
-  const test = product.variations.length > 0 ? product.variations[0] : [];
+  const hasImage = product.variations.length > 0 ? product.variations[0] : [];
 
-  const testImage = JSON.parse(test.image);
+  const testImage = JSON.parse(hasImage.image);
   const image = testImage.length > 0 ? testImage[0].link : noImage;
 
   const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
   const priceSale = `R$${parseFloat(product.variations[0].price)
     .toFixed(2)
     .replace(".", ",")}`;
+
+  const installmentPrice = (price) => `R$${parseFloat(price / 6.0)}`
 
   return (
     <div className="card-grid" key={product.id}>
@@ -50,7 +52,9 @@ function ProductCard({ product }) {
             price
           )}
         </div>
-        <p className="discount">{product.discount}</p>
+        <p className="discount">
+          <strong>6x</strong> de <strong>{price !== priceSale ? parseFloat(priceSale / 6.0) : parseFloat(price / 6.0)}</strong> sem juros no cartão.
+        </p>
       </div>
     </div>
   );

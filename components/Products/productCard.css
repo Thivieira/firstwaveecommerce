@@ -83,10 +83,12 @@
 
 .content .price {
   color: #0080a8;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   margin-top: 0.2rem;
   color: #ffa500;
+
+  
 }
 
 .content .priceSale {
@@ -124,10 +126,17 @@
   font-weight: 700;
   font-size: 0.7rem;
   max-width: 240px;
+
+  transition: all ease-in-out 0.2s;
 }
 
 .content h4:hover {
-  color: rgba(51, 51, 51, 0.7);
+  transform: scale(1.02);
+}
+
+.content .discount {
+  font-size: 0.8rem;
+  color: #0080a8;
 }
 
 @media(max-width: 425px) {
