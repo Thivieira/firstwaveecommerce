@@ -47,7 +47,7 @@
   width: 85%;
   font-weight: 700;
   margin-bottom: 0;
-
+  align-items: center;
   transition: all  ease-in-out 0.2s;
 }
 
