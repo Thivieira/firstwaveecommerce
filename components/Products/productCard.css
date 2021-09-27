@@ -41,7 +41,7 @@
 }
 
 .img-content img:hover {
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 .img-content button {
@@ -119,19 +119,17 @@
 
 .content h4 {
   cursor: pointer;
-  text-transform: uppercase;
-  margin-top: 0.2rem;
   margin-bottom: 0;
   color: #0080a8;
   font-weight: 700;
   font-size: 0.7rem;
   max-width: 240px;
 
-  transition: all ease-in-out 0.2s;
+  transition: all ease-in-out 0.1s;
 }
 
 .content h4:hover {
-  transform: scale(1.02);
+  color: #0b9eca;
 }
 
 .content .discount {

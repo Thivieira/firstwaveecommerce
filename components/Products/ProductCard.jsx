@@ -20,13 +20,7 @@ function ProductCard({ product }) {
           <img
             src={image}
             alt={product.title}
-            width={270}
-            height={270}
-            // blurDataURL={defaultBlur()}
           />
-        </NavLink>
-        <NavLink href={`/produto/${product.code}`} passHref>
-          <button>Ver detalhes</button>
         </NavLink>
       </div>
 
