@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import Slider from "react-slick";
+
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -9,6 +9,7 @@ import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
 import FavoriteBtn from "../FavoriteBtn";
 import noImage from "../../public/noimage.png";
 import { upFirst } from "../../helpers";
+import ProductImage from "./ProductImage";
 
 const ProductDetails = ({ product }) => {
   const dispatch = useDispatch();
@@ -18,45 +19,12 @@ const ProductDetails = ({ product }) => {
   const [availableColorVariations, setAvailableColorVariations] = useState([]);
   const [triggerColor, setColorTrigger] = useState(false);
   const [activeVariation, setActiveVariation] = useState("");
-  const [featuredImage, setFeaturedImage] = useState("");
+
   const [hasSizeVariation, setHasZizeVariation] = useState(false);
   const [supplyAndSize, setSupplyAndSize] = useState({});
+
   const [imageThumbs, setImageThumbs] = useState([]);
-
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    infinite: imageThumbs.length > 3,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    vertical: true,
-    verticalSwiping: true,
-    swipeToSlide: true,
-    arrows: false,
-  };
-
-  const [zoomImage, setZoomImage] = useState({
-    backgroundImage: `url(${featuredImage})`,
-    backgroundPosition: "0% 0%",
-  });
-
-  const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
-  const priceSale = `R$${parseFloat(product.variations[0].price)
-    .toFixed(2)
-    .replace(".", ",")}`;
-
-  const installmentPrice = (price) => `R$${parseFloat(price / 6.0).toFixed(2).replace(".", ",")}`
-
-  const handleMouseMove = (e) => {
-    const { left, top, width, height } = e.target.getBoundingClientRect();
-    const x = ((e.pageX - left) / width) * 100;
-    const y = ((e.pageY - top) / height) * 100;
-    setZoomImage({
-      backgroundImage: `url(${featuredImage})`,
-      backgroundPosition: `${x}% ${y}%`,
-    });
-  };
+  const [featuredImage, setFeaturedImage] = useState("");
 
   function setImages(imageJson) {
     let imageObj = JSON.parse(imageJson);
@@ -66,6 +34,16 @@ const ProductDetails = ({ product }) => {
 
     setFeaturedImage(imagesLink[0]);
   }
+
+  const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
+  const priceSale = `R$${parseFloat(product.variations[0].price)
+    .toFixed(2)
+    .replace(".", ",")}`;
+
+  const installmentPrice = (price) =>
+    `R$${parseFloat(price / 6.0)
+      .toFixed(2)
+      .replace(".", ",")}`;
 
   const onSelectedSizeChange = useCallback(
     (value) => {
@@ -178,47 +156,11 @@ const ProductDetails = ({ product }) => {
 
   return (
     <div className="details-wrapper">
-      <div className="gallery-img">
-        <div className="thumb">
-          <Slider {...settings}>
-            {imageThumbs.map((image) => (
-              <div key={image} onClick={() => setFeaturedImage(image)}>
-                <img
-                  className={featuredImage === image ? "active" : ""}
-                  src={image}
-                  alt="imagem em miniatura do produto"
-                  width={70}
-                  height={70}
-                />
-              </div>
-            ))}
-          </Slider>
-        </div>
-
-        {!featuredImage ? (
-          <img className="big-img" src={noImage.src} alt="img" />
-        ) : (
-          <figure
-            style={zoomImage}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={(e) => {
-              setZoomImage({
-                backgroundImage: `url('')`,
-                backgroundPosition: `0% 0%`,
-              });
-            }}
-          >
-            <img
-              src={featuredImage ? featuredImage : noImage}
-              alt="imagem do produto"
-              className="big-img"
-              width={400}
-              height={400}
-            />
-          </figure>
-        )}
-      </div>
-
+      <ProductImage
+        featuredImage={featuredImage}
+        imageThumbs={imageThumbs}
+        key={imageThumbs}
+      />
       <div className="details-content">
         <div className="title-and-heart">
           <h1 className="title-product">
@@ -249,17 +191,18 @@ const ProductDetails = ({ product }) => {
         <p className="installment">
           {priceSale !== price ? (
             <>
-              <strong>6x</strong> de <strong>{installmentPrice(product.variations[0].price)}</strong> sem juros
-              no cartão ou <strong>12%</strong> de desconto no boleto ou pix.
+              <strong>6x</strong> de{" "}
+              <strong>{installmentPrice(product.variations[0].price)}</strong>{" "}
+              sem juros no cartão ou <strong>12%</strong> de desconto no boleto
+              ou pix.
             </>
-          ) :
-          (
+          ) : (
             <>
-              <strong>6x</strong> de <strong>{installmentPrice(product.price)}</strong> sem juros
-              no cartão ou <strong>12%</strong> de desconto no boleto ou pix.
+              <strong>6x</strong> de{" "}
+              <strong>{installmentPrice(product.price)}</strong> sem juros no
+              cartão ou <strong>12%</strong> de desconto no boleto ou pix.
             </>
-          )
-          }
+          )}
         </p>
 
         <div className="btn-buy">
