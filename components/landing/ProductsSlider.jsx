@@ -96,7 +96,7 @@ export default function ProductsSlider({ prod }) {
           {products.map((p, i) => {
             let test = p.variations.length > 0 ? p.variations[0] : [];
             let imageTest = JSON.parse(test.image);
-            const image = imageTest.length > 0 ? imageTest[0].link : noImage;
+            const image = imageTest.length > 0 ? imageTest[0].link : noImage.src;
 
             return (
               <div className="card-wrapper" key={i} onClick={() => router.push(`/produto/${p.code}`)}>

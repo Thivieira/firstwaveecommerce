@@ -6,7 +6,7 @@ function ProductCard({ product }) {
   const hasImage = product.variations.length > 0 ? product.variations[0] : [];
 
   const testImage = JSON.parse(hasImage.image);
-  const image = testImage.length > 0 ? testImage[0].link : noImage;
+  const image = testImage.length > 0 ? testImage[0].link : noImage.src;
 
   const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
   const priceSale = `R$${parseFloat(product.variations[0].price).toFixed(2).replace(".", ",")}`;

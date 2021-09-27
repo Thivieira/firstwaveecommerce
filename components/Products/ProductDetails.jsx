@@ -196,7 +196,7 @@ const ProductDetails = ({ product }) => {
         </div>
 
         {!featuredImage ? (
-          <img className="big-img" src={noImage} alt="img" />
+          <img className="big-img" src={noImage.src} alt="img" />
         ) : (
           <figure
             style={zoomImage}
