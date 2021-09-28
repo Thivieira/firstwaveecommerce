@@ -13,7 +13,7 @@ import { stripHtml } from "../../helpers";
 import FadeLoader from "react-spinners/FadeLoader";
 import { fetcher, serverFetcher } from "../../services/api";
 
-import ProductDetails from "../../components/Products/ProductDetails";
+import ProductWrapper from "../../components/Products/ProductWrapper";
 import useSWR from "swr";
 
 export const getStaticPaths = async () => {
@@ -86,7 +86,7 @@ const DetailsProduct = ({ product, code }) => {
             </div>
           </div>
         ) : (
-          <ProductDetails product={data} />
+          <ProductWrapper product={data} />
         )}
       </div>
     </>

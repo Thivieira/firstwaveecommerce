@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Slider from "react-slick";
+import { ProductContext } from "../../contexts/ProductContextProvider";
 import noImage from "../../public/noimage.png";
 
 export default function ProductImage(props) {
-  const imageThumbs = props.imageThumbs;
-  const [featuredImage, setFeaturedImage] = useState(props.featuredImage);
+  const { imageThumbs, featuredImage, setFeaturedImage } =
+    useContext(ProductContext);
 
   const settings = {
     dots: false,
