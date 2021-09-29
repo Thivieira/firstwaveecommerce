@@ -11,7 +11,7 @@ import withReactContent from "sweetalert2-react-content";
 import { addToCart, changeIsOpen } from "../../store/actions/products";
 import { ProductContext } from "../../contexts/ProductContextProvider";
 
-export default function ProductContent() {
+export default function Content() {
   const dispatch = useDispatch();
   const MySwal = withReactContent(Swal);
   const {

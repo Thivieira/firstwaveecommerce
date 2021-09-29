@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import { ProductContext } from "../../contexts/ProductContextProvider";
 import noImage from "../../public/noimage.png";
 
-export default function ProductImage(props) {
+export default function Images(props) {
   const { imageThumbs, featuredImage, setFeaturedImage } =
     useContext(ProductContext);
 

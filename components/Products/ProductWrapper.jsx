@@ -1,15 +1,13 @@
-import { useState, useEffect, useCallback } from "react";
-
-import ProductImage from "./ProductImage";
-import ProductContent from "./ProductContent";
+import Images from "./Images";
+import Content from "./Content";
 import ProductContextProvider from "../../contexts/ProductContextProvider";
 
 const ProductWrapper = ({ product }) => {
   return (
     <div className="details-wrapper">
       <ProductContextProvider product={product}>
-        <ProductImage />
-        <ProductContent />
+        <Images />
+        <Content />
       </ProductContextProvider>
     </div>
   );
