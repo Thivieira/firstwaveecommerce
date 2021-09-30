@@ -224,15 +224,15 @@ export default function Content() {
                   title={`Tamanho ${size}`}
                   className={size == selectedSize ? "active" : null}
                 >
-                  {size}
+                  {size === 'null' ? 'único' : size}
                 </li>
               ) : (
                 <li
                   key={size}
-                  title="Tamanho não disponível."
+                  title="Tamanho não disponível." 
                   className="disabled"
                 >
-                  {size}
+                  {size === 'null' ? 'único' : size}
                 </li>
               );
             })}
@@ -240,6 +240,7 @@ export default function Content() {
         </div>
       ) : null}
 
+      {console.log(availableColorVariations)}
       {availableColorVariations ? (
         <div className="colors-product">
           <span>
