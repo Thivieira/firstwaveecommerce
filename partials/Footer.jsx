@@ -33,7 +33,7 @@ function Footer() {
             <div className="sec aboutus">
               <NavLink href="/">
                 <img 
-                  src='/Logo-LifestylebyBillabong.jpg' 
+                  src='/footer-image.jpeg' 
                   alt="Logo do rodapé" 
                   className="footer-logo"
                 />
