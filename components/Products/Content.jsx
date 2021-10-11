@@ -220,7 +220,7 @@ export default function Content() {
               return supply > 0 ? (
                 <li
                   onClick={() => onSelectedSizeChange(size)}
-                  key={size}
+                  key={size === 'null' ? 'único' : size}
                   title={`Tamanho ${size}`}
                   className={size == selectedSize ? "active" : null}
                 >
