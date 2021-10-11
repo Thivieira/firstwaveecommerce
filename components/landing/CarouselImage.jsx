@@ -33,7 +33,7 @@ const ImageSlider = () => {
             alt="banner1"
             className="image-next"
             width={1200}
-            height={420}
+            height={430}
             priority
           />
         </div>
@@ -45,7 +45,7 @@ const ImageSlider = () => {
             alt="banner2"
             className="image-next"
             width={1200}
-            height={420}
+            height={430}
             priority
           />
         </div>
@@ -57,7 +57,7 @@ const ImageSlider = () => {
             alt="banner3"
             className="image-next"
             width={1200}
-            height={420}
+            height={430}
             priority
           />
         </div>
