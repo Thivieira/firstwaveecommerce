@@ -240,7 +240,6 @@ export default function Content() {
         </div>
       ) : null}
 
-      {console.log(availableColorVariations)}
       {availableColorVariations ? (
         <div className="colors-product">
           <span>
