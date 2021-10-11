@@ -9,7 +9,7 @@
 
 .wrapper-carousel-landing .image-next {
   width: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 @media (max-width: 760px) {

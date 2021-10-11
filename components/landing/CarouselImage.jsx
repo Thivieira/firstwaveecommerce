@@ -1,9 +1,9 @@
 import NavLink from "../../components/NavLink";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
-import banner1 from "../../public/banner1.png";
-import banner2 from "../../public/banner2.png";
-import banner3 from "../../public/banner3.png";
+import banner1 from "../../public/banner-topo1.jpg";
+import banner2 from "../../public/banner-topo2.jpg";
+import banner3 from "../../public/banner-topo3.jpg";
 
 const ImageSlider = () => {
   const getConfigurableProps = () => ({
@@ -21,6 +21,7 @@ const ImageSlider = () => {
     interval: 3000,
     transitionTime: 900,
     swipeScrollTolerance: 5,
+    width: 1200
   });
 
   return (
@@ -31,8 +32,8 @@ const ImageSlider = () => {
             src={banner1}
             alt="banner1"
             className="image-next"
-            width={2048}
-            height={1449}
+            width={1200}
+            height={420}
             priority
           />
         </div>
@@ -43,8 +44,8 @@ const ImageSlider = () => {
             src={banner2}
             alt="banner2"
             className="image-next"
-            width={2048}
-            height={1449}
+            width={1200}
+            height={420}
             priority
           />
         </div>
@@ -55,8 +56,8 @@ const ImageSlider = () => {
             src={banner3}
             alt="banner3"
             className="image-next"
-            width={2048}
-            height={1449}
+            width={1200}
+            height={420}
             priority
           />
         </div>
