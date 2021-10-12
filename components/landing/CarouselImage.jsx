@@ -21,11 +21,11 @@ const ImageSlider = () => {
     interval: 3000,
     transitionTime: 900,
     swipeScrollTolerance: 5,
-    width: 1200
+    // width: 1200
   });
 
   return (
-    <Carousel {...getConfigurableProps()}>
+    <Carousel {...getConfigurableProps()} className='carouselHome'>
       <NavLink href="/produtos/Surf/Wetsuit">
         <div className="wrapper-carousel-landing">
           <Image

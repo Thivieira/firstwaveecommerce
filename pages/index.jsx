@@ -36,14 +36,14 @@ const Index = ({ prodMasc, prodOutlet }) => {
         <div className="payment-information">
           <Payment
             fontSize="large"
-            style={{ fontSize: "2.5rem", marginRight: "5px" }}
+            style={{ fontSize: "2rem", marginRight: "5px" }}
           />
           <p className="payment-information-text">EM ATÉ 6X NO CARTÃO SEM JUROS</p>
         </div>
         <div className="payment-information">
           <LocalShipping
             fontSize="large"
-            style={{ fontSize: "2.5rem", margin: "0.5rem" }}
+            style={{ fontSize: "2rem", margin: "0.5rem" }}
           />
           <h2>
             <strong></strong>
@@ -52,7 +52,7 @@ const Index = ({ prodMasc, prodOutlet }) => {
         <div className="payment-information">
           <BarcodeOutlined
             fontSize="large"
-            style={{ fontSize: "2.5rem", margin: "0.5rem" }}
+            style={{ fontSize: "2rem", margin: "0.5rem" }}
           />
           <p className="payment-information-text">12% DE DESCONTO NO BOLETO E PIX</p>
         </div>

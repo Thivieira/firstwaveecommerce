@@ -1,3 +1,12 @@
+.carouselHome {
+  margin-top: 0.5rem;
+  max-width: 1200px;
+}
+
+.carousel.carousel-slider .control-arrow {
+  border-radius: 0.5rem !important;
+}
+
 .wrapper-carousel-landing {
   position: relative;
   cursor: pointer;
@@ -10,6 +19,10 @@
 .wrapper-carousel-landing .image-next {
   width: 100%;
   object-fit: cover;
+}
+
+.wrapper-carousel-landing  img {
+  border-radius: 0.5rem !important;
 }
 
 @media (max-width: 760px) {

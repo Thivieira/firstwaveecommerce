@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 9999;
-  box-shadow: 0 7px 6px -6px black;
+  box-shadow: 0 7px 6px -6px #333;
 }
 
 .header-top {
@@ -106,8 +106,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem 6.5rem;
+  padding: 0.8rem 6rem;
   z-index: 999;
+  border-bottom-left-radius: 0.2rem;
+  border-bottom-right-radius: 0.2rem;
 }
 
 .menu-item {
