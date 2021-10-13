@@ -16,7 +16,7 @@
   height: auto;
   max-height: 400px;
   max-width: 400px;
-  object-fit: contain;
+  object-fit: cover;
   cursor: -webkit-zoom-in;
   background-repeat: no-repeat;
 }

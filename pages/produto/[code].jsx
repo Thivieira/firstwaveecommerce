@@ -2,11 +2,7 @@ import { NextSeo } from "next-seo";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoading } from "../../store/selectors/products";
-import {
-  clearProduct,
-  openProduct,
-  setLoading,
-} from "../../store/actions/products";
+import { clearProduct, openProduct, setLoading } from "../../store/actions/products";
 
 import { stripHtml } from "../../helpers";
 

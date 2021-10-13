@@ -23,9 +23,9 @@ export default function ProductsSlider({ prod }) {
     dots: false,
     adaptiveHeight: true,
     speed: 1000,
-    infinite: false,
+    infinite: true,
     speed: 500,
-    slidesToShow: 5,
+    slidesToShow: 4,
     slidesToScroll: 2,
     initialSlide: 0,
 
