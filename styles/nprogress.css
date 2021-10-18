@@ -40,7 +40,7 @@
 
 /* Remove these to get rid of the spinner */
 #nprogress .spinner {
-  display: block;
+  display: none;
   position: fixed;
   z-index: 99999;
   top: 15px;

@@ -15,13 +15,9 @@ const ProductsSlider = dynamic(() =>
 
 const { getLayout } = dynamic(() => import("../layouts/SiteLayout"));
 
-import landing1 from "../public/landing1.jpg";
-import landing2 from "../public/landing2.jpg";
-import landing3 from "../public/landing3.png";
-import landing4 from "../public/landing4.jpeg";
 
 import { Payment, LocalShipping } from "@material-ui/icons";
-import { RightCircleOutlined, BarcodeOutlined } from "@ant-design/icons";
+import { BarcodeOutlined } from "@ant-design/icons";
 
 const Index = ({ prodMasc, prodOutlet }) => {
   return (
@@ -60,44 +56,23 @@ const Index = ({ prodMasc, prodOutlet }) => {
         <ProductsSlider prod={prodMasc} />
       </div>
 
-      <div className="images-container-two">
-        <div className="wrapper-equal-images">
-          <Image
-            src={landing1}
-            alt="banner"
-            width={560}
-            height={640}
-            priority
-            className="image-landing"
-          />
-          <NavLink href="/produtos/Feminino" passHref>
-            <button type="button" className="btn-acess">
-              FEMININO
-              <RightCircleOutlined
-                style={{ fontSize: "1.1rem", margin: "0 5px" }}
-              />
-            </button>
+      <div className="container-images">
+        <div className="three-images">
+          <div className="two-images">
+            <NavLink href='/produtos/Masculino'>
+              <img className='first-image' src="/Categorias-Masculino.jpg" alt="" />
+            </NavLink>
+            <NavLink href='/produtos/Feminino'>
+              <img className='second-image' src="/Categorias-Feminino.jpg" alt="" />
+            </NavLink>
+          </div>
+          <NavLink href='/produtos/Calcado'>
+            <img className='image-right' src="/Categorias-Calcados.jpg" alt="" />
           </NavLink>
         </div>
-
-        <div className="wrapper-equal-images">
-          <Image
-            src={landing2}
-            alt="banner"
-            width={560}
-            height={640}
-            priority
-            className="image-landing"
-          />
-          <NavLink href="/produtos/Masculino" passHref>
-            <button type="button" className="btn-infa">
-              MASCULINO
-              <RightCircleOutlined
-                style={{ fontSize: "1.1rem", margin: "0 5px" }}
-              />
-            </button>
-          </NavLink>
-        </div>
+        <NavLink href='/produtos/Juvenil'>
+          <img className="bottom-image" src="/Categorias-Juvenil.jpg" alt="" />
+        </NavLink>
       </div>
 
       <div className="products-carousel-container">
@@ -107,51 +82,28 @@ const Index = ({ prodMasc, prodOutlet }) => {
         >
             Promoções
         </NavLink>
+
         <ProductsSlider prod={prodOutlet} />
       </div>
 
-      <div className="images-container-two">
-        <div className="wrapper-equal-images">
-          <Image
-            src={landing3}
-            alt="banner"
-            width={560}
-            height={640}
-            priority
-            className="image-landing"
-          />
-          <NavLink href="/produtos/Surf" passHref>
-            <button
-              type="button"
-              className="btn-acess"
-              style={{ marginRight: "20px" }}
-            >
-              SURF
-              <RightCircleOutlined
-                style={{ fontSize: "1.1rem", margin: "0 5px" }}
-              />
-            </button>
+      
+      <div className="container-images">
+        <div className="three-images">
+          <div className="two-images">
+            <NavLink href='/produtos/Acessorio/Relogio'>
+              <img className='first-image' src="/Categorias-Relogio.jpg" alt="" />
+            </NavLink>
+            <NavLink href='/produtos/Acessorio/Oculos'>
+              <img className='second-image' src="/Categorias-Oculos.jpg" alt="" />
+            </NavLink>
+          </div>
+          <NavLink href='/produtos/Surf'>
+            <img className='image-right' src="/Categorias-Surf.jpg" alt="" />
           </NavLink>
         </div>
-
-        <div className="wrapper-equal-images">
-          <Image
-            src={landing4}
-            alt="banner"
-            width={560}
-            height={640}
-            priority
-            className="image-landing"
-          />
-          <NavLink href="/produtos/Acessorio" passHref>
-            <button type="button" className="btn-infa">
-              ACESSÓRIOS
-              <RightCircleOutlined
-                style={{ fontSize: "1.1rem", margin: "0 5px" }}
-              />
-            </button>
-          </NavLink>
-        </div>
+        <NavLink href='/produtos/Acessorio'>
+          <img className="bottom-image" src="/Categorias-Acessorios.jpg" alt="" />
+        </NavLink>
       </div>
     </div>
   );
