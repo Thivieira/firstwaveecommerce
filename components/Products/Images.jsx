@@ -6,7 +6,6 @@ import noImage from "../../public/noimage.png";
 export default function Images(props) {
   const { imageThumbs, featuredImage, setFeaturedImage } = useContext(ProductContext);
 
-
   const settings = {
     dots: false,
     infinite: true,
@@ -18,10 +17,7 @@ export default function Images(props) {
     verticalSwiping: true,
     swipeToSlide: true,
     arrows: false,
-  };
-
-  console.log(imageThumbs)
-  console.log(settings.infinite)
+  }
 
   const [zoomImage, setZoomImage] = useState({
     backgroundImage: `url(${featuredImage})`,

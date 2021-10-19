@@ -33,6 +33,10 @@ export default function Content() {
     setSupplyAndSize,
   } = useContext(ProductContext);
 
+  console.log(availableColorVariations)
+  console.log(selectedColor)
+  console.log(activeVariation)
+
   const onSelectedSizeChange = useCallback(
     (value) => {
       setSelectedSize(value);
@@ -97,8 +101,8 @@ export default function Content() {
     const sizesNoRepeat = [...new Set(sizes)];
 
     var supplyAndSize = {};
-    for (var i = 0; i < sizesNoRepeat.length; i++) {
-      supplyAndSize[sizesNoRepeat[i]] = supplys[i];
+    for (var i = 0; i < sizes.length; i++) {
+      supplyAndSize[sizes[i]] = supplys[i];
     }
 
     setSupplyAndSize(supplyAndSize);
