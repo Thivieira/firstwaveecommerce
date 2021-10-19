@@ -25,7 +25,7 @@ const ImageSlider = () => {
 
   return (
     <Carousel {...getConfigurableProps()}>
-      <NavLink href="/produtos/Surf/Wetsuit">
+      <NavLink href="/produtos/Masculino/Vestuario/Camiseta">
         <div className="wrapper-carousel-landing">
           <Image
             src={banner1}
@@ -49,7 +49,7 @@ const ImageSlider = () => {
           />
         </div>
       </NavLink>
-      <NavLink href="/produtos/Masculino/Vestuario/Camiseta">
+      <NavLink href="/produtos/Surf">
         <div className="wrapper-carousel-landing">
           <Image
             src={banner3}
