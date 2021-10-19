@@ -53,10 +53,12 @@ function CartProduct({ product_variation }) {
           </Link>
 
           <div className="desc">
-            {extractSizeFromVariation(product_variation) ? (
-              <p> Tamanho: {extractSizeFromVariation(product_variation)} </p>
+            {product_variation.size ? (
+              <p> Tamanho: {product_variation.size} </p>
             ) : null}
-            <p> Cor: {extractColorFromVariation(product_variation)} </p>
+            {product_variation.color ? (
+              <p> Cor: {product_variation.color} </p>
+            ) : null}
             <p> Quantidade: {product_variation.quantity} </p>
           </div>
         </div>

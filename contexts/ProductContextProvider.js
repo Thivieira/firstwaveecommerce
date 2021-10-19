@@ -12,7 +12,7 @@ const ProductContextProvider = (props) => {
   const [triggerColor, setColorTrigger] = useState(false);
   const [activeVariation, setActiveVariation] = useState("");
 
-  const [hasSizeVariation, setHasZizeVariation] = useState(false);
+  const [hasSizeVariation, setHasSizeVariation] = useState(false);
   const [supplyAndSize, setSupplyAndSize] = useState({});
 
   function setImages(imageJson) {
@@ -44,7 +44,7 @@ const ProductContextProvider = (props) => {
         activeVariation,
         setActiveVariation,
         hasSizeVariation,
-        setHasZizeVariation,
+        setHasSizeVariation,
         supplyAndSize,
         setSupplyAndSize,
       }}

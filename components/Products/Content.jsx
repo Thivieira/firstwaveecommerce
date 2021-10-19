@@ -4,6 +4,7 @@ import FavoriteBtn from "../FavoriteBtn";
 import noImage from "../../public/noimage.png";
 import { upFirst } from "../../helpers";
 import { useDispatch } from "react-redux";
+import Router from "next/router";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -28,14 +29,15 @@ export default function Content() {
     activeVariation,
     setActiveVariation,
     hasSizeVariation,
-    setHasZizeVariation,
+    setHasSizeVariation,
     supplyAndSize,
     setSupplyAndSize,
   } = useContext(ProductContext);
 
-  console.log(availableColorVariations)
-  console.log(selectedColor)
-  console.log(activeVariation)
+  // console.log(product);
+  // console.log(availableColorVariations);
+  // console.log(selectedColor);
+  // console.log(activeVariation);
 
   const onSelectedSizeChange = useCallback(
     (value) => {
@@ -90,15 +92,16 @@ export default function Content() {
      */
     const product_variations = product.variations;
 
-    setHasZizeVariation(
-      product_variations.filter((el) => (el.size ? true : false))
-    );
+    const productHasSizeVariations =
+      product_variations.filter((el) => (el.size ? true : false)).length > 0
+        ? true
+        : false;
+
+    setHasSizeVariation(productHasSizeVariations);
 
     const supplys = product_variations.map((el) => el.supply);
 
     const sizes = product_variations.map((el) => el.size);
-
-    const sizesNoRepeat = [...new Set(sizes)];
 
     var supplyAndSize = {};
     for (var i = 0; i < sizes.length; i++) {
@@ -113,37 +116,59 @@ export default function Content() {
 
     setImages(product_variations[0].image);
 
-    if (firstSizeWithSupply) {
-      onSelectedSizeChange(firstSizeWithSupply);
-    } else {
-      setAvailableColorVariations(product_variations);
+    if (product_variations.length == 0) {
+      Router.push("/produtos");
+      return false;
     }
+
+    if (firstSizeWithSupply != "null") {
+      onSelectedSizeChange(firstSizeWithSupply);
+      return true;
+    }
+
+    setAvailableColorVariations(product_variations);
+    setSelectedColor(product_variations[0].color);
+    setColorTrigger(true);
+    onSelectedColorChange(product_variations[0].color);
   }, [onSelectedSizeChange, product]);
 
   const addToCartFn = () => {
-    if (hasSizeVariation) {
-      if (selectedSize === "" || selectedColor === "") {
-        MySwal.fire({
-          title: (
-            <p>Selecione um tamanho e uma cor para adicionar ao carrinho</p>
-          ),
-          confirmButtonText: "OK",
-        });
-      } else {
-        dispatch(addToCart({ ...activeVariation, product }));
-        dispatch(changeIsOpen(true));
-      }
-    } else {
-      if (selectedColor === "") {
-        MySwal.fire({
-          title: <p>Selecione uma cor para adicionar ao carrinho.</p>,
-          confirmButtonText: "OK",
-        });
-      } else {
-        dispatch(addToCart({ ...activeVariation, product }));
-        dispatch(changeIsOpen(true));
-      }
-    }
+    dispatch(addToCart({ ...activeVariation, product }));
+    dispatch(changeIsOpen(true));
+
+    // if(!hasSizeVariation){
+    // }
+    // if (selectedColor === "") {
+    //   MySwal.fire({
+    //     title: <p>Selecione uma cor para adicionar ao carrinho.</p>,
+    //     confirmButtonText: "OK",
+    //   });
+    // } else {
+    //   dispatch(addToCart({ ...activeVariation, product }));
+    //   dispatch(changeIsOpen(true));
+    // }
+    // return false;
+    // if (hasSizeVariation) {
+    // if (selectedSize === "" || selectedColor === "") {
+    //   MySwal.fire({
+    //     title: (
+    //       <p>Selecione um tamanho e uma cor para adicionar ao carrinho</p>
+    //     ),
+    //     confirmButtonText: "OK",
+    //   });
+    // } else {
+
+    // }
+    // if (selectedSize === "") {
+    //   MySwal.fire({
+    //     title: <p>Selecione um tamanho para adicionar ao carrinho</p>,
+    //     confirmButtonText: "OK",
+    //   });
+    //   return false;
+    // }
+
+    // } else {
+    // }
   };
 
   const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
@@ -225,26 +250,25 @@ export default function Content() {
                 <li
                   onClick={() => onSelectedSizeChange(size)}
                   key={size}
-                  title={`Tamanho ${size === 'null' ? 'único' : size}`}
+                  title={`Tamanho ${size === "null" ? "único" : size}`}
                   className={size == selectedSize ? "active" : null}
                 >
-                  {size === 'null' ? 'único' : size}
+                  {size === "null" ? "único" : size}
                 </li>
               ) : (
                 <li
                   key={size}
-                  title="Tamanho não disponível." 
+                  title="Tamanho não disponível."
                   className="disabled"
                 >
-                  {size === 'null' ? 'único' : size}
+                  {size === "null" ? "único" : size}
                 </li>
               );
             })}
           </ul>
         </div>
       ) : null}
-
-      {availableColorVariations ? (
+      {availableColorVariations.length > 0 ? (
         <div className="colors-product">
           <span>
             <b>Cor:</b>
