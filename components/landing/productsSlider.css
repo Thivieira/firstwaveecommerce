@@ -101,7 +101,7 @@
   margin: 5rem auto;
 }
 
-.slick-list {
+.products-carousel-container .slick-list {
   height: 380px !important;
 }
 

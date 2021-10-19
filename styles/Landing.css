@@ -124,9 +124,6 @@
   height: auto;
 }
 
-
-
-
 @media (max-width: 1300px) {
   .products-carousel-container .slick-slider {
     margin: 3rem 4rem;
@@ -199,12 +196,12 @@
 
 @media (max-width: 466px) {
   .three-images .two-images .first-image, .three-images .two-images .second-image {
-    max-width: 130px;
-    max-height: 300px;
+    max-width: 160px;
+    max-height: 330px;
   }
 
   .bottom-image {
-    max-width: 260px;
+    max-width: 320px;
   }
 }
 
