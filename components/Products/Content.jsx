@@ -34,18 +34,13 @@ export default function Content() {
     setSupplyAndSize,
   } = useContext(ProductContext);
 
-  // console.log(product);
-  // console.log(availableColorVariations);
-  // console.log(selectedColor);
-  // console.log(activeVariation);
-
   const onSelectedSizeChange = useCallback(
     (value) => {
       setSelectedSize(value);
 
       const availableSizeVariations = product.variations.filter(
-        (el) => el.size == value
-      );
+        (el) => el.size == value && el.supply > 0
+      )
 
       setAvailableColorVariations(availableSizeVariations);
 
