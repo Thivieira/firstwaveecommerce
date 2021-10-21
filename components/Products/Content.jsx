@@ -40,7 +40,7 @@ export default function Content() {
 
       const availableSizeVariations = product.variations.filter(
         (el) => el.size == value && el.supply > 0
-      )
+      );
 
       setAvailableColorVariations(availableSizeVariations);
 
@@ -57,7 +57,7 @@ export default function Content() {
   const onSelectedColorChange = useCallback(
     (value) => {
       const product_variations = availableColorVariations.filter(
-        (el) => el.color == value
+        (el) => el.color == value && el.supply > 0
       );
 
       if (product_variations.length == 0) {
@@ -69,6 +69,7 @@ export default function Content() {
       setImages(product_variation.image);
 
       setActiveVariation(product_variation);
+      console.log(product_variation, "product_variation");
 
       setColorTrigger(false);
     },
@@ -128,6 +129,7 @@ export default function Content() {
   }, [onSelectedSizeChange, product]);
 
   const addToCartFn = () => {
+    console.log({ ...activeVariation, product });
     dispatch(addToCart({ ...activeVariation, product }));
     dispatch(changeIsOpen(true));
 
@@ -279,6 +281,7 @@ export default function Content() {
                 <img
                   onClick={() => {
                     setSelectedColor(color);
+                    onSelectedColorChange(color);
                     setImages(variation.image);
                   }}
                   className={color === selectedColor ? "active" : ""}
