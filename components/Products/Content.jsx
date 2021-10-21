@@ -69,7 +69,6 @@ export default function Content() {
       setImages(product_variation.image);
 
       setActiveVariation(product_variation);
-      console.log(product_variation, "product_variation");
 
       setColorTrigger(false);
     },
