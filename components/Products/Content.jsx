@@ -34,31 +34,41 @@ export default function Content() {
     setSupplyAndSize,
   } = useContext(ProductContext);
 
-  const onSelectedSizeChange = useCallback(
-    (value) => {
-      setSelectedSize(value);
+  const supplyT = product.variations.map((el) => el.supply)
+  const sizeT = product.variations.map((el) => el.size)
+  const colorT = product.variations.map((el) => el.color)
+  const codeT = product.variations.map((el) => el.external_id)
 
-      const availableSizeVariations = product.variations.filter(
-        (el) => el.size == value && el.supply > 0
-      );
+  var skrei = supplyT.map((supply, index) => {
+    return {
+      supply: supply,
+      size: sizeT[index],
+      color: colorT[index],
+      code: codeT[index],
+    }
+  })
 
-      setAvailableColorVariations(availableSizeVariations);
+  console.log(skrei)
 
-      if (availableSizeVariations.length == 0) {
-        return false;
-      }
+  const onSelectedSizeChange = useCallback(value => {
+    setSelectedSize(value);
 
-      setSelectedColor(availableSizeVariations[0].color);
-      setColorTrigger(true);
-    },
-    [product.variations]
+    const availableSizeVariations = product.variations.filter(el => el.size == value ) //&& el.supply > 0
+
+    setAvailableColorVariations(availableSizeVariations);
+
+    if (availableSizeVariations.length == 0) {
+      return false;
+    }
+
+    setSelectedColor(availableSizeVariations[0].color);
+    setColorTrigger(true);
+
+  }, [product.variations]
   );
 
-  const onSelectedColorChange = useCallback(
-    (value) => {
-      const product_variations = availableColorVariations.filter(
-        (el) => el.color == value && el.supply > 0
-      );
+  const onSelectedColorChange = useCallback((value) => {
+      const product_variations = availableColorVariations.filter(el => el.color == value)  //&& el.supply > 0
 
       if (product_variations.length == 0) {
         return false;
@@ -71,9 +81,8 @@ export default function Content() {
       setActiveVariation(product_variation);
 
       setColorTrigger(false);
-    },
-    [availableColorVariations, selectedColor]
-  );
+    }, [availableColorVariations, selectedColor]
+  )
 
   useEffect(() => {
     if (triggerColor) {
