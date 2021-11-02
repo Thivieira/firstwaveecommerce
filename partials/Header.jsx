@@ -85,45 +85,50 @@ function Header() {
               <NavLink
                 href="/produtos/Surf/Wetsuit"
                 className="surf-options-link"
+                onClick={() => setShowFilter(0)}
               >
                 WETSUITS
               </NavLink>
               <NavLink
                 href="/produtos/Surf/Quilha"
                 className="surf-options-link"
+                onClick={() => setShowFilter(0)}
               >
                 QUILHA
               </NavLink>
               <NavLink
                 href="/produtos/Surf/Leash"
                 className="surf-options-link"
+                onClick={() => setShowFilter(0)}
               >
                 LEASH
               </NavLink>
               <NavLink
                 href="/produtos/Surf/Lycra"
                 className="surf-options-link"
+                onClick={() => setShowFilter(0)}
               >
                 LYCRA
               </NavLink>
               <NavLink
                 href="/produtos/Surf/Prancha"
                 className="surf-options-link"
+                onClick={() => setShowFilter(0)}
               >
                 PRANCHA
               </NavLink>
-              <NavLink href="/produtos/Surf/Capa" className="surf-options-link">
+              <NavLink href="/produtos/Surf/Capa" className="surf-options-link" onClick={() => setShowFilter(0)}>
                 CAPA
               </NavLink>
-              <NavLink href="/produtos/Surf/Deck" className="surf-options-link">
+              <NavLink href="/produtos/Surf/Deck" className="surf-options-link" onClick={() => setShowFilter(0)}>
                 DECK
               </NavLink>
-              <NavLink href="/produtos/Surf/Bone" className="surf-options-link">
+              <NavLink href="/produtos/Surf/Bone" className="surf-options-link" onClick={() => setShowFilter(0)}>
                 BONÉS
               </NavLink>
             </div>
 
-            <NavLink href="/produtos/Surf">
+            <NavLink href="/produtos/Surf" onClick={() => setShowFilter(0)}>
               <img
                 className="surf-image hide"
                 src="/navSurf.jpg"
@@ -140,6 +145,7 @@ function Header() {
                 <NavLink
                   href="/produtos/Masculino/Vestuario"
                   className="header-genre"
+                  onClick={() => setShowFilter(0)}
                 >
                   VESTUÁRIO
                 </NavLink>
@@ -148,60 +154,70 @@ function Header() {
                 <NavLink
                   href="/produtos/Masculino/Vestuario/Bermuda"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   BERMUDAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Vestuario/Camiseta"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   CAMISETAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Vestuario/Camisa"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   CAMISAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Vestuario/Regata"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   REGATAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Vestuario/Calca"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   CALÇAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Vestuario/Jaqueta"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   JAQUETAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Vestuario/Moletom"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   MOLETONS
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Vestuario/Sueter"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
-                  SUÉTERS
+                  SUÉTERES
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Vestuario/ExtraGrande"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   EXTRA GRANDE
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Vestuario/Sunga"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   SUNGAS
                 </NavLink>
@@ -213,6 +229,7 @@ function Header() {
                 <NavLink
                   href="/produtos/Masculino/Acessorio"
                   className="header-genre"
+                  onClick={() => setShowFilter(0)}
                 >
                   ACESSÓRIOS
                 </NavLink>
@@ -221,49 +238,56 @@ function Header() {
                 <NavLink
                   href="/produtos/Masculino/Acessorio/Bone"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   BONÉS
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Acessorio/Mochila"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   MOCHILAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Acessorio/Carteira"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   CARTEIRAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Acessorio/Cinto"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   CINTOS
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Acessorio/Pochete"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   POCHETES
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Acessorio/Gorro"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   GORROS
                 </NavLink>
                 <NavLink
                   href="/produtos/Masculino/Acessorio/Meia"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   MEIAS
                 </NavLink>
               </div>
             </div>
 
-            <NavLink href="/produtos/Masculino">
+            <NavLink href="/produtos/Masculino" onClick={() => setShowFilter(0)}>
               <img
                 className="img-genre hide"
                 src="/navMasc.jpg"
@@ -280,6 +304,7 @@ function Header() {
                 <NavLink
                   href="/produtos/Feminino/Vestuario"
                   className="header-genre"
+                  onClick={() => setShowFilter(0)}
                 >
                   VESTUÁRIO
                 </NavLink>
@@ -288,78 +313,91 @@ function Header() {
                 <NavLink
                   href="/produtos/Feminino/Vestuario/Short"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   SHORTS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Vestuario/Saia"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   SAIAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Vestuario/Calca"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   CALÇAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Vestuario/Camiseta"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   CAMISETAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Vestuario/Regata"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   REGATAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Vestuario/Vestido"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   VESTIDOS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Vestuario/Macaquinho"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   MACAQUINHOS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Vestuario/Body"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   BODYS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Vestuario/Jaqueta"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   JAQUETAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Vestuario/Moletom"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   MOLETONS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Vestuario/Blusa"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   BLUSAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Vestuario/BlusaTricot"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   BLUSAS TRICOT
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Vestuario/Biquini"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   BIQUINIS E MAIÔS
                 </NavLink>
@@ -371,6 +409,7 @@ function Header() {
                 <NavLink
                   href="/produtos/Feminino/Acessorio"
                   className="header-genre"
+                  onClick={() => setShowFilter(0)}
                 >
                   ACESSÓRIOS
                 </NavLink>
@@ -379,61 +418,70 @@ function Header() {
                 <NavLink
                   href="/produtos/Feminino/Acessorio/Bolsa"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   BOLSAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Acessorio/Pochete"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   POCHETES
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Acessorio/Mochila"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   MOCHILAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Acessorio/Bone"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   BONÉS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Acessorio/Cinto"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   CINTOS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Acessorio/Carteira"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   CARTEIRAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Acessorio/Gorro"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   GORROS
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Acessorio/Necessaire"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   NECESSAIRES
                 </NavLink>
                 <NavLink
                   href="/produtos/Feminino/Acessorio/Meia"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   MEIAS
                 </NavLink>
               </div>
             </div>
 
-            <NavLink href="/produtos/Feminino">
+            <NavLink href="/produtos/Feminino" onClick={() => setShowFilter(0)}>
               <img
                 className="img-genre hide"
                 src="/navFem.jpg"
@@ -450,6 +498,7 @@ function Header() {
                 <NavLink
                   href="/produtos/Juvenil/Vestuario"
                   className="header-genre"
+                  onClick={() => setShowFilter(0)}
                 >
                   VESTUÁRIO
                 </NavLink>
@@ -458,49 +507,56 @@ function Header() {
                 <NavLink
                   href="/produtos/Juvenil/Vestuario/Camiseta"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   CAMISETAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Juvenil/Vestuario/Regata"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   REGATAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Juvenil/Vestuario/Bermuda"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   BERMUDAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Juvenil/Vestuario/Calca"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   CALÇAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Juvenil/Vestuario/Jaqueta"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   JAQUETAS
                 </NavLink>
                 <NavLink
                   href="/produtos/Juvenil/Vestuario/Moletom"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   MOLETONS
                 </NavLink>
                 <NavLink
                   href="/produtos/Juvenil/Vestuario/Sunga"
                   className="subtitle-vest-link"
+                  onClick={() => setShowFilter(0)}
                 >
                   SUNGAS
                 </NavLink>
               </div>
             </div>
 
-            <NavLink href="/produtos/Juvenil">
+            <NavLink href="/produtos/Juvenil" onClick={() => setShowFilter(0)}>
               <img
                 className="img-genre hide"
                 src="/navKid.jpg"
