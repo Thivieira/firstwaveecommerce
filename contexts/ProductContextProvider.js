@@ -13,7 +13,6 @@ const ProductContextProvider = (props) => {
   const [activeVariation, setActiveVariation] = useState("");
 
   const [hasSizeVariation, setHasSizeVariation] = useState(false);
-  const [supplyAndSize, setSupplyAndSize] = useState({});
 
   function setImages(imageJson) {
     let imageObj = JSON.parse(imageJson);
@@ -45,8 +44,6 @@ const ProductContextProvider = (props) => {
         setActiveVariation,
         hasSizeVariation,
         setHasSizeVariation,
-        supplyAndSize,
-        setSupplyAndSize,
       }}
     >
       {props.children}

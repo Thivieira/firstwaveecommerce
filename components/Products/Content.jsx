@@ -30,25 +30,8 @@ export default function Content() {
     setActiveVariation,
     hasSizeVariation,
     setHasSizeVariation,
-    supplyAndSize,
-    setSupplyAndSize,
   } = useContext(ProductContext);
 
-  const supplyT = product.variations.map((el) => el.supply)
-  const sizeT = product.variations.map((el) => el.size)
-  const colorT = product.variations.map((el) => el.color)
-  const codeT = product.variations.map((el) => el.external_id)
-
-  var skrei = supplyT.map((supply, index) => {
-    return {
-      supply: supply,
-      size: sizeT[index],
-      color: colorT[index],
-      code: codeT[index],
-    }
-  })
-
-  console.log(skrei)
 
   const onSelectedSizeChange = useCallback(value => {
     setSelectedSize(value);
@@ -96,10 +79,7 @@ export default function Content() {
      */
     const product_variations = product.variations;
 
-    const productHasSizeVariations =
-      product_variations.filter((el) => (el.size ? true : false)).length > 0
-        ? true
-        : false;
+    const productHasSizeVariations = product_variations.filter((el) => (el.size ? true : false)).length > 0 ? true : false
 
     setHasSizeVariation(productHasSizeVariations);
 
@@ -111,8 +91,6 @@ export default function Content() {
     for (var i = 0; i < sizes.length; i++) {
       supplyAndSize[sizes[i]] = supplys[i];
     }
-
-    setSupplyAndSize(supplyAndSize);
 
     const firstSizeWithSupply = Object.keys(supplyAndSize)
       .map((size) => supplyAndSize[size] > 0 && size)
@@ -141,39 +119,7 @@ export default function Content() {
     dispatch(addToCart({ ...activeVariation, product }));
     dispatch(changeIsOpen(true));
 
-    // if(!hasSizeVariation){
-    // }
-    // if (selectedColor === "") {
-    //   MySwal.fire({
-    //     title: <p>Selecione uma cor para adicionar ao carrinho.</p>,
-    //     confirmButtonText: "OK",
-    //   });
-    // } else {
-    //   dispatch(addToCart({ ...activeVariation, product }));
-    //   dispatch(changeIsOpen(true));
-    // }
-    // return false;
-    // if (hasSizeVariation) {
-    // if (selectedSize === "" || selectedColor === "") {
-    //   MySwal.fire({
-    //     title: (
-    //       <p>Selecione um tamanho e uma cor para adicionar ao carrinho</p>
-    //     ),
-    //     confirmButtonText: "OK",
-    //   });
-    // } else {
-
-    // }
-    // if (selectedSize === "") {
-    //   MySwal.fire({
-    //     title: <p>Selecione um tamanho para adicionar ao carrinho</p>,
-    //     confirmButtonText: "OK",
-    //   });
-    //   return false;
-    // }
-
-    // } else {
-    // }
+    
   };
 
   const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
@@ -249,24 +195,24 @@ export default function Content() {
         <div className="sizes-btn">
           <strong>Tamanhos:</strong>
           <ul>
-            {Object.keys(supplyAndSize).map((size, index) => {
-              const supply = supplyAndSize[size];
-              return supply > 0 ? (
+            {product.variations.filter(variation => selectedColor === variation.color).map((el) => {
+              
+              return el.supply > 0 ? (
                 <li
-                  onClick={() => onSelectedSizeChange(size)}
-                  key={size}
-                  title={`Tamanho ${size === "null" ? "único" : size}`}
-                  className={size == selectedSize ? "active" : null}
+                  onClick={() => onSelectedSizeChange(el.size)}
+                  key={el.external_id}
+                  title={`Tamanho ${el.size === "null" ? "único" : el.size}`}
+                  className={el.size == selectedSize ? "active" : null}
                 >
-                  {size === "null" ? "único" : size}
+                  {el.size === "null" ? "único" : el.size}
                 </li>
               ) : (
                 <li
-                  key={size}
+                  key={el.external_id}
                   title="Tamanho não disponível."
                   className="disabled"
                 >
-                  {size === "null" ? "único" : size}
+                  {el.size === "null" ? "único" : el.size}
                 </li>
               );
             })}
