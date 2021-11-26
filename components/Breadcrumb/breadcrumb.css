@@ -1,12 +1,15 @@
 .path-prod-wrapper {
     margin-top: -1rem;
+    margin-left: 1rem;
 }
 
 .path-prod {
     font-size: 0.8rem;
+    text-transform: uppercase;
     font-weight: 600;
     color: #0080A8;
     transition: all ease-in-out 0.3s;
+    cursor: pointer;
 }
 
 .path-prod:hover {
