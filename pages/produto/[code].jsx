@@ -1,5 +1,5 @@
 import { NextSeo } from "next-seo";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoading } from "../../store/selectors/products";
 import { clearProduct, openProduct, setLoading } from "../../store/actions/products";
@@ -8,6 +8,7 @@ import { stripHtml } from "../../helpers";
 
 import FadeLoader from "react-spinners/FadeLoader";
 import { fetcher, serverFetcher } from "../../services/api";
+import api from "../../services/api";
 
 import ProductWrapper from "../../components/Products/ProductWrapper";
 import useSWR from "swr";
@@ -47,11 +48,25 @@ const DetailsProduct = ({ product, code }) => {
     initialData: product,
   });
 
+  const [apiProduct, setApiProduct] = useState(null)
+
   useEffect(() => {
     dispatch(clearProduct());
-    dispatch(setLoading(false));
     dispatch(openProduct(data));
-  }, [data, dispatch]);
+    api.get(`/products/${code}`).then((res) => {
+      const axiosProduct = res.data;
+      const productAxios = { ...axiosProduct, variations: axiosProduct.variations.map((el)=>{
+        const swr = data.variations.filter(swrVar => {
+          return swrVar.external_id == el.external_id
+        })[0];
+
+        return {...el, supply: swr.supply }
+      })};
+      setApiProduct(productAxios);
+      dispatch(setLoading(false));
+      console.log(productAxios)
+    });
+  }, [data, code, dispatch]);
 
   const loading = useSelector(getLoading);
 
@@ -67,7 +82,7 @@ const DetailsProduct = ({ product, code }) => {
       />
 
       <div className="page">
-        {loading || data.length == 0 ? (
+        {loading || data.length == 0 || !apiProduct ? (
           <div className="details-wrapper">
             <div className="spinner-product">
               <FadeLoader
@@ -81,7 +96,7 @@ const DetailsProduct = ({ product, code }) => {
             </div>
           </div>
         ) : (
-          <ProductWrapper product={data} />
+          <ProductWrapper product={apiProduct} />
         )}
       </div>
     </>
