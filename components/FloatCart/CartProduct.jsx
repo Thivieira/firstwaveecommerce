@@ -46,7 +46,7 @@ function CartProduct({ product_variation }) {
         />
 
         <div className="shelf-item__details">
-          <Link href={`/produto/${product_variation.code}`} passHref>
+          <Link href={`/produto/${product_variation.father_code}`} passHref>
             <p className="title-cart">
               {product_variation.product.description}
             </p>
