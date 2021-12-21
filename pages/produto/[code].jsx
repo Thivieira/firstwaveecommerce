@@ -44,7 +44,7 @@ const DetailsProduct = ({ product, code }) => {
   const dispatch = useDispatch();
 
   const { data } = useSWR(`/products/${code}`, serverFetcher, {
-    initialData: product,
+    fallbackData: product
   });
 
   useEffect(() => {

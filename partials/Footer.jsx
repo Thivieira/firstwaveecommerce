@@ -72,7 +72,7 @@ function Footer() {
             <h2>Contato</h2>
             <ul>
               <li>
-                <a href="mailto:contato@lifestyle.com.br">
+                <a href="mailto:contato@lifestylesc.com.br">
                   <Mail style={{ marginRight: "5px" }} />{" "}
                   contato@lifestylesc.com.br
                 </a>
