@@ -107,44 +107,46 @@ export default function Index() {
   );
 
   useEffect(() => {
-    if (getCategory.category && getCategory.subcategory && getCategory.type) {
+    if (getCategory.genre && getCategory.category && getCategory.subcategory && getCategory.type) {
       getData(
-        `/products/sizes?category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`,
+        `/products/sizes?genre=${getCategory.genre}&category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`,
         "size"
       );
       getData(
-        `/products/brands?category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`,
+        `/products/brands?genre=${getCategory.genre}&category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`,
         "brand"
       );
       getData(
-        `/products/colors?category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`,
+        `/products/colors?genre=${getCategory.genre}&category=${getCategory.category}&subcategory=${getCategory.subcategory}&type=${getCategory.type}`,
         "color"
       );
     } else if (
+      getCategory.genre &&
       getCategory.category &&
       getCategory.subcategory &&
       !getCategory.type
     ) {
       getData(
-        `/products/sizes?category=${getCategory.category}&subcategory=${getCategory.subcategory}`,
+        `/products/sizes?genre=${getCategory.genre}&category=${getCategory.category}&subcategory=${getCategory.subcategory}`,
         "size"
       );
       getData(
-        `/products/brands?category=${getCategory.category}&subcategory=${getCategory.subcategory}`,
+        `/products/brands?genre=${getCategory.genre}&category=${getCategory.category}&subcategory=${getCategory.subcategory}`,
         "brand"
       );
       getData(
-        `/products/colors?category=${getCategory.category}&subcategory=${getCategory.subcategory}`,
+        `/products/colors?genre=${getCategory.genre}&category=${getCategory.category}&subcategory=${getCategory.subcategory}`,
         "color"
       );
     } else if (
+      getCategory.genre &&
       getCategory.category &&
       !getCategory.subcategory &&
       !getCategory.type
     ) {
-      getData(`/products/sizes?category=${getCategory.category}`, "size");
-      getData(`/products/brands?category=${getCategory.category}`, "brand");
-      getData(`/products/colors?category=${getCategory.category}`, "color");
+      getData(`/products/sizes?genre=${getCategory.genre}&category=${getCategory.category}`, "size");
+      getData(`/products/brands?genre=${getCategory.genre}&category=${getCategory.category}`, "brand");
+      getData(`/products/colors?genre=${getCategory.genre}&category=${getCategory.category}`, "color");
     } else {
       getData(`/products/sizes`, "size");
       getData(`/products/brands`, "brand");
@@ -152,6 +154,7 @@ export default function Index() {
     }
   }, [
     q,
+    getCategory.genre,
     getCategory.category,
     getCategory.subcategory,
     getCategory.type,
@@ -174,6 +177,9 @@ export default function Index() {
       url = `${filterUrl}&search=${apiSearch}&page=${page}`;
     } else {
       let filterString = ``;
+      getCategory.genre
+        ? (filterString += `genre=${getCategory.genre}`)
+        : ``;
       getCategory.category
         ? (filterString += `category=${getCategory.category}`)
         : ``;
@@ -199,6 +205,7 @@ export default function Index() {
     currentPage,
     q,
     dispatch,
+    getCategory.genre,
     getCategory.category,
     getCategory.subcategory,
     getCategory.type,
@@ -284,11 +291,13 @@ export default function Index() {
           {showFilter ? (
             <>
               <Breadcrumb
+                genre={getCategory.genre}
                 category={getCategory.category}
                 subcategory={getCategory.subcategory}
                 type={getCategory.type}
               />
               <Filter
+                genre={getCategory.genre}
                 category={getCategory.category}
                 subcategory={getCategory.subcategory}
                 type={getCategory.type}
@@ -318,6 +327,7 @@ export default function Index() {
               >
                 <div className="filter-mobile">
                   <Filter
+                    genre={getCategory.genre}
                     category={getCategory.category}
                     subcategory={getCategory.subcategory}
                     type={getCategory.type}

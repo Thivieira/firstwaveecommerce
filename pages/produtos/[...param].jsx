@@ -105,9 +105,10 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(ctx) {
-  let category = ctx.params.param[0];
-  let subcategory = ctx.params.param[1];
-  let type = ctx.params.param[2];
+  let genre = ctx.params.param[0];
+  let category = ctx.params.param[1];
+  let subcategory = ctx.params.param[2];
+  let type = ctx.params.param[3];
 
   let url;
   let products;
@@ -122,13 +123,18 @@ export async function getStaticProps(ctx) {
   let brands;
   let colors;
 
-  if (category && subcategory && type) {
-    url = `/products?category=${category}&subcategory=${subcategory}&type=${type}`;
-  } else if (category && subcategory && !type) {
+  if (genre && category && subcategory && type) {
+    url = `/products?genre=${genre}&category=${category}&subcategory=${subcategory}&type=${type}`;
+  } else if (genre && category && subcategory && !type) {
     type = null;
-    url = `/products?category=${category}&subcategory=${subcategory}`;
+    url = `/products?genre=${genre}&category=${category}&subcategory=${subcategory}`;
+  } else if (genre && category && !subcategory && !type) {
+    subcategory = null;
+    type = null;
+    url = `/products?genre=${genre}&category=${category}&subcategory=${subcategory}`;
   } else {
-    url = `/products?category=${category}`;
+    url = `/products?genre=${genre}`;
+    category = null;
     subcategory = null;
     type = null;
   }
@@ -141,17 +147,17 @@ export async function getStaticProps(ctx) {
   per_page = res.data.per_page;
 
   if (category && subcategory && type) {
-    sizeDataUrl = `/products/sizes?category=${category}&subcategory=${subcategory}&type=${type}`;
-    brandDataUrl = `/products/brands?category=${category}&subcategory=${subcategory}&type=${type}`;
-    colorDataUrl = `/products/colors?category=${category}&subcategory=${subcategory}&type=${type}`;
+    sizeDataUrl = `/products/sizes?genre=${genre}&category=${category}&subcategory=${subcategory}&type=${type}`;
+    brandDataUrl = `/products/brands?genre=${genre}&category=${category}&subcategory=${subcategory}&type=${type}`;
+    colorDataUrl = `/products/colors?genre=${genre}&category=${category}&subcategory=${subcategory}&type=${type}`;
   } else if (category && subcategory && !type) {
-    sizeDataUrl = `/products/sizes?category=${category}&subcategory=${subcategory}`;
-    brandDataUrl = `/products/brands?category=${category}&subcategory=${subcategory}`;
-    colorDataUrl = `/products/colors?category=${category}&subcategory=${subcategory}`;
+    sizeDataUrl = `/products/sizes?genre=${genre}&category=${category}&subcategory=${subcategory}`;
+    brandDataUrl = `/products/brands?genre=${genre}&category=${category}&subcategory=${subcategory}`;
+    colorDataUrl = `/products/colors?genre=${genre}&category=${category}&subcategory=${subcategory}`;
   } else {
-    sizeDataUrl = `/products/sizes?category=${category}`;
-    brandDataUrl = `/products/brands?category=${category}`;
-    colorDataUrl = `/products/colors?category=${category}`;
+    sizeDataUrl = `/products/sizes?genre=${genre}&category=${category}`;
+    brandDataUrl = `/products/brands?genre=${genre}&category=${category}`;
+    colorDataUrl = `/products/colors?genre=${genre}&category=${category}`;
   }
 
   const sizeData = await api.get(sizeDataUrl);
@@ -193,6 +199,7 @@ export default function Products({
   total,
   totalPages,
   per_page,
+  genre,
   category,
   subcategory,
   type,
@@ -251,8 +258,8 @@ export default function Products({
 
   useEffect(() => {
     setCurrentPage(0);
-    setCategory({ category: category, subcategory: subcategory, type: type });
-  }, [setCurrentPage, setCategory, category, subcategory, type, filterUrl]);
+    setCategory({ genre: genre, category: category, subcategory: subcategory, type: type });
+  }, [setCurrentPage, setCategory, genre, category, subcategory, type, filterUrl]);
 
   useEffect(() => {
     let page = currentPage + 1;
@@ -262,7 +269,8 @@ export default function Products({
       url = `${filterUrl}&page=${page}`;
     } else {
       let filterString = ``;
-      category ? (filterString += `category=${category}`) : ``;
+      genre ? (filterString += `genre=${genre}`) : ``;
+      category ? (filterString += `&category=${category}`) : ``;
       subcategory ? (filterString += `&subcategory=${subcategory}`) : ``;
       type ? (filterString += `&type=${type}`) : ``;
       url = `/products?${filterString}&page=${page}`;
@@ -283,6 +291,7 @@ export default function Products({
     filterMode,
     filterUrl,
     currentPage,
+    genre,
     category,
     subcategory,
     type,
@@ -318,7 +327,7 @@ export default function Products({
     <>
       <NextSeo
         title={`${category} - Lifestyle Floripa by Billabong`}
-        description={`${category} / ${subcategory} / ${type} - Sua surf shop na Praia Mole.`}
+        description={`${genre} / ${category} / ${subcategory} / ${type} - Sua surf shop na Praia Mole.`}
       />
       <div className="products-wrapper">
         <div className="filter-sort">
@@ -374,11 +383,13 @@ export default function Products({
           {showFilter ? (
             <>
               <Breadcrumb
+                genre={genre}
                 category={category}
                 subcategory={subcategory}
                 type={type}
               />
               <Filter
+                genre={genre}
                 category={category}
                 subcategory={subcategory}
                 type={type}
@@ -408,6 +419,7 @@ export default function Products({
               >
                 <div className="filter-mobile">
                   <Filter
+                    genre={genre}
                     category={category}
                     subcategory={subcategory}
                     type={type}
