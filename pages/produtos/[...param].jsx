@@ -116,7 +116,6 @@ export async function getServerSideProps(ctx) {
       brands,
       colors,
     },
-    revalidate: 60 * 60 * 8, //a cada 8 horas uma nova req na API será feita
   };
 }
 
