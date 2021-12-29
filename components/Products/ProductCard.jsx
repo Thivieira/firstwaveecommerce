@@ -1,12 +1,27 @@
 import NavLink from '../NavLink'
 import FavoriteBtn from "../FavoriteBtn";
 import noImage from "../../public/noimage.png";
+import { getProduct } from '../../services/bling';
+import useSWR from 'swr';
+import { useEffect } from 'react';
 
 function ProductCard({ product }) {
+    const { data } = useSWR(code, getProduct);
+
+    useEffect(() => {
+
+      if(data){
+        setImage(data.retorno.produtos[0]['produto']['imagem'][0].link);
+      }
+    }, [data]);
+
   const hasImage = product.variations.length > 0 ? product.variations[0] : [];
 
   const testImage = JSON.parse(hasImage.image);
-  const image = testImage.length > 0 ? testImage[0].link : noImage.src;
+  const dbImage = testImage.length > 0 ? testImage[0].link : noImage.src;
+
+    const [image, setImage] = useState(dbImage)
+
 
   const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
   const priceSale = `R$${parseFloat(product.variations[0].price).toFixed(2).replace(".", ",")}`;
