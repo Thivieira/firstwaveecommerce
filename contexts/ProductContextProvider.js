@@ -32,6 +32,7 @@ const ProductContextProvider = (props) => {
         setFeaturedImage,
         setImages,
         product,
+        setProduct,
         selectedSize,
         setSelectedSize,
         selectedColor,
