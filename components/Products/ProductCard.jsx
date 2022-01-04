@@ -3,6 +3,7 @@ import FavoriteBtn from "../FavoriteBtn";
 import noImage from "../../public/noimage.png";
 
 function ProductCard({ product }) {
+  
   const hasImage = product.variations.length > 0 ? product.variations[0] : [];
 
   const testImage = JSON.parse(hasImage.image);
