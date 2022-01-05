@@ -134,6 +134,7 @@ function Footer() {
       </footer>
       <div className="copyrightText">
         <p>Todos os direitos reservados - Lifestyle Floripa - 2021</p>
+        <span>Site desenvolvido por <NavLink target='blank' href='https://devplans.com.br/'>DevPlans LTDA</NavLink></span>
       </div>
     </>
   );
