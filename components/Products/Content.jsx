@@ -44,11 +44,10 @@ export default function Content() {
       return false;
     }
 
-    setSelectedColor(availableSizeVariations[0].color);
+    setSelectedColor(availableSizeVariations.filter(el => el.supply > 0)[0].color);
     setColorTrigger(true);
 
-  }, [product.variations]
-  );
+  }, [product.variations]);
 
   const onSelectedColorChange = useCallback((value) => {
       const product_variations = availableColorVariations.filter(el => el.color == value)  //&& el.supply > 0
@@ -104,7 +103,18 @@ export default function Content() {
     }
 
     if (firstSizeWithSupply != "null") {
-      onSelectedSizeChange(firstSizeWithSupply);
+      setSelectedSize(firstSizeWithSupply);
+
+      const availableSizeVariations = product.variations.filter(el => el.size == firstSizeWithSupply)
+  
+      setAvailableColorVariations(availableSizeVariations);
+  
+      if (availableSizeVariations.length == 0) {
+        return false;
+      }
+  
+      setSelectedColor(availableSizeVariations.filter(el => el.supply > 0)[0].color);
+      setColorTrigger(true);
       return true;
     }
 
@@ -117,9 +127,7 @@ export default function Content() {
   const addToCartFn = () => {
     console.log({ ...activeVariation, product });
     dispatch(addToCart({ ...activeVariation, product }));
-    dispatch(changeIsOpen(true));
-
-    
+    dispatch(changeIsOpen(true));    
   };
 
   const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
