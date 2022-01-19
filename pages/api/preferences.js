@@ -1,26 +1,6 @@
 import { getFeaturedImage } from "../../helpers";
 
 export default function handler(req, res) {
-  if (req.method === "GET") {
-    // const mercadopago = require("mercadopago");
-    // // Adicione as credenciais
-    // mercadopago.configure({
-    //   access_token: process.env.ACCESS_TOKEN,
-    // });
-    // const preferenceId = req.body;
-    // mercadopago.preferences
-    //   .get(preferenceId)
-    //   .then(function (response) {
-    //     res.status(200).json({
-    //       preferenceId: response.body.id,
-    //       init_point: response.body.init_point,
-    //     });
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //     res.status(500).json({ error: "Ocorreu um erro no servidor." });
-    //   });
-  }
   if (req.method === "POST") {
     // SDK do Mercado Pago
     const mercadopago = require("mercadopago");
@@ -73,33 +53,31 @@ export default function handler(req, res) {
           number: account.cpf,
         },
         address: {
-          zip_code: address.zipcode,
-          street_name: address.street,
-          city_name: address.city,
-          state_name: address.state,
+          zip_code: address.zipcode ? address.zipcode : "",
+          street_name: address.street ? address.street : "",
+          city_name: address.city ? address.city : "",
+          state_name: address.state ? address.state : "",
           street_number: parseInt(address.number),
-          apartment: address.complement,
+          apartment: address.complement ? address.complement : "",
         },
       },
       auto_return: "approved",
       shipments: {
         receiver_address: {
-          zip_code: address.zipcode,
-          street_name: address.street,
-          city_name: address.city,
-          state_name: address.state,
+          zip_code: address.zipcode ? address.zipcode : "",
+          street_name: address.street ? address.street : "",
+          city_name: address.city ? address.city : "",
+          state_name: address.state ? address.state : "",
           street_number: parseInt(address.number),
-          apartment: address.complement,
+          apartment: address.complement ? address.complement : "",
         },
       },
       statement_descriptor: "LIFESTYLEFLN",
-      //"http://api.lifestylefloripa.com.br/integrations/mercadopago/postback"
-      notification_url:
-        "https://api.lifestylefloripa.com.br/integrations/mercadopago/postback",
-      // "https://c2675c6a1835.ngrok.io/integrations/mercadopago/postback",
+      notification_url: process.env.NOTIFICATION_URL
     };
 
     // console.log("PREFERENCE", preference);
+    // console.log("access_token", process.env.ACCESS_TOKEN);
 
     mercadopago.preferences
       .create(preference)
@@ -110,8 +88,8 @@ export default function handler(req, res) {
         });
       })
       .catch(function (error) {
-        // console.log(error);
-        res.status(500).json({ error: "Ocorreu um erro no servidor." });
+        console.log(error);
+        res.status(500).json({ error, message: "Ocorreu um erro no servidor." });
       });
   }
 }
