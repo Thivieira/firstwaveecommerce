@@ -22,12 +22,14 @@ const ImageSlider = () => {
     swipeScrollTolerance: 5,
   });
 
+  console.log(bannner)
+
   return (
     <Carousel {...getConfigurableProps()}>
       <NavLink href="/produtos/Masculino/Vestuario/Camiseta">
         <div className="wrapper-carousel-landing">
           <img
-            src={banner1}
+            src={'/banner-topo1.jpg'}
             alt="banner1"
             className="image-next"
             width={1200}
@@ -38,7 +40,7 @@ const ImageSlider = () => {
       <NavLink href="/produtos/Masculino/Vestuario/Bermuda">
         <div className="wrapper-carousel-landing">
           <img
-            src={banner2}
+            src={'/banner-topo2.jpg'}
             alt="banner2"
             className="image-next"
             width={1200}
@@ -49,7 +51,7 @@ const ImageSlider = () => {
       <NavLink href="/produtos/Surf">
         <div className="wrapper-carousel-landing">
           <img
-            src={banner3}
+            src={'/banner-topo3.jpg'}
             alt="banner3"
             className="image-next"
             width={1200}
