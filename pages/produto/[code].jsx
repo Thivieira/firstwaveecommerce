@@ -7,10 +7,38 @@ import { clearProduct, openProduct, setLoading } from "../../store/actions/produ
 import { stripHtml } from "../../helpers";
 
 import FadeLoader from "react-spinners/FadeLoader";
-import { serverFetcher } from "../../services/api";
+import { fetcher, serverFetcher } from "../../services/api";
 
 import ProductWrapper from "../../components/Products/ProductWrapper";
 import useSWR from "swr";
+
+export async function getStaticPaths(ctx) {
+  const res = await fetcher("/products?all=true");
+
+  const paths = res.data.map((p) => {
+    return {
+      params: {
+        code: p.code,
+      },
+    };
+  });
+
+  return {
+    paths,
+    fallback: 'blocking',
+  }
+}
+
+export async function getStaticProps(ctx) {
+  const { code } = ctx.params;
+
+  const product = await serverFetcher(`/products/${code}`);
+
+  return {
+    props: { product, code },
+    revalidate: 200,
+  };
+}
 
 export const getServerSideProps = async (ctx) => {
  const { code } = ctx.params;

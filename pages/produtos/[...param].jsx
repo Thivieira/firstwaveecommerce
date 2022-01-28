@@ -35,8 +35,17 @@ import {
 
 import { removeIdDuplicate } from "../../helpers";
 import FilterSort from "../../components/FilterSort";
+import catalogPaths from "../../catalog-paths";
 
-export async function getServerSideProps(ctx) {
+export async function getStaticPaths(ctx) {
+  const paths = catalogPaths;
+  return {
+    paths,
+    fallback: 'blocking',
+  }
+}
+
+export async function getStaticProps(ctx) {
   let category = ctx.params.param[0];
   let subcategory = ctx.params.param[1];
   let type = ctx.params.param[2];
@@ -46,6 +55,7 @@ export async function getServerSideProps(ctx) {
   let total;
   let totalPages;
   let per_page;
+  let last_page;
 
   let sizeDataUrl;
   let brandDataUrl;
@@ -65,13 +75,12 @@ export async function getServerSideProps(ctx) {
     type = null;
   }
 
-  console.log(url);
   const res = await api(url);
 
   products = res.data.data;
-  total = res.data.total;
-  totalPages = res.data.last_page;
-  per_page = res.data.per_page;
+  total = res.data.meta.total;
+  totalPages = res.data.meta.last_page;
+  per_page = res.data.meta.per_page;
 
   if (category && subcategory && type) {
     sizeDataUrl = `/products/sizes?category=${category}&subcategory=${subcategory}&type=${type}`;
@@ -117,6 +126,7 @@ export async function getServerSideProps(ctx) {
       brands,
       colors,
     },
+    revalidate: 60,
   };
 }
 
@@ -132,7 +142,7 @@ export default function Products({
   brands,
   colors,
 }) {
-  const { getCategory, setCategory } = useContext(CategoryContext);
+  const { setCategory } = useContext(CategoryContext);
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
   const loading = useSelector(getLoading);
@@ -187,29 +197,40 @@ export default function Products({
   }, [setCurrentPage, setCategory, category, subcategory, type, filterUrl]);
 
   useEffect(() => {
-    let page = currentPage + 1;
-    let url = "";
-
-    if (filterUrl) {
-      url = `${filterUrl}&page=${page}`;
-    } else {
-      let filterString = ``;
-      category ? (filterString += `category=${category}`) : ``;
-      subcategory ? (filterString += `&subcategory=${subcategory}`) : ``;
-      type ? (filterString += `&type=${type}`) : ``;
-      url = `/products?${filterString}&page=${page}`;
-    }
-
-    dispatch(setLoading(true));
-    dispatch(clearProducts());
-
-    api.get(url).then(({ data }) => {
+      let page = currentPage + 1;
       dispatch(setLoading(false));
-      dispatch(setProducts(data.data));
+      dispatch(setProducts(prod));
       dispatch(
-        setPaginationProducts(data.meta.last_page, page, data.meta.per_page, data.meta.total)
+        setPaginationProducts(totalPages, page, per_page, total)
       );
-    });
+  }, [])
+
+  useEffect(() => {
+    if(currentPage != 1){
+      let page = currentPage + 1;
+      let url = "";
+  
+      if (filterUrl) {
+        url = `${filterUrl}&page=${page}`;
+      } else {
+        let filterString = ``;
+        category ? (filterString += `category=${category}`) : ``;
+        subcategory ? (filterString += `&subcategory=${subcategory}`) : ``;
+        type ? (filterString += `&type=${type}`) : ``;
+        url = `/products?${filterString}&page=${page}`;
+      }
+  
+      dispatch(setLoading(true));
+      dispatch(clearProducts());
+  
+      api.get(url).then(({ data }) => {
+        dispatch(setLoading(false));
+        dispatch(setProducts(data.data));
+        dispatch(
+          setPaginationProducts(data.meta.last_page, page, data.meta.per_page, data.meta.total)
+        );
+      });
+    }
   }, [
     dispatch,
     filterMode,
@@ -218,9 +239,6 @@ export default function Products({
     category,
     subcategory,
     type,
-    totalPages,
-    per_page,
-    total,
   ]);
 
   const handleChangeSort = (item) => {

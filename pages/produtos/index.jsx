@@ -34,7 +34,7 @@ import FilterSort from "../../components/FilterSort";
 import { useCallback } from "react";
 
 export default function Index() {
-  const { getCategory, setCategory } = useContext(CategoryContext);
+  const { getCategory } = useContext(CategoryContext);
   const dispatch = useDispatch();
   const products = useSelector(getAllProducts);
   const loading = useSelector(getLoading);
