@@ -1,6 +1,5 @@
 import NavLink from "../../components/NavLink";
 import { Carousel } from "react-responsive-carousel";
-import Image from "next/image";
 import banner1 from "../../public/banner-topo1.jpg";
 import banner2 from "../../public/banner-topo2.jpg";
 import banner3 from "../../public/banner-topo3.jpg";
@@ -27,13 +26,12 @@ const ImageSlider = () => {
     <Carousel {...getConfigurableProps()}>
       <NavLink href="/produtos/Masculino/Vestuario/Camiseta">
         <div className="wrapper-carousel-landing">
-          <Image
+          <img
             src={banner1}
             alt="banner1"
             className="image-next"
             width={1200}
             height={430}
-            priority
           />
         </div>
       </NavLink>

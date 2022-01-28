@@ -11,12 +11,9 @@ import NavLink from "../components/NavLink";
 import api from "../services/api";
 import PaymentBtn from "../components/PaymentBtn";
 import { useRouter } from "next/router";
-import { getAccount } from "../store/selectors/user";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import useToken from "../contexts/TokenStorage";
-// import Image from "next/image";
-// import noImage from "../public/noimage.png";
 import useCart from "../contexts/CartStorage";
 import {
   extractColorFromVariation,

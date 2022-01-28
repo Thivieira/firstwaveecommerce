@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { NextSeo } from "next-seo";
 
 import api from "../services/api";

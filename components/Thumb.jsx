@@ -1,4 +1,3 @@
-// import Image from "next/image";
 import React from "react";
 
 import noImage from "../public/noimage.png";
