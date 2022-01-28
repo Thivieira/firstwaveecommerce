@@ -8,4 +8,4 @@ export default api;
 
 export const fetcher = (url) => api.get(url).then((res) => res);
 
-export const serverFetcher = (url) => axios.get(`https://api.lifestylefloripa.com.br${url}`).then((res) => res)
+export const serverFetcher = (url) => axios.get(`https://api.lifestylefloripa.com.br${url}`).then((res) => res.data)

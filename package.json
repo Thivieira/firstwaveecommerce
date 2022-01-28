@@ -16,7 +16,6 @@
     "@ant-design/icons": "^4.7.0",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
-    "@netlify/plugin-nextjs": "^4.2.1",
     "@next/bundle-analyzer": "^12.0.9",
     "antd": "^4.18.5",
     "axios": "^0.25.0",
@@ -51,7 +50,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "babel-plugin-inline-react-svg": "^2.0.1",
+    "@netlify/plugin-nextjs": "^4.2.1",
     "eslint": "^8.7.0",
     "eslint-config-next": "^12.0.9",
     "eslint-config-prettier": "^8.3.0",

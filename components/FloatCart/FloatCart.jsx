@@ -7,7 +7,7 @@ import {
   getIsOpen,
 } from "../../store/selectors/products";
 
-import ShoppingCartSolid from './ShoppingCartSolid';
+import ShoppingCartSolid from '../ShoppingCartSolid';
 import { Badge } from "antd";
 
 import { changeIsOpen, updateCart } from "../../store/actions/products";
