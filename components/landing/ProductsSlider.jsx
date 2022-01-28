@@ -76,7 +76,10 @@ export default function ProductsSlider({ prod }) {
     ],
   };
 
-  const installmentPrice = (price) => `R$${parseFloat(price / 6.0).toFixed(2).replace(".", ",")}`;
+  const installmentPrice = (price) =>
+    `R$${parseFloat(price / 6.0)
+      .toFixed(2)
+      .replace(".", ",")}`;
 
   return (
     <>
@@ -94,12 +97,20 @@ export default function ProductsSlider({ prod }) {
       ) : (
         <Slider {...settings}>
           {products.map((p, i) => {
-            let test = p.variations.length > 0 ? p.variations[0] : [];
-            let imageTest = JSON.parse(test.image);
-            const image = imageTest.length > 0 ? imageTest[0].link : noImage.src;
+            const images = p.variations.map((el) => el.image);
+
+            const imagesOk = images.filter((el) => el !== "[]")[0];
+
+            const imageOK = JSON.parse(imagesOk)[0].link;
+
+            const image = imageOK ? imageOK : noImage.src;
 
             return (
-              <div className="card-wrapper" key={i} onClick={() => router.push(`/produto/${p.code}`)}>
+              <div
+                className="card-wrapper"
+                key={i}
+                onClick={() => router.push(`/produto/${p.code}`)}
+              >
                 <div className="card">
                   <div className="card-image">
                     <img
@@ -109,20 +120,39 @@ export default function ProductsSlider({ prod }) {
                     />
                   </div>
                   <div className="details">
-                    <h3 className='title-card'>{p.description}</h3>
+                    <h3 className="title-card">{p.description}</h3>
                     <div className="price">
                       {p.price !== p.variations[0].price ? (
                         <div className="priceSale">
-                          <p className='firstPrice'>R${parseFloat(p.price).toFixed(2).replace(".", ",")} </p>
-                          <p className='promoPrice'>R${parseFloat(p.variations[0].price).toFixed(2).replace(".", ",")}</p>
+                          <p className="firstPrice">
+                            R${parseFloat(p.price).toFixed(2).replace(".", ",")}{" "}
+                          </p>
+                          <p className="promoPrice">
+                            R$
+                            {parseFloat(p.variations[0].price)
+                              .toFixed(2)
+                              .replace(".", ",")}
+                          </p>
                         </div>
                       ) : (
-                        <p> R${parseFloat(p.price).toFixed(2).replace(".", ",")} </p>
+                        <p>
+                          {" "}
+                          R${parseFloat(p.price)
+                            .toFixed(2)
+                            .replace(".", ",")}{" "}
+                        </p>
                       )}
                     </div>
                     <p className="installment-owl">
-                      <strong>6x</strong> de <strong>{installmentPrice(p.price !== p.variations[0].price ? p.variations[0].price : p.price)}</strong> sem juros
-                      no cartão.
+                      <strong>6x</strong> de{" "}
+                      <strong>
+                        {installmentPrice(
+                          p.price !== p.variations[0].price
+                            ? p.variations[0].price
+                            : p.price
+                        )}
+                      </strong>{" "}
+                      sem juros no cartão.
                     </p>
                   </div>
                 </div>
@@ -134,6 +164,3 @@ export default function ProductsSlider({ prod }) {
     </>
   );
 }
-
-
-
