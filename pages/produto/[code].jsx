@@ -40,16 +40,6 @@ export async function getStaticProps(ctx) {
   };
 }
 
-export const getServerSideProps = async (ctx) => {
- const { code } = ctx.params;
-
- const product = await serverFetcher(`/products/${code}`);
-
- return {
-   props: { product, code },
- };
-}
-
 const DetailsProduct = ({ product, code }) => {
   const dispatch = useDispatch();
 
