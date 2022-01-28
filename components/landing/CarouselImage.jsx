@@ -22,8 +22,6 @@ const ImageSlider = () => {
     swipeScrollTolerance: 5,
   });
 
-  console.log(bannner)
-
   return (
     <Carousel {...getConfigurableProps()}>
       <NavLink href="/produtos/Masculino/Vestuario/Camiseta">
