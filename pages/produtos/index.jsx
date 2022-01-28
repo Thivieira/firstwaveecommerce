@@ -191,7 +191,7 @@ export default function Index() {
       dispatch(setLoading(false));
       dispatch(setProducts(data.data));
       dispatch(
-        setPaginationProducts(data.last_page, page, data.per_page, data.total)
+        setPaginationProducts(data.meta.last_page, page, data.meta.per_page, data.meta.total)
       );
     });
   }, [

@@ -30,10 +30,10 @@ export default function NoProductsAlert({ category, currentPage }) {
     dispatch(setFilterData([], [], [], 0, 2000));
     dispatch(
       setPaginationProducts(
-        res.data.last_page,
+        res.data.meta.last_page,
         currentPage + 1,
-        res.data.per_page,
-        res.data.total
+        res.data.meta.per_page,
+        res.data.meta.total
       )
     );
   };
