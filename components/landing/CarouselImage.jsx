@@ -37,25 +37,23 @@ const ImageSlider = () => {
       </NavLink>
       <NavLink href="/produtos/Masculino/Vestuario/Bermuda">
         <div className="wrapper-carousel-landing">
-          <Image
+          <img
             src={banner2}
             alt="banner2"
             className="image-next"
             width={1200}
             height={430}
-            priority
           />
         </div>
       </NavLink>
       <NavLink href="/produtos/Surf">
         <div className="wrapper-carousel-landing">
-          <Image
+          <img
             src={banner3}
             alt="banner3"
             className="image-next"
             width={1200}
             height={430}
-            priority
           />
         </div>
       </NavLink>
