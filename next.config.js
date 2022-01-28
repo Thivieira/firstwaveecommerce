@@ -1,4 +1,4 @@
-const nextBuildId = require('next-build-id');
+// const nextBuildId = require('next-build-id');
 const withPlugins = require("next-compose-plugins");
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({

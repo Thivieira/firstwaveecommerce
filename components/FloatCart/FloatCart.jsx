@@ -7,7 +7,7 @@ import {
   getIsOpen,
 } from "../../store/selectors/products";
 
-import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
+import ShoppingCartSolid from './ShoppingCartSolid';
 import { Badge } from "antd";
 
 import { changeIsOpen, updateCart } from "../../store/actions/products";
@@ -103,7 +103,7 @@ function FloatCart() {
               count={itemQuantity}
               style={{ backgroundColor: "#ffa500", fontWeight: "700" }}
             >
-              <Cart height="35" width="35" color="#0080A8" />
+              <ShoppingCartSolid height="35" width="35" color="#0080A8" />
             </Badge>
           </span>
         )}
@@ -115,7 +115,7 @@ function FloatCart() {
                 count={itemQuantity}
                 style={{ backgroundColor: "#0080A8", fontWeight: "700" }}
               >
-                <Cart height="35" width="35" color="#ffa500" />
+                <ShoppingCartSolid height="35" width="35" color="#ffa500" />
               </Badge>
             </span>
             <span className="header-title">CARRINHO</span>
