@@ -9,8 +9,20 @@ import { getAccount, getAddress } from "../../store/selectors/user";
 import { useDispatch, useSelector } from "react-redux";
 import { NextSeo } from "next-seo";
 const { Paragraph, Text } = Typography;
-// This gets called on every request
-export async function getServerSideProps(ctx) {
+
+export async function getStaticPaths(ctx) {
+  const paths = [
+    { params: { slug: 'sucesso'}},
+    { params: { slug: 'processando'}},
+    { params: { slug: 'erro'}},
+  ];
+  return {
+    paths,
+    fallback: 'blocking',
+  }
+}
+
+export async function getStaticProps(ctx) {
   return { props: { slug: ctx.params.slug } };
 }
 
