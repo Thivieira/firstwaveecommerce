@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useContext } from "react";
-import { ReactComponent as Cart } from "../../public/shopping-cart-solid.svg";
+import ShoppingCartSolid from "../ShoppingCartSolid";
 import FavoriteBtn from "../FavoriteBtn";
 import noImage from "../../public/noimage.png";
 import { upFirst } from "../../helpers";
@@ -195,7 +195,7 @@ export default function Content() {
               : "Adicionar ao carrinho."
           }
         >
-          ADICIONAR AO {<Cart height="20" width="20" color="#fff" />}
+          ADICIONAR AO {<ShoppingCartSolid height="20" width="20" color="#fff" />}
         </button>
       </div>
 

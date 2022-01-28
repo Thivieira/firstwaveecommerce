@@ -58,6 +58,7 @@ const DetailsProduct = ({ product, code }) => {
   });
 
   useEffect(() => {
+    console.log(data)
     dispatch(clearProduct());
     dispatch(setLoading(false));
     dispatch(openProduct(data));
