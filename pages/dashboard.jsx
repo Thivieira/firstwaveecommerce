@@ -1,66 +1,66 @@
-import React, { useState, useEffect, useCallback } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import api from "../services/api";
-import { Button } from "@material-ui/core";
+import React, { useState, useEffect, useCallback } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import api from '../services/api'
+import { Button } from '@material-ui/core'
 
-import UserData from "../components/Form/UserData";
-import AddressData from "../components/Form/AddressData";
-import Orders from "../components/dashboard/Orders";
-import Favorites from "../components/dashboard/Favorites";
-import Title from "../components/Utils/Title";
-import { getAccount } from "../store/selectors/user";
-import { saveAccount, saveAddress } from "../store/actions/user";
-import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import useToken from "../contexts/TokenStorage";
+import UserData from '../components/Form/UserData'
+import AddressData from '../components/Form/AddressData'
+import Orders from '../components/dashboard/Orders'
+import Favorites from '../components/dashboard/Favorites'
+import Title from '../components/Utils/Title'
+import { getAccount } from '../store/selectors/user'
+import { saveAccount, saveAddress } from '../store/actions/user'
+import { useDispatch, useSelector } from 'react-redux'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import useToken from '../contexts/TokenStorage'
 
 function Dashboard() {
-  const [formOption, setFormOption] = useState(1);
-  const router = useRouter();
-  const [personalData, setPersonalData] = useState([]);
-  const [addressData, setAddressData] = useState([]);
-  const [json, setJson] = useState({});
-  const dispatch = useDispatch();
-  const MySwal = withReactContent(Swal);
+  const [formOption, setFormOption] = useState(1)
+  const router = useRouter()
+  const [personalData, setPersonalData] = useState([])
+  const [addressData, setAddressData] = useState([])
+  const [json, setJson] = useState({})
+  const dispatch = useDispatch()
+  const MySwal = withReactContent(Swal)
 
-  const [token, setToken] = useToken();
+  const [token, setToken] = useToken()
 
   useEffect(() => {
     if (token) {
-      api.defaults.headers.common["Authorization"] = "Bearer " + token;
+      api.defaults.headers.common['Authorization'] = 'Bearer ' + token
     } else {
-      localStorage.removeItem("token");
-      dispatch(saveAccount({}));
-      dispatch(saveAddress({}));
-      router.replace("/");
+      localStorage.removeItem('token')
+      dispatch(saveAccount({}))
+      dispatch(saveAddress({}))
+      router.replace('/')
     }
-  }, [token, router, dispatch]);
+  }, [token, router, dispatch])
 
   const getUserData = useCallback(async () => {
     try {
-      const res = await api.get("/auth/me");
+      const res = await api.get('/auth/me')
       setPersonalData({
         cpf: res.data.cpf,
         email: res.data.email,
         name: res.data.name,
-        phone: res.data.mobile,
-      });
+        phone: res.data.mobile
+      })
       dispatch(
         saveAccount({
           cpf: res.data.cpf,
           email: res.data.email,
           name: res.data.name,
-          phone: res.data.mobile,
+          phone: res.data.mobile
         })
-      );
+      )
     } catch (e) {}
-  }, [setPersonalData, dispatch]);
+  }, [setPersonalData, dispatch])
 
   const getAdressData = useCallback(async () => {
     try {
-      const res = await api.get("auth/address");
+      const res = await api.get('auth/address')
       setAddressData({
         cep: res.data.postalCode,
         rua: res.data.address,
@@ -68,8 +68,8 @@ function Dashboard() {
         complemento: res.data.complement,
         bairro: res.data.province,
         cidade: res.data.city,
-        estado: res.data.uf,
-      });
+        estado: res.data.uf
+      })
       dispatch(
         saveAddress({
           street: res.data.address,
@@ -78,11 +78,11 @@ function Dashboard() {
           zipcode: res.data.postalCode,
           state: res.data.uf,
           city: res.data.city,
-          neighborhood: res.data.province,
+          neighborhood: res.data.province
         })
-      );
+      )
     } catch (e) {}
-  }, [setAddressData, dispatch]);
+  }, [setAddressData, dispatch])
 
   const updateUser = useCallback(
     async ({ name, password, email, phone, cpf }) => {
@@ -92,93 +92,85 @@ function Dashboard() {
           name: name,
           password: password,
           mobile: phone,
-          cpf,
-        });
+          cpf
+        })
       } else {
-        setJson({ email: email, name: name, mobile: phone, cpf });
+        setJson({ email: email, name: name, mobile: phone, cpf })
       }
       try {
-        const res = await api.post("/auth/me", json);
+        const res = await api.post('/auth/me', json)
         MySwal.fire({
           title: <p>Usuário editado com sucesso!</p>,
-          confirmButtonText: "OK",
-        });
+          confirmButtonText: 'OK'
+        })
       } catch (e) {
         MySwal.fire({
           title: <p>Falha ao editar usuário!</p>,
-          confirmButtonText: "OK",
-        });
+          confirmButtonText: 'OK'
+        })
       }
     },
     [json, MySwal]
-  );
+  )
 
   const updateAddress = useCallback(
     async ({ cep, street, number, complement, neighborhood, city, state }) => {
       try {
-        const res = await api.post("/auth/address", {
+        const res = await api.post('/auth/address', {
           province: neighborhood,
           postalCode: cep,
           city,
           complement,
           uf: state,
           addressNumber: number,
-          address: street,
-        });
+          address: street
+        })
         MySwal.fire({
           title: <p>Endereço editado com sucesso!</p>,
-          confirmButtonText: "OK",
-        });
+          confirmButtonText: 'OK'
+        })
       } catch (e) {
         MySwal.fire({
           title: <p>Falha ao editar endereço!</p>,
-          confirmButtonText: "OK",
-        });
+          confirmButtonText: 'OK'
+        })
       }
     },
     [MySwal]
-  );
+  )
 
   useEffect(() => {
-    getUserData();
-    getAdressData();
-  }, [getUserData, getAdressData]);
+    getUserData()
+    getAdressData()
+  }, [getUserData, getAdressData])
 
   function pageTitle() {
     switch (formOption) {
       case 1:
-        return "Meus Pedidos";
+        return 'Meus Pedidos'
       case 2:
-        return "Editar Dados de Usuário";
+        return 'Editar Dados de Usuário'
       case 3:
-        return "Editar Endereço";
+        return 'Editar Endereço'
       case 4:
-        return "Meus Favoritos";
+        return 'Meus Favoritos'
       default:
-        return "Meus Pedidos";
+        return 'Meus Pedidos'
     }
   }
 
   function switchFormOption() {
     switch (formOption) {
       case 1:
-        return <Orders />;
+        return <Orders />
       case 2:
-        return (
-          <UserData onSubmit={updateUser} data={personalData} signup={false} />
-        );
+        return <UserData onSubmit={updateUser} data={personalData} signup={false} />
       case 3:
-        return (
-          <AddressData
-            onSubmit={updateAddress}
-            data={addressData}
-            signup={false}
-          />
-        );
+        return <AddressData onSubmit={updateAddress} data={addressData} signup={false} />
       case 4:
-        return <Favorites />;
+        return <Favorites />
       default:
-        return <p>Meus Pedidos</p>;
+        return <p>Meus Pedidos</p>
     }
   }
 
@@ -187,23 +179,23 @@ function Dashboard() {
       <div id="edit-account">
         <Title title={pageTitle()} />
         <div className="edit-account-container">
-          <ul className="edit-account-list" style={{ overflow: "auto" }}>
-            <li className={formOption === 1 ? "edit-bordered" : ""}>
+          <ul className="edit-account-list" style={{ overflow: 'auto' }}>
+            <li className={formOption === 1 ? 'edit-bordered' : ''}>
               <Button onClick={() => setFormOption(1)} color="primary">
                 Pedidos
               </Button>
             </li>
-            <li className={formOption === 2 ? "edit-bordered" : ""}>
+            <li className={formOption === 2 ? 'edit-bordered' : ''}>
               <Button onClick={() => setFormOption(2)} color="primary">
                 Usuário
               </Button>
             </li>
-            <li className={formOption === 3 ? "edit-bordered" : ""}>
+            <li className={formOption === 3 ? 'edit-bordered' : ''}>
               <Button onClick={() => setFormOption(3)} color="primary">
                 Endereço
               </Button>
             </li>
-            <li className={formOption === 4 ? "edit-bordered" : ""}>
+            <li className={formOption === 4 ? 'edit-bordered' : ''}>
               <Button onClick={() => setFormOption(4)} color="primary">
                 Favoritos
               </Button>
@@ -215,12 +207,12 @@ function Dashboard() {
             </li>
           </ul>
           <div className="form-container">
-            {personalData.length !== 0 ? switchFormOption() : ""}
+            {personalData.length !== 0 ? switchFormOption() : ''}
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Dashboard;
+export default Dashboard

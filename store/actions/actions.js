@@ -1,4 +1,4 @@
-import * as types from "./types";
+import * as types from './types'
 
 // // INITIALIZES CLOCK ON SERVER
 // export const serverRenderClock = () => (dispatch) =>

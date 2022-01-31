@@ -1,6 +1,6 @@
-import Images from "./Images";
-import Content from "./Content";
-import ProductContextProvider from "../../contexts/ProductContextProvider";
+import Images from './Images'
+import Content from './Content'
+import ProductContextProvider from '../../contexts/ProductContextProvider'
 
 const ProductWrapper = ({ product }) => {
   return (
@@ -10,7 +10,7 @@ const ProductWrapper = ({ product }) => {
         <Content />
       </ProductContextProvider>
     </div>
-  );
-};
+  )
+}
 
-export default ProductWrapper;
+export default ProductWrapper

@@ -1,5 +1,5 @@
-import { createLocalStorageStateHook } from "use-local-storage-state";
+import { createLocalStorageStateHook } from 'use-local-storage-state'
 
-const useFavorites = createLocalStorageStateHook("favorites", []);
+const useFavorites = createLocalStorageStateHook('favorites', [])
 
-export default useFavorites;
+export default useFavorites

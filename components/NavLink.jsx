@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link'
 
 export default function NavLink(props) {
   return (
@@ -8,11 +8,11 @@ export default function NavLink(props) {
         onMouseEnter={props.onMouseEnter}
         target={props.target}
         title={props.title}
-        style={{ color: "#fff" }}
+        style={{ color: '#fff' }}
         onClick={props.onClick}
       >
         {props.children ? props.children : props.text}
       </a>
     </Link>
-  );
+  )
 }

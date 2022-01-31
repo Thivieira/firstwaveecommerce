@@ -1,24 +1,22 @@
-import NavLink from "../NavLink";
-import FavoriteBtn from "../FavoriteBtn";
-import noImage from "../../public/noimage.png";
+import NavLink from '../NavLink'
+import FavoriteBtn from '../FavoriteBtn'
+import noImage from '../../public/noimage.png'
 
 function ProductCard({ product }) {
-  const images = product.variations.map((el) => JSON.parse(el.image));
-  const imagesOk = images.filter((el) => el.length !== 0);
+  const images = product.variations.map((el) => JSON.parse(el.image))
+  const imagesOk = images.filter((el) => el.length !== 0)
 
-  const imageOk = imagesOk[0].map((el) => el.link)[0];
+  const imageOk = imagesOk[0].map((el) => el.link)[0]
 
-  const image = imageOk ? imageOk : noImage.src;
+  const image = imageOk ? imageOk : noImage.src
 
-  const price = `R$${parseFloat(product.price).toFixed(2).replace(".", ",")}`;
-  const priceSale = `R$${parseFloat(product.variations[0].price)
-    .toFixed(2)
-    .replace(".", ",")}`;
+  const price = `R$${parseFloat(product.price).toFixed(2).replace('.', ',')}`
+  const priceSale = `R$${parseFloat(product.variations[0].price).toFixed(2).replace('.', ',')}`
 
   const installmentPrice = (price) =>
     `R$${parseFloat(price / 6.0)
       .toFixed(2)
-      .replace(".", ",")}`;
+      .replace('.', ',')}`
 
   return (
     <div className="card-grid" key={product.id}>
@@ -51,21 +49,19 @@ function ProductCard({ product }) {
         <p className="discount">
           {priceSale !== price ? (
             <>
-              <strong>6x</strong> de{" "}
-              <strong>{installmentPrice(product.variations[0].price)}</strong>{" "}
-              sem juros no cartão.
+              <strong>6x</strong> de{' '}
+              <strong>{installmentPrice(product.variations[0].price)}</strong> sem juros no cartão.
             </>
           ) : (
             <>
-              <strong>6x</strong> de{" "}
-              <strong>{installmentPrice(product.price)}</strong> sem juros no
+              <strong>6x</strong> de <strong>{installmentPrice(product.price)}</strong> sem juros no
               cartão.
             </>
           )}
         </p>
       </div>
     </div>
-  );
+  )
 }
 
-export default ProductCard;
+export default ProductCard

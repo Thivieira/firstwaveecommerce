@@ -87,8 +87,6 @@
   font-weight: 700;
   margin-top: 0.2rem;
   color: #ffa500;
-
-  
 }
 
 .content .priceSale {
@@ -137,7 +135,7 @@
   color: #0080a8;
 }
 
-@media(max-width: 425px) {
+@media (max-width: 425px) {
   .card-grid {
     width: 150px;
   }

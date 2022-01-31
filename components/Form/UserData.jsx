@@ -1,25 +1,23 @@
-import React from "react";
-import { TextField, Button } from "@material-ui/core";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import InputMask from "react-input-mask";
+import React from 'react'
+import { TextField, Button } from '@material-ui/core'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
+import InputMask from 'react-input-mask'
 
 function UserData({ onSubmit, data, signup }) {
   const validationSchema = yup.object({
     email: yup
-      .string("Digite o seu email.")
-      .email("Escreve um email válido.")
-      .required("Email é obrigatório."),
+      .string('Digite o seu email.')
+      .email('Escreve um email válido.')
+      .required('Email é obrigatório.'),
     password: yup
-      .string("Digite sua senha.")
-      .min(8, "Senha deve ter no mínimo 8 caracteres.")
-      .required("Senha obrigatória."),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref("password"), null], "Senhas devem combinar."),
+      .string('Digite sua senha.')
+      .min(8, 'Senha deve ter no mínimo 8 caracteres.')
+      .required('Senha obrigatória.'),
+    confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Senhas devem combinar.'),
     cpf: yup.string().required(),
-    phone: yup.string().required(),
-  });
+    phone: yup.string().required()
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -28,7 +26,7 @@ function UserData({ onSubmit, data, signup }) {
       password: data.password,
       confirmPassword: data.confirmPassword,
       phone: data.phone,
-      cpf: data.cpf,
+      cpf: data.cpf
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -37,14 +35,14 @@ function UserData({ onSubmit, data, signup }) {
         email: values.email,
         password: values.password,
         phone: values.phone,
-        cpf: values.cpf,
-      });
-    },
-  });
+        cpf: values.cpf
+      })
+    }
+  })
 
   return (
     <>
-      {signup ? <h2 className="form-title">Crie sua conta</h2> : ""}
+      {signup ? <h2 className="form-title">Crie sua conta</h2> : ''}
       <form onSubmit={formik.handleSubmit}>
         <TextField
           id="name"
@@ -93,13 +91,8 @@ function UserData({ onSubmit, data, signup }) {
           <TextField
             value={formik.values.confirmPassword}
             onChange={formik.handleChange}
-            error={
-              formik.touched.confirmPassword &&
-              Boolean(formik.errors.confirmPassword)
-            }
-            helperText={
-              formik.touched.confirmPassword && formik.errors.confirmPassword
-            }
+            error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+            helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
             id="confirmPassword"
             name="confirmPassword"
             autoComplete="new-password"
@@ -159,11 +152,7 @@ function UserData({ onSubmit, data, signup }) {
             )}
           </InputMask>
         </div>
-        <div
-          className={
-            signup ? "navigation-container" : "navigation-container edit-button"
-          }
-        >
+        <div className={signup ? 'navigation-container' : 'navigation-container edit-button'}>
           {signup ? (
             <>
               <Button disabled>Voltar</Button>
@@ -179,7 +168,7 @@ function UserData({ onSubmit, data, signup }) {
         </div>
       </form>
     </>
-  );
+  )
 }
 
-export default UserData;
+export default UserData

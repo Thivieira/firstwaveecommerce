@@ -1,27 +1,23 @@
-import { useContext, useEffect, useState } from "react";
-import { NextSeo } from "next-seo";
-import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from 'react'
+import { NextSeo } from 'next-seo'
+import { useRouter } from 'next/router'
 
-import NoProductsAlert from "../../components/NoProductsAlert";
-import FadeLoader from "react-spinners/FadeLoader";
-import ReactPaginate from "react-paginate";
-import { useDispatch, useSelector } from "react-redux";
-import { Drawer, Button } from "antd";
-import { FilterOutlined } from "@ant-design/icons";
+import NoProductsAlert from '../../components/NoProductsAlert'
+import FadeLoader from 'react-spinners/FadeLoader'
+import ReactPaginate from 'react-paginate'
+import { useDispatch, useSelector } from 'react-redux'
+import { Drawer, Button } from 'antd'
+import { FilterOutlined } from '@ant-design/icons'
 
-import { CategoryContext } from "../../contexts/CategoryContext";
-import Breadcrumb from "../../components/Breadcrumb";
-import Filter from "../../components/Filter";
-import ProductCard from "../../components/Products/ProductCard";
-import api from "../../services/api";
+import { CategoryContext } from '../../contexts/CategoryContext'
+import Breadcrumb from '../../components/Breadcrumb'
+import Filter from '../../components/Filter'
+import ProductCard from '../../components/Products/ProductCard'
+import api from '../../services/api'
 
-import { getFilterMode, getFilterUrl } from "../../store/selectors/products";
+import { getFilterMode, getFilterUrl } from '../../store/selectors/products'
 
-import {
-  getAllProducts,
-  getLoading,
-  getPaginationData,
-} from "../../store/selectors/products";
+import { getAllProducts, getLoading, getPaginationData } from '../../store/selectors/products'
 
 import {
   setProducts,
@@ -30,87 +26,87 @@ import {
   sortProducts,
   setPaginationProducts,
   setFilterData,
-  setFilterUrl,
-} from "../../store/actions/products";
+  setFilterUrl
+} from '../../store/actions/products'
 
-import { removeIdDuplicate } from "../../helpers";
-import FilterSort from "../../components/FilterSort";
-import catalogPaths from "../../catalog-paths";
+import { removeIdDuplicate } from '../../helpers'
+import FilterSort from '../../components/FilterSort'
+import catalogPaths from '../../catalog-paths'
 
 export async function getStaticPaths(ctx) {
-  const paths = catalogPaths;
+  const paths = catalogPaths
   return {
     paths,
-    fallback: 'blocking',
+    fallback: 'blocking'
   }
 }
 
 export async function getStaticProps(ctx) {
-  let category = ctx.params.param[0];
-  let subcategory = ctx.params.param[1];
-  let type = ctx.params.param[2];
+  let category = ctx.params.param[0]
+  let subcategory = ctx.params.param[1]
+  let type = ctx.params.param[2]
 
-  let url;
-  let products;
-  let total;
-  let totalPages;
-  let per_page;
-  let last_page;
+  let url
+  let products
+  let total
+  let totalPages
+  let per_page
+  let last_page
 
-  let sizeDataUrl;
-  let brandDataUrl;
-  let colorDataUrl;
-  let sizes;
-  let brands;
-  let colors;
-
-  if (category && subcategory && type) {
-    url = `/products?category=${category}&subcategory=${subcategory}&type=${type}`;
-  } else if (category && subcategory && !type) {
-    type = null;
-    url = `/products?category=${category}&subcategory=${subcategory}`;
-  } else {
-    url = `/products?category=${category}`;
-    subcategory = null;
-    type = null;
-  }
-
-  const res = await api(url);
-
-  products = res.data.data;
-  total = res.data.meta.total;
-  totalPages = res.data.meta.last_page;
-  per_page = res.data.meta.per_page;
+  let sizeDataUrl
+  let brandDataUrl
+  let colorDataUrl
+  let sizes
+  let brands
+  let colors
 
   if (category && subcategory && type) {
-    sizeDataUrl = `/products/sizes?category=${category}&subcategory=${subcategory}&type=${type}`;
-    brandDataUrl = `/products/brands?category=${category}&subcategory=${subcategory}&type=${type}`;
-    colorDataUrl = `/products/colors?category=${category}&subcategory=${subcategory}&type=${type}`;
+    url = `/products?category=${category}&subcategory=${subcategory}&type=${type}`
   } else if (category && subcategory && !type) {
-    sizeDataUrl = `/products/sizes?category=${category}&subcategory=${subcategory}`;
-    brandDataUrl = `/products/brands?category=${category}&subcategory=${subcategory}`;
-    colorDataUrl = `/products/colors?category=${category}&subcategory=${subcategory}`;
+    type = null
+    url = `/products?category=${category}&subcategory=${subcategory}`
   } else {
-    sizeDataUrl = `/products/sizes?category=${category}`;
-    brandDataUrl = `/products/brands?category=${category}`;
-    colorDataUrl = `/products/colors?category=${category}`;
+    url = `/products?category=${category}`
+    subcategory = null
+    type = null
   }
 
-  const sizeData = await api.get(sizeDataUrl);
-  const brandData = await api.get(brandDataUrl);
-  const colorData = await api.get(colorDataUrl);
+  const res = await api(url)
 
-  sizes = sizeData.data;
-  brands = brandData.data;
-  colors = colorData.data;
+  products = res.data.data
+  total = res.data.meta.total
+  totalPages = res.data.meta.last_page
+  per_page = res.data.meta.per_page
+
+  if (category && subcategory && type) {
+    sizeDataUrl = `/products/sizes?category=${category}&subcategory=${subcategory}&type=${type}`
+    brandDataUrl = `/products/brands?category=${category}&subcategory=${subcategory}&type=${type}`
+    colorDataUrl = `/products/colors?category=${category}&subcategory=${subcategory}&type=${type}`
+  } else if (category && subcategory && !type) {
+    sizeDataUrl = `/products/sizes?category=${category}&subcategory=${subcategory}`
+    brandDataUrl = `/products/brands?category=${category}&subcategory=${subcategory}`
+    colorDataUrl = `/products/colors?category=${category}&subcategory=${subcategory}`
+  } else {
+    sizeDataUrl = `/products/sizes?category=${category}`
+    brandDataUrl = `/products/brands?category=${category}`
+    colorDataUrl = `/products/colors?category=${category}`
+  }
+
+  const sizeData = await api.get(sizeDataUrl)
+  const brandData = await api.get(brandDataUrl)
+  const colorData = await api.get(colorDataUrl)
+
+  sizes = sizeData.data
+  brands = brandData.data
+  colors = colorData.data
 
   if (!products) {
     return {
       redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
+        destination: '/',
+        permanent: false
+      }
+    }
   }
 
   return {
@@ -124,10 +120,10 @@ export async function getStaticProps(ctx) {
       type,
       sizes,
       brands,
-      colors,
+      colors
     },
-    revalidate: 60,
-  };
+    revalidate: 60
+  }
 }
 
 export default function Products({
@@ -140,129 +136,119 @@ export default function Products({
   type,
   sizes,
   brands,
-  colors,
+  colors
 }) {
-  const { setCategory } = useContext(CategoryContext);
-  const dispatch = useDispatch();
-  const products = useSelector(getAllProducts);
-  const loading = useSelector(getLoading);
-  const [sort, setSort] = useState("menor");
-  const [showFilter, setShowFilter] = useState(true);
-  const [visible, setVisible] = useState(false);
-  const [width, setWindowWidth] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
-  const filterUrl = useSelector(getFilterUrl);
-  const filterMode = useSelector(getFilterMode);
-  const router = useRouter();
+  const { setCategory } = useContext(CategoryContext)
+  const dispatch = useDispatch()
+  const products = useSelector(getAllProducts)
+  const loading = useSelector(getLoading)
+  const [sort, setSort] = useState('menor')
+  const [showFilter, setShowFilter] = useState(true)
+  const [visible, setVisible] = useState(false)
+  const [width, setWindowWidth] = useState(0)
+  const [currentPage, setCurrentPage] = useState(0)
+  const filterUrl = useSelector(getFilterUrl)
+  const filterMode = useSelector(getFilterMode)
+  const router = useRouter()
 
   const updateDimensions = () => {
-    const width = window.innerWidth;
-    setWindowWidth(width);
-  };
+    const width = window.innerWidth
+    setWindowWidth(width)
+  }
 
   useEffect(() => {
-    updateDimensions();
+    updateDimensions()
 
-    window.addEventListener("resize", updateDimensions);
+    window.addEventListener('resize', updateDimensions)
 
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, [width]);
+    return () => window.removeEventListener('resize', updateDimensions)
+  }, [width])
 
   useEffect(() => {
-    width < 1280 ? setShowFilter(false) : setShowFilter(true);
-  }, [setShowFilter, width]);
+    width < 1280 ? setShowFilter(false) : setShowFilter(true)
+  }, [setShowFilter, width])
 
   const changePage = ({ selected }) => {
-    setCurrentPage(selected);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+    setCurrentPage(selected)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
-      dispatch(setFilterUrl(""));
-      dispatch(setFilterData([], [], [], 0, 2000));
-    };
+      dispatch(setFilterUrl(''))
+      dispatch(setFilterData([], [], [], 0, 2000))
+    }
 
-    router.events.on("routeChangeStart", handleRouteChange);
+    router.events.on('routeChangeStart', handleRouteChange)
     return () => {
-      router.events.off("routeChangeStart", handleRouteChange);
-    };
-  }, [router, dispatch]);
+      router.events.off('routeChangeStart', handleRouteChange)
+    }
+  }, [router, dispatch])
 
-  const paginationRedux = useSelector(getPaginationData);
-
-  useEffect(() => {
-    setCurrentPage(0);
-    setCategory({ category: category, subcategory: subcategory, type: type });
-  }, [setCurrentPage, setCategory, category, subcategory, type, filterUrl]);
+  const paginationRedux = useSelector(getPaginationData)
 
   useEffect(() => {
-      let page = currentPage + 1;
-      dispatch(setLoading(false));
-      dispatch(setProducts(prod));
-      dispatch(
-        setPaginationProducts(totalPages, page, per_page, total)
-      );
+    setCurrentPage(0)
+    setCategory({ category: category, subcategory: subcategory, type: type })
+  }, [setCurrentPage, setCategory, category, subcategory, type, filterUrl])
+
+  useEffect(() => {
+    let page = currentPage + 1
+    dispatch(setLoading(false))
+    dispatch(setProducts(prod))
+    dispatch(setPaginationProducts(totalPages, page, per_page, total))
   }, [])
 
   useEffect(() => {
-    if(currentPage != 1){
-      let page = currentPage + 1;
-      let url = "";
-  
+    if (currentPage != 1) {
+      let page = currentPage + 1
+      let url = ''
+
       if (filterUrl) {
-        url = `${filterUrl}&page=${page}`;
+        url = `${filterUrl}&page=${page}`
       } else {
-        let filterString = ``;
-        category ? (filterString += `category=${category}`) : ``;
-        subcategory ? (filterString += `&subcategory=${subcategory}`) : ``;
-        type ? (filterString += `&type=${type}`) : ``;
-        url = `/products?${filterString}&page=${page}`;
+        let filterString = ``
+        category ? (filterString += `category=${category}`) : ``
+        subcategory ? (filterString += `&subcategory=${subcategory}`) : ``
+        type ? (filterString += `&type=${type}`) : ``
+        url = `/products?${filterString}&page=${page}`
       }
-  
-      dispatch(setLoading(true));
-      dispatch(clearProducts());
-  
+
+      dispatch(setLoading(true))
+      dispatch(clearProducts())
+
       api.get(url).then(({ data }) => {
-        dispatch(setLoading(false));
-        dispatch(setProducts(data.data));
+        dispatch(setLoading(false))
+        dispatch(setProducts(data.data))
         dispatch(
           setPaginationProducts(data.meta.last_page, page, data.meta.per_page, data.meta.total)
-        );
-      });
+        )
+      })
     }
-  }, [
-    dispatch,
-    filterMode,
-    filterUrl,
-    currentPage,
-    category,
-    subcategory,
-    type,
-  ]);
+  }, [dispatch, filterMode, filterUrl, currentPage, category, subcategory, type])
 
   const handleChangeSort = (item) => {
-    let sortValue = item.props.value;
-    setSort(sortValue);
+    let sortValue = item.props.value
+    setSort(sortValue)
 
-    let productsToSort = products;
+    let productsToSort = products
 
-    if (sortValue === "maior") {
+    if (sortValue === 'maior') {
       productsToSort.sort((a, b) => {
-        return parseFloat(b.price) - parseFloat(a.price);
-      });
-      dispatch(sortProducts(productsToSort, sortValue));
-      return true;
+        return parseFloat(b.price) - parseFloat(a.price)
+      })
+      dispatch(sortProducts(productsToSort, sortValue))
+      return true
     }
 
     productsToSort.sort((a, b) => {
-      return parseFloat(a.price) - parseFloat(b.price);
-    });
+      return parseFloat(a.price) - parseFloat(b.price)
+    })
 
-    dispatch(sortProducts(productsToSort, sortValue));
+    dispatch(sortProducts(productsToSort, sortValue))
 
-    return true;
-  };
+    return true
+  }
 
   return (
     <>
@@ -285,30 +271,27 @@ export default function Products({
           {products.length > 0 ? (
             <>
               {products.map((product) => (
-                <ProductCard
-                  product={product}
-                  key={removeIdDuplicate(product.id)}
-                />
+                <ProductCard product={product} key={removeIdDuplicate(product.id)} />
               ))}
               {paginationRedux.totalPages > 1 ? (
                 <ReactPaginate
-                  previousLabel={"<"}
-                  nextLabel={">"}
+                  previousLabel={'<'}
+                  nextLabel={'>'}
                   pageCount={paginationRedux.totalPages}
                   onPageChange={(selected) => changePage(selected)}
                   forcePage={currentPage}
-                  containerClassName={"paginationsBttn"}
-                  previousLinkClassName={"previousBttn"}
-                  nextLinkClassName={"nextBttn"}
-                  disabledClassName={"paginationDisabled"}
-                  activeClassName={"paginationActive"}
+                  containerClassName={'paginationsBttn'}
+                  previousLinkClassName={'previousBttn'}
+                  nextLinkClassName={'nextBttn'}
+                  disabledClassName={'paginationDisabled'}
+                  activeClassName={'paginationActive'}
                 />
               ) : null}
             </>
           ) : loading === true ? (
             <FadeLoader
               className="spinner-products"
-              color={"#0080A8"}
+              color={'#0080A8'}
               loading={loading}
               height={35}
               width={7.5}
@@ -323,11 +306,7 @@ export default function Products({
         <div className="filter">
           {showFilter ? (
             <>
-              <Breadcrumb
-                category={category}
-                subcategory={subcategory}
-                type={type}
-              />
+              <Breadcrumb category={category} subcategory={subcategory} type={type} />
               <Filter
                 category={category}
                 subcategory={subcategory}
@@ -372,5 +351,5 @@ export default function Products({
         </div>
       </div>
     </>
-  );
+  )
 }

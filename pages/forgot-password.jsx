@@ -1,41 +1,41 @@
-import { NextSeo } from "next-seo";
-import { useState } from "react";
-import { TextField, InputAdornment, Button } from "@material-ui/core";
-import { EmailRounded } from "@material-ui/icons";
+import { NextSeo } from 'next-seo'
+import { useState } from 'react'
+import { TextField, InputAdornment, Button } from '@material-ui/core'
+import { EmailRounded } from '@material-ui/icons'
 
-import Container from "../components/Utils/Container";
-import Title from "../components/Utils/Title";
-import Box from "../components/Utils/Box";
-import InputContainer from "../components/Utils/InputContainer";
-import ButtonsContainer from "../components/Utils/ButtonsContainer";
-import api from "../services/api";
+import Container from '../components/Utils/Container'
+import Title from '../components/Utils/Title'
+import Box from '../components/Utils/Box'
+import InputContainer from '../components/Utils/InputContainer'
+import ButtonsContainer from '../components/Utils/ButtonsContainer'
+import api from '../services/api'
 
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 function ForgotPassword() {
-  const MySwal = withReactContent(Swal);
-  const [email, setEmail] = useState("");
+  const MySwal = withReactContent(Swal)
+  const [email, setEmail] = useState('')
 
   const submit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const { data } = await api.post(`/auth/forgot-password`, { email });
+      const { data } = await api.post(`/auth/forgot-password`, { email })
       MySwal.fire({
-        title: <p>{data.status}</p>,
+        title: <p>{data.status}</p>
       }).then((res) => {
         if (res.isConfirmed) {
           // router.push("/login");
         }
-      });
+      })
     } catch (e) {}
-  };
+  }
 
   return (
     <Container>
       <NextSeo
         title="Recuperar senha ou email - Lifestyle Floripa by Billabong"
-        description={"Recuperar senha ou email - Sua surf shop na Praia Mole."}
+        description={'Recuperar senha ou email - Sua surf shop na Praia Mole.'}
       />
       <Title>Recuperar senha ou email</Title>
       <Box>
@@ -48,7 +48,7 @@ function ForgotPassword() {
                 <InputAdornment position="end">
                   <EmailRounded />
                 </InputAdornment>
-              ),
+              )
             }}
             id="email"
             label="E-mail"
@@ -59,20 +59,14 @@ function ForgotPassword() {
             fullWidth
           />
           <ButtonsContainer>
-            <Button
-              type="submit"
-              onClick={submit}
-              variant="contained"
-              color="primary"
-              fullWidth
-            >
+            <Button type="submit" onClick={submit} variant="contained" color="primary" fullWidth>
               Recuperar senha
             </Button>
           </ButtonsContainer>
         </InputContainer>
       </Box>
     </Container>
-  );
+  )
 }
 
-export default ForgotPassword;
+export default ForgotPassword

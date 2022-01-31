@@ -1,8 +1,8 @@
-import NavLink from "../../components/NavLink";
-import { Carousel } from "react-responsive-carousel";
-import banner1 from "../../public/banner-topo1.jpg";
-import banner2 from "../../public/banner-topo2.jpg";
-import banner3 from "../../public/banner-topo3.jpg";
+import NavLink from '../../components/NavLink'
+import { Carousel } from 'react-responsive-carousel'
+import banner1 from '../../public/banner-topo1.jpg'
+import banner2 from '../../public/banner-topo2.jpg'
+import banner3 from '../../public/banner-topo3.jpg'
 
 const ImageSlider = () => {
   const getConfigurableProps = () => ({
@@ -19,8 +19,8 @@ const ImageSlider = () => {
     selectedItem: 0,
     interval: 3000,
     transitionTime: 900,
-    swipeScrollTolerance: 5,
-  });
+    swipeScrollTolerance: 5
+  })
 
   return (
     <Carousel {...getConfigurableProps()}>
@@ -58,7 +58,7 @@ const ImageSlider = () => {
         </div>
       </NavLink>
     </Carousel>
-  );
-};
+  )
+}
 
-export default ImageSlider;
+export default ImageSlider

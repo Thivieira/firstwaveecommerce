@@ -1,8 +1,8 @@
-import { createLocalStorageStateHook } from "use-local-storage-state";
+import { createLocalStorageStateHook } from 'use-local-storage-state'
 
-const useUserDetails = createLocalStorageStateHook("user", {
+const useUserDetails = createLocalStorageStateHook('user', {
   account: {},
-  address: {},
-});
+  address: {}
+})
 
-export default useUserDetails;
+export default useUserDetails

@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from "react";
-import Slider from "react-slick";
-import { ProductContext } from "../../contexts/ProductContextProvider";
-import noImage from "../../public/noimage.png";
+import { useState, useEffect, useContext } from 'react'
+import Slider from 'react-slick'
+import { ProductContext } from '../../contexts/ProductContextProvider'
+import noImage from '../../public/noimage.png'
 
 export default function Images(props) {
-  const { imageThumbs, featuredImage, setFeaturedImage } = useContext(ProductContext);
+  const { imageThumbs, featuredImage, setFeaturedImage } = useContext(ProductContext)
 
   const settings = {
     dots: false,
@@ -16,23 +16,23 @@ export default function Images(props) {
     vertical: true,
     verticalSwiping: true,
     swipeToSlide: true,
-    arrows: false,
+    arrows: false
   }
 
   const [zoomImage, setZoomImage] = useState({
     backgroundImage: `url(${featuredImage})`,
-    backgroundPosition: "0% 0%",
-  });
+    backgroundPosition: '0% 0%'
+  })
 
   const handleMouseMove = (e) => {
-    const { left, top, width, height } = e.target.getBoundingClientRect();
-    const x = ((e.pageX - left) / width) * 100;
-    const y = ((e.pageY - top) / height) * 100;
+    const { left, top, width, height } = e.target.getBoundingClientRect()
+    const x = ((e.pageX - left) / width) * 100
+    const y = ((e.pageY - top) / height) * 100
     setZoomImage({
       backgroundImage: `url(${featuredImage})`,
-      backgroundPosition: `${x}% ${y}%`,
-    });
-  };
+      backgroundPosition: `${x}% ${y}%`
+    })
+  }
 
   return (
     <div className="gallery-img">
@@ -41,7 +41,7 @@ export default function Images(props) {
           {imageThumbs.map((image) => (
             <div key={image} onClick={() => setFeaturedImage(image)}>
               <img
-                className={featuredImage === image ? "active" : ""}
+                className={featuredImage === image ? 'active' : ''}
                 src={image}
                 alt="imagem em miniatura do produto"
                 width={70}
@@ -61,8 +61,8 @@ export default function Images(props) {
           onMouseLeave={(e) => {
             setZoomImage({
               backgroundImage: `url('')`,
-              backgroundPosition: `0% 0%`,
-            });
+              backgroundPosition: `0% 0%`
+            })
           }}
         >
           <img
@@ -75,5 +75,5 @@ export default function Images(props) {
         </figure>
       )}
     </div>
-  );
+  )
 }

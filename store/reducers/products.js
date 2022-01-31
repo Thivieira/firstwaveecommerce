@@ -6,9 +6,9 @@ const productsDefaultState = {
     color: [],
     brand: [],
     priceMin: 0,
-    priceMax: 2000,
+    priceMax: 2000
   },
-  filterUrl: "",
+  filterUrl: '',
   filterMode: false,
   sliderProducts: [],
   product: [],
@@ -17,122 +17,120 @@ const productsDefaultState = {
   total: 0,
   isOpen: false,
   loading: false,
-  activePreferenceId: null,
-};
+  activePreferenceId: null
+}
 
 const productsReducer = (state = productsDefaultState, action) => {
   switch (action.type) {
-    case "GET_API_ALL_PRODUCTS":
-      let apiProducts = action.payload;
+    case 'GET_API_ALL_PRODUCTS':
+      let apiProducts = action.payload
 
       if (!apiProducts) {
-        return state;
+        return state
       }
 
       apiProducts = apiProducts.map((element) => {
-        const favorite = state.favoritesProducts.find(
-          (product) => product.id === element.id
-        );
+        const favorite = state.favoritesProducts.find((product) => product.id === element.id)
 
         if (!favorite) {
           return {
             ...element,
-            favorite: false,
-          };
+            favorite: false
+          }
         }
 
         return {
           ...element,
-          favorite: favorite.favorite,
-        };
-      });
+          favorite: favorite.favorite
+        }
+      })
 
       return {
         ...state,
-        products: apiProducts,
-      };
+        products: apiProducts
+      }
 
-    case "GET_PAGINATION_PRODUCTS":
+    case 'GET_PAGINATION_PRODUCTS':
       return {
         ...state,
-        pagination: action.payload,
-      };
+        pagination: action.payload
+      }
 
-    case "GET_FILTER_DATA":
+    case 'GET_FILTER_DATA':
       //filtros selecionados
       return {
         ...state,
-        filter: action.payload,
-      };
+        filter: action.payload
+      }
 
-    case "SET_FILTER_URL":
+    case 'SET_FILTER_URL':
       return {
         ...state,
-        filterUrl: action.payload,
-      };
-    case "SET_FILTER_MODE":
+        filterUrl: action.payload
+      }
+    case 'SET_FILTER_MODE':
       return {
         ...state,
-        filterMode: action.payload,
-      };
+        filterMode: action.payload
+      }
 
-    case "GET_API_SLIDER_PRODUCTS":
-      let sliderProducts = action.payload;
+    case 'GET_API_SLIDER_PRODUCTS':
+      let sliderProducts = action.payload
 
       sliderProducts = sliderProducts.map((element) => {
         return {
           ...element,
-          favorite: false,
-        };
-      });
+          favorite: false
+        }
+      })
 
       return {
         ...state,
-        sliderProducts,
-      };
+        sliderProducts
+      }
 
-    case "GET_API_PRODUCT":
-      let apiProduct = action.payload;
+    case 'GET_API_PRODUCT':
+      let apiProduct = action.payload
 
-      apiProduct.favorite = false;
+      apiProduct.favorite = false
 
       const favorite = state.favoritesProducts.find(
         (favorite) => favorite.product.id === apiProduct.id
-      );
+      )
 
       if (favorite) {
         return {
           ...state,
-          product: favorite,
-        };
+          product: favorite
+        }
       } else {
         return {
           ...state,
-          product: apiProduct,
-        };
+          product: apiProduct
+        }
       }
 
-    case "is_Open":
+    case 'is_Open':
       return {
         ...state,
-        isOpen: action.payload,
-      };
+        isOpen: action.payload
+      }
 
-    case "SET_LOADING":
+    case 'SET_LOADING':
       return {
         ...state,
-        loading: action.payload,
-      };
+        loading: action.payload
+      }
 
     //////////////////////////////////////////////////////////////
 
-    case "SET_FAVORITES":
+    case 'SET_FAVORITES':
       return {
         ...state,
-        favoritesProducts: action.payload,
-      };
+        favoritesProducts: action.payload
+      }
 
-    case "SET_FAVORITE":
+    case 'SET_FAVORITE':
       return {
         ...state,
         products: state.products.map((product) =>
@@ -144,203 +142,189 @@ const productsReducer = (state = productsDefaultState, action) => {
           state.product.id === action.payload.id
             ? {
                 ...state.product,
-                favorite: action.payload.favorite,
+                favorite: action.payload.favorite
               }
-            : state.product,
-      };
+            : state.product
+      }
 
-    case "ADD_TO_FAVORITES":
-      if (
-        state.favoritesProducts.find((prod) => action.payload.id === prod.id)
-      ) {
+    case 'ADD_TO_FAVORITES':
+      if (state.favoritesProducts.find((prod) => action.payload.id === prod.id)) {
         return {
-          ...state,
-        };
+          ...state
+        }
       }
 
       return {
         ...state,
-        favoritesProducts: [...state.favoritesProducts, action.payload],
-      };
+        favoritesProducts: [...state.favoritesProducts, action.payload]
+      }
 
-    case "REMOVE_FROM_FAVORITES":
+    case 'REMOVE_FROM_FAVORITES':
       const removeProductFavorites = state.favoritesProducts.filter(
         (favorite) => action.payload !== favorite.product.id
-      );
+      )
 
       return {
         ...state,
-        favoritesProducts: removeProductFavorites,
-      };
+        favoritesProducts: removeProductFavorites
+      }
 
     ///////////////////////////////////////////////////////////////////////
 
-    case "ADD_TO_CART":
-      const product_variation = action.payload;
-      const external_id = product_variation.external_id;
+    case 'ADD_TO_CART':
+      const product_variation = action.payload
+      const external_id = product_variation.external_id
 
-      const existingProductVariationInCart = state.cart.find(
-        (existingProductInCart) => {
-          if (existingProductInCart.external_id === external_id) {
-            return true;
-          }
+      const existingProductVariationInCart = state.cart.find((existingProductInCart) => {
+        if (existingProductInCart.external_id === external_id) {
+          return true
         }
-      );
+      })
 
       if (existingProductVariationInCart) {
         const productsIncrement = state.cart.find(
-          (existingProductInCart) =>
-            external_id === existingProductInCart.external_id
-        );
+          (existingProductInCart) => external_id === existingProductInCart.external_id
+        )
 
         if (productsIncrement.supply <= 0) {
           return {
-            ...state,
-          };
+            ...state
+          }
         }
 
-        productsIncrement.quantity += 1;
-        productsIncrement.supply -= 1;
+        productsIncrement.quantity += 1
+        productsIncrement.supply -= 1
 
-        const newTotalIncrement =
-          state.total + parseFloat(productsIncrement.price);
+        const newTotalIncrement = state.total + parseFloat(productsIncrement.price)
 
         return {
           ...state,
-          total: newTotalIncrement,
-        };
+          total: newTotalIncrement
+        }
       } else {
-        const addedProduct = Object.assign({}, product_variation);
+        const addedProduct = Object.assign({}, product_variation)
 
-        addedProduct.quantity = 1;
-        addedProduct.supply = product_variation.supply - 1;
+        addedProduct.quantity = 1
+        addedProduct.supply = product_variation.supply - 1
 
-        const newTotal = state.total + parseFloat(addedProduct.price);
+        const newTotal = state.total + parseFloat(addedProduct.price)
 
         return {
           ...state,
           cart: [...state.cart, addedProduct],
-          total: newTotal,
-        };
+          total: newTotal
+        }
       }
 
-    case "REMOVE_FROM_CART":
+    case 'REMOVE_FROM_CART':
       const productToRemove = state.cart.find(
-        (product_variation) =>
-          action.external_id === product_variation.external_id
-      );
+        (product_variation) => action.external_id === product_variation.external_id
+      )
 
       if (!productToRemove) {
-        return state;
+        return state
       }
 
       //testar logica
       const removeProduct = state.cart.filter(
-        (product_variation) =>
-          action.external_id !== product_variation.external_id
-      );
+        (product_variation) => action.external_id !== product_variation.external_id
+      )
 
-      const newTotal =
-        state.total -
-        parseFloat(productToRemove.price) * productToRemove.quantity;
+      const newTotal = state.total - parseFloat(productToRemove.price) * productToRemove.quantity
 
       return {
         ...state,
         cart: removeProduct,
-        total: newTotal,
-      };
+        total: newTotal
+      }
 
-    case "DECREMENT":
+    case 'DECREMENT':
       const productVariationInCartToDecrement = state.cart.find(
-        (product_variation) =>
-          action.external_id === product_variation.external_id
-      );
+        (product_variation) => action.external_id === product_variation.external_id
+      )
 
       if (productVariationInCartToDecrement.quantity > 1) {
-        productVariationInCartToDecrement.quantity -= 1;
-        productVariationInCartToDecrement.supply += 1;
+        productVariationInCartToDecrement.quantity -= 1
+        productVariationInCartToDecrement.supply += 1
 
-        const newTotalDecrement =
-          state.total - parseFloat(productVariationInCartToDecrement.price);
+        const newTotalDecrement = state.total - parseFloat(productVariationInCartToDecrement.price)
 
         return {
           ...state,
-          total: newTotalDecrement,
-        };
+          total: newTotalDecrement
+        }
       } else {
-        return state;
+        return state
       }
 
-    case "INCREMENT":
+    case 'INCREMENT':
       const productVariationInCartToIncrement = state.cart.find(
-        (product_variation) =>
-          action.external_id === product_variation.external_id
-      );
+        (product_variation) => action.external_id === product_variation.external_id
+      )
 
       if (productVariationInCartToIncrement.supply <= 0) {
         return {
-          ...state,
-        };
+          ...state
+        }
       }
 
-      productVariationInCartToIncrement.quantity += 1;
-      productVariationInCartToIncrement.supply -= 1;
-      const newTotalIncrement =
-        state.total + parseFloat(productVariationInCartToIncrement.price);
+      productVariationInCartToIncrement.quantity += 1
+      productVariationInCartToIncrement.supply -= 1
+      const newTotalIncrement = state.total + parseFloat(productVariationInCartToIncrement.price)
 
       return {
         ...state,
-        total: newTotalIncrement,
-      };
+        total: newTotalIncrement
+      }
 
-    case "UPDATE_CART":
+    case 'UPDATE_CART':
       return {
         ...state,
         cart: action.payload.cart,
-        total: action.payload.total,
-      };
+        total: action.payload.total
+      }
 
-    case "CLEAR_PRODUCTS":
+    case 'CLEAR_PRODUCTS':
       return {
         ...state,
-        products: [],
-      };
+        products: []
+      }
 
-    case "CLEAR_PRODUCT":
+    case 'CLEAR_PRODUCT':
       return {
         ...state,
-        product: [],
-      };
+        product: []
+      }
 
-    case "CLEAR_FAVORITES":
+    case 'CLEAR_FAVORITES':
       return {
         ...state,
-        favoritesProducts: [],
-      };
+        favoritesProducts: []
+      }
 
-    case "CLEAR_CART":
+    case 'CLEAR_CART':
       return {
         ...state,
         cart: [],
-        total: 0,
-      };
-    case "SET_ACTIVE_PREFERENCE_ID":
+        total: 0
+      }
+    case 'SET_ACTIVE_PREFERENCE_ID':
       return {
         ...state,
-        activePreferenceId: action.payload,
-      };
-    case "SORT_PRODUCTS":
-      let productsSorted = action.payload.products;
-      let sort = action.payload.sort;
+        activePreferenceId: action.payload
+      }
+    case 'SORT_PRODUCTS':
+      let productsSorted = action.payload.products
+      let sort = action.payload.sort
 
       return {
         ...state,
-        products: action.payload.products,
-      };
+        products: action.payload.products
+      }
 
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default productsReducer;
+export default productsReducer

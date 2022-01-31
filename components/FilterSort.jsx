@@ -1,5 +1,5 @@
-import { Menu, Dropdown } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { Menu, Dropdown } from 'antd'
+import { DownOutlined } from '@ant-design/icons'
 
 export default function FilterSort({ handleChangeSort, sort }) {
   const menu = (
@@ -11,7 +11,7 @@ export default function FilterSort({ handleChangeSort, sort }) {
         <a>Maior para menor</a>
       </Menu.Item>
     </Menu>
-  );
+  )
 
   return (
     <Dropdown overlay={menu}>
@@ -19,5 +19,5 @@ export default function FilterSort({ handleChangeSort, sort }) {
         Ordernar por preço <DownOutlined />
       </a>
     </Dropdown>
-  );
+  )
 }

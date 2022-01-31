@@ -1,153 +1,147 @@
-export const removeIdDuplicate = (id) => id + String(Math.random());
+export const removeIdDuplicate = (id) => id + String(Math.random())
 
 export function removeFromArray(arr, toRemove) {
-  return arr.filter((item) => toRemove.indexOf(item) === -1);
+  return arr.filter((item) => toRemove.indexOf(item) === -1)
 }
 
 //https://stackoverflow.com/questions/822452/strip-html-from-text-javascript
-export const stripHtml = (text) => text.replace(/(<([^>]+)>)/gi, "");
+export const stripHtml = (text) => text.replace(/(<([^>]+)>)/gi, '')
 
 export const convert_mercadopago_payment_methods = (payment_method) => {
   switch (payment_method) {
-    case "account_money":
-      return "Dinheiro na conta do Mercado Pago.";
-    case "ticket":
-      return "Boleto";
-    case "bank_transfer":
-      return "PIX ou Transferência bancária";
-    case "atm":
-      return "Caixa Eletrônico";
-    case "credit_card":
-      return "Cartão de crédito";
-    case "debit_card":
-      return "Cartão de débito";
-    case "prepaid_card":
-      return "Cartão pré-pago";
+    case 'account_money':
+      return 'Dinheiro na conta do Mercado Pago.'
+    case 'ticket':
+      return 'Boleto'
+    case 'bank_transfer':
+      return 'PIX ou Transferência bancária'
+    case 'atm':
+      return 'Caixa Eletrônico'
+    case 'credit_card':
+      return 'Cartão de crédito'
+    case 'debit_card':
+      return 'Cartão de débito'
+    case 'prepaid_card':
+      return 'Cartão pré-pago'
   }
-};
+}
 
-export const convert_mercadopago_status = (status, type = "names") => {
-  var string = null;
+export const convert_mercadopago_status = (status, type = 'names') => {
+  var string = null
   switch (status) {
-    case "approved":
+    case 'approved':
       // verde
-      if (type == "colors") {
-        string = "#3FB57A";
+      if (type == 'colors') {
+        string = '#3FB57A'
       } else {
-        string = "Pago";
+        string = 'Pago'
       }
-      break;
-    case "pending":
+      break
+    case 'pending':
       // amarelo
-      if (type == "colors") {
-        string = "#E9DC40";
+      if (type == 'colors') {
+        string = '#E9DC40'
       } else {
-        string = "Aguardando";
+        string = 'Aguardando'
       }
-      break;
-    case "authorized":
+      break
+    case 'authorized':
       // verde
-      if (type == "colors") {
-        string = "#3FB57A";
+      if (type == 'colors') {
+        string = '#3FB57A'
       } else {
-        string = "Autorizado";
+        string = 'Autorizado'
       }
-    case "in_process":
+    case 'in_process':
       // amarelo
-      if (type == "colors") {
-        string = "#E9DC40";
+      if (type == 'colors') {
+        string = '#E9DC40'
       } else {
-        string = "Em revisão";
+        string = 'Em revisão'
       }
-      break;
-    case "in_mediation":
+      break
+    case 'in_mediation':
       // amarelo
-      if (type == "colors") {
-        string = "";
+      if (type == 'colors') {
+        string = ''
       } else {
-        string = "Em disputa";
+        string = 'Em disputa'
       }
-      break;
-    case "rejected":
+      break
+    case 'rejected':
       // vermelho
       // tentar novamente
-      if (type == "colors") {
-        string = "#ff4d4f";
+      if (type == 'colors') {
+        string = '#ff4d4f'
       } else {
-        string = "Rejeitado";
+        string = 'Rejeitado'
       }
-      break;
-    case "cancelled":
+      break
+    case 'cancelled':
       // vermelho
       // amarelo
-      if (type == "colors") {
-        string = "#ff4d4f";
+      if (type == 'colors') {
+        string = '#ff4d4f'
       } else {
-        string = "Cancelado";
+        string = 'Cancelado'
       }
-      break;
-    case "refunded":
+      break
+    case 'refunded':
       // vermelho
-      if (type == "colors") {
-        string = "#FF66E3";
+      if (type == 'colors') {
+        string = '#FF66E3'
       } else {
-        string = "Estornado";
+        string = 'Estornado'
       }
-      break;
-    case "charged_back":
+      break
+    case 'charged_back':
       // vermelho
-      if (type == "colors") {
-        string = "#FF66E3";
+      if (type == 'colors') {
+        string = '#FF66E3'
       } else {
-        string = "Chargeback";
+        string = 'Chargeback'
       }
-      break;
+      break
   }
-  return string;
-};
+  return string
+}
 
 export const formatToMoney = (money, currency = true) => {
   if (currency) {
-    return Intl.NumberFormat("pt-br", {
-      style: "currency",
-      currency: "BRL",
-    }).format(money);
+    return Intl.NumberFormat('pt-br', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(money)
   } else {
-    return Intl.NumberFormat("pt-br", { minimumFractionDigits: 2 }).format(
-      money
-    );
+    return Intl.NumberFormat('pt-br', { minimumFractionDigits: 2 }).format(money)
   }
-};
+}
 
 export function defaultBlur() {
-  return `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=`;
+  return `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=`
 }
 
 export function extractSizeFromVariation(variation) {
-  return variation.description.split(";").slice(1, 2)[0].split(":")[1];
+  return variation.description.split(';').slice(1, 2)[0].split(':')[1]
 }
 
 export function extractColorFromVariation(variation) {
-  return variation.description
-    .split(";")
-    .slice(0, 1)[0]
-    .split(":")
-    .slice(1, 2)[0];
+  return variation.description.split(';').slice(0, 1)[0].split(':').slice(1, 2)[0]
 }
 
 export function getFeaturedImage(imageJson) {
-  let imageObj;
+  let imageObj
   try {
-    imageObj = JSON.parse(imageJson);
+    imageObj = JSON.parse(imageJson)
   } catch (e) {
-    return "/noimage.png";
+    return '/noimage.png'
   }
 
-  const imagesLink = imageObj.map((el) => el.link);
+  const imagesLink = imageObj.map((el) => el.link)
 
-  return imagesLink.length > 0 ? imagesLink[0] : "/noimage.png";
+  return imagesLink.length > 0 ? imagesLink[0] : '/noimage.png'
 }
 
 export function upFirst(text) {
-  return text.charAt(0).toUpperCase() + text.toLowerCase().slice(1);
+  return text.charAt(0).toUpperCase() + text.toLowerCase().slice(1)
 }
