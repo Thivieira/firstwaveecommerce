@@ -7,6 +7,8 @@ import { CategoryContextProvider } from '../contexts/CategoryContext'
 import { ConfigProvider } from 'antd'
 import ptBR from 'antd/lib/locale/pt_BR'
 import Script from 'next/script'
+import { DefaultSeo } from 'next-seo'
+
 const SiteLayout = dynamic(() => import('../layouts/SiteLayout'))
 
 import '../styles/global.css'
@@ -78,6 +80,10 @@ export default function App({ Component, pageProps }) {
     <Provider store={store}>
       <ConfigProvider locale={ptBR}>
         <CategoryContextProvider>
+          <DefaultSeo
+            title="Lifestyle Floripa by Billabong"
+            description="Sua surf shop na Praia Mole."
+          />
           <Script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></Script>
           {getLayout(<Component {...pageProps} />)}
         </CategoryContextProvider>

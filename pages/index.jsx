@@ -16,7 +16,7 @@ import { BarcodeOutlined } from '@ant-design/icons'
 const Index = ({ prodMasc, prodOutlet }) => {
   return (
     <div className="landing-container">
-      <NextSeo title="Lifestyle Floripa by Billabong" description="Sua surf shop na Praia Mole." />
+      {/* <NextSeo title="Lifestyle Floripa by Billabong" description="Sua surf shop na Praia Mole." /> */}
       <CarouselImage />
 
       <div className="payment-information-container">
