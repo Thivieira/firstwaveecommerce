@@ -1,4 +1,4 @@
-var mercadopago = require('mercadopago')
+const mercadopago = require('mercadopago')
 
 export default function handler(req, res) {
   if (req.method === 'GET') {
@@ -38,6 +38,19 @@ export default function handler(req, res) {
       })
       .catch(function (error) {
         res.status(error.status).json({ pix: false, error })
+      })
+  }
+  if (req.method === 'POST') {
+    mercadopago.configurations.setAccessToken('YOUR_ACCESS_TOKEN')
+
+    mercadopago.payment
+      .save(req.body)
+      .then(function (response) {
+        const { status, status_detail, id } = response.body
+        res.status(response.status).json({ status, status_detail, id })
+      })
+      .catch(function (error) {
+        console.error(error)
       })
   }
 }

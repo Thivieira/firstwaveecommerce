@@ -1,17 +1,15 @@
 import Router from 'next/router'
 import dynamic from 'next/dynamic'
 import { Provider } from 'react-redux'
-import { useStore } from '../store'
 import NProgress from 'nprogress'
-import { CategoryContextProvider } from '../contexts/CategoryContext'
 import { ConfigProvider } from 'antd'
 import ptBR from 'antd/lib/locale/pt_BR'
 import Script from 'next/script'
 import { DefaultSeo } from 'next-seo'
+import { CategoryContextProvider } from '../contexts/CategoryContext'
+import { useStore } from '../store'
 
-const SiteLayout = dynamic(() => import('../layouts/SiteLayout'))
-
-import '../styles/global.css'
+import '../styles/globals.css'
 import '../styles/Landing.css'
 import '../styles/table.css'
 import '../styles/editAccount.css'
@@ -49,6 +47,8 @@ import '../components/Utils/PaymentBox/paymentBox.css'
 
 import api from '../services/api'
 
+const SiteLayout = dynamic(() => import('../layouts/SiteLayout'))
+
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
@@ -61,7 +61,7 @@ export default function App({ Component, pageProps }) {
   if (typeof window !== 'undefined') {
     const token = window.localStorage.getItem('token')
     if (token) {
-      api.defaults.headers.common['Authorization'] = 'Bearer ' + token
+      api.defaults.headers.common.Authorization = `Bearer ${token}`
     }
 
     api.interceptors.response.use(
@@ -84,7 +84,6 @@ export default function App({ Component, pageProps }) {
             title="Lifestyle Floripa by Billabong"
             description="Sua surf shop na Praia Mole."
           />
-          <Script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></Script>
           {getLayout(<Component {...pageProps} />)}
         </CategoryContextProvider>
       </ConfigProvider>
