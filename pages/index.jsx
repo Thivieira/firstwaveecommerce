@@ -20,6 +20,8 @@ import { Payment, LocalShipping } from "@material-ui/icons";
 import { BarcodeOutlined } from "@ant-design/icons";
 
 const Index = ({ prodMasc, prodOutlet }) => {
+
+  console.log(prodOutlet)
   return (
     <div className="landing-container">
       <NextSeo
