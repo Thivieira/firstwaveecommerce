@@ -1,48 +1,48 @@
-import { NextSeo } from "next-seo";
-import { TextField, Button, Typography } from "@material-ui/core";
+import { NextSeo } from 'next-seo'
+import { TextField, Button, Typography } from '@material-ui/core'
 
-import Container from "../components/Utils/Container";
-import Title from "../components/Utils/Title";
-import Box from "../components/Utils/Box";
-import InputContainer from "../components/Utils/InputContainer";
-import ButtonsContainer from "../components/Utils/ButtonsContainer";
-import api from "../services/api";
+import Container from '../components/Utils/Container'
+import Title from '../components/Utils/Title'
+import Box from '../components/Utils/Box'
+import InputContainer from '../components/Utils/InputContainer'
+import ButtonsContainer from '../components/Utils/ButtonsContainer'
+import api from '../services/api'
 
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import { useRouter } from "next/router";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { useEffect } from "react";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { useRouter } from 'next/router'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
+import { useEffect } from 'react'
 
 function ResetPassword() {
-  const MySwal = withReactContent(Swal);
-  const router = useRouter();
+  const MySwal = withReactContent(Swal)
+  const router = useRouter()
   const validationSchema = yup.object({
     email: yup
-      .string("Digite seu email")
-      .email("Entre com um email válido")
-      .required("Email é obrigatório"),
+      .string('Digite seu email')
+      .email('Entre com um email válido')
+      .required('Email é obrigatório'),
     password: yup
-      .string("Digite sua senha")
-      .min(8, "A senha deve ter no mínimo 8 caracteres")
-      .required("Senha requerida"),
+      .string('Digite sua senha')
+      .min(8, 'A senha deve ter no mínimo 8 caracteres')
+      .required('Senha requerida'),
     password_confirmation: yup
       .string()
-      .oneOf([yup.ref("password"), null], "As senhas devem corresponder"),
-  });
+      .oneOf([yup.ref('password'), null], 'As senhas devem corresponder')
+  })
 
   useEffect(() => {
     if (!router.query.token) {
-      router.push("/forgot-password");
+      router.push('/forgot-password')
     }
-  }, [router]);
+  }, [router])
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
-      password_confirmation: "",
+      email: '',
+      password: '',
+      password_confirmation: ''
     },
     validationSchema: validationSchema,
     onSubmit: async ({ email, password, password_confirmation }) => {
@@ -51,8 +51,8 @@ function ResetPassword() {
           token: router.query.token,
           email,
           password,
-          password_confirmation,
-        });
+          password_confirmation
+        })
 
         if (res.response.status != 200) {
           MySwal.fire({
@@ -63,18 +63,18 @@ function ResetPassword() {
                   <li key={error}>{error}</li>
                 ))}
               </ul>
-            ),
-          });
-          return;
+            )
+          })
+          return
         }
 
         MySwal.fire({
-          title: <p>{res.response.data.status}</p>,
+          title: <p>{res.response.data.status}</p>
         }).then((res) => {
           if (res.isConfirmed) {
-            router.push("/login");
+            router.push('/login')
           }
-        });
+        })
       } catch (e) {
         MySwal.fire({
           title: <p>Erro</p>,
@@ -84,17 +84,17 @@ function ResetPassword() {
                 <li key={error}>{error}</li>
               ))}
             </ul>
-          ),
-        });
+          )
+        })
       }
-    },
-  });
+    }
+  })
 
   return (
     <Container>
       <NextSeo
         title="Resetar senha - Lifestyle Floripa by Billabong"
-        description={"Resetar senha - Sua surf shop na Praia Mole."}
+        description={'Resetar senha - Sua surf shop na Praia Mole.'}
       />
       <Box>
         <InputContainer onSubmit={formik.handleSubmit}>
@@ -119,9 +119,7 @@ function ResetPassword() {
               <TextField
                 value={formik.values.password}
                 onChange={formik.handleChange}
-                error={
-                  formik.touched.password && Boolean(formik.errors.password)
-                }
+                error={formik.touched.password && Boolean(formik.errors.password)}
                 helperText={formik.touched.password && formik.errors.password}
                 id="password"
                 name="password"
@@ -138,12 +136,10 @@ function ResetPassword() {
               value={formik.values.password_confirmation}
               onChange={formik.handleChange}
               error={
-                formik.touched.password_confirmation &&
-                Boolean(formik.errors.password_confirmation)
+                formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation)
               }
               helperText={
-                formik.touched.password_confirmation &&
-                formik.errors.password_confirmation
+                formik.touched.password_confirmation && formik.errors.password_confirmation
               }
               id="password_confirmation"
               name="password_confirmation"
@@ -164,7 +160,7 @@ function ResetPassword() {
         </InputContainer>
       </Box>
     </Container>
-  );
+  )
 }
 
-export default ResetPassword;
+export default ResetPassword

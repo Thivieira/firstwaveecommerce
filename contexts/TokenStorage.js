@@ -1,5 +1,5 @@
-import { createLocalStorageStateHook } from "use-local-storage-state";
+import { createLocalStorageStateHook } from 'use-local-storage-state'
 
-const useToken = createLocalStorageStateHook("token", null);
+const useToken = createLocalStorageStateHook('token', null)
 
-export default useToken;
+export default useToken

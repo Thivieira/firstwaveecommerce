@@ -1,66 +1,66 @@
-import { NextSeo } from "next-seo";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import api from "../../services/api";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import { NextSeo } from 'next-seo'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import api from '../../services/api'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
-import { TextField, InputAdornment, Button } from "@material-ui/core";
-import { Person, LockOpen, GroupAdd } from "@material-ui/icons";
+import { TextField, InputAdornment, Button } from '@material-ui/core'
+import { Person, LockOpen, GroupAdd } from '@material-ui/icons'
 
-import Separation from "../../components/Utils/Separation";
-import Box from "../../components/Utils/Box";
-import InputContainer from "../../components/Utils/InputContainer";
-import ButtonsContainer from "../../components/Utils/ButtonsContainer";
-import { useDispatch } from "react-redux";
-import { saveAccount } from "../../store/actions/user";
-import useToken from "../../contexts/TokenStorage";
-import Link from "next/link";
+import Separation from '../../components/Utils/Separation'
+import Box from '../../components/Utils/Box'
+import InputContainer from '../../components/Utils/InputContainer'
+import ButtonsContainer from '../../components/Utils/ButtonsContainer'
+import { useDispatch } from 'react-redux'
+import { saveAccount } from '../../store/actions/user'
+import useToken from '../../contexts/TokenStorage'
+import Link from 'next/link'
 
 function Login() {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const router = useRouter()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
 
-  const [token, setToken] = useToken();
+  const [token, setToken] = useToken()
 
   useEffect(() => {
     if (token) {
-      router.push("/dashboard");
+      router.push('/dashboard')
     }
-  }, [token, router]);
+  }, [token, router])
 
-  const MySwal = withReactContent(Swal);
+  const MySwal = withReactContent(Swal)
 
   async function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault()
+    setLoading(true)
     try {
-      const res = await api.post("/auth/login", {
+      const res = await api.post('/auth/login', {
         email: email,
-        password: password,
-      });
-      const token = res.data.access_token;
-      setToken(token);
-      api.defaults.headers.common["Authorization"] = "Bearer " + token;
+        password: password
+      })
+      const token = res.data.access_token
+      setToken(token)
+      api.defaults.headers.common['Authorization'] = 'Bearer ' + token
       try {
-        const { data } = await api.get("/auth/me");
+        const { data } = await api.get('/auth/me')
         dispatch(
           saveAccount({
             name: data.name,
             email: data.email,
             phone: data.mobile,
-            cpf: data.cpf,
+            cpf: data.cpf
           })
-        );
-        setLoading(false);
-        router.replace("/");
+        )
+        setLoading(false)
+        router.replace('/')
       } catch (e) {}
     } catch (e) {
-      setLoading(false);
-      MySwal.fire("Usuário ou senha incorretos!");
+      setLoading(false)
+      MySwal.fire('Usuário ou senha incorretos!')
     }
   }
 
@@ -68,7 +68,7 @@ function Login() {
     <div className="wrapper-login">
       <NextSeo
         title="Entre na sua conta pessoal - Lifestyle Floripa by Billabong"
-        description={"Identificação do Usuário - Sua surf shop na Praia Mole."}
+        description={'Identificação do Usuário - Sua surf shop na Praia Mole.'}
       />
       <h2>ACESSE SUA CONTA</h2>
       <Box>
@@ -81,7 +81,7 @@ function Login() {
                 <InputAdornment position="end">
                   <Person />
                 </InputAdornment>
-              ),
+              )
             }}
             id="email"
             label="E-mail"
@@ -99,7 +99,7 @@ function Login() {
                 <InputAdornment position="end">
                   <LockOpen />
                 </InputAdornment>
-              ),
+              )
             }}
             id="password"
             label="Senha"
@@ -123,8 +123,7 @@ function Login() {
           </ButtonsContainer>
           <div className="forget-password">
             <p>
-              Esqueceu sua senha?{" "}
-              <Link href="/forgot-password">Clique aqui</Link>
+              Esqueceu sua senha? <Link href="/forgot-password">Clique aqui</Link>
             </p>
           </div>
         </InputContainer>
@@ -135,15 +134,15 @@ function Login() {
             href="/registrar"
             variant="contained"
             color="primary"
-            style={{ width: "260px" }}
+            style={{ width: '260px' }}
           >
-            <GroupAdd style={{ marginRight: "5px" }} />
+            <GroupAdd style={{ marginRight: '5px' }} />
             Cadastre-se
           </Button>
         </div>
       </Box>
     </div>
-  );
+  )
 }
 
-export default Login;
+export default Login

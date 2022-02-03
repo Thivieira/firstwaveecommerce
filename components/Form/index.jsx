@@ -1,37 +1,33 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { Stepper, Step, StepLabel, Container } from "@material-ui/core";
-import UserData from "./UserData";
-import AddressData from "./AddressData";
-import {
-  passwordValidator,
-  cpfValidator,
-  phoneValidator,
-} from "../../models/Form";
-import FormValidations from "../../contexts/FormValidations";
-import api from "../../services/api";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import React, { useState } from 'react'
+import { useRouter } from 'next/router'
+import { Stepper, Step, StepLabel, Container } from '@material-ui/core'
+import UserData from './UserData'
+import AddressData from './AddressData'
+import { passwordValidator, cpfValidator, phoneValidator } from '../../models/Form'
+import FormValidations from '../../contexts/FormValidations'
+import api from '../../services/api'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 function Form() {
-  const history = useRouter();
-  const [currentStep, setCurrentStep] = useState(0);
+  const history = useRouter()
+  const [currentStep, setCurrentStep] = useState(0)
   const [collectedData, setCollectedData] = useState({
-    email: "",
-    password: "",
-    name: "",
-    cpf: "",
-    phone: "",
-    cep: "",
-    street: "",
-    number: "",
-    complement: "",
-    neighborhood: "",
-    city: "",
-    state: "",
-  });
+    email: '',
+    password: '',
+    name: '',
+    cpf: '',
+    phone: '',
+    cep: '',
+    street: '',
+    number: '',
+    complement: '',
+    neighborhood: '',
+    city: '',
+    state: ''
+  })
 
-  const MySwal = withReactContent(Swal);
+  const MySwal = withReactContent(Swal)
 
   async function signUpUser({ name, password, email, cpf, phone }) {
     setCollectedData((prevState) => ({
@@ -40,30 +36,30 @@ function Form() {
       password: password,
       name: name,
       cpf: cpf,
-      phone: phone,
-    }));
-    next();
+      phone: phone
+    }))
+    next()
   }
 
   function handleLogin() {
-    const { email, password } = collectedData;
+    const { email, password } = collectedData
     return new Promise((resolve, reject) => {
       api
-        .post("/auth/login", {
+        .post('/auth/login', {
           email: email,
-          password: password,
+          password: password
         })
         .then((res) => {
-          const token = res.data.access_token;
-          localStorage.setItem("token", token);
+          const token = res.data.access_token
+          localStorage.setItem('token', token)
 
-          api.defaults.headers.common["Authorization"] = "Bearer " + token;
-          resolve();
+          api.defaults.headers.common['Authorization'] = 'Bearer ' + token
+          resolve()
         })
         .catch(() => {
-          reject();
-        });
-    });
+          reject()
+        })
+    })
   }
 
   function signUpAddress(submitData) {
@@ -76,88 +72,83 @@ function Form() {
         complement: submitData.complement,
         neighborhood: submitData.neighborhood,
         city: submitData.city,
-        state: submitData.state,
-      };
-    });
+        state: submitData.state
+      }
+    })
 
     api
-      .post("/register", {
-        cpf: collectedData.cpf.replace(/[^\d]/g, ""),
+      .post('/register', {
+        cpf: collectedData.cpf.replace(/[^\d]/g, ''),
         email: collectedData.email,
         name: collectedData.name,
         password: collectedData.password,
-        mobile: collectedData.phone.replace(/[^\d]/g, ""),
+        mobile: collectedData.phone.replace(/[^\d]/g, '')
       })
       .then(() => {
         handleLogin()
           .then(() => {
             api
-              .put("/address", {
+              .put('/address', {
                 province: submitData.neighborhood,
-                postalCode: submitData.cep.replace(/[^\d]/g, ""),
+                postalCode: submitData.cep.replace(/[^\d]/g, ''),
                 city: submitData.city,
                 complement: submitData.complement,
                 uf: submitData.state,
                 addressNumber: submitData.number,
-                address: submitData.street,
+                address: submitData.street
               })
               .then(() => {
                 MySwal.fire({
                   title: <p>Conta cadastrada com sucesso!</p>,
-                  confirmButtonText: "OK",
+                  confirmButtonText: 'OK'
                 }).then((res) => {
                   if (res.isConfirmed) {
-                    history.push("/");
+                    history.push('/')
                   }
-                });
+                })
               })
               .catch(() => {
                 MySwal.fire({
                   title: <p>Falha ao cadastrar endereço!</p>,
-                  confirmButtonText: "OK",
+                  confirmButtonText: 'OK'
                 }).then((res) => {
                   if (res.isConfirmed) {
                   }
-                });
-              });
+                })
+              })
           })
           .catch(() =>
             MySwal.fire({
               title: <p>Usuário ou senha incorretos!</p>,
-              confirmButtonText: "OK",
+              confirmButtonText: 'OK'
             })
-          );
+          )
       })
       .catch(() =>
         MySwal.fire({
           title: <p>Falha ao cadastrar usuário.</p>,
-          confirmButtonText: "OK",
+          confirmButtonText: 'OK'
         })
-      );
+      )
   }
 
   const forms = [
-    <UserData
-      data={collectedData}
-      onSubmit={signUpUser}
-      signup={true}
-      key="user-data"
-    />,
+    <UserData data={collectedData} onSubmit={signUpUser} signup={true} key="user-data" />,
     <AddressData
       data={collectedData}
       onSubmit={signUpAddress}
       goBack={goBack}
       signup={true}
       key="register-data"
-    />,
-  ];
+    />
+  ]
 
   function next() {
-    setCurrentStep(currentStep + 1);
+    setCurrentStep(currentStep + 1)
   }
 
   function goBack() {
-    setCurrentStep(currentStep - 1);
+    setCurrentStep(currentStep - 1)
   }
 
   return (
@@ -174,13 +165,13 @@ function Form() {
         value={{
           password: passwordValidator,
           cpf: cpfValidator,
-          phone: phoneValidator,
+          phone: phoneValidator
         }}
       >
         {forms[currentStep]}
       </FormValidations.Provider>
     </Container>
-  );
+  )
 }
 
-export default Form;
+export default Form

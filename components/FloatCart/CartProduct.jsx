@@ -1,42 +1,28 @@
-import React, { useState } from "react";
-import Link from "next/link";
-import { useDispatch } from "react-redux";
-import Thumb from "../Thumb";
-import {
-  removeFromCart,
-  incrementFromCart,
-  decrementFromCart,
-} from "../../store/actions/products";
-import {
-  PlusOutlined,
-  MinusOutlined,
-  CloseCircleOutlined,
-} from "@ant-design/icons";
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { useDispatch } from 'react-redux'
+import Thumb from '../Thumb'
+import { removeFromCart, incrementFromCart, decrementFromCart } from '../../store/actions/products'
+import { PlusOutlined, MinusOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import {
   extractColorFromVariation,
   extractSizeFromVariation,
-  getFeaturedImage,
-} from "../../helpers";
+  getFeaturedImage
+} from '../../helpers'
 
 function CartProduct({ product_variation }) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const classes = ["shelf-item"];
+  const classes = ['shelf-item']
 
-  const price = `R$${parseFloat(product_variation.product.price)
-    .toFixed(2)
-    .replace(".", ",")}`;
-  const priceSale = `R$${parseFloat(product_variation.price)
-    .toFixed(2)
-    .replace(".", ",")}`;
+  const price = `R$${parseFloat(product_variation.product.price).toFixed(2).replace('.', ',')}`
+  const priceSale = `R$${parseFloat(product_variation.price).toFixed(2).replace('.', ',')}`
 
   return (
     <>
-      <div className={classes.join(" ")}>
+      <div className={classes.join(' ')}>
         <CloseCircleOutlined
-          onClick={() =>
-            dispatch(removeFromCart(product_variation.external_id))
-          }
+          onClick={() => dispatch(removeFromCart(product_variation.external_id))}
           className="removeCart"
         />
 
@@ -47,18 +33,12 @@ function CartProduct({ product_variation }) {
 
         <div className="shelf-item__details">
           <Link href={`/produto/${product_variation.father_code}`} passHref>
-            <p className="title-cart">
-              {product_variation.product.description}
-            </p>
+            <p className="title-cart">{product_variation.product.description}</p>
           </Link>
 
           <div className="desc">
-            {product_variation.size ? (
-              <p> Tamanho: {product_variation.size} </p>
-            ) : null}
-            {product_variation.color ? (
-              <p> Cor: {product_variation.color} </p>
-            ) : null}
+            {product_variation.size ? <p> Tamanho: {product_variation.size} </p> : null}
+            {product_variation.color ? <p> Cor: {product_variation.color} </p> : null}
             <p> Quantidade: {product_variation.quantity} </p>
           </div>
         </div>
@@ -68,9 +48,7 @@ function CartProduct({ product_variation }) {
           <div>
             <button
               className="change-product-button"
-              onClick={() =>
-                dispatch(decrementFromCart(product_variation.external_id))
-              }
+              onClick={() => dispatch(decrementFromCart(product_variation.external_id))}
               disabled={product_variation.quantity === 1 ? true : false}
             >
               <MinusOutlined />
@@ -80,12 +58,10 @@ function CartProduct({ product_variation }) {
               disabled={product_variation.supply < 1 ? true : false}
               title={
                 product_variation.supply < 1
-                  ? "Este produto não tem esta quantidade disponível."
+                  ? 'Este produto não tem esta quantidade disponível.'
                   : null
               }
-              onClick={() =>
-                dispatch(incrementFromCart(product_variation.external_id))
-              }
+              onClick={() => dispatch(incrementFromCart(product_variation.external_id))}
             >
               <PlusOutlined />
             </button>
@@ -93,7 +69,7 @@ function CartProduct({ product_variation }) {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default CartProduct;
+export default CartProduct

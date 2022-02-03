@@ -1,38 +1,38 @@
-import React, { useState, useContext } from "react";
-import { Button, TextField } from "@material-ui/core";
-import cepApi from "../../services/cepApi";
-import InputMask from "react-input-mask";
+import React, { useState, useContext } from 'react'
+import { Button, TextField } from '@material-ui/core'
+import cepApi from '../../services/cepApi'
+import InputMask from 'react-input-mask'
 
 function AddressData({ data, onSubmit, goBack, signup }) {
-  const [cep, setCep] = useState(data.cep);
-  const [cepError, setCepError] = useState({ error: false, text: "" });
-  const [street, setStreet] = useState(data.rua);
-  const [number, setNumber] = useState(data.numero);
-  const [complement, setComplement] = useState(data.complemento);
-  const [neighborhood, setNeighborhood] = useState(data.bairro);
-  const [city, setCity] = useState(data.cidade);
-  const [state, setState] = useState(data.estado);
+  const [cep, setCep] = useState(data.cep)
+  const [cepError, setCepError] = useState({ error: false, text: '' })
+  const [street, setStreet] = useState(data.rua)
+  const [number, setNumber] = useState(data.numero)
+  const [complement, setComplement] = useState(data.complemento)
+  const [neighborhood, setNeighborhood] = useState(data.bairro)
+  const [city, setCity] = useState(data.cidade)
+  const [state, setState] = useState(data.estado)
 
   async function cepValidator() {
     await cepApi
       .get(`/${cep}/json`)
       .then((res) => {
-        setStreet(res.data.logradouro);
-        setNeighborhood(res.data.bairro);
-        setCity(res.data.localidade);
-        setState(res.data.uf);
-        setCepError({ error: false, text: "" });
+        setStreet(res.data.logradouro)
+        setNeighborhood(res.data.bairro)
+        setCity(res.data.localidade)
+        setState(res.data.uf)
+        setCepError({ error: false, text: '' })
       })
-      .catch(() => setCepError({ error: true, text: "CEP inválido" }));
+      .catch(() => setCepError({ error: true, text: 'CEP inválido' }))
   }
 
   return (
     <>
-      {signup ? <h2 className="form-title">Endereço</h2> : ""}
+      {signup ? <h2 className="form-title">Endereço</h2> : ''}
       <form
         className="form"
         onSubmit={(e) => {
-          e.preventDefault();
+          e.preventDefault()
           onSubmit({
             cep,
             street,
@@ -40,8 +40,8 @@ function AddressData({ data, onSubmit, goBack, signup }) {
             complement,
             neighborhood,
             city,
-            state,
-          });
+            state
+          })
         }}
       >
         <InputMask
@@ -49,7 +49,7 @@ function AddressData({ data, onSubmit, goBack, signup }) {
           maskChar=" "
           value={cep}
           onChange={(e) => {
-            setCep(e.target.value);
+            setCep(e.target.value)
           }}
           onBlur={cepValidator}
         >
@@ -73,7 +73,7 @@ function AddressData({ data, onSubmit, goBack, signup }) {
         <TextField
           value={street}
           onChange={(e) => {
-            setStreet(e.target.value);
+            setStreet(e.target.value)
           }}
           id="street"
           label="Rua"
@@ -88,7 +88,7 @@ function AddressData({ data, onSubmit, goBack, signup }) {
             <TextField
               value={number}
               onChange={(e) => {
-                setNumber(e.target.value);
+                setNumber(e.target.value)
               }}
               id="number"
               label="Numero"
@@ -102,7 +102,7 @@ function AddressData({ data, onSubmit, goBack, signup }) {
           <TextField
             value={complement}
             onChange={(e) => {
-              setComplement(e.target.value);
+              setComplement(e.target.value)
             }}
             id="complement"
             label="Complemento"
@@ -115,7 +115,7 @@ function AddressData({ data, onSubmit, goBack, signup }) {
         <TextField
           value={neighborhood}
           onChange={(e) => {
-            setNeighborhood(e.target.value);
+            setNeighborhood(e.target.value)
           }}
           id="neighborhood"
           label="Bairro"
@@ -130,7 +130,7 @@ function AddressData({ data, onSubmit, goBack, signup }) {
             <TextField
               value={city}
               onChange={(e) => {
-                setCity(e.target.value);
+                setCity(e.target.value)
               }}
               id="city"
               label="Cidade"
@@ -144,7 +144,7 @@ function AddressData({ data, onSubmit, goBack, signup }) {
           <TextField
             value={state}
             onChange={(e) => {
-              setState(e.target.value);
+              setState(e.target.value)
             }}
             id="state"
             label="Estado"
@@ -155,11 +155,7 @@ function AddressData({ data, onSubmit, goBack, signup }) {
             className="inline-input"
           />
         </div>
-        <div
-          className={
-            signup ? "navigation-container" : "navigation-container edit-button"
-          }
-        >
+        <div className={signup ? 'navigation-container' : 'navigation-container edit-button'}>
           {signup ? (
             <>
               <Button onClick={goBack} color="primary">
@@ -177,7 +173,7 @@ function AddressData({ data, onSubmit, goBack, signup }) {
         </div>
       </form>
     </>
-  );
+  )
 }
 
-export default AddressData;
+export default AddressData

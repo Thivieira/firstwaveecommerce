@@ -152,13 +152,13 @@ a {
 }
 
 /* @media (max-width: 380px) { */
-  .filter-sort {
-    padding-top: 3rem;
-    margin: 0;
-    font-size: 0.9rem;
-  }
+.filter-sort {
+  padding-top: 3rem;
+  margin: 0;
+  font-size: 0.9rem;
+}
 
-  /* .filter-sort p {
+/* .filter-sort p {
     margin-left: 0;
   } */
 /* } */

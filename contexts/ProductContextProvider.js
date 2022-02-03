@@ -1,26 +1,26 @@
-import { createContext, useState } from "react";
+import { createContext, useState } from 'react'
 
-export const ProductContext = createContext();
+export const ProductContext = createContext()
 
 const ProductContextProvider = (props) => {
-  const [product, setProduct] = useState(props.product);
-  const [imageThumbs, setImageThumbs] = useState([]);
-  const [featuredImage, setFeaturedImage] = useState("");
-  const [selectedSize, setSelectedSize] = useState("");
-  const [selectedColor, setSelectedColor] = useState("");
-  const [availableColorVariations, setAvailableColorVariations] = useState([]);
-  const [triggerColor, setColorTrigger] = useState(false);
-  const [activeVariation, setActiveVariation] = useState("");
+  const [product, setProduct] = useState(props.product)
+  const [imageThumbs, setImageThumbs] = useState([])
+  const [featuredImage, setFeaturedImage] = useState('')
+  const [selectedSize, setSelectedSize] = useState('')
+  const [selectedColor, setSelectedColor] = useState('')
+  const [availableColorVariations, setAvailableColorVariations] = useState([])
+  const [triggerColor, setColorTrigger] = useState(false)
+  const [activeVariation, setActiveVariation] = useState('')
 
-  const [hasSizeVariation, setHasSizeVariation] = useState(false);
+  const [hasSizeVariation, setHasSizeVariation] = useState(false)
 
   function setImages(imageJson) {
-    let imageObj = JSON.parse(imageJson);
-    const imagesLink = imageObj.map((el) => el.link);
+    let imageObj = JSON.parse(imageJson)
+    const imagesLink = imageObj.map((el) => el.link)
 
-    setImageThumbs(imagesLink);
+    setImageThumbs(imagesLink)
 
-    setFeaturedImage(imagesLink[0]);
+    setFeaturedImage(imagesLink[0])
   }
 
   return (
@@ -44,12 +44,12 @@ const ProductContextProvider = (props) => {
         activeVariation,
         setActiveVariation,
         hasSizeVariation,
-        setHasSizeVariation,
+        setHasSizeVariation
       }}
     >
       {props.children}
     </ProductContext.Provider>
-  );
-};
+  )
+}
 
-export default ProductContextProvider;
+export default ProductContextProvider

@@ -130,7 +130,6 @@ figure:hover img {
   font-weight: 600;
 }
 
-
 .details-content .btn-buy {
   max-width: 450px;
   margin-bottom: 15px;
@@ -331,7 +330,6 @@ figure:hover img {
     width: auto;
     height: 4.5rem;
   }
-  
 }
 
 @media (max-width: 325px) {
@@ -351,8 +349,6 @@ figure:hover img {
 
   .thumb img {
     height: 3.6rem;
-    margin-left: 0.6rem
+    margin-left: 0.6rem;
   }
-
-  
 }

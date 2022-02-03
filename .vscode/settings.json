@@ -1,9 +1,11 @@
 {
-  "cSpell.words": [
-    "codigo",
-    "noimage",
-    "oculos",
-    "relogio",
-    "supplys"
-  ]
+  "cSpell.words": ["codigo", "noimage", "oculos", "relogio", "supplys"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

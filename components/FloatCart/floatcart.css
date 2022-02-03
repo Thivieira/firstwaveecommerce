@@ -93,7 +93,7 @@
 }
 
 .float-cart__shelf-container .shelf-item::before {
-  content: "";
+  content: '';
   width: 90%;
   height: 2px;
   background-color: rgba(0, 0, 0, 0.2);
@@ -106,10 +106,7 @@
   background: #0c0b10;
 }
 
-.float-cart__shelf-container
-  .shelf-item--mouseover
-  .shelf-item__details
-  .title-cart,
+.float-cart__shelf-container .shelf-item--mouseover .shelf-item__details .title-cart,
 .float-cart__shelf-container .shelf-item--mouseover .shelf-item__details .desc {
   opacity: 0.6;
 }
@@ -217,7 +214,7 @@
 }
 
 .float-cart__footer::before {
-  content: "";
+  content: '';
   width: 100%;
   height: 20px;
   display: block;

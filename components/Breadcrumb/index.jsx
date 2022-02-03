@@ -1,51 +1,42 @@
-import React from "react";
-import { Breadcrumb as BreadCrumb } from "antd";
-import Link from "next/link";
+import React from 'react'
+import { Breadcrumb as BreadCrumb } from 'antd'
+import Link from 'next/link'
 
 const Breadcrumb = ({ category, subcategory, type }) => {
   function itemRender(route, params, routes, paths) {
-    const last = routes.indexOf(route) === routes.length - 1;
+    const last = routes.indexOf(route) === routes.length - 1
     return last ? (
       <span className="path-prod">{route.breadcrumbName}</span>
     ) : (
       <Link className="path-prod" href={route.path}>
         {route.breadcrumbName}
       </Link>
-    );
+    )
   }
 
   const routes = type
     ? [
         {
           path: `/produtos/${category}`,
-          breadcrumbName: category,
+          breadcrumbName: category
         },
         {
           path: `/produtos/${category}/${subcategory}`,
-          breadcrumbName:
-            subcategory === "Acessorio" ? subcategory + "s" : subcategory,
+          breadcrumbName: subcategory === 'Acessorio' ? subcategory + 's' : subcategory
         },
         {
           path: `/produtos/${category}/${subcategory}/${type}`,
-          breadcrumbName: type,
-        },
+          breadcrumbName: type
+        }
       ]
     : [
         {
-          path: subcategory
-            ? `/produtos/${category}/${subcategory}`
-            : `/produtos/${category}`,
-          breadcrumbName: subcategory ? subcategory : category,
-        },
-      ];
+          path: subcategory ? `/produtos/${category}/${subcategory}` : `/produtos/${category}`,
+          breadcrumbName: subcategory ? subcategory : category
+        }
+      ]
 
-  return (
-    <BreadCrumb
-      itemRender={itemRender}
-      routes={routes}
-      className="path-prod-wrapper"
-    />
-  );
+  return <BreadCrumb itemRender={itemRender} routes={routes} className="path-prod-wrapper" />
 
   //     <div>
   //         {tipo !== undefined ? (
@@ -95,6 +86,6 @@ const Breadcrumb = ({ category, subcategory, type }) => {
   //         )}
   //     </div>
   // );
-};
+}
 
-export default Breadcrumb;
+export default Breadcrumb

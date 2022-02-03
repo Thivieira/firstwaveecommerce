@@ -1,89 +1,82 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { TextField } from "@material-ui/core";
+import React, { useState, useEffect, useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { TextField } from '@material-ui/core'
 
-import { getCartState, getCartTotal } from "../store/selectors/products";
-import { saveAccount, saveAddress } from "../store/actions/user";
+import { getCartState, getCartTotal } from '../store/selectors/products'
+import { saveAccount, saveAddress } from '../store/actions/user'
 
-import NumeratedTitle from "../components/Utils/NumeratedTitle";
-import PaymentBox from "../components/Utils/PaymentBox";
-import NavLink from "../components/NavLink";
-import api from "../services/api";
-import PaymentBtn from "../components/PaymentBtn";
-import { useRouter } from "next/router";
-import { getAccount } from "../store/selectors/user";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import useToken from "../contexts/TokenStorage";
-// import Image from "next/image";
-// import noImage from "../public/noimage.png";
-import useCart from "../contexts/CartStorage";
-import {
-  extractColorFromVariation,
-  extractSizeFromVariation,
-  getFeaturedImage,
-} from "../helpers";
-import PaymentPlaceholder from "../components/Payments/PaymentPlaceholder";
+import NumeratedTitle from '../components/Utils/NumeratedTitle'
+import PaymentBox from '../components/Utils/PaymentBox'
+import NavLink from '../components/NavLink'
+import api from '../services/api'
+import PaymentBtn from '../components/PaymentBtn'
+import { useRouter } from 'next/router'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import useToken from '../contexts/TokenStorage'
+import useCart from '../contexts/CartStorage'
+import { extractColorFromVariation, extractSizeFromVariation, getFeaturedImage } from '../helpers'
+import PaymentPlaceholder from '../components/Payments/PaymentPlaceholder'
 
 function Payment() {
-  const router = useRouter();
-  const cart = useSelector(getCartState);
-  const cartTotal = useSelector(getCartTotal);
-  const [cartStorage, setCartStorage] = useCart("cart");
+  const router = useRouter()
+  const cart = useSelector(getCartState)
+  const cartTotal = useSelector(getCartTotal)
+  const [cartStorage, setCartStorage] = useCart('cart')
 
   const [personalData, setPersonalData] = useState({
-    name: "",
-    email: "",
-    mobile: "",
-    cpf: "",
-  });
+    name: '',
+    email: '',
+    mobile: '',
+    cpf: ''
+  })
 
-  const [edit, setEdit] = useState(false);
-  const [street, setStreet] = useState("");
-  const [number, setNumber] = useState("");
-  const [complement, setComplement] = useState("");
-  const [cep, setCep] = useState("");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
-  const [neighborhood, setNeighborhood] = useState("");
-  const dispatch = useDispatch();
-  const MySwal = withReactContent(Swal);
+  const [edit, setEdit] = useState(false)
+  const [street, setStreet] = useState('')
+  const [number, setNumber] = useState('')
+  const [complement, setComplement] = useState('')
+  const [cep, setCep] = useState('')
+  const [state, setState] = useState('')
+  const [city, setCity] = useState('')
+  const [neighborhood, setNeighborhood] = useState('')
+  const dispatch = useDispatch()
+  const MySwal = withReactContent(Swal)
 
-  const [token, setToken] = useToken();
+  const [token, setToken] = useToken()
 
   const getUserData = useCallback(() => {
     api
-      .get("/auth/me")
+      .get('/auth/me')
       .then((res) => {
         dispatch(
           saveAccount({
             cpf: res.data.cpf,
             email: res.data.email,
             name: res.data.name,
-            phone: res.data.mobile,
+            phone: res.data.mobile
           })
-        );
+        )
         setPersonalData({
           cpf: res.data.cpf,
           email: res.data.email,
           name: res.data.name,
-          mobile: res.data.mobile,
-        });
+          mobile: res.data.mobile
+        })
       })
-      .catch((e) => {});
-  }, [dispatch]);
+      .catch((e) => {})
+  }, [dispatch])
 
   const getAddressData = useCallback(() => {
     api
-      .get("/auth/address")
+      .get('/auth/address')
       .then((res) => {
-        setStreet(res.data.address);
-        setNumber(res.data.addressNumber);
-        setComplement(res.data.complement);
-        setCep(res.data.postalCode);
-        setState(res.data.uf);
-        setCity(res.data.city);
-        setNeighborhood(res.data.province);
+        setStreet(res.data.address)
+        setNumber(res.data.addressNumber)
+        setComplement(res.data.complement)
+        setCep(res.data.postalCode)
+        setState(res.data.uf)
+        setCity(res.data.city)
+        setNeighborhood(res.data.province)
         dispatch(
           saveAddress({
             street: res.data.address,
@@ -92,62 +85,62 @@ function Payment() {
             zipcode: res.data.postalCode,
             state: res.data.uf,
             city: res.data.city,
-            neighborhood: res.data.province,
+            neighborhood: res.data.province
           })
-        );
+        )
       })
-      .catch(() => {});
-  }, [dispatch]);
+      .catch(() => {})
+  }, [dispatch])
 
   useEffect(() => {
     if (token) {
-      api.defaults.headers.common["Authorization"] = "Bearer " + token;
-      setToken(token);
+      api.defaults.headers.common['Authorization'] = 'Bearer ' + token
+      setToken(token)
     }
-  }, [token, setToken]);
+  }, [token, setToken])
 
   useEffect(() => {
-    getUserData();
-    getAddressData();
-  }, [edit, getUserData, getAddressData]);
+    getUserData()
+    getAddressData()
+  }, [edit, getUserData, getAddressData])
 
   async function handleEditAddress() {
     if (edit) {
       await api
-        .post("/auth/address", {
+        .post('/auth/address', {
           province: neighborhood,
           postalCode: cep,
           city,
           complement,
           uf: state,
           addressNumber: number,
-          address: street,
+          address: street
         })
         .then(() => {
           MySwal.fire({
             title: <p>Endereço editado com sucesso!</p>,
-            confirmButtonText: "OK",
-          });
+            confirmButtonText: 'OK'
+          })
         })
         .catch(() => {
           MySwal.fire({
             title: <p>Falha ao editar endereço!</p>,
-            confirmButtonText: "OK",
-          });
-        });
+            confirmButtonText: 'OK'
+          })
+        })
     } else {
-      setEdit(true);
+      setEdit(true)
     }
   }
 
   useEffect(() => {
     if (cartStorage.cart.length == 0 || !token) {
-      router.push("/");
+      router.push('/')
     }
-  }, [cartStorage, token, router]);
+  }, [cartStorage, token, router])
 
   if (cart.length == 0 || !token) {
-    return <PaymentPlaceholder />;
+    return <PaymentPlaceholder />
   }
 
   return (
@@ -165,7 +158,7 @@ function Payment() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: !edit,
+                readOnly: !edit
               }}
               fullWidth
             />
@@ -178,7 +171,7 @@ function Payment() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: !edit,
+                readOnly: !edit
               }}
               fullWidth
             />
@@ -191,7 +184,7 @@ function Payment() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: !edit,
+                readOnly: !edit
               }}
               fullWidth
             />
@@ -204,7 +197,7 @@ function Payment() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: !edit,
+                readOnly: !edit
               }}
               fullWidth
             />
@@ -223,7 +216,7 @@ function Payment() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: !edit,
+                readOnly: !edit
               }}
               fullWidth
             />
@@ -239,7 +232,7 @@ function Payment() {
                   className="white-background"
                   size="small"
                   InputProps={{
-                    readOnly: !edit,
+                    readOnly: !edit
                   }}
                 />
               </div>
@@ -253,7 +246,7 @@ function Payment() {
                 className="white-background"
                 size="small"
                 InputProps={{
-                  readOnly: !edit,
+                  readOnly: !edit
                 }}
                 fullWidth
               />
@@ -268,7 +261,7 @@ function Payment() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: !edit,
+                readOnly: !edit
               }}
               fullWidth
             />
@@ -284,7 +277,7 @@ function Payment() {
                   className="white-background"
                   size="small"
                   InputProps={{
-                    readOnly: !edit,
+                    readOnly: !edit
                   }}
                 />
               </div>
@@ -298,7 +291,7 @@ function Payment() {
                 className="white-background"
                 size="small"
                 InputProps={{
-                  readOnly: !edit,
+                  readOnly: !edit
                 }}
                 fullWidth
               />
@@ -313,7 +306,7 @@ function Payment() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: !edit,
+                readOnly: !edit
               }}
               fullWidth
             />
@@ -325,10 +318,7 @@ function Payment() {
             <div className="cart-payment">
               {cart.map((product_variation) => {
                 return (
-                  <div
-                    className="cart-payment__details"
-                    key={product_variation.external_id}
-                  >
+                  <div className="cart-payment__details" key={product_variation.external_id}>
                     <img
                       className="thumb-cart-pay"
                       src={getFeaturedImage(product_variation.image)}
@@ -337,37 +327,29 @@ function Payment() {
                       height={80}
                     />
                     <div className="desc">
-                      <NavLink
-                        href={`/produto/${product_variation.product.code}`}
-                      >
-                        <h3 className="title-cart">
-                          {product_variation.product.description}
-                        </h3>
+                      <NavLink href={`/produto/${product_variation.product.code}`}>
+                        <h3 className="title-cart">{product_variation.product.description}</h3>
                       </NavLink>
                       <div className="color-size">
-                        <p>
-                          Tamanho: {extractSizeFromVariation(product_variation)}
-                        </p>
-                        <p style={{ marginLeft: "10px" }}>
+                        <p>Tamanho: {extractSizeFromVariation(product_variation)}</p>
+                        <p style={{ marginLeft: '10px' }}>
                           Cor: {extractColorFromVariation(product_variation)}
                         </p>
                       </div>
                       <div className="color-size">
                         <p>Quantidade: {product_variation.quantity}</p>
-                        <p style={{ marginLeft: "10px" }}>
-                          {`R$ ${parseFloat(product_variation.price)
-                            .toFixed(2)
-                            .replace(".", ",")}`}
+                        <p style={{ marginLeft: '10px' }}>
+                          {`R$ ${parseFloat(product_variation.price).toFixed(2).replace('.', ',')}`}
                         </p>
                       </div>
                     </div>
                   </div>
-                );
+                )
               })}
             </div>
             <div className="sub-price">
               <p className="sub-price__val">
-                {`Total: R$${cartTotal.toFixed(2).replace(".", ",")}`}
+                {`Total: R$${cartTotal.toFixed(2).replace('.', ',')}`}
               </p>
             </div>
           </div>
@@ -380,7 +362,7 @@ function Payment() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Payment;
+export default Payment

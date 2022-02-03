@@ -1,53 +1,66 @@
-import axios from "axios";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import Status from "../../components/Status";
-import { Button, Result, Typography } from "antd";
-import { clearCart } from "../../store/actions/products";
-import { getCartState } from "../../store/selectors/products";
-import { getAccount, getAddress } from "../../store/selectors/user";
-import { useDispatch, useSelector } from "react-redux";
-import { NextSeo } from "next-seo";
-const { Paragraph, Text } = Typography;
-// This gets called on every request
-export async function getServerSideProps(ctx) {
-  return { props: { slug: ctx.params.slug } };
+import axios from 'axios'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import Status from '../../components/Status'
+import { Button, Result, Typography } from 'antd'
+import { clearCart } from '../../store/actions/products'
+import { getCartState } from '../../store/selectors/products'
+import { getAccount, getAddress } from '../../store/selectors/user'
+import { useDispatch, useSelector } from 'react-redux'
+import { NextSeo } from 'next-seo'
+const { Paragraph, Text } = Typography
+
+export async function getStaticPaths(ctx) {
+  const paths = [
+    { params: { slug: 'sucesso' } },
+    { params: { slug: 'processando' } },
+    { params: { slug: 'erro' } }
+  ]
+  return {
+    paths,
+    fallback: 'blocking'
+  }
+}
+
+export async function getStaticProps(ctx) {
+  return { props: { slug: ctx.params.slug } }
 }
 
 export default function Index(props) {
-  const router = useRouter();
+  const router = useRouter()
   const { payment_id } = router.query
-  const dispatch = useDispatch();
-  const cart = useSelector(getCartState);
-  const user = useSelector(getAccount);
-  const address = useSelector(getAddress);
+  const dispatch = useDispatch()
+  const cart = useSelector(getCartState)
+  const user = useSelector(getAccount)
+  const address = useSelector(getAddress)
   const [pixData, setPixData] = useState(null)
   const [paymentData, setPaymentData] = useState(null)
 
   useEffect(() => {
     switch (props.slug) {
-      case "sucesso":
-        dispatch(clearCart());
-        break;
-      case "processando":
-        dispatch(clearCart());
+      case 'sucesso':
+        dispatch(clearCart())
+        break
+      case 'processando':
+        dispatch(clearCart())
         if (payment_id) {
-          axios.get(`/api/payments?payment_id=${payment_id}`).then((data) => {
-            setPaymentData(data)
-            if (data.pix) {
-              setPixData(data.pix);
-            }
-          }).catch(err => {
-
-          });
+          axios
+            .get(`/api/payments?payment_id=${payment_id}`)
+            .then((data) => {
+              setPaymentData(data)
+              if (data.pix) {
+                setPixData(data.pix)
+              }
+            })
+            .catch((err) => {})
         }
-        break;
+        break
     }
-  }, [dispatch, props.slug]);
+  }, [dispatch, props.slug])
 
   const renderStatus = () => {
     switch (props.slug) {
-      case "sucesso":
+      case 'sucesso':
         return (
           <>
             <NextSeo
@@ -63,7 +76,7 @@ export default function Index(props) {
                   type="primary"
                   key="console"
                   onClick={() => {
-                    router.push("/");
+                    router.push('/')
                   }}
                 >
                   Ver mais produtos
@@ -71,16 +84,16 @@ export default function Index(props) {
                 <Button
                   key="buy"
                   onClick={() => {
-                    router.push("/dashboard");
+                    router.push('/dashboard')
                   }}
                 >
                   Conferir pedido
-                </Button>,
+                </Button>
               ]}
             />
           </>
-        );
-      case "processando":
+        )
+      case 'processando':
         return (
           <>
             <NextSeo
@@ -95,7 +108,7 @@ export default function Index(props) {
                   type="primary"
                   key="console"
                   onClick={() => {
-                    router.push("/");
+                    router.push('/')
                   }}
                 >
                   Ver mais produtos
@@ -103,82 +116,107 @@ export default function Index(props) {
                 <Button
                   key="buy"
                   onClick={() => {
-                    router.push("/dashboard");
+                    router.push('/dashboard')
                   }}
                 >
                   Conferir pedido
-                </Button>,
+                </Button>
               ]}
             >
-              {pixData && (<div style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                display: 'flex'
-              }}>
-                <div style={{
-                  width: 'auto',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  display: 'flex',
-                  padding: '15px 25px'
-                }}>
-                  <Paragraph                    
+              {pixData && (
+                <div
                   style={{
-                        fontSize: 16,
-                  }}>Digitalize o seguinte código QR para concluir o pagamento:
-                  </Paragraph>
-                  <img alt={pixData.qrCode} title="Digitalize o seguinte código QR para concluir o pagamento." src={`data:image/jpeg;base64,${pixData.qrCodeBase64}`} id="qr-code-image" width="150px" />
-                  {/* <img alt={pixData.qrCode} title="Digitalize o seguinte código QR para concluir o pagamento." src={`${pixData.qrCodeBase64}`} id="qr-code-image" width="150px" /> */}
-                  <Paragraph style={{
-                    fontSize: 16,
-                    marginTop: '1em'
-                }}>Ou você também pode usar o seguinte código como copiar e colar
-                  </Paragraph>
-                  <div style={{
-                    overFlow: 'scroll',
-                    width:"300px"
-                }}>
-                  <Paragraph style={{
-                    overFlow: 'scroll'
-                  }}>
-                    <Text
-                    strong
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                    display: 'flex'
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 'auto',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      display: 'flex',
+                      padding: '15px 25px'
+                    }}
+                  >
+                    <Paragraph
                       style={{
-                        fontSize: 14,
+                        fontSize: 16
                       }}
-                      title="Ou você também pode usar o seguinte código como copiar e colar"
                     >
-                      {pixData.qrCode}
-                    </Text>
-                  </Paragraph>
-                  </div>
+                      Digitalize o seguinte código QR para concluir o pagamento:
+                    </Paragraph>
+                    <img
+                      alt={pixData.qrCode}
+                      title="Digitalize o seguinte código QR para concluir o pagamento."
+                      src={`data:image/jpeg;base64,${pixData.qrCodeBase64}`}
+                      id="qr-code-image"
+                      width="150px"
+                    />
+                    {/* <img alt={pixData.qrCode} title="Digitalize o seguinte código QR para concluir o pagamento." src={`${pixData.qrCodeBase64}`} id="qr-code-image" width="150px" /> */}
+                    <Paragraph
+                      style={{
+                        fontSize: 16,
+                        marginTop: '1em'
+                      }}
+                    >
+                      Ou você também pode usar o seguinte código como copiar e colar
+                    </Paragraph>
+                    <div
+                      style={{
+                        overFlow: 'scroll',
+                        width: '300px'
+                      }}
+                    >
+                      <Paragraph
+                        style={{
+                          overFlow: 'scroll'
+                        }}
+                      >
+                        <Text
+                          strong
+                          style={{
+                            fontSize: 14
+                          }}
+                          title="Ou você também pode usar o seguinte código como copiar e colar"
+                        >
+                          {pixData.qrCode}
+                        </Text>
+                      </Paragraph>
+                    </div>
 
-                <Paragraph                    
-                  style={{
-                        fontSize: 16,
-                  }}>Ou você também pode usar a nossa chave pix de email
-                  </Paragraph>
-                  <Paragraph style={{
-                    overFlow: 'scroll'
-                  }}>
-                    <Text
-                    strong
+                    <Paragraph
                       style={{
-                        fontSize: 14,
+                        fontSize: 16
                       }}
-                      title="Ou você também pode usar a nossa chave pix de email"
                     >
-                      comercial@lifestylefloripa.com.br
-                    </Text>
-                  </Paragraph>
+                      Ou você também pode usar a nossa chave pix de email
+                    </Paragraph>
+                    <Paragraph
+                      style={{
+                        overFlow: 'scroll'
+                      }}
+                    >
+                      <Text
+                        strong
+                        style={{
+                          fontSize: 14
+                        }}
+                        title="Ou você também pode usar a nossa chave pix de email"
+                      >
+                        comercial@lifestylefloripa.com.br
+                      </Text>
+                    </Paragraph>
+                  </div>
                 </div>
-              </div>)}
+              )}
             </Result>
           </>
-        );
-      case "erro":
+        )
+      case 'erro':
         return (
           <>
             <NextSeo
@@ -193,7 +231,7 @@ export default function Index(props) {
                   key="buy"
                   type="primary"
                   onClick={() => {
-                    router.push("/pagamento");
+                    router.push('/pagamento')
                   }}
                 >
                   Tentar novamente
@@ -201,19 +239,23 @@ export default function Index(props) {
                 <Button
                   key="console"
                   onClick={() => {
-                    router.push("/");
+                    router.push('/')
                   }}
                 >
                   Ver outros produtos
-                </Button>,
+                </Button>
               ]}
             />
           </>
-        );
+        )
       default:
-        return null;
+        return null
     }
-  };
+  }
 
-  return <div style={props.slug == 'processando' ? { height: 'auto' } : { height: "58vh" }}>{renderStatus()}</div>;
+  return (
+    <div style={props.slug == 'processando' ? { height: 'auto' } : { height: '58vh' }}>
+      {renderStatus()}
+    </div>
+  )
 }

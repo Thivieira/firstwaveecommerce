@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/router";
+import { useState, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/router'
 
-import { Menu, Dropdown, Button, Input, Divider } from "antd";
+import { Menu, Dropdown, Button, Input, Divider } from 'antd'
 import {
   UserOutlined,
   PhoneOutlined,
@@ -10,71 +10,71 @@ import {
   CaretRightOutlined,
   DownOutlined,
   CloseCircleOutlined,
-  MenuOutlined,
-} from "@ant-design/icons";
+  MenuOutlined
+} from '@ant-design/icons'
 
-import FloatCart from "../components/FloatCart/FloatCart";
+import FloatCart from '../components/FloatCart/FloatCart'
 
-import api from "../services/api";
-import NavLink from "../components/NavLink";
-import { useDispatch, useSelector } from "react-redux";
-import { saveAccount, saveAddress } from "../store/actions/user";
-import { getAccount } from "../store/selectors/user";
-import useToken from "../contexts/TokenStorage";
+import api from '../services/api'
+import NavLink from '../components/NavLink'
+import { useDispatch, useSelector } from 'react-redux'
+import { saveAccount, saveAddress } from '../store/actions/user'
+import { getAccount } from '../store/selectors/user'
+import useToken from '../contexts/TokenStorage'
 
 function Header() {
-  const router = useRouter();
-  const [sidebar, setSidebar] = useState(false);
-  const [showFilter, setShowFilter] = useState(0);
-  const [surfDropDown, setSurfDropDown] = useState(false);
-  const [mascDropDown, setMascDropDown] = useState(false);
-  const [femDropDown, setFemDropDown] = useState(false);
-  const [juvDropDown, setJuvDropDown] = useState(false);
-  const [width, setWindowWidth] = useState(0);
-  const dispatch = useDispatch();
-  const user = useSelector(getAccount);
+  const router = useRouter()
+  const [sidebar, setSidebar] = useState(false)
+  const [showFilter, setShowFilter] = useState(0)
+  const [surfDropDown, setSurfDropDown] = useState(false)
+  const [mascDropDown, setMascDropDown] = useState(false)
+  const [femDropDown, setFemDropDown] = useState(false)
+  const [juvDropDown, setJuvDropDown] = useState(false)
+  const [width, setWindowWidth] = useState(0)
+  const dispatch = useDispatch()
+  const user = useSelector(getAccount)
 
   const updateDimensions = () => {
-    const width = window.innerWidth;
-    setWindowWidth(width);
-  };
+    const width = window.innerWidth
+    setWindowWidth(width)
+  }
 
   useEffect(() => {
-    updateDimensions();
+    updateDimensions()
 
-    window.addEventListener("resize", updateDimensions);
+    window.addEventListener('resize', updateDimensions)
 
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, [width]);
+    return () => window.removeEventListener('resize', updateDimensions)
+  }, [width])
 
   const getUserData = useCallback(async () => {
     api
-      .get("/auth/me")
+      .get('/auth/me')
       .then((res) => {
         dispatch(
           saveAccount({
             cpf: res.data.cpf,
             email: res.data.email,
             name: res.data.name,
-            phone: res.data.mobile,
+            phone: res.data.mobile
           })
-        );
+        )
       })
-      .catch((e) => {});
-  }, [dispatch]);
+      .catch((e) => {})
+  }, [dispatch])
 
-  const [token, setToken] = useToken();
+  const [token, setToken] = useToken()
 
   useEffect(() => {
     if (token) {
-      api.defaults.headers.common["Authorization"] = "Bearer " + token;
-      setToken(token);
+      api.defaults.headers.common['Authorization'] = 'Bearer ' + token
+      setToken(token)
     }
-  }, [setToken, token]);
+  }, [setToken, token])
 
-  useEffect(() => getUserData(), [getUserData, token]);
+  useEffect(() => getUserData(), [getUserData, token])
 
-  const showSideBar = () => setSidebar(!sidebar);
+  const showSideBar = () => setSidebar(!sidebar)
 
   function switchFilter() {
     switch (showFilter) {
@@ -117,26 +117,34 @@ function Header() {
               >
                 PRANCHA
               </NavLink>
-              <NavLink href="/produtos/Surf/Capa" className="surf-options-link" onClick={() => setShowFilter(0)}>
+              <NavLink
+                href="/produtos/Surf/Capa"
+                className="surf-options-link"
+                onClick={() => setShowFilter(0)}
+              >
                 CAPA
               </NavLink>
-              <NavLink href="/produtos/Surf/Deck" className="surf-options-link" onClick={() => setShowFilter(0)}>
+              <NavLink
+                href="/produtos/Surf/Deck"
+                className="surf-options-link"
+                onClick={() => setShowFilter(0)}
+              >
                 DECK
               </NavLink>
-              <NavLink href="/produtos/Surf/Bone" className="surf-options-link" onClick={() => setShowFilter(0)}>
+              <NavLink
+                href="/produtos/Surf/Bone"
+                className="surf-options-link"
+                onClick={() => setShowFilter(0)}
+              >
                 BONÉS
               </NavLink>
             </div>
 
             <NavLink href="/produtos/Surf" onClick={() => setShowFilter(0)}>
-              <img
-                className="surf-image hide"
-                src="/navSurf.jpg"
-                alt="imagem de surf"
-              />
+              <img className="surf-image hide" src="/navSurf.jpg" alt="imagem de surf" />
             </NavLink>
           </div>
-        );
+        )
       case 2:
         return (
           <div className="wrapper-content-genre">
@@ -288,14 +296,10 @@ function Header() {
             </div>
 
             <NavLink href="/produtos/Masculino" onClick={() => setShowFilter(0)}>
-              <img
-                className="img-genre hide"
-                src="/navMasc.jpg"
-                alt="img-genre"
-              />
+              <img className="img-genre hide" src="/navMasc.jpg" alt="img-genre" />
             </NavLink>
           </div>
-        );
+        )
       case 3:
         return (
           <div className="wrapper-content-genre">
@@ -482,14 +486,10 @@ function Header() {
             </div>
 
             <NavLink href="/produtos/Feminino" onClick={() => setShowFilter(0)}>
-              <img
-                className="img-genre hide"
-                src="/navFem.jpg"
-                alt="img-genre"
-              />
+              <img className="img-genre hide" src="/navFem.jpg" alt="img-genre" />
             </NavLink>
           </div>
-        );
+        )
       case 4:
         return (
           <div className="wrapper-content-genre">
@@ -561,18 +561,18 @@ function Header() {
                 className="img-genre hide"
                 src="/navKid.jpg"
                 alt="img-genre"
-                style={{ width: "auto", objectFit: "contain" }}
+                style={{ width: 'auto', objectFit: 'contain' }}
               />
             </NavLink>
           </div>
-        );
+        )
       case 5:
       case 6:
       case 7:
       case 8:
       case 9:
       default:
-        break;
+        break
     }
   }
 
@@ -584,8 +584,8 @@ function Header() {
             href="/produtos/Surf/Wetsuit"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setSurfDropDown(false);
+              showSideBar()
+              setSurfDropDown(false)
             }}
           >
             <NavLink href="/produtos/Surf/">
@@ -596,8 +596,8 @@ function Header() {
             href="/produtos/Surf/Quilha"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setSurfDropDown(false);
+              showSideBar()
+              setSurfDropDown(false)
             }}
           >
             QUILHA
@@ -606,8 +606,8 @@ function Header() {
             href="/produtos/Surf/Leash"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setSurfDropDown(false);
+              showSideBar()
+              setSurfDropDown(false)
             }}
           >
             LEASH
@@ -616,8 +616,8 @@ function Header() {
             href="/produtos/Surf/Lycra"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setSurfDropDown(false);
+              showSideBar()
+              setSurfDropDown(false)
             }}
           >
             LYCRA
@@ -626,8 +626,8 @@ function Header() {
             href="/produtos/Surf/Prancha"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setSurfDropDown(false);
+              showSideBar()
+              setSurfDropDown(false)
             }}
           >
             PRANCHA
@@ -636,8 +636,8 @@ function Header() {
             href="/produtos/Surf/Capa"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setSurfDropDown(false);
+              showSideBar()
+              setSurfDropDown(false)
             }}
           >
             CAPA
@@ -646,8 +646,8 @@ function Header() {
             href="/produtos/Surf/Deck"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setSurfDropDown(false);
+              showSideBar()
+              setSurfDropDown(false)
             }}
           >
             DECK
@@ -656,8 +656,8 @@ function Header() {
             href="/produtos/Surf/Bone"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setSurfDropDown(false);
+              showSideBar()
+              setSurfDropDown(false)
             }}
           >
             BONÉS
@@ -670,8 +670,8 @@ function Header() {
             href="/produtos/Masculino/Vestuario"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setMascDropDown(false);
+              showSideBar()
+              setMascDropDown(false)
             }}
           >
             VESTUARIO
@@ -680,8 +680,8 @@ function Header() {
             href="/produtos/Masculino/Acessorio"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setMascDropDown(false);
+              showSideBar()
+              setMascDropDown(false)
             }}
           >
             ACESSÓRIOS
@@ -694,8 +694,8 @@ function Header() {
             href="/produtos/Feminino/Vestuario"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setFemDropDown(false);
+              showSideBar()
+              setFemDropDown(false)
             }}
           >
             VESTUARIO
@@ -704,8 +704,8 @@ function Header() {
             href="/produtos/Feminino/Acessorio"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setFemDropDown(false);
+              showSideBar()
+              setFemDropDown(false)
             }}
           >
             ACESSÓRIOS
@@ -718,8 +718,8 @@ function Header() {
             href="/produtos/Juvenil/Vestuario/Camiseta"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setjuvDropDown(false);
+              showSideBar()
+              setjuvDropDown(false)
             }}
           >
             CAMISETAS
@@ -728,8 +728,8 @@ function Header() {
             href="/produtos/Juvenil/Vestuario/Regata"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setjuvDropDown(false);
+              showSideBar()
+              setjuvDropDown(false)
             }}
           >
             REGATAS
@@ -738,8 +738,8 @@ function Header() {
             href="/produtos/Juvenil/Vestuario/Bermuda"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setjuvDropDown(false);
+              showSideBar()
+              setjuvDropDown(false)
             }}
           >
             BERMUDAS
@@ -748,8 +748,8 @@ function Header() {
             href="/produtos/Juvenil/Vestuario/Calca"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setjuvDropDown(false);
+              showSideBar()
+              setjuvDropDown(false)
             }}
           >
             CALÇAS
@@ -758,8 +758,8 @@ function Header() {
             href="/produtos/Juvenil/Vestuario/Jaqueta"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setjuvDropDown(false);
+              showSideBar()
+              setjuvDropDown(false)
             }}
           >
             JAQUETAS
@@ -768,8 +768,8 @@ function Header() {
             href="/produtos/Juvenil/Vestuario/Moletom"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setjuvDropDown(false);
+              showSideBar()
+              setjuvDropDown(false)
             }}
           >
             MOLETONS
@@ -778,25 +778,25 @@ function Header() {
             href="/produtos/Juvenil/Vestuario/Sunga"
             className="navbar-mobile-surf-options"
             onClick={() => {
-              showSideBar();
-              setjuvDropDown(false);
+              showSideBar()
+              setjuvDropDown(false)
             }}
           >
             SUNGAS
           </NavLink>
         </div>
-      ),
-    };
+      )
+    }
 
-    return div[type];
-  };
+    return div[type]
+  }
 
   const logOut = async () => {
-    localStorage.clear();
-    dispatch(saveAccount({}));
-    dispatch(saveAddress({}));
-    router.replace("/");
-  };
+    localStorage.clear()
+    dispatch(saveAccount({}))
+    dispatch(saveAddress({}))
+    router.replace('/')
+  }
 
   const menuLoginOn = (
     <Menu>
@@ -804,7 +804,7 @@ function Header() {
         Sair
       </Menu.Item>
     </Menu>
-  );
+  )
 
   const menuAtendimento = (
     <Menu>
@@ -813,51 +813,47 @@ function Header() {
         <Divider />
         <div className="menu-call-1">
           <NavLink
-            style={{ display: "flex", width: "50%" }}
+            style={{ display: 'flex', width: '50%' }}
             href="https://api.whatsapp.com/send?phone=5548988281903"
             target="blank"
           >
             <WhatsAppOutlined
               style={{
-                display: "flex",
-                alignItems: "center",
-                fontSize: "1.5rem",
-                color: "#0080a8",
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '1.5rem',
+                color: '#0080a8'
               }}
-            />{" "}
+            />{' '}
           </NavLink>
           <p
             style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "50%",
-              marginTop: "1rem",
+              display: 'flex',
+              flexDirection: 'column',
+              width: '50%',
+              marginTop: '1rem'
             }}
           >
-            <MailOutlined style={{ marginBottom: "0.2rem" }} />{" "}
-            contato@lifestyle.com.br
+            <MailOutlined style={{ marginBottom: '0.2rem' }} /> contato@lifestyle.com.br
           </p>
         </div>
         <Divider />
         <div className="menu-call-2">
           <div className="menu-call-2-in">
             <h2>Loja Física</h2>
-            <p style={{ display: "flex", flexDirection: "column" }}>
-              <PhoneOutlined style={{ marginBottom: "0.2rem" }} /> (48) 98828-1903
+            <p style={{ display: 'flex', flexDirection: 'column' }}>
+              <PhoneOutlined style={{ marginBottom: '0.2rem' }} /> (48) 98828-1903
             </p>
           </div>
-          <span>
-            Segunda a quarta feira das 10h às 19hs. Quinta a domingo das 10hs às
-            21hs
-          </span>
+          <span>Segunda a quarta feira das 10h às 19hs. Quinta a domingo das 10hs às 21hs</span>
         </div>
       </div>
     </Menu>
-  );
+  )
 
-  const { Search } = Input;
+  const { Search } = Input
 
-  const onSearch = async (value) => router.replace(`/produtos?q=${value}`);
+  const onSearch = async (value) => router.replace(`/produtos?q=${value}`)
 
   return (
     <header id="header">
@@ -870,7 +866,7 @@ function Header() {
         </NavLink>
 
         <Search
-          defaultValue={router.query.hasOwnProperty("q") ? router.query.q : ""}
+          defaultValue={router.query.hasOwnProperty('q') ? router.query.q : ''}
           placeholder="Digite o que você procura"
           allowClear
           onSearch={onSearch}
@@ -889,11 +885,11 @@ function Header() {
             // href={user.name ? "#" : "/login"}
             className="nav-item login"
             onClick={() => {
-              setSidebar(false);
-              setSurfDropDown(false);
-              setMascDropDown(false);
-              setFemDropDown(false);
-              setJuvDropDown(false);
+              setSidebar(false)
+              setSurfDropDown(false)
+              setMascDropDown(false)
+              setFemDropDown(false)
+              setJuvDropDown(false)
             }}
           >
             <div>
@@ -901,7 +897,7 @@ function Header() {
                 <Dropdown.Button overlay={menuLoginOn} placement="bottomCenter">
                   <span
                     onClick={() => {
-                      router.push("/dashboard");
+                      router.push('/dashboard')
                     }}
                   >
                     <UserOutlined /> {user.name}
@@ -910,13 +906,13 @@ function Header() {
               ) : (
                 <Button
                   onClick={() => {
-                    router.push("/login");
+                    router.push('/login')
                   }}
                   placement="bottomCenter"
                   icon={<UserOutlined />}
                 >
-                  {" "}
-                  Fazer login ou cadastrar-se{" "}
+                  {' '}
+                  Fazer login ou cadastrar-se{' '}
                 </Button>
               )}
             </div>
@@ -928,34 +924,32 @@ function Header() {
       </nav>
 
       <div onMouseLeave={() => setShowFilter(0)}>
-        <nav className={sidebar ? "menu-container active" : "menu-container"}>
+        <nav className={sidebar ? 'menu-container active' : 'menu-container'}>
           <div className="sidebar-top">
             <CloseCircleOutlined
               onClick={() => {
-                setSidebar(false);
-                setSurfDropDown(false);
-                setMascDropDown(false);
-                setFemDropDown(false);
-                setJuvDropDown(false);
+                setSidebar(false)
+                setSurfDropDown(false)
+                setMascDropDown(false)
+                setFemDropDown(false)
+                setJuvDropDown(false)
               }}
               className="closeNavbar"
             />
             <NavLink
-              href={user.name ? "/dashboard" : "/login"}
+              href={user.name ? '/dashboard' : '/login'}
               className="sidebar-item"
               onClick={() => {
-                setSidebar(false);
-                setSurfDropDown(false);
-                setMascDropDown(false);
-                setFemDropDown(false);
-                setJuvDropDown(false);
+                setSidebar(false)
+                setSurfDropDown(false)
+                setMascDropDown(false)
+                setFemDropDown(false)
+                setJuvDropDown(false)
               }}
             >
               <>
-                <UserOutlined style={{ fontSize: "2rem" }} />
-                <p className="nav-item-legenda">
-                  {user.name ? user.name : "Entre ou cadastre-se"}
-                </p>
+                <UserOutlined style={{ fontSize: '2rem' }} />
+                <p className="nav-item-legenda">{user.name ? user.name : 'Entre ou cadastre-se'}</p>
               </>
             </NavLink>
 
@@ -971,27 +965,25 @@ function Header() {
             <NavLink
               href="/produtos/Surf"
               onClick={() => {
-                setSidebar(false);
-                setSurfDropDown(false);
-                setMascDropDown(false);
-                setFemDropDown(false);
-                setJuvDropDown(false);
+                setSidebar(false)
+                setSurfDropDown(false)
+                setMascDropDown(false)
+                setFemDropDown(false)
+                setJuvDropDown(false)
               }}
-              className={
-                showFilter === 1 ? "menu-item menu-item-active" : "menu-item"
-              }
+              className={showFilter === 1 ? 'menu-item menu-item-active' : 'menu-item'}
               onMouseEnter={() => setShowFilter(1)}
             >
-              {" "}
-              Surf {surfDropDown && dropDownNav("surf")}
+              {' '}
+              Surf {surfDropDown && dropDownNav('surf')}
             </NavLink>
             <CaretRightOutlined
               className="down"
               onClick={() => {
-                setSurfDropDown(!surfDropDown);
-                setMascDropDown(false);
-                setFemDropDown(false);
-                setJuvDropDown(false);
+                setSurfDropDown(!surfDropDown)
+                setMascDropDown(false)
+                setFemDropDown(false)
+                setJuvDropDown(false)
               }}
             />
           </div>
@@ -1000,27 +992,25 @@ function Header() {
             <NavLink
               href="/produtos/Masculino"
               onClick={() => {
-                setSidebar(false);
-                setSurfDropDown(false);
-                setMascDropDown(false);
-                setFemDropDown(false);
-                setJuvDropDown(false);
+                setSidebar(false)
+                setSurfDropDown(false)
+                setMascDropDown(false)
+                setFemDropDown(false)
+                setJuvDropDown(false)
               }}
-              className={
-                showFilter === 2 ? "menu-item menu-item-active" : "menu-item"
-              }
+              className={showFilter === 2 ? 'menu-item menu-item-active' : 'menu-item'}
               onMouseEnter={() => setShowFilter(2)}
             >
               Masculino
-              {mascDropDown && dropDownNav("masc")}
+              {mascDropDown && dropDownNav('masc')}
             </NavLink>
             <CaretRightOutlined
               className="down"
               onClick={() => {
-                setMascDropDown(!mascDropDown);
-                setSurfDropDown(false);
-                setFemDropDown(false);
-                setJuvDropDown(false);
+                setMascDropDown(!mascDropDown)
+                setSurfDropDown(false)
+                setFemDropDown(false)
+                setJuvDropDown(false)
               }}
             />
           </div>
@@ -1029,27 +1019,25 @@ function Header() {
             <NavLink
               href="/produtos/Feminino"
               onClick={() => {
-                setSidebar(false);
-                setSurfDropDown(false);
-                setMascDropDown(false);
-                setFemDropDown(false);
-                setJuvDropDown(false);
+                setSidebar(false)
+                setSurfDropDown(false)
+                setMascDropDown(false)
+                setFemDropDown(false)
+                setJuvDropDown(false)
               }}
-              className={
-                showFilter === 3 ? "menu-item menu-item-active" : "menu-item"
-              }
+              className={showFilter === 3 ? 'menu-item menu-item-active' : 'menu-item'}
               onMouseEnter={() => setShowFilter(3)}
             >
               Feminino
-              {femDropDown && dropDownNav("fem")}
+              {femDropDown && dropDownNav('fem')}
             </NavLink>
             <CaretRightOutlined
               className="down"
               onClick={() => {
-                setMascDropDown(false);
-                setSurfDropDown(false);
-                setFemDropDown(!femDropDown);
-                setJuvDropDown(false);
+                setMascDropDown(false)
+                setSurfDropDown(false)
+                setFemDropDown(!femDropDown)
+                setJuvDropDown(false)
               }}
             />
           </div>
@@ -1058,27 +1046,25 @@ function Header() {
             <NavLink
               href="/produtos/Juvenil"
               onClick={() => {
-                setSidebar(false);
-                setSurfDropDown(false);
-                setMascDropDown(false);
-                setFemDropDown(false);
-                setJuvDropDown(false);
+                setSidebar(false)
+                setSurfDropDown(false)
+                setMascDropDown(false)
+                setFemDropDown(false)
+                setJuvDropDown(false)
               }}
-              className={
-                showFilter === 4 ? "menu-item menu-item-active" : "menu-item"
-              }
+              className={showFilter === 4 ? 'menu-item menu-item-active' : 'menu-item'}
               onMouseEnter={() => setShowFilter(4)}
             >
               Juvenil e Infantil
-              {juvDropDown && dropDownNav("juv")}
+              {juvDropDown && dropDownNav('juv')}
             </NavLink>
             <CaretRightOutlined
               className="down"
               onClick={() => {
-                setMascDropDown(false);
-                setSurfDropDown(false);
-                setFemDropDown(false);
-                setJuvDropDown(!juvDropDown);
+                setMascDropDown(false)
+                setSurfDropDown(false)
+                setFemDropDown(false)
+                setJuvDropDown(!juvDropDown)
               }}
             />
           </div>
@@ -1086,15 +1072,13 @@ function Header() {
           <NavLink
             href="/produtos/Calcado"
             onClick={() => {
-              setSidebar(false);
-              setSurfDropDown(false);
-              setMascDropDown(false);
-              setFemDropDown(false);
-              setJuvDropDown(false);
+              setSidebar(false)
+              setSurfDropDown(false)
+              setMascDropDown(false)
+              setFemDropDown(false)
+              setJuvDropDown(false)
             }}
-            className={
-              showFilter === 5 ? "menu-item menu-item-active" : "menu-item"
-            }
+            className={showFilter === 5 ? 'menu-item menu-item-active' : 'menu-item'}
             onMouseEnter={() => setShowFilter(0)}
           >
             Calçados
@@ -1103,15 +1087,13 @@ function Header() {
           <NavLink
             href="/produtos/Acessorio"
             onClick={() => {
-              setSidebar(false);
-              setSurfDropDown(false);
-              setMascDropDown(false);
-              setFemDropDown(false);
-              setJuvDropDown(false);
+              setSidebar(false)
+              setSurfDropDown(false)
+              setMascDropDown(false)
+              setFemDropDown(false)
+              setJuvDropDown(false)
             }}
-            className={
-              showFilter === 6 ? "menu-item menu-item-active" : "menu-item"
-            }
+            className={showFilter === 6 ? 'menu-item menu-item-active' : 'menu-item'}
             onMouseEnter={() => setShowFilter(0)}
           >
             Acessórios
@@ -1120,15 +1102,13 @@ function Header() {
           <NavLink
             href="/produtos/Acessorio/Oculos"
             onClick={() => {
-              setSidebar(false);
-              setSurfDropDown(false);
-              setMascDropDown(false);
-              setFemDropDown(false);
-              setJuvDropDown(false);
+              setSidebar(false)
+              setSurfDropDown(false)
+              setMascDropDown(false)
+              setFemDropDown(false)
+              setJuvDropDown(false)
             }}
-            className={
-              showFilter === 7 ? "menu-item menu-item-active" : "menu-item"
-            }
+            className={showFilter === 7 ? 'menu-item menu-item-active' : 'menu-item'}
             onMouseEnter={() => setShowFilter(0)}
           >
             Óculos
@@ -1137,15 +1117,13 @@ function Header() {
           <NavLink
             href="/produtos/Acessorio/Relogio"
             onClick={() => {
-              setSidebar(false);
-              setSurfDropDown(false);
-              setMascDropDown(false);
-              setFemDropDown(false);
-              setJuvDropDown(false);
+              setSidebar(false)
+              setSurfDropDown(false)
+              setMascDropDown(false)
+              setFemDropDown(false)
+              setJuvDropDown(false)
             }}
-            className={
-              showFilter === 8 ? "menu-item menu-item-active" : "menu-item"
-            }
+            className={showFilter === 8 ? 'menu-item menu-item-active' : 'menu-item'}
             onMouseEnter={() => setShowFilter(0)}
           >
             Relogio
@@ -1153,16 +1131,14 @@ function Header() {
 
           <NavLink
             href="/produtos/Outlet"
-            className={
-              showFilter === 9 ? "menu-item menu-item-active" : "menu-item"
-            }
+            className={showFilter === 9 ? 'menu-item menu-item-active' : 'menu-item'}
             onMouseEnter={() => setShowFilter(0)}
             onClick={() => {
-              setSidebar(false);
-              setSurfDropDown(false);
-              setMascDropDown(false);
-              setFemDropDown(false);
-              setJuvDropDown(false);
+              setSidebar(false)
+              setSurfDropDown(false)
+              setMascDropDown(false)
+              setFemDropDown(false)
+              setJuvDropDown(false)
             }}
           >
             Outlet
@@ -1172,12 +1148,12 @@ function Header() {
               title="Sair"
               className="menu-item"
               onClick={() => {
-                logOut();
-                setSidebar(false);
-                setSurfDropDown(false);
-                setMascDropDown(false);
-                setFemDropDown(false);
-                setJuvDropDown(false);
+                logOut()
+                setSidebar(false)
+                setSurfDropDown(false)
+                setMascDropDown(false)
+                setFemDropDown(false)
+                setJuvDropDown(false)
               }}
             >
               Sair
@@ -1187,16 +1163,14 @@ function Header() {
 
         <div
           className={
-            showFilter === 0
-              ? "menu-filter-container filter-hide"
-              : "menu-filter-container"
+            showFilter === 0 ? 'menu-filter-container filter-hide' : 'menu-filter-container'
           }
         >
           {switchFilter()}
         </div>
       </div>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header

@@ -1,8 +1,8 @@
-import { TextField } from "@material-ui/core";
-import { Skeleton } from "antd";
+import { TextField } from '@material-ui/core'
+import { Skeleton } from 'antd'
 
-import NumeratedTitle from "../Utils/NumeratedTitle";
-import PaymentBox from "../Utils/PaymentBox";
+import NumeratedTitle from '../Utils/NumeratedTitle'
+import PaymentBox from '../Utils/PaymentBox'
 
 export default function PaymentPlaceholder() {
   return (
@@ -19,7 +19,7 @@ export default function PaymentPlaceholder() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: true,
+                readOnly: true
               }}
               fullWidth
             />
@@ -31,7 +31,7 @@ export default function PaymentPlaceholder() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: true,
+                readOnly: true
               }}
               fullWidth
             />
@@ -43,7 +43,7 @@ export default function PaymentPlaceholder() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: true,
+                readOnly: true
               }}
               fullWidth
             />
@@ -55,7 +55,7 @@ export default function PaymentPlaceholder() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: true,
+                readOnly: true
               }}
               fullWidth
             />
@@ -72,7 +72,7 @@ export default function PaymentPlaceholder() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: true,
+                readOnly: true
               }}
               fullWidth
             />
@@ -86,7 +86,7 @@ export default function PaymentPlaceholder() {
                   className="white-background"
                   size="small"
                   InputProps={{
-                    readOnly: true,
+                    readOnly: true
                   }}
                 />
               </div>
@@ -98,7 +98,7 @@ export default function PaymentPlaceholder() {
                 className="white-background"
                 size="small"
                 InputProps={{
-                  readOnly: true,
+                  readOnly: true
                 }}
                 fullWidth
               />
@@ -111,7 +111,7 @@ export default function PaymentPlaceholder() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: true,
+                readOnly: true
               }}
               fullWidth
             />
@@ -125,7 +125,7 @@ export default function PaymentPlaceholder() {
                   className="white-background"
                   size="small"
                   InputProps={{
-                    readOnly: true,
+                    readOnly: true
                   }}
                 />
               </div>
@@ -137,7 +137,7 @@ export default function PaymentPlaceholder() {
                 className="white-background"
                 size="small"
                 InputProps={{
-                  readOnly: true,
+                  readOnly: true
                 }}
                 fullWidth
               />
@@ -150,7 +150,7 @@ export default function PaymentPlaceholder() {
               className="white-background"
               size="small"
               InputProps={{
-                readOnly: true,
+                readOnly: true
               }}
               fullWidth
             />
@@ -175,5 +175,5 @@ export default function PaymentPlaceholder() {
         <div className="payment-data"></div>
       </div>
     </div>
-  );
+  )
 }
