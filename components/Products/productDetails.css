@@ -19,6 +19,7 @@
   object-fit: cover;
   cursor: -webkit-zoom-in;
   background-repeat: no-repeat;
+  border-radius: 0.3rem;
 }
 
 figure {
