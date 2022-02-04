@@ -9,6 +9,7 @@ import api from '../services/api'
 import { getCartTotal, getCartState } from '../store/selectors/products'
 import { saveAccount, saveAddress } from '../store/actions/user'
 import Tabs from '../components/Payments/Tabs'
+import Shipping from '../components/Payments/Shipping'
 
 const loadMercadoPago = (callback) => {
   const existingScript = document.getElementById('mercadoPagoSdkScript')
@@ -513,6 +514,10 @@ export default function Checkout() {
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <div className="mt-10">
+                <Shipping />
               </div>
 
               <div className="mt-10">
