@@ -37,9 +37,9 @@ function CartProduct({ product_variation }) {
 
         <div className="desc">
           <div style={{ display: 'flex' }}>
-            {product_variation.size ? <p> Tamanho: {product_variation.size} </p> : null}
+            {product_variation.size ? <p> {product_variation.size} </p> : null}
             {product_variation.color ? (
-              <p style={{ marginLeft: '0.7rem' }}> Cor: {product_variation.color} </p>
+              <p style={{ marginLeft: '0.7rem' }}>{product_variation.color} </p>
             ) : null}
           </div>
 
