@@ -8,6 +8,7 @@ import { getFeaturedImage } from '../helpers'
 import api from '../services/api'
 import { getCartTotal, getCartState } from '../store/selectors/products'
 import { saveAccount, saveAddress } from '../store/actions/user'
+import Tabs from '../components/Payments/Tabs'
 
 const loadMercadoPago = (callback) => {
   const existingScript = document.getElementById('mercadoPagoSdkScript')
@@ -333,7 +334,7 @@ export default function Checkout() {
       />
 
       <div className="relative grid grid-cols-1 mx-auto gap-x-16 max-w-7xl lg:px-8 lg:grid-cols-2 lg:pt-16">
-        <h1 className="sr-only">Checkout</h1>
+        {/* <h1 className="sr-only">Checkout</h1> */}
 
         <section
           aria-labelledby="summary-heading"
@@ -396,104 +397,11 @@ export default function Checkout() {
           </div>
         </section>
 
-        <section
-          aria-labelledby="payment-and-shipping-heading"
-          className="py-16 lg:max-w-lg lg:w-full lg:mx-auto lg:pt-0 lg:pb-24 lg:row-start-1 lg:col-start-1"
-        >
+        <section className="lg:max-w-lg lg:w-full lg:mx-auto lg:pt-0 lg:pb-24 lg:row-start-1 lg:col-start-1">
           <form id="form-checkout">
             <div className="max-w-2xl px-4 mx-auto lg:max-w-none lg:px-0">
-              <div>
-                <h3 id="contact-info-heading" className="text-lg font-medium text-gray-900">
-                  Informações de contato
-                </h3>
-
-                <div className="mt-6">
-                  <label
-                    htmlFor="form-checkout__cardholderEmail"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Name
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="email"
-                      value={personalData.name}
-                      name="cardholderEmail"
-                      InputProps={{
-                        readOnly: !edit
-                      }}
-                      id="form-checkout__cardholderEmail"
-                      className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-4">
-                  <label
-                    htmlFor="form-checkout__cardholderEmail"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Email
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="email"
-                      value={personalData.email}
-                      name="cardholderEmail"
-                      id="form-checkout__cardholderEmail"
-                      InputProps={{
-                        readOnly: !edit
-                      }}
-                      className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-4">
-                  <label
-                    htmlFor="form-checkout__cardholderEmail"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Telefone
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="email"
-                      value={personalData.mobile}
-                      name="cardholderEmail"
-                      InputProps={{
-                        readOnly: !edit
-                      }}
-                      id="form-checkout__cardholderEmail"
-                      className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-4">
-                  <label
-                    htmlFor="form-checkout__cardholderEmail"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    CPF
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="email"
-                      value={personalData.cpf}
-                      name="cardholderEmail"
-                      InputProps={{
-                        readOnly: !edit
-                      }}
-                      id="form-checkout__cardholderEmail"
-                      className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-10">
-                <h3 className="text-lg font-medium text-gray-900">Endereço de entrega</h3>
+              <div className="">
+                <h3 className="text-xl font-bold text-black">Endereço de entrega</h3>
 
                 <div className="grid grid-cols-1 mt-6 gap-y-6 gap-x-4 sm:grid-cols-3">
                   <div>
@@ -607,122 +515,8 @@ export default function Checkout() {
                 </div>
               </div>
 
-              {/* <div className="mt-10">
-                <h3 className="text-lg font-medium text-gray-900">Billing information</h3>
-
-                <div className="flex items-center mt-6">
-                  <input
-                    id="same-as-shipping"
-                    name="same-as-shipping"
-                    type="checkbox"
-                    defaultChecked
-                    className="w-4 h-4 text-[#0080A8] border-gray-300 rounded focus:ring-[#0080A8]"
-                  />
-                  <div className="ml-2">
-                    <label htmlFor="same-as-shipping" className="text-sm font-medium text-gray-900">
-                      Same as shipping information
-                    </label>
-                  </div>
-                </div>
-              </div> */}
-
               <div className="mt-10">
-                <h3 className="text-lg font-medium text-gray-900">Detalhes do pagamento</h3>
-                <div className="grid grid-cols-3 mt-6 sm:grid-cols-4 gap-y-6 gap-x-4">
-                  <div className="col-span-3 sm:col-span-4">
-                    <label
-                      htmlFor="form-checkout__cardholderName"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Nome impresso no cartão
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        name="cardholderName"
-                        id="form-checkout__cardholderName"
-                        autoComplete="name"
-                        className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-3 mt-6 sm:grid-cols-4 gap-y-6 gap-x-4">
-                  <div className="col-span-3 sm:col-span-4">
-                    <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700">
-                      Número do cartão
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        name="cardNumber"
-                        id="form-checkout__cardNumber"
-                        autoComplete="cc-number"
-                        className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-span-2 sm:col-span-3">
-                    <label
-                      htmlFor="cardExpirationDate"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Validade (MM/YYYY)
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        maxLength="7"
-                        name="cardExpirationDate"
-                        id="form-checkout__cardExpirationDate"
-                        autoComplete="cc-exp"
-                        className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="securityCode"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Código
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        name="securityCode"
-                        id="form-checkout__securityCode"
-                        autoComplete="csc"
-                        className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <select name="issuer" id="form-checkout__issuer" />
-                  <select name="identificationType" id="form-checkout__identificationType" />
-                  <input
-                    type="text"
-                    name="identificationNumber"
-                    id="form-checkout__identificationNumber"
-                  />
-                  <select name="installments" id="form-checkout__installments" />
-                </div>
-              </div>
-
-              <div className="flex justify-end pt-6 mt-10 border-t border-gray-200">
-                <button
-                  type="submit"
-                  className="bg-[#0080a8] border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-[#0080a8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-[#0080A8]"
-                >
-                  Pagar
-                </button>
-                <progress value="0" className="progress-bar">
-                  Carregando...
-                </progress>
+                <Tabs />
               </div>
             </div>
           </form>
