@@ -1,7 +1,7 @@
 .details-wrapper {
   display: flex;
   justify-content: space-evenly;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   margin: 0 auto;
   padding: 2rem 5rem;
 }
