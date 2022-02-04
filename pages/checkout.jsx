@@ -9,20 +9,7 @@ import api from '../services/api'
 import { getCartTotal, getCartState } from '../store/selectors/products'
 import { saveAccount, saveAddress } from '../store/actions/user'
 import Tabs from '../components/Payments/Tabs'
-
-const loadMercadoPago = (callback) => {
-  const existingScript = document.getElementById('mercadoPagoSdkScript')
-  if (!existingScript) {
-    const script = document.createElement('script')
-    script.src = 'https://sdk.mercadopago.com/js/v2'
-    script.id = 'mercadoPagoSdkScript'
-    document.body.appendChild(script)
-    script.onload = () => {
-      if (callback) callback()
-    }
-  }
-  if (existingScript && callback) callback()
-}
+import Shipping from '../components/Payments/Shipping'
 
 export default function Checkout() {
   const [edit, setEdit] = useState(false)
@@ -36,13 +23,6 @@ export default function Checkout() {
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
   const dispatch = useDispatch()
-
-  const [personalData, setPersonalData] = useState({
-    name: '',
-    email: '',
-    mobile: '',
-    cpf: ''
-  })
 
   const getUserData = useCallback(() => {
     api
@@ -96,6 +76,20 @@ export default function Checkout() {
     getUserData()
     getAddressData()
   }, [edit, getUserData, getAddressData])
+
+  const loadMercadoPago = (callback) => {
+    const existingScript = document.getElementById('mercadoPagoSdkScript')
+    if (!existingScript) {
+      const script = document.createElement('script')
+      script.src = 'https://sdk.mercadopago.com/js/v2'
+      script.id = 'mercadoPagoSdkScript'
+      document.body.appendChild(script)
+      script.onload = () => {
+        if (callback) callback()
+      }
+    }
+    if (existingScript && callback) callback()
+  }
 
   async function handleEditAddress() {
     if (edit) {
@@ -315,7 +309,7 @@ export default function Checkout() {
   const priceSale = (product) => `R$${parseFloat(product.price).toFixed(2).replace('.', ',')}`
 
   return (
-    <div className="bg-white">
+    <div className="relative bg-white">
       <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -325,11 +319,11 @@ export default function Checkout() {
 
       {/* Background color split screen for large screens */}
       <div
-        className="fixed top-0 left-0 hidden w-1/2 h-full bg-white lg:block"
+        className="absolute top-0 left-0 hidden w-1/2 h-full bg-white lg:block"
         aria-hidden="true"
       />
       <div
-        className="hidden lg:block fixed top-0 right-0 w-1/2 h-full bg-[#0080A8]"
+        className="hidden lg:block absolute top-0 right-0 w-1/2 h-full bg-[#0080A8]"
         aria-hidden="true"
       />
 
@@ -513,6 +507,10 @@ export default function Checkout() {
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <div className="mt-10">
+                <Shipping />
               </div>
 
               <div className="mt-10">
