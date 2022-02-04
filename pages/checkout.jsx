@@ -317,7 +317,7 @@ export default function Checkout() {
   return (
     <div className="bg-white">
       <Head>
-        <meta charset="UTF-8" />
+        <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <Script src="https://cdn.tailwindcss.com" />
