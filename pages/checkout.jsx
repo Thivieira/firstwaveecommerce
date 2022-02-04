@@ -1,10 +1,13 @@
 import Head from 'next/head'
+import Script from 'next/script'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getFeaturedImage } from '../helpers'
+import api from '../services/api'
 import { getCartTotal, getCartState } from '../store/selectors/products'
+import { saveAccount, saveAddress } from '../store/actions/user'
 
 const loadMercadoPago = (callback) => {
   const existingScript = document.getElementById('mercadoPagoSdkScript')
@@ -20,32 +23,115 @@ const loadMercadoPago = (callback) => {
   if (existingScript && callback) callback()
 }
 
-const products = [
-  {
-    id: 1,
-    name: 'High Wall Tote',
-    href: '#',
-    price: '$210.00',
-    color: 'White and black',
-    size: '15L',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/checkout-page-07-product-01.jpg',
-    imageAlt: 'Front of zip tote bag with white canvas, white handles, and black drawstring top.'
-  }
-  // More products...
-]
-
 export default function Checkout() {
+  const [edit, setEdit] = useState(false)
+  const [street, setStreet] = useState('')
+  const [number, setNumber] = useState('')
+  const [complement, setComplement] = useState('')
+  const [cep, setCep] = useState('')
+  const [state, setState] = useState('')
+  const [city, setCity] = useState('')
+  const [neighborhood, setNeighborhood] = useState('')
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
+  const dispatch = useDispatch()
+
+  const [personalData, setPersonalData] = useState({
+    name: '',
+    email: '',
+    mobile: '',
+    cpf: ''
+  })
+
+  const getUserData = useCallback(() => {
+    api
+      .get('/auth/me')
+      .then((res) => {
+        dispatch(
+          saveAccount({
+            cpf: res.data.cpf,
+            email: res.data.email,
+            name: res.data.name,
+            phone: res.data.mobile
+          })
+        )
+        setPersonalData({
+          cpf: res.data.cpf,
+          email: res.data.email,
+          name: res.data.name,
+          mobile: res.data.mobile
+        })
+      })
+      .catch((e) => {})
+  }, [dispatch])
+
+  const getAddressData = useCallback(() => {
+    api
+      .get('/auth/address')
+      .then((res) => {
+        setStreet(res.data.address)
+        setNumber(res.data.addressNumber)
+        setComplement(res.data.complement)
+        setCep(res.data.postalCode)
+        setState(res.data.uf)
+        setCity(res.data.city)
+        setNeighborhood(res.data.province)
+        dispatch(
+          saveAddress({
+            street: res.data.address,
+            number: res.data.addressNumber,
+            complement: res.data.complement,
+            zipcode: res.data.postalCode,
+            state: res.data.uf,
+            city: res.data.city,
+            neighborhood: res.data.province
+          })
+        )
+      })
+      .catch(() => {})
+  }, [dispatch])
+
+  useEffect(() => {
+    getUserData()
+    getAddressData()
+  }, [edit, getUserData, getAddressData])
+
+  async function handleEditAddress() {
+    if (edit) {
+      await api
+        .post('/auth/address', {
+          province: neighborhood,
+          postalCode: cep,
+          city,
+          complement,
+          uf: state,
+          addressNumber: number,
+          address: street
+        })
+        .then(() => {
+          MySwal.fire({
+            title: <p>Endereço editado com sucesso!</p>,
+            confirmButtonText: 'OK'
+          })
+        })
+        .catch(() => {
+          MySwal.fire({
+            title: <p>Falha ao editar endereço!</p>,
+            confirmButtonText: 'OK'
+          })
+        })
+    } else {
+      setEdit(true)
+    }
+  }
 
   const router = useRouter()
   const [loaded, setLoaded] = useState(false)
   const [mp, setMp] = useState(false)
   const [mpState, setMpState] = useState({})
-  // const cart = useSelector(getCartState)
+
   // const address = useSelector(getAddress)
   // const account = useSelector(getAccount)
-  // const dispatch = useDispatch()
 
   const mpRun = useCallback(async () => {
     const mpInstance = new MercadoPago(process.env.NEXT_PUBLIC_PUBLIC_KEY, {
@@ -232,9 +318,10 @@ export default function Checkout() {
       <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script src="https://cdn.tailwindcss.com" />
-        <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp" />
       </Head>
+      <Script src="https://cdn.tailwindcss.com" />
+      <Script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp" />
+
       {/* Background color split screen for large screens */}
       <div
         className="fixed top-0 left-0 hidden w-1/2 h-full bg-white lg:block"
@@ -260,7 +347,7 @@ export default function Checkout() {
                 .replace('.', ',')}`}</dd> */}
             </dl>
 
-            <ul role="list" className="text-sm font-medium divide-y divide-white divide-opacity-10">
+            <ul className="text-sm font-medium divide-y divide-white divide-opacity-10">
               {cart.map((product) => (
                 <li key={product.external_id} className="flex items-start py-6 space-x-4">
                   <Link href={`/produto/${product.father_code}`} passHref>
@@ -313,10 +400,6 @@ export default function Checkout() {
           aria-labelledby="payment-and-shipping-heading"
           className="py-16 lg:max-w-lg lg:w-full lg:mx-auto lg:pt-0 lg:pb-24 lg:row-start-1 lg:col-start-1"
         >
-          <h2 id="payment-and-shipping-heading" className="sr-only">
-            Detalhes de pagamento e envio
-          </h2>
-
           <form id="form-checkout">
             <div className="max-w-2xl px-4 mx-auto lg:max-w-none lg:px-0">
               <div>
@@ -334,7 +417,11 @@ export default function Checkout() {
                   <div className="mt-1">
                     <input
                       type="email"
+                      value={personalData.name}
                       name="cardholderEmail"
+                      InputProps={{
+                        readOnly: !edit
+                      }}
                       id="form-checkout__cardholderEmail"
                       className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                     />
@@ -351,8 +438,12 @@ export default function Checkout() {
                   <div className="mt-1">
                     <input
                       type="email"
+                      value={personalData.email}
                       name="cardholderEmail"
                       id="form-checkout__cardholderEmail"
+                      InputProps={{
+                        readOnly: !edit
+                      }}
                       className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                     />
                   </div>
@@ -368,7 +459,11 @@ export default function Checkout() {
                   <div className="mt-1">
                     <input
                       type="email"
+                      value={personalData.mobile}
                       name="cardholderEmail"
+                      InputProps={{
+                        readOnly: !edit
+                      }}
                       id="form-checkout__cardholderEmail"
                       className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                     />
@@ -385,7 +480,11 @@ export default function Checkout() {
                   <div className="mt-1">
                     <input
                       type="email"
+                      value={personalData.cpf}
                       name="cardholderEmail"
+                      InputProps={{
+                        readOnly: !edit
+                      }}
                       id="form-checkout__cardholderEmail"
                       className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                     />
@@ -397,44 +496,18 @@ export default function Checkout() {
                 <h3 className="text-lg font-medium text-gray-900">Endereço de entrega</h3>
 
                 <div className="grid grid-cols-1 mt-6 gap-y-6 gap-x-4 sm:grid-cols-3">
-                  <div className="sm:col-span-3">
+                  <div>
                     <label htmlFor="address" className="block text-sm font-medium text-gray-700">
-                      Address
+                      Endereço de entrega
                     </label>
                     <div className="mt-1">
                       <input
                         type="text"
+                        onChange={(e) => setStreet(e.target.value)}
+                        value={street}
                         id="address"
                         name="address"
                         autoComplete="street-address"
-                        className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="city" className="block text-sm font-medium text-gray-700">
-                      City
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        id="city"
-                        name="city"
-                        className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="province" className="block text-sm font-medium text-gray-700">
-                      Province
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        id="province"
-                        name="province"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
                     </div>
@@ -445,14 +518,88 @@ export default function Checkout() {
                       htmlFor="postal-code"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Postal code
+                      Número
                     </label>
                     <div className="mt-1">
                       <input
                         type="text"
+                        onChange={(e) => setNumber(e.target.value)}
+                        value={number}
                         id="postal-code"
                         name="postal-code"
                         autoComplete="postal-code"
+                        className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="postal-code"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Complemento
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        type="text"
+                        onChange={(e) => setComplement(e.target.value)}
+                        value={complement}
+                        id="postal-code"
+                        name="postal-code"
+                        autoComplete="postal-code"
+                        className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="postal-code"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      CEP
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        type="text"
+                        onChange={(e) => setCep(e.target.value)}
+                        value={cep}
+                        id="postal-code"
+                        name="postal-code"
+                        autoComplete="postal-code"
+                        className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="province" className="block text-sm font-medium text-gray-700">
+                      Estado
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        type="text"
+                        onChange={(e) => setState(e.target.value)}
+                        value={state}
+                        id="province"
+                        name="province"
+                        className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+                      Cidade
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        type="text"
+                        onChange={(e) => setCity(e.target.value)}
+                        value={city}
+                        id="city"
+                        name="city"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
                     </div>
