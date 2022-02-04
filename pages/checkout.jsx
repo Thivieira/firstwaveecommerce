@@ -11,20 +11,6 @@ import { saveAccount, saveAddress } from '../store/actions/user'
 import Tabs from '../components/Payments/Tabs'
 import Shipping from '../components/Payments/Shipping'
 
-const loadMercadoPago = (callback) => {
-  const existingScript = document.getElementById('mercadoPagoSdkScript')
-  if (!existingScript) {
-    const script = document.createElement('script')
-    script.src = 'https://sdk.mercadopago.com/js/v2'
-    script.id = 'mercadoPagoSdkScript'
-    document.body.appendChild(script)
-    script.onload = () => {
-      if (callback) callback()
-    }
-  }
-  if (existingScript && callback) callback()
-}
-
 export default function Checkout() {
   const [edit, setEdit] = useState(false)
   const [street, setStreet] = useState('')
@@ -37,13 +23,6 @@ export default function Checkout() {
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
   const dispatch = useDispatch()
-
-  const [personalData, setPersonalData] = useState({
-    name: '',
-    email: '',
-    mobile: '',
-    cpf: ''
-  })
 
   const getUserData = useCallback(() => {
     api
@@ -97,6 +76,20 @@ export default function Checkout() {
     getUserData()
     getAddressData()
   }, [edit, getUserData, getAddressData])
+
+  const loadMercadoPago = (callback) => {
+    const existingScript = document.getElementById('mercadoPagoSdkScript')
+    if (!existingScript) {
+      const script = document.createElement('script')
+      script.src = 'https://sdk.mercadopago.com/js/v2'
+      script.id = 'mercadoPagoSdkScript'
+      document.body.appendChild(script)
+      script.onload = () => {
+        if (callback) callback()
+      }
+    }
+    if (existingScript && callback) callback()
+  }
 
   async function handleEditAddress() {
     if (edit) {
