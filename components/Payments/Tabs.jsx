@@ -12,13 +12,14 @@ export default function TabSolutions() {
     {
       id: 1,
       name: 'Boleto',
-      icon: <BarcodeOutlined className="w-5 h-5 pt-1 mr-2" />
+
+      icon: <BarcodeOutlined className="w-8 h-8 pt-1 mr-2" style={{ fontSize: '2rem' }} />
     },
-    { id: 2, name: 'Pix', icon: <img src="/pix.svg" className="w-5 h-5 mr-2" alt="pix" /> },
+    { id: 2, name: 'Pix', icon: <img src="/pix.svg" className="w-8 h-8 mr-2" alt="pix" /> },
     {
       id: 3,
       name: 'Cartão de crédto',
-      icon: <CreditCard className="w-6 h-6 mr-2" />
+      icon: <CreditCard className="w-8 h-8 mr-2" />
     }
   ]
 
@@ -28,11 +29,9 @@ export default function TabSolutions() {
 
   return (
     <>
-      <div className="relative max-w-xl mx-auto border-b border-gray-200 sm:pb-0 lg:max-w-7xl">
+      <div className="relative max-w-xl mx-auto border-b border-gray-200 sm:pb-0 lg:max-w-5xl">
         <div className="max-w-md mx-auto sm:max-w-3xl lg:max-w-7xl">
-          <h2 className="text-xl font-bold text-black text-gray-900">
-            Escolha a Forma de pagamento
-          </h2>
+          <h2 className="text-2xl font-bold text-[#0080A8]">Escolha a Forma de pagamento</h2>
         </div>
         <div className="mt-6">
           <div className="sm:hidden">

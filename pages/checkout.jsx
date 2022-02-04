@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { LocalShipping, Payment } from '@material-ui/icons'
+import { BarcodeOutlined } from '@ant-design/icons'
 import { getFeaturedImage } from '../helpers'
 import api from '../services/api'
 import { getCartTotal, getCartState } from '../store/selectors/products'
@@ -323,7 +325,8 @@ export default function Checkout() {
         aria-hidden="true"
       />
       <div
-        className="hidden lg:block absolute top-0 right-0 w-1/2 h-full bg-[#0080A8]"
+        className="absolute top-0 right-0 hidden w-1/2 h-full lg:block"
+        style={{ backgroundImage: 'linear-gradient(50deg , #7dd9f5, #005772)' }}
         aria-hidden="true"
       />
 
@@ -389,13 +392,37 @@ export default function Checkout() {
               </div>
             </dl>
           </div>
+
+          <div className="flex flex-row items-start justify-center px-10 pt-20 sm:px-0">
+            <div className="flex flex-col px-0 payment-information">
+              <Payment className="w-10 h-10 payment-information-image" />
+              <p className="mt-1 text-center payment-information-text">
+                EM ATÉ 6X NO CARTÃO SEM JUROS
+              </p>
+            </div>
+            <div className="flex flex-col px-0 payment-information" style={{ border: 'none' }}>
+              <LocalShipping className="w-10 h-10 payment-information-image" />
+              <h2>
+                <strong className="pt-5 text-white" />
+              </h2>
+            </div>
+            <div className="flex flex-col px-0 payment-information">
+              <BarcodeOutlined
+                className="w-10 h-10 payment-information-image"
+                style={{ fontSize: '2rem' }}
+              />
+              <p className="mt-0 text-center payment-information-text">
+                12% DE DESCONTO NO BOLETO E PIX
+              </p>
+            </div>
+          </div>
         </section>
 
         <section className="lg:max-w-lg lg:w-full lg:mx-auto lg:pt-0 lg:pb-24 lg:row-start-1 lg:col-start-1">
           <form id="form-checkout">
-            <div className="max-w-2xl px-4 mx-auto lg:max-w-none lg:px-0">
+            <div className="max-w-2xl px-4 py-16 mx-auto sm:py-0 lg:max-w-none lg:px-0">
               <div className="">
-                <h3 className="text-xl font-bold text-black">Endereço de entrega</h3>
+                <h3 className="text-2xl font-bold text-[#0080A8]">Endereço de entrega</h3>
 
                 <div className="grid grid-cols-1 mt-6 gap-y-6 gap-x-4 sm:grid-cols-3">
                   <div>
