@@ -316,7 +316,7 @@ export default function Checkout() {
   const priceSale = (product) => `R$${parseFloat(product.price).toFixed(2).replace('.', ',')}`
 
   return (
-    <div className="bg-white">
+    <div className="relative bg-white">
       <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -326,11 +326,11 @@ export default function Checkout() {
 
       {/* Background color split screen for large screens */}
       <div
-        className="fixed top-0 left-0 hidden w-1/2 h-full bg-white lg:block"
+        className="absolute top-0 left-0 hidden w-1/2 h-full bg-white lg:block"
         aria-hidden="true"
       />
       <div
-        className="hidden lg:block fixed top-0 right-0 w-1/2 h-full bg-[#0080A8]"
+        className="hidden lg:block absolute top-0 right-0 w-1/2 h-full bg-[#0080A8]"
         aria-hidden="true"
       />
 
