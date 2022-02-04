@@ -149,3 +149,55 @@
     font-size: 1rem;
   }
 }
+
+/* ShippingCalculator */
+
+.shipping-calculator {
+  padding: 1rem 0;
+  max-width: 600px;
+}
+
+.shipping-calculator h3 {
+  color: #0080a8;
+}
+
+.shipping-calculator-actions {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.shipping-calculator-actions input {
+  margin-right: 10px;
+  border-radius: 0.2rem;
+  border: 1px solid #0080a8;
+  padding: 0.2rem 0.5rem;
+  color: #000 !important;
+}
+
+.shipping-calculator-actions button {
+  margin-right: 10px;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  color: #fff;
+  background: #0080a8;
+  border: none;
+  border-radius: 0.2rem;
+  transition: all ease-in-out 0.2s;
+}
+
+.shipping-calculator-actions button:hover {
+  opacity: 0.8;
+}
+
+.shipping-calculator .cepLink {
+  color: #000 !important;
+  text-decoration: underline;
+  font-size: 0.8rem !important;
+  margin: 0.3rem;
+}
+
+.shipping-calculator .cepLink:hover {
+  color: #ffa500 !important;
+}
