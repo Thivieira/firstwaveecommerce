@@ -1,18 +1,8 @@
-const mercadopago = require('mercadopago')
+import MercadoPago from '../../../services/mercadopago'
 
 export default function handler(req, res) {
   if (req.method === 'GET') {
-    let token = null
-    const env = process.env.NODE_ENV
-    if (env == 'development') {
-      token = process.env.ACCESS_TOKEN
-    } else if (env == 'production') {
-      token = process.env.PRODUCTION_ACCESS_TOKEN
-    }
-
-    mercadopago.configure({
-      access_token: token
-    })
+    const mercadopago = MercadoPago()
 
     const id = req.body.id
 
