@@ -20,35 +20,6 @@ export const getFavoritesProd = (state) => state.products.favoritesProducts
 
 /////////////////////////////////////////////////////////////////////////////
 
-export const getAllProductBrands = (state) =>
-  state.products.products
-    .map((product) => product.brand)
-    .map((product) => product.trim())
-    .reduce((unique, brand) => (unique.includes(brand) ? unique : [...unique, brand]), [])
-
-export const getAllProductSize = (state) => {
-  return state.products.products
-    .map((el) => el.variations)
-    .map((el) => el[0])
-    .map((el) => el.description)
-    .map((el) => el.split(';'))
-    .map((el) => el.slice(1, 2))
-    .map((el) => el[0])
-    .map((el) => el.split(':'))
-    .map((el) => el.slice(1, 2))
-    .map((el) => el[0])
-}
-
-export const getAllProductColor = (state) =>
-  state.products.products
-    .map((el) => el.variations)
-    .map((el) => el[0])
-    .map((el) => el.description)
-    .map((el) => el.split(';'))
-    .map((el) => el[0])
-    .map((el) => el.split(':'))
-    .map((el) => el[1])
-
 export const getPaginationData = (state) => state.products.pagination
 
 export const getFilterData = (state) => state.products.filter
