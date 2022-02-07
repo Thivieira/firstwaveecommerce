@@ -5,7 +5,7 @@ footer {
   padding: 1rem;
   background: #221e20;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
 }
 

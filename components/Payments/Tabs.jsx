@@ -12,7 +12,6 @@ export default function TabSolutions() {
     {
       id: 1,
       name: 'Boleto',
-
       icon: <BarcodeOutlined className="w-8 h-8 pt-1 mr-2" style={{ fontSize: '2rem' }} />
     },
     { id: 2, name: 'Pix', icon: <img src="/pix.svg" className="w-8 h-8 mr-2" alt="pix" /> },

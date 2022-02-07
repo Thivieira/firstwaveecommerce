@@ -159,6 +159,7 @@
 
 .shipping-calculator h3 {
   color: #0080a8;
+  margin-bottom: 0.3rem;
 }
 
 .shipping-calculator-actions {
@@ -172,7 +173,7 @@
   margin-right: 10px;
   border-radius: 0.2rem;
   border: 1px solid #0080a8;
-  padding: 0.2rem 0.5rem;
+  padding: 0 0.5rem;
   color: #000 !important;
 }
 

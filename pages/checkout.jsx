@@ -1,5 +1,3 @@
-import Head from 'next/head'
-import Script from 'next/script'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
@@ -312,13 +310,6 @@ export default function Checkout() {
 
   return (
     <div className="relative bg-white">
-      <Head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Head>
-      <Script src="https://cdn.tailwindcss.com" />
-      <Script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp" />
-
       {/* Background color split screen for large screens */}
       <div
         className="absolute top-0 left-0 hidden w-1/2 h-full bg-white lg:block"

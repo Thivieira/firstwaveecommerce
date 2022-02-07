@@ -15,6 +15,7 @@ import '../styles/table.css'
 import '../styles/editAccount.css'
 import '../styles/payment.css'
 import '../styles/nprogress.css'
+import '../styles/checkout.css'
 
 import 'antd/dist/antd.css'
 import 'slick-carousel/slick/slick.css'
