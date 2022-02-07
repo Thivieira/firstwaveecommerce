@@ -47,6 +47,7 @@ import '../components/Utils/NumeratedTitle/numeratedTitle.css'
 import '../components/Utils/PaymentBox/paymentBox.css'
 
 import api from '../services/api'
+import CheckoutContextProvider from '../contexts/CheckoutContext'
 
 const SiteLayout = dynamic(() => import('../layouts/SiteLayout'))
 
@@ -81,11 +82,13 @@ export default function App({ Component, pageProps }) {
     <Provider store={store}>
       <ConfigProvider locale={ptBR}>
         <CategoryContextProvider>
-          <DefaultSeo
-            title="Lifestyle Floripa by Billabong"
-            description="Sua surf shop na Praia Mole."
-          />
-          {getLayout(<Component {...pageProps} />)}
+          <CheckoutContextProvider>
+            <DefaultSeo
+              title="Lifestyle Floripa by Billabong"
+              description="Sua surf shop na Praia Mole."
+            />
+            {getLayout(<Component {...pageProps} />)}
+          </CheckoutContextProvider>
         </CategoryContextProvider>
       </ConfigProvider>
     </Provider>

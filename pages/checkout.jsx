@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { LocalShipping, Payment } from '@material-ui/icons'
 import { BarcodeOutlined } from '@ant-design/icons'
@@ -10,6 +10,7 @@ import { getCartTotal, getCartState } from '../store/selectors/products'
 import { saveAccount, saveAddress } from '../store/actions/user'
 import Tabs from '../components/Payments/Tabs'
 import Shipping from '../components/Payments/Shipping'
+import { CheckoutContext } from '../contexts/CheckoutContext'
 
 export default function Checkout() {
   const [edit, setEdit] = useState(false)
@@ -124,9 +125,22 @@ export default function Checkout() {
   const [loaded, setLoaded] = useState(false)
   const [mp, setMp] = useState(false)
   const [mpState, setMpState] = useState({})
+  const { paymentMethods, setPaymentMethods } = useContext(CheckoutContext)
 
   // const address = useSelector(getAddress)
   // const account = useSelector(getAccount)
+
+  // useEffect(async () => {
+  //   const res = await fetch('/api/mercadopago/payment-methods')
+  //   const data = await res.json()
+  //   setPaymentMethods(data)
+  // }, [])
+
+  // // useEffect(() => {
+  // //   if (!account) {
+  // //     router.push('/')
+  // //   }
+  // // }, [account])
 
   const mpRun = useCallback(async () => {
     const mpInstance = new MercadoPago(process.env.NEXT_PUBLIC_PUBLIC_KEY, {
@@ -135,159 +149,143 @@ export default function Checkout() {
 
     setMp(mpInstance)
 
-    // const paymentMethods = await mpInstance.getPaymentMethods({ bin: '411111' })
+    const paymentMethods = await mpInstance.getPaymentMethods({ bin: '411111' })
 
-    // const installments = await mpInstance.getInstallments({
-    //   amount: '1000',
-    //   locale: 'pt-BR',
-    //   bin: '411111',
-    //   processingMode: 'aggregator'
-    // })
+    const installments = await mpInstance.getInstallments({
+      amount: '1000',
+      locale: 'pt-BR',
+      bin: '411111',
+      processingMode: 'aggregator'
+    })
 
-    // setMpState({ ...mpState })
-
-    // const cardForm = mp.cardForm({
-    //   amount: '100.5',
-    //   autoMount: true,
-    //   form: {
-    //     id: 'form-checkout',
-    //     cardholderName: {
-    //       id: 'form-checkout__cardholderName',
-    //       placeholder: 'Card Holder'
-    //     },
-    //     cardholderEmail: {
-    //       id: 'form-checkout__cardholderEmail',
-    //       placeholder: 'E-mail'
-    //     },
-    //     cardNumber: {
-    //       id: 'form-checkout__cardNumber',
-    //       placeholder: 'Card Number'
-    //     },
-    //     cardExpirationDate: {
-    //       id: 'form-checkout__cardExpirationDate',
-    //       placeholder: 'Expiration date (MM/YYYY)'
-    //     },
-    //     securityCode: {
-    //       id: 'form-checkout__securityCode',
-    //       placeholder: 'CVV'
-    //     },
-    //     installments: {
-    //       id: 'form-checkout__installments',
-    //       placeholder: 'Installments'
-    //     },
-    //     identificationType: {
-    //       id: 'form-checkout__identificationType',
-    //       placeholder: 'Document Type'
-    //     },
-    //     identificationNumber: {
-    //       id: 'form-checkout__identificationNumber',
-    //       placeholder: 'Document Number'
-    //     },
-    //     issuer: {
-    //       id: 'form-checkout__issuer',
-    //       placeholder: 'Issuer'
-    //     }
-    //   },
-    //   callbacks: {
-    //     onFormMounted: (error) => {
-    //       if (error) return console.warn('Form Mounted handling error: ', error)
-    //       console.log('Form mounted')
-    //     },
-
-    //     onFormUnmounted: (error) => {
-    //       if (error) return console.warn('Form Unmounted handling error: ', error)
-    //       console.log('Form unmounted')
-    //     },
-    //     onIdentificationTypesReceived: (error, identificationTypes) => {
-    //       if (error) return console.warn('identificationTypes handling error: ', error)
-    //       console.log('Identification types available: ', identificationTypes)
-    //     },
-    //     onPaymentMethodsReceived: (error, paymentMethods) => {
-    //       if (error) return console.warn('paymentMethods handling error: ', error)
-    //       console.log('Payment Methods available: ', paymentMethods)
-    //     },
-    //     onIssuersReceived: (error, issuers) => {
-    //       if (error) return console.warn('issuers handling error: ', error)
-    //       console.log('Issuers available: ', issuers)
-    //     },
-    //     onInstallmentsReceived: (error, installments) => {
-    //       if (error) return console.warn('installments handling error: ', error)
-    //       console.log('Installments available: ', installments)
-    //     },
-    //     onCardTokenReceived: (error, token) => {
-    //       if (error) return console.warn('Token handling error: ', error)
-    //       console.log('Token available: ', token)
-    //     },
-    //     onSubmit: (event) => {
-    //       event.preventDefault()
-
-    //       const {
-    //         paymentMethodId,
-    //         issuerId,
-    //         cardholderEmail,
-    //         amount,
-    //         token,
-    //         installments,
-    //         identificationNumber,
-    //         identificationType
-    //       } = cardForm.getCardFormData()
-
-    //       fetch('/process_payment', {
-    //         method: 'POST',
-    //         headers: {
-    //           'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //           token,
-    //           issuer_id,
-    //           payment_method_id,
-    //           transaction_amount: Number(amount),
-    //           installments: Number(installments),
-    //           description: 'Product description',
-    //           payer: {
-    //             email,
-    //             identification: {
-    //               type: identificationType,
-    //               number: identificationNumber
-    //             }
-    //           }
-    //         })
-    //       })
-    //     },
-    //     onFetching: (resource) => {
-    //       console.log('Fetching resource: ', resource)
-
-    //       // Animate progress bar
-    //       const progressBar = document.querySelector('.progress-bar')
-    //       progressBar.removeAttribute('value')
-
-    //       return () => {
-    //         progressBar.setAttribute('value', '0')
-    //       }
-    //     }
-    //   }
-    // })
-
-    // const checkout = mp.checkout({
-    //   preference: {
-    //     id: preferenceId
-    //   },
-    //   render: {
-    //     container: '.cho-container',
-    //     label: 'Pagar'
-    //   },
-    //   theme: {
-    //     elementsColor: '#1890ff',
-    //     headerColor: '#1890ff'
-    //   },
-    //   autoOpen: true,
-    //   init_point: 'redirect'
-    // })
-
-    // window.mp = mp
-    // window.checkout = checkout
-    // window.location = `${init_point_arg}`
+    setMpState({ ...mpState })
   }, [])
+
+  useEffect(() => {
+    if (mp) {
+      const cardForm = mp.cardForm({
+        amount: '100.5',
+        autoMount: true,
+        form: {
+          id: 'form-checkout',
+          cardholderName: {
+            id: 'form-checkout__cardholderName',
+            placeholder: 'Card Holder'
+          },
+          cardholderEmail: {
+            id: 'form-checkout__cardholderEmail',
+            placeholder: 'E-mail'
+          },
+          cardNumber: {
+            id: 'form-checkout__cardNumber',
+            placeholder: 'Card Number'
+          },
+          cardExpirationDate: {
+            id: 'form-checkout__cardExpirationDate',
+            placeholder: 'Expiration date (MM/YYYY)'
+          },
+          securityCode: {
+            id: 'form-checkout__securityCode',
+            placeholder: 'CVV'
+          },
+          installments: {
+            id: 'form-checkout__installments',
+            placeholder: 'Installments'
+          },
+          identificationType: {
+            id: 'form-checkout__identificationType',
+            placeholder: 'Document Type'
+          },
+          identificationNumber: {
+            id: 'form-checkout__identificationNumber',
+            placeholder: 'Document Number'
+          },
+          issuer: {
+            id: 'form-checkout__issuer',
+            placeholder: 'Issuer'
+          }
+        },
+        callbacks: {
+          onFormMounted: (error) => {
+            if (error) return console.warn('Form Mounted handling error: ', error)
+            console.log('Form mounted')
+          },
+
+          onFormUnmounted: (error) => {
+            if (error) return console.warn('Form Unmounted handling error: ', error)
+            console.log('Form unmounted')
+          },
+          onIdentificationTypesReceived: (error, identificationTypes) => {
+            if (error) return console.warn('identificationTypes handling error: ', error)
+            console.log('Identification types available: ', identificationTypes)
+          },
+          onPaymentMethodsReceived: (error, paymentMethods) => {
+            if (error) return console.warn('paymentMethods handling error: ', error)
+            console.log('Payment Methods available: ', paymentMethods)
+          },
+          onIssuersReceived: (error, issuers) => {
+            if (error) return console.warn('issuers handling error: ', error)
+            console.log('Issuers available: ', issuers)
+          },
+          onInstallmentsReceived: (error, installments) => {
+            if (error) return console.warn('installments handling error: ', error)
+            console.log('Installments available: ', installments)
+          },
+          onCardTokenReceived: (error, token) => {
+            if (error) return console.warn('Token handling error: ', error)
+            console.log('Token available: ', token)
+          },
+          onSubmit: (event) => {
+            event.preventDefault()
+
+            const {
+              paymentMethodId,
+              issuerId,
+              cardholderEmail,
+              amount,
+              token,
+              installments,
+              identificationNumber,
+              identificationType
+            } = cardForm.getCardFormData()
+
+            fetch('/process_payment', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                token,
+                issuer_id,
+                payment_method_id,
+                transaction_amount: Number(amount),
+                installments: Number(installments),
+                description: 'Product description',
+                payer: {
+                  email,
+                  identification: {
+                    type: identificationType,
+                    number: identificationNumber
+                  }
+                }
+              })
+            })
+          },
+          onFetching: (resource) => {
+            console.log('Fetching resource: ', resource)
+
+            // Animate progress bar
+            const progressBar = document.querySelector('.progress-bar')
+            progressBar.removeAttribute('value')
+
+            return () => {
+              progressBar.setAttribute('value', '0')
+            }
+          }
+        }
+      })
+    }
+  }, [mp])
 
   // useEffect(() => {
   //   if (!account) {
@@ -411,6 +409,7 @@ export default function Checkout() {
 
         <section className="lg:max-w-lg lg:w-full lg:mx-auto lg:pt-0 lg:pb-24 lg:row-start-1 lg:col-start-1">
           <form id="form-checkout">
+            <input type='text' id="form-checkout__cardholderEmail" cla value={}/>
             <div className="max-w-2xl px-4 py-16 mx-auto sm:py-0 lg:max-w-none lg:px-0">
               <div className="">
                 <h3 className="text-2xl font-bold text-[#0080A8]">Endereço de entrega</h3>

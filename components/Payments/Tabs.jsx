@@ -1,26 +1,11 @@
-import { BarcodeOutlined } from '@ant-design/icons'
-import { CreditCard } from '@material-ui/icons'
-import { useState } from 'react'
 import Credit from './Credit'
 import Pix from './Pix'
 import Ticket from './Ticket'
+import { useContext } from 'react'
+import { CheckoutContext } from '../../contexts/CheckoutContext'
 
 export default function TabSolutions() {
-  const [current, setCurrent] = useState(1)
-
-  const tabs = [
-    {
-      id: 1,
-      name: 'Boleto',
-      icon: <BarcodeOutlined className="w-8 h-8 pt-1 mr-2" style={{ fontSize: '2rem' }} />
-    },
-    { id: 2, name: 'Pix', icon: <img src="/pix.svg" className="w-8 h-8 mr-2" alt="pix" /> },
-    {
-      id: 3,
-      name: 'Cartão de crédto',
-      icon: <CreditCard className="w-8 h-8 mr-2" />
-    }
-  ]
+  const { tabs, current, setCurrent } = useContext(CheckoutContext)
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
