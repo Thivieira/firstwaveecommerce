@@ -51,7 +51,7 @@ export default function handler(req, res) {
             last_name: lastName,
             phone: {
               area_code: area_code,
-              number: Number(number)
+              number
             },
             address: {
               zip_code: address.zipcode ? address.zipcode : '',
