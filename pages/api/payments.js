@@ -95,7 +95,14 @@ export default function handler(req, res) {
         transaction_amount: Number(transaction_amount)
       })
       .then(function (response) {
-        const { status, status_detail, id, payment_method_id, payment_type_id. point_of_interaction  } = response.body
+        const {
+          status,
+          status_detail,
+          id,
+          payment_method_id,
+          payment_type_id,
+          point_of_interaction
+        } = response.body
 
         axios
           .post(
@@ -119,17 +126,24 @@ export default function handler(req, res) {
               qrCodeBase64: point_of_interaction['transaction_data'].qr_code_base64,
               qrCode: point_of_interaction['transaction_data'].qr_code
             },
+            action: 'processando',
             data: body
           })
-        } else {
-          res.status(200).json({
-            pix: false
-          })
+          return true
         }
+
+        if (payment_method_id == 'bank_transfer' && payment_type_id == 'pix') {
+        }
+
+        res.status(200).json({
+          pix: false,
+          action: 'sucesso',
+          data: body
+        })
       })
       .catch(function (error) {
         console.error(error)
-        res.status(error.status).json({ pix: false, error })
+        res.status(error.status).json({ pix: false, action: 'error', error })
       })
   }
 }
