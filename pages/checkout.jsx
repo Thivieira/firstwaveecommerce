@@ -129,7 +129,8 @@ export default function Checkout() {
   const [loaded, setLoaded] = useState(false)
   const [mp, setMp] = useState(false)
   const [mpState, setMpState] = useState({})
-  const { paymentMethods, setPaymentMethods } = useContext(CheckoutContext)
+  const { paymentMethods, setPaymentMethods, paymentRes, setPaymentRes } =
+    useContext(CheckoutContext)
 
   const address = useSelector(getAddress)
   const account = useSelector(getAccount)
@@ -271,6 +272,15 @@ export default function Checkout() {
                 }
               })
             })
+              .then((res) => res.json())
+              .then((res) => {
+                router.push(`/status/${res.action}`)
+                setPaymentRes(res)
+              })
+              .catch((res) => {
+                router.push(`/status/${res.action}`)
+                setPaymentRes(res)
+              })
           },
           onFetching: (resource) => {
             console.log('Fetching resource: ', resource)

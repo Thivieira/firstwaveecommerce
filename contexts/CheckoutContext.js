@@ -4,9 +4,10 @@ import { createContext, useState } from 'react'
 
 export const CheckoutContext = createContext()
 
-const CheckoutContextProvider = (props) => {
+function CheckoutContextProvider(props) {
   const [paymentMethods, setPaymentMethods] = useState([])
   const [current, setCurrent] = useState(3)
+  const [paymentRes, setPaymentRes] = useState([])
 
   const [tabs, setTabs] = useState([
     {
@@ -24,7 +25,16 @@ const CheckoutContextProvider = (props) => {
 
   return (
     <CheckoutContext.Provider
-      value={{ paymentMethods, setPaymentMethods, current, setCurrent, tabs, setTabs }}
+      value={{
+        paymentMethods,
+        setPaymentMethods,
+        current,
+        setCurrent,
+        tabs,
+        setTabs,
+        paymentRes,
+        setPaymentRes
+      }}
     >
       {props.children}
     </CheckoutContext.Provider>
