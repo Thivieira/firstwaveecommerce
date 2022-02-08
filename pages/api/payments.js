@@ -14,15 +14,8 @@ export default function handler(req, res) {
 
     const jwt = getToken(req)
 
-    const {
-      token,
-      issuer_id,
-      payment_method_id,
-      transaction_amount,
-      installments,
-      description,
-      payer
-    } = req.body
+    const { token, issuer_id, payment_method_id, transaction_amount, installments, payer } =
+      req.body
     const { email, identification } = payer
 
     const cart = req.body.cart
@@ -83,13 +76,11 @@ export default function handler(req, res) {
         binary_mode: false,
         callback_url: `${process.env.NEXT_PUBLIC_SITE_URL}/status/processando`,
         capture: true,
-        description,
         installments: Number(installments),
         issuer_id,
         notification_url: process.env.NOTIFICATION_URL,
         payer: {
           type: 'customer',
-          id: '',
           email,
           identification: {
             type: identification.type,
@@ -104,7 +95,7 @@ export default function handler(req, res) {
         transaction_amount: Number(transaction_amount)
       })
       .then(function (response) {
-        const { status, status_detail, id } = response.body
+        const { status, status_detail, id, payment_method_id, payment_type_id. point_of_interaction  } = response.body
 
         axios
           .post(
@@ -119,16 +110,16 @@ export default function handler(req, res) {
           )
           .then((data) => {})
 
-        if (data.payment_method_id == 'bank_transfer' && data.payment_type_id == 'pix') {
+        if (payment_method_id == 'bank_transfer' && payment_type_id == 'pix') {
           res.status(200).json({
             pix: {
-              id: data.id,
-              status: data.status,
-              detail: data.status_detail,
-              qrCodeBase64: data.point_of_interaction['transaction_data'].qr_code_base64,
-              qrCode: data.point_of_interaction['transaction_data'].qr_code
+              id,
+              status: status,
+              detail: status_detail,
+              qrCodeBase64: point_of_interaction['transaction_data'].qr_code_base64,
+              qrCode: point_of_interaction['transaction_data'].qr_code
             },
-            data
+            data: body
           })
         } else {
           res.status(200).json({
