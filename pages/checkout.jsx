@@ -12,8 +12,10 @@ import { saveAccount, saveAddress } from '../store/actions/user'
 import Tabs from '../components/Payments/Tabs'
 import Shipping from '../components/Payments/Shipping'
 import { CheckoutContext } from '../contexts/CheckoutContext'
+import useToken from '../contexts/TokenStorage'
 
 export default function Checkout() {
+  const [loading, setLoading] = useState(false)
   const [edit, setEdit] = useState(false)
   const [street, setStreet] = useState('')
   const [number, setNumber] = useState('')
@@ -25,6 +27,7 @@ export default function Checkout() {
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
   const dispatch = useDispatch()
+  const [jwt] = useToken()
 
   const getUserData = useCallback(() => {
     api
@@ -128,7 +131,7 @@ export default function Checkout() {
   const [mpState, setMpState] = useState({})
   const { paymentMethods, setPaymentMethods } = useContext(CheckoutContext)
 
-  // const address = useSelector(getAddress)
+  const address = useSelector(getAddress)
   const account = useSelector(getAccount)
 
   // useEffect(async () => {
@@ -231,6 +234,7 @@ export default function Checkout() {
           },
           onSubmit: (event) => {
             event.preventDefault()
+            setLoading(true)
 
             const {
               paymentMethodId,
@@ -246,15 +250,18 @@ export default function Checkout() {
             fetch('/api/payments', {
               method: 'POST',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwt}`
               },
               body: JSON.stringify({
                 token,
+                cart,
+                address,
+                account,
                 issuer_id: issuerId,
                 payment_method_id: paymentMethodId,
                 transaction_amount: Number(amount),
                 installments: Number(installments),
-                description: 'Product description',
                 payer: {
                   email: cardholderEmail,
                   identification: {
@@ -267,14 +274,6 @@ export default function Checkout() {
           },
           onFetching: (resource) => {
             console.log('Fetching resource: ', resource)
-
-            // // Animate progress bar
-            // const progressBar = document.querySelector('.progress-bar')
-            // progressBar.removeAttribute('value')
-
-            // return () => {
-            //   progressBar.setAttribute('value', '0')
-            // }
           }
         }
       })
@@ -290,8 +289,6 @@ export default function Checkout() {
   useEffect(() => {
     loadMercadoPago(async () => {
       setLoaded(true)
-      // const preferenceObj = await create_preference(cart, address, account)
-      // dispatch(setPreferenceId(preferenceObj.preferenceId))
       mpRun()
     })
   }, [mpRun])
@@ -440,12 +437,11 @@ export default function Checkout() {
                     </label>
                     <div className="mt-1">
                       <input
-                        type="text"
+                        type="number"
                         onChange={(e) => setNumber(e.target.value)}
                         value={number}
-                        id="postal-code"
-                        name="postal-code"
-                        autoComplete="postal-code"
+                        id="number"
+                        name="number"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
                     </div>
@@ -463,9 +459,8 @@ export default function Checkout() {
                         type="text"
                         onChange={(e) => setComplement(e.target.value)}
                         value={complement}
-                        id="postal-code"
-                        name="postal-code"
-                        autoComplete="postal-code"
+                        id="complement"
+                        name="complement"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
                     </div>
@@ -483,9 +478,8 @@ export default function Checkout() {
                         type="text"
                         onChange={(e) => setCep(e.target.value)}
                         value={cep}
-                        id="postal-code"
-                        name="postal-code"
-                        autoComplete="postal-code"
+                        id="cep"
+                        name="cep"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
                     </div>
@@ -500,8 +494,8 @@ export default function Checkout() {
                         type="text"
                         onChange={(e) => setState(e.target.value)}
                         value={state}
-                        id="province"
-                        name="province"
+                        id="state"
+                        name="state"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
                     </div>
@@ -533,6 +527,7 @@ export default function Checkout() {
                 <Tabs />
               </div>
             </div>
+            {loading && <p>Carregando...</p>}
           </form>
         </section>
       </div>

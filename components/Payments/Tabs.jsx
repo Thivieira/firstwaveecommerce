@@ -1,7 +1,7 @@
+import { useContext } from 'react'
 import Credit from './Credit'
 import Pix from './Pix'
 import Ticket from './Ticket'
-import { useContext } from 'react'
 import { CheckoutContext } from '../../contexts/CheckoutContext'
 
 export default function TabSolutions() {
