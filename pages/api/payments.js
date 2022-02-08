@@ -31,7 +31,6 @@ export default function handler(req, res) {
         picture_url: getFeaturedImage(item.image),
         quantity: parseInt(item.quantity),
         unit_price: parseInt(item.price),
-        currency_id: 'BRL',
         category_id: 'fashion'
       }
     })
@@ -56,10 +55,7 @@ export default function handler(req, res) {
             address: {
               zip_code: address.zipcode ? address.zipcode : '',
               street_name: address.street ? address.street : '',
-              city_name: address.city ? address.city : '',
-              state_name: address.state ? address.state : '',
-              street_number: parseInt(address.number),
-              apartment: address.complement ? address.complement : ''
+              street_number: parseInt(address.number)
             },
             registration_date: account.created_at
           },
