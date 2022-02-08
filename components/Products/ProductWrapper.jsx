@@ -2,7 +2,7 @@ import Images from './Images'
 import Content from './Content'
 import ProductContextProvider from '../../contexts/ProductContextProvider'
 
-const ProductWrapper = ({ product }) => {
+function ProductWrapper({ product }) {
   return (
     <div className="details-wrapper">
       <ProductContextProvider product={product}>

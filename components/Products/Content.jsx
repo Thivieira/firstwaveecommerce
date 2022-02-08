@@ -267,7 +267,7 @@ export default function Content() {
         </div>
       ) : null}
 
-      <ShippingCalculator />
+      <ShippingCalculator product={product} />
 
       <div className="info-product">
         <h3>DESCRIÇÃO</h3>
