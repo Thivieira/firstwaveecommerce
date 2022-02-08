@@ -1,5 +1,6 @@
 import axios from 'axios'
 import MercadoPago from '../../services/mercadopago'
+import { getFeaturedImage } from '../../helpers'
 
 function getToken(req) {
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
