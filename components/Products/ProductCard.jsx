@@ -4,11 +4,12 @@ import noImage from '../../public/noimage.png'
 
 function ProductCard({ product }) {
   const images = product.variations.map((el) => JSON.parse(el.image))
-  const imagesOk = images.filter((el) => el.length !== 0)
 
-  const imageOk = imagesOk[0].map((el) => el.link)[0]
+  const imagesOk = images.filter((el) => el !== '[]')
 
-  const image = imageOk ? imageOk : noImage.src
+  const imageOK = imagesOk.length > 0 && imagesOk[0].length > 0 ? imagesOk[0][0].link : false
+
+  const image = imageOK ? imageOK : noImage.src
 
   const price = `R$${parseFloat(product.price).toFixed(2).replace('.', ',')}`
   const priceSale = `R$${parseFloat(product.variations[0].price).toFixed(2).replace('.', ',')}`

@@ -98,9 +98,9 @@ export default function ProductsSlider({ prod }) {
           {products.map((p, i) => {
             const images = p.variations.map((el) => el.image)
 
-            const imagesOk = images.filter((el) => el !== '[]')[0]
+            const imagesOk = images.filter((el) => el !== '[]')
 
-            const imageOK = JSON.parse(imagesOk)[0].link
+            const imageOK = imagesOk.length > 0 ? JSON.parse(imagesOk[0])[0].link : false
 
             const image = imageOK ? imageOK : noImage.src
 
