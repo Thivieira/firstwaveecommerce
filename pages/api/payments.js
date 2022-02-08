@@ -124,7 +124,7 @@ export default function handler(req, res) {
               qrCode: point_of_interaction['transaction_data'].qr_code
             },
             action: 'processando',
-            data: body
+            data: response.body
           })
           return true
         }
@@ -135,7 +135,7 @@ export default function handler(req, res) {
         res.status(200).json({
           pix: false,
           action: 'sucesso',
-          data: body
+          data: response.body
         })
       })
       .catch(function (error) {
