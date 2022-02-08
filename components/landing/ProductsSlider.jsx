@@ -100,8 +100,6 @@ export default function ProductsSlider({ prod }) {
 
             const imagesOk = images.filter((el) => el !== '[]')
 
-            console.log(imagesOk, 'imagesOk')
-
             const imageOK = imagesOk.length > 0 ? JSON.parse(imagesOk[0])[0].link : false
 
             const image = imageOK ? imageOK : noImage.src
