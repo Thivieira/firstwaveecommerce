@@ -1,4 +1,8 @@
+import { useSelector } from 'react-redux'
+import { getAccount } from '../../store/selectors/user'
+
 function Credit() {
+  const account = useSelector(getAccount)
   return (
     <div className="mt-5">
       <div className="grid grid-cols-3 mt-6 sm:grid-cols-4 gap-y-6 gap-x-4">
@@ -70,8 +74,17 @@ function Credit() {
       </div>
       <div>
         <select name="issuer" id="form-checkout__issuer" />
-        <select name="identificationType" id="form-checkout__identificationType" />
-        <input type="text" name="identificationNumber" id="form-checkout__identificationNumber" />
+        <select
+          name="identificationType"
+          id="form-checkout__identificationType"
+          defaultValue={'CPF'}
+        />
+        <input
+          type="text"
+          name="identificationNumber"
+          id="form-checkout__identificationNumber"
+          value={account.cpf}
+        />
         <select name="installments" id="form-checkout__installments" />
       </div>
 

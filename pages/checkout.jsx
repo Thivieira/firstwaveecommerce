@@ -7,6 +7,7 @@ import { BarcodeOutlined } from '@ant-design/icons'
 import { getFeaturedImage } from '../helpers'
 import api from '../services/api'
 import { getCartTotal, getCartState } from '../store/selectors/products'
+import { getAccount, getAddress } from '../store/selectors/user'
 import { saveAccount, saveAddress } from '../store/actions/user'
 import Tabs from '../components/Payments/Tabs'
 import Shipping from '../components/Payments/Shipping'
@@ -128,7 +129,7 @@ export default function Checkout() {
   const { paymentMethods, setPaymentMethods } = useContext(CheckoutContext)
 
   // const address = useSelector(getAddress)
-  // const account = useSelector(getAccount)
+  const account = useSelector(getAccount)
 
   // useEffect(async () => {
   //   const res = await fetch('/api/mercadopago/payment-methods')
@@ -136,11 +137,13 @@ export default function Checkout() {
   //   setPaymentMethods(data)
   // }, [])
 
-  // // useEffect(() => {
-  // //   if (!account) {
-  // //     router.push('/')
-  // //   }
-  // // }, [account])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (Object.keys(account).length === 0 || total === 0) {
+  //       router.push('/')
+  //     }
+  //   }, 1000)
+  // }, [account])
 
   const mpRun = useCallback(async () => {
     const mpInstance = new MercadoPago(process.env.NEXT_PUBLIC_PUBLIC_KEY, {
@@ -149,22 +152,13 @@ export default function Checkout() {
 
     setMp(mpInstance)
 
-    const paymentMethods = await mpInstance.getPaymentMethods({ bin: '411111' })
-
-    const installments = await mpInstance.getInstallments({
-      amount: '1000',
-      locale: 'pt-BR',
-      bin: '411111',
-      processingMode: 'aggregator'
-    })
-
     setMpState({ ...mpState })
   }, [])
 
   useEffect(() => {
     if (mp) {
       const cardForm = mp.cardForm({
-        amount: '100.5',
+        amount: total.toString(),
         autoMount: true,
         form: {
           id: 'form-checkout',
@@ -249,20 +243,20 @@ export default function Checkout() {
               identificationType
             } = cardForm.getCardFormData()
 
-            fetch('/process_payment', {
+            fetch('/api/payments', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
                 token,
-                issuer_id,
-                payment_method_id,
+                issuer_id: issuerId,
+                payment_method_id: paymentMethodId,
                 transaction_amount: Number(amount),
                 installments: Number(installments),
                 description: 'Product description',
                 payer: {
-                  email,
+                  email: cardholderEmail,
                   identification: {
                     type: identificationType,
                     number: identificationNumber
@@ -274,13 +268,13 @@ export default function Checkout() {
           onFetching: (resource) => {
             console.log('Fetching resource: ', resource)
 
-            // Animate progress bar
-            const progressBar = document.querySelector('.progress-bar')
-            progressBar.removeAttribute('value')
+            // // Animate progress bar
+            // const progressBar = document.querySelector('.progress-bar')
+            // progressBar.removeAttribute('value')
 
-            return () => {
-              progressBar.setAttribute('value', '0')
-            }
+            // return () => {
+            //   progressBar.setAttribute('value', '0')
+            // }
           }
         }
       })
@@ -355,9 +349,9 @@ export default function Checkout() {
                   </div>
                   <p className="flex-none text-base font-medium text-white">
                     {priceSale(product) !== price(product) ? (
-                      <p>{priceSale(product)}</p>
+                      <span>{priceSale(product)}</span>
                     ) : (
-                      <p>{price(product)}</p>
+                      <span>{price(product)}</span>
                     )}
                   </p>
                 </li>
@@ -409,7 +403,12 @@ export default function Checkout() {
 
         <section className="lg:max-w-lg lg:w-full lg:mx-auto lg:pt-0 lg:pb-24 lg:row-start-1 lg:col-start-1">
           <form id="form-checkout">
-            <input type='text' id="form-checkout__cardholderEmail" cla value={}/>
+            <input
+              type="hidden"
+              id="form-checkout__cardholderEmail"
+              className="hidden"
+              value={account.email}
+            />
             <div className="max-w-2xl px-4 py-16 mx-auto sm:py-0 lg:max-w-none lg:px-0">
               <div className="">
                 <h3 className="text-2xl font-bold text-[#0080A8]">Endereço de entrega</h3>

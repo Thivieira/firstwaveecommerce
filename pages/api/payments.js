@@ -1,4 +1,4 @@
-import MercadoPago from '../../../services/mercadopago'
+import MercadoPago from '../../services/mercadopago'
 
 export default function handler(req, res) {
   if (req.method === 'GET') {
@@ -31,7 +31,7 @@ export default function handler(req, res) {
       })
   }
   if (req.method === 'POST') {
-    mercadopago.configurations.setAccessToken('YOUR_ACCESS_TOKEN')
+    const mercadopago = MercadoPago()
 
     mercadopago.payment
       .save(req.body)
