@@ -129,8 +129,11 @@ export default function Checkout() {
   const [loaded, setLoaded] = useState(false)
   const [mp, setMp] = useState(false)
   const [mpState, setMpState] = useState({})
-  const { paymentMethods, setPaymentMethods, paymentRes, setPaymentRes } =
+
+  const { paymentMethods, setPaymentMethods, paymentRes, setPaymentRes, selectedShippingPrice } =
     useContext(CheckoutContext)
+
+  const totalToPay = parseFloat(total) + parseFloat(selectedShippingPrice)
 
   const address = useSelector(getAddress)
   const account = useSelector(getAccount)
@@ -330,9 +333,6 @@ export default function Checkout() {
           <div className="max-w-3xl px-4 mx-auto lg:max-w-none lg:px-0">
             <dl>
               <dt className="text-base font-medium">Pedido</dt>
-              {/* <dd className="mt-1 text-3xl font-extrabold text-white">{`R$${total
-                .toFixed(2)
-                .replace('.', ',')}`}</dd> */}
             </dl>
 
             <ul className="text-sm font-medium divide-y divide-white divide-opacity-10">
@@ -368,17 +368,20 @@ export default function Checkout() {
             <dl className="pt-6 space-y-6 text-sm font-medium border-t border-white border-opacity-10">
               <div className="flex items-center justify-between">
                 <dt>Subtotal</dt>
-                <dd>R$570.00</dd>
+                <dd>{`R$${total.toFixed(2).replace('.', ',')}`}</dd>
               </div>
 
               <div className="flex items-center justify-between">
                 <dt>Entrega</dt>
-                <dd>R$25.00</dd>
+                <dd>{`R$${selectedShippingPrice && selectedShippingPrice.replace('.', ',')}`}</dd>
               </div>
 
               <div className="flex items-center justify-between pt-6 text-white border-t border-white border-opacity-10">
                 <dt className="text-lg">Total</dt>
-                <dd className="text-lg">{`R$${total.toFixed(2).replace('.', ',')}`}</dd>
+                <dd className="text-lg">{`R$${totalToPay
+                  .toFixed(2)
+                  .toString()
+                  .replace('.', ',')}`}</dd>
               </div>
             </dl>
           </div>

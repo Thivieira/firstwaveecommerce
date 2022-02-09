@@ -9,6 +9,10 @@ function CheckoutContextProvider(props) {
   const [current, setCurrent] = useState(3)
   const [paymentRes, setPaymentRes] = useState([])
 
+  const [shipping, setShipping] = useState([])
+  const [selectedShipping, setSelectedShipping] = useState('')
+  const [selectedShippingPrice, setSelectedShippingPrice] = useState(0)
+
   const [tabs, setTabs] = useState([
     {
       id: 1,
@@ -33,7 +37,13 @@ function CheckoutContextProvider(props) {
         tabs,
         setTabs,
         paymentRes,
-        setPaymentRes
+        setPaymentRes,
+        shipping,
+        setShipping,
+        selectedShipping,
+        setSelectedShipping,
+        selectedShippingPrice,
+        setSelectedShippingPrice
       }}
     >
       {props.children}

@@ -1,12 +1,12 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { CheckoutContext } from '../../contexts/CheckoutContext'
 import { getCartState } from '../../store/selectors/products'
 
 function ShippingContent({ cep }) {
-  const [shipping, setShipping] = useState([])
-
-  const [selectedShipping, setSelectedShipping] = useState('')
+  const { shipping, setShipping, selectedShipping, setSelectedShipping, setSelectedShippingPrice } =
+    useContext(CheckoutContext)
 
   const cart = useSelector(getCartState)
 
@@ -38,7 +38,7 @@ function ShippingContent({ cep }) {
         })
         .then((res) => setShipping(res.data))
     }
-  }, [cart, cep])
+  }, [cart, cep, setShipping])
 
   return (
     <div className="relative max-w-xl mx-auto border-b border-gray-200 sm:pb-0 lg:max-w-5xl">
@@ -56,7 +56,10 @@ function ShippingContent({ cep }) {
                       name={el.name}
                       id={el.name}
                       value={el.name}
-                      onChange={(e) => setSelectedShipping(e.target.value)}
+                      onChange={(e) => {
+                        setSelectedShipping(e.target.value)
+                        setSelectedShippingPrice(el.price)
+                      }}
                       checked={selectedShipping === el.name}
                     />
                     <label htmlFor={el.name} className="radio-label">
