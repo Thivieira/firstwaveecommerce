@@ -159,32 +159,37 @@
 
 .shipping-calculator h3 {
   color: #0080a8;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
 }
 
 .shipping-calculator-actions {
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
   margin-bottom: 0.3rem;
 }
 
 .shipping-calculator-actions input {
   margin-right: 10px;
-  border-radius: 0.2rem;
+  width: 50%;
+  border-radius: 0.3rem;
   border: 1px solid #0080a8;
-  padding: 0 0.5rem;
+  padding: 0.3rem 0.5rem;
   color: #000 !important;
+}
+
+.shipping-calculator-actions input:focus-visible {
+  --tw-ring-color: #0080a8;
+  border: #0080a8;
 }
 
 .shipping-calculator-actions button {
   margin-right: 10px;
   cursor: pointer;
-  padding: 0.2rem 0.5rem;
+  padding: 0.3rem 0.5rem;
   color: #fff;
   background: #0080a8;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 0.3rem;
   transition: all ease-in-out 0.2s;
 }
 
@@ -193,7 +198,7 @@
 }
 
 .shipping-calculator .cepLink {
-  color: #000 !important;
+  color: #333 !important;
   text-decoration: underline;
   font-size: 0.8rem !important;
   margin: 0.3rem;
@@ -201,4 +206,52 @@
 
 .shipping-calculator .cepLink:hover {
   color: #ffa500 !important;
+}
+
+.shipping-calculator .radio {
+  margin: 0.5rem;
+}
+.shipping-calculator .radio-label {
+  display: flex;
+}
+.shipping-calculator .radio input[type='radio'] {
+  position: absolute;
+  opacity: 0;
+}
+.shipping-calculator .radio input[type='radio'] + .radio-label:before {
+  content: '';
+  background: #f4f4f4;
+  border-radius: 100%;
+  border: 1px solid #b4b4b4;
+  display: inline-block;
+  width: 1.4em;
+  height: 1.4em;
+  position: relative;
+  margin-right: 0.5em;
+  vertical-align: text-top;
+  cursor: pointer;
+  text-align: center;
+  transition: all 250ms ease;
+}
+.shipping-calculator .radio input[type='radio']:checked + .radio-label:before {
+  background-color: #3197ee;
+  box-shadow: inset 0 0 0 4px #f4f4f4;
+}
+.shipping-calculator .radio input[type='radio']:focus + .radio-label:before {
+  outline: none;
+  border-color: #3197ee;
+}
+.shipping-calculator .radio input[type='radio']:disabled + .radio-label:before {
+  box-shadow: inset 0 0 0 4px #f4f4f4;
+  border-color: #b4b4b4;
+  background: #b4b4b4;
+}
+.shipping-calculator .radio input[type='radio'] + .radio-label:empty:before {
+  margin-right: 0;
+}
+
+.shipping-result {
+  display: grid;
+  grid-template-columns: 80px 80px 200px;
+  cursor: pointer;
 }

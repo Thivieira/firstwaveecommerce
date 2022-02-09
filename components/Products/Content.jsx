@@ -14,7 +14,7 @@ import ShippingCalculator from './ShippingCalculator'
 
 export default function Content() {
   const dispatch = useDispatch()
-  const MySwal = withReactContent(Swal)
+
   const {
     product,
     setImages,
@@ -130,7 +130,6 @@ export default function Content() {
   }, [onSelectedSizeChange, product])
 
   const addToCartFn = () => {
-    console.log({ ...activeVariation, product })
     dispatch(addToCart({ ...activeVariation, product }))
     dispatch(changeIsOpen(true))
   }
@@ -270,7 +269,7 @@ export default function Content() {
       <ShippingCalculator product={product} />
 
       <div className="info-product">
-        <h3>DESCRIÇÃO</h3>
+        <h3>DESCRIÇÃO DO PRODUTO</h3>
         <p>Marca: {product.brand}</p>
         <div
           className="description"

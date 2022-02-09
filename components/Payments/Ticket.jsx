@@ -4,7 +4,7 @@ export default function Ticket() {
       <h2 className="text-base font-semibold text-black">
         O Boleto para o pagamento será exibido na próxma tela após Finalizar Pedido abaixo
       </h2>
-      <ul className="mt-2">
+      <ul className="mt-2 sm:ml-8">
         <li className="mb-2"> Pague via boleto e receba 12% de desconto</li>
         <li className="mb-2"> Imprima o boleto e pague no banco ou lotérica</li>
         <li className="mb-2"> Ou pague pela internet usando o código de barras</li>

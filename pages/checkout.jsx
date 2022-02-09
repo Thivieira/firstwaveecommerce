@@ -10,7 +10,7 @@ import { getCartTotal, getCartState } from '../store/selectors/products'
 import { getAccount, getAddress } from '../store/selectors/user'
 import { saveAccount, saveAddress } from '../store/actions/user'
 import Tabs from '../components/Payments/Tabs'
-import Shipping from '../components/Payments/Shipping'
+import ShippingContent from '../components/Payments/ShippingContent'
 import { CheckoutContext } from '../contexts/CheckoutContext'
 import useToken from '../contexts/TokenStorage'
 
@@ -530,7 +530,7 @@ export default function Checkout() {
               </div>
 
               <div className="mt-10">
-                <Shipping />
+                <ShippingContent cep={cep} />
               </div>
 
               <div className="mt-10">

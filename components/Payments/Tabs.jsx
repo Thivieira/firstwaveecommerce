@@ -33,19 +33,19 @@ export default function TabSolutions() {
           <div className="hidden sm:block">
             <nav className="flex -mb-px space-x-8">
               {tabs.map((tab) => (
-                <span
+                <div
                   key={tab.name}
                   className={classNames(
                     tab.id == current
-                      ? 'border-black text-black '
+                      ? 'border-black text-black'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                    'whitespace-nowrap pb-4 px-1 text-md border-b-2 flex items-center font-bold text-base  cursor-pointer'
+                    'whitespace-nowrap pb-4 px-1 text-md border-b-2 flex items-center font-bold text-base cursor-pointer'
                   )}
                   onClick={() => setCurrent(tab.id)}
                 >
-                  {tab.icon}
-                  {tab.name}
-                </span>
+                  <span className="mr-1">{tab.icon}</span>
+                  <span>{tab.name}</span>
+                </div>
               ))}
             </nav>
           </div>

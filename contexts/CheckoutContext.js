@@ -13,13 +13,13 @@ function CheckoutContextProvider(props) {
     {
       id: 1,
       name: 'Boleto',
-      icon: <BarcodeOutlined className="w-8 h-8 pt-1 mr-2" style={{ fontSize: '2rem' }} />
+      icon: <BarcodeOutlined className="pt-1" style={{ fontSize: '1.5rem' }} />
     },
-    { id: 2, name: 'Pix', icon: <img src="/pix.svg" className="w-8 h-8 mr-2" alt="pix" /> },
+    { id: 2, name: 'Pix', icon: <img src="/pix.svg" className="w-5 h-5" alt="pix" /> },
     {
       id: 3,
       name: 'Cartão de crédto',
-      icon: <CreditCard className="w-8 h-8 mr-2" />
+      icon: <CreditCard style={{ height: '2rem !important', marginTop: '0.3rem' }} />
     }
   ])
 
