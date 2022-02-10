@@ -13,14 +13,16 @@ import {
   MenuOutlined
 } from '@ant-design/icons'
 
-import FloatCart from '../components/FloatCart/FloatCart'
+import { useDispatch, useSelector } from 'react-redux'
+// import FloatCart from '../components/FloatCart/FloatCart'
+import Bag from '../components/FloatCart/Bag'
 
 import api from '../services/api'
 import NavLink from '../components/NavLink'
-import { useDispatch, useSelector } from 'react-redux'
 import { saveAccount, saveAddress } from '../store/actions/user'
 import { getAccount } from '../store/selectors/user'
 import useToken from '../contexts/TokenStorage'
+import Cart from '../components/FloatCart/cart'
 
 function Header() {
   const router = useRouter()
@@ -67,7 +69,7 @@ function Header() {
 
   useEffect(() => {
     if (token) {
-      api.defaults.headers.common['Authorization'] = 'Bearer ' + token
+      api.defaults.headers.common.Authorization = `Bearer ${token}`
       setToken(token)
     }
   }, [setToken, token])
@@ -917,9 +919,13 @@ function Header() {
               )}
             </div>
           </span>
-          <div className="nav-item-cart">
-            <FloatCart />
+          {/* <div className="nav-item-cart"> */}
+          {/* <FloatCart /> */}
+          <div className="ml-4">
+            <Bag />
           </div>
+          <Cart />
+          {/* </div> */}
         </nav>
       </nav>
 
