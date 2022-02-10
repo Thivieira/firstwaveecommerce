@@ -151,7 +151,7 @@ export default function Products({
   const filterMode = useSelector(getFilterMode)
   const router = useRouter()
 
-  console.log(products)
+  // console.log(products)
 
   const updateDimensions = () => {
     const width = window.innerWidth

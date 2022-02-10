@@ -11,7 +11,15 @@ const ProductsSlider = dynamic(() => import('../components/landing/ProductsSlide
 
 const { getLayout } = dynamic(() => import('../layouts/SiteLayout'))
 
+<<<<<<< HEAD
 function Index({ prodMasc, prodOutlet }) {
+=======
+import { Payment, LocalShipping } from '@material-ui/icons'
+import { BarcodeOutlined } from '@ant-design/icons'
+
+const Index = ({ prodMasc, prodOutlet }) => {
+  // console.log(prodOutlet)
+>>>>>>> 36f0b5009a753ff09dc5717f3651924f95da4721
   return (
     <div className="landing-container">
       <CarouselImage />
