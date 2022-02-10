@@ -1,20 +1,19 @@
 import { useState, useEffect, useCallback, useContext } from 'react'
+import { useDispatch } from 'react-redux'
+import Router from 'next/router'
 import ShoppingCartSolid from '../ShoppingCartSolid'
 import FavoriteBtn from '../FavoriteBtn'
 import noImage from '../../public/noimage.png'
 import { upFirst } from '../../helpers'
-import { useDispatch } from 'react-redux'
-import Router from 'next/router'
-
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
 
 import { addToCart, changeIsOpen } from '../../store/actions/products'
 import { ProductContext } from '../../contexts/ProductContextProvider'
+import ShippingTable from './ShippingTable'
+import Descriptions from './Descriptions'
 
 export default function Content() {
   const dispatch = useDispatch()
-  const MySwal = withReactContent(Swal)
+
   const {
     product,
     setImages,
@@ -36,7 +35,7 @@ export default function Content() {
     (value) => {
       setSelectedSize(value)
 
-      const availableSizeVariations = product.variations.filter((el) => el.size == value) //&& el.supply > 0
+      const availableSizeVariations = product.variations.filter((el) => el.size == value) // && el.supply > 0
 
       setAvailableColorVariations(availableSizeVariations)
 
@@ -52,7 +51,7 @@ export default function Content() {
 
   const onSelectedColorChange = useCallback(
     (value) => {
-      const product_variations = availableColorVariations.filter((el) => el.color == value) //&& el.supply > 0
+      const product_variations = availableColorVariations.filter((el) => el.color == value) // && el.supply > 0
 
       if (product_variations.length == 0) {
         return false
@@ -81,8 +80,7 @@ export default function Content() {
      */
     const product_variations = product.variations
 
-    const productHasSizeVariations =
-      product_variations.filter((el) => (el.size ? true : false)).length > 0 ? true : false
+    const productHasSizeVariations = product_variations.filter((el) => !!el.size).length > 0
 
     setHasSizeVariation(productHasSizeVariations)
 
@@ -90,8 +88,8 @@ export default function Content() {
 
     const sizes = product_variations.map((el) => el.size)
 
-    var supplyAndSize = {}
-    for (var i = 0; i < sizes.length; i++) {
+    const supplyAndSize = {}
+    for (let i = 0; i < sizes.length; i++) {
       supplyAndSize[sizes[i]] = supplys[i]
     }
 
@@ -131,7 +129,6 @@ export default function Content() {
   }, [onSelectedSizeChange, product])
 
   const addToCartFn = () => {
-    console.log({ ...activeVariation, product })
     dispatch(addToCart({ ...activeVariation, product }))
     dispatch(changeIsOpen(true))
   }
@@ -148,7 +145,7 @@ export default function Content() {
     <div className="details-content">
       <div className="title-and-heart">
         <h1 className="title-product">
-          {product.description} <FavoriteBtn product={product}></FavoriteBtn>
+          {product.description} <FavoriteBtn product={product} />
         </h1>
       </div>
 
@@ -156,17 +153,15 @@ export default function Content() {
 
       <span className="price-product">
         {priceSale !== price ? (
-          <>
-            <div className="priceSaleProduct">
-              <span>
-                De: <p>{price}</p>
-              </span>
-              <p>
-                <span>Por:</span>
-                {priceSale}
-              </p>
-            </div>
-          </>
+          <div className="priceSaleProduct">
+            <span>
+              De: <p>{price}</p>
+            </span>
+            <p>
+              <span>Por:</span>
+              {priceSale}
+            </p>
+          </div>
         ) : (
           price
         )}
@@ -189,14 +184,14 @@ export default function Content() {
       <div className="btn-buy">
         <button
           onClick={() => addToCartFn()}
-          disabled={activeVariation.supply <= 0 ? true : false}
+          disabled={activeVariation.supply <= 0}
           title={
             activeVariation.supply <= 0
               ? 'Este produto não tem esta quantidade disponível.'
               : 'Adicionar ao carrinho.'
           }
         >
-          ADICIONAR AO {<ShoppingCartSolid height="20" width="20" color="#fff" />}
+          ADICIONAR AO <ShoppingCartSolid height="20" width="20" color="#fff" />
         </button>
       </div>
 
@@ -206,8 +201,8 @@ export default function Content() {
           <ul>
             {product.variations
               .filter((variation) => selectedColor === variation.color)
-              .map((el) => {
-                return el.supply > 0 ? (
+              .map((el) =>
+                el.supply > 0 ? (
                   <li
                     onClick={() => onSelectedSizeChange(el.size)}
                     key={el.external_id}
@@ -221,7 +216,7 @@ export default function Content() {
                     {el.size === 'null' ? 'único' : el.size}
                   </li>
                 )
-              })}
+              )}
           </ul>
         </div>
       ) : null}
@@ -233,7 +228,7 @@ export default function Content() {
           </span>
           <div className="colors-thumb">
             {availableColorVariations.map((variation) => {
-              const color = variation.color
+              const { color } = variation
               let image = JSON.parse(variation.image)
               image = image.length > 0 ? image[0].link : noImage.src
 
@@ -249,13 +244,13 @@ export default function Content() {
                   src={image}
                   width={48}
                   height={48}
-                  alt="Cor da imagem do produto."
+                  alt="Cor da image do produto."
                   title={`Cor ${color.toLowerCase()}.`}
                   style={{ height: '3rem' }}
                 />
               ) : (
                 <img
-                  className={'disabled'}
+                  className="disabled"
                   key={variation.external_id}
                   src={image}
                   width={48}
@@ -270,13 +265,10 @@ export default function Content() {
         </div>
       ) : null}
 
-      <div className="info-product">
-        <h3>DESCRIÇÃO</h3>
-        <p>Marca: {product.brand}</p>
-        <div
-          className="description"
-          dangerouslySetInnerHTML={{ __html: product.short_description }}
-        ></div>
+      <ShippingTable product={product} />
+
+      <div className="flex pb-10 md:hidden">
+        <Descriptions product={product} />
       </div>
     </div>
   )

@@ -213,7 +213,7 @@ export default function Index() {
         </div>
 
         <div className="products">
-          {console.log(products)}
+          {/* {console.log(products)} */}
           {products.length > 0 ? (
             <>
               {products.map((product) => (

@@ -3,7 +3,7 @@ import Slider from 'react-slick'
 import { ProductContext } from '../../contexts/ProductContextProvider'
 import noImage from '../../public/noimage.png'
 
-export default function Images(props) {
+export default function Images() {
   const { imageThumbs, featuredImage, setFeaturedImage } = useContext(ProductContext)
 
   const settings = {
@@ -66,7 +66,7 @@ export default function Images(props) {
           }}
         >
           <img
-            src={featuredImage ? featuredImage : noImage}
+            src={featuredImage || noImage}
             alt="imagem do produto"
             className="big-img"
             width={400}

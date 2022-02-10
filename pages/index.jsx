@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic'
-import { NextSeo } from 'next-seo'
 
+import { Payment, LocalShipping } from '@material-ui/icons'
+import { BarcodeOutlined } from '@ant-design/icons'
 import api from '../services/api'
 import NavLink from '../components/NavLink'
 
@@ -10,13 +11,9 @@ const ProductsSlider = dynamic(() => import('../components/landing/ProductsSlide
 
 const { getLayout } = dynamic(() => import('../layouts/SiteLayout'))
 
-import { Payment, LocalShipping } from '@material-ui/icons'
-import { BarcodeOutlined } from '@ant-design/icons'
-
-const Index = ({ prodMasc, prodOutlet }) => {
+function Index({ prodMasc, prodOutlet }) {
   return (
     <div className="landing-container">
-      {/* <NextSeo title="Lifestyle Floripa by Billabong" description="Sua surf shop na Praia Mole." /> */}
       <CarouselImage />
 
       <div className="payment-information-container">
@@ -27,7 +24,7 @@ const Index = ({ prodMasc, prodOutlet }) => {
         <div className="payment-information">
           <LocalShipping className="payment-information-image" />
           <h2>
-            <strong></strong>
+            <strong />
           </h2>
         </div>
         <div className="payment-information">
@@ -103,6 +100,6 @@ export const getStaticProps = async () => {
 
   return {
     props: { prodMasc, prodOutlet },
-    revalidate: 60 * 60 * 1 //a cada 1 horas uma nova req na API será feita
+    revalidate: 60 * 60 * 1 // a cada 1 horas uma nova req na API será feita
   }
 }
