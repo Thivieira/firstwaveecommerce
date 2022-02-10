@@ -9,7 +9,7 @@ const CarouselImage = dynamic(() => import('../components/landing/CarouselImage'
 
 const ProductsSlider = dynamic(() => import('../components/landing/ProductsSlider'))
 
-const { getLayout } = dynamic(() => import('../layouts/SiteLayout'))
+const { getLayout } = dynamic(() => import('../components/layouts/SiteLayout'))
 
 function Index({ prodMasc, prodOutlet }) {
   return (

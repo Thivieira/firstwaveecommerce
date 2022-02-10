@@ -919,8 +919,8 @@ function Header() {
             </div>
           </span>
 
-          <div className="absolute top-0 right-0 ml-4 sm:flex">
-            <Bag className="w-12 h-12" />
+          <div className="absolute ml-4 top-5 right-5 sm:flex">
+            <Bag />
           </div>
           <Cart />
         </nav>

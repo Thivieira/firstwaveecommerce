@@ -29,8 +29,8 @@ import '../components/FloatCart/floatcart.css'
 import '../components/Products/productDetails.css'
 import '../components/Products/productCard.css'
 import '../components/Form/form.css'
-import '../partials/header.css'
-import '../partials/footer.css'
+import '../components/partials/header.css'
+import '../components/partials/footer.css'
 
 import './login/login.css'
 import './registrar/form.css'
@@ -48,7 +48,7 @@ import '../components/Utils/PaymentBox/paymentBox.css'
 import api from '../services/api'
 import CheckoutContextProvider from '../contexts/CheckoutContext'
 
-const SiteLayout = dynamic(() => import('../layouts/SiteLayout'))
+const SiteLayout = dynamic(() => import('../components/layouts/SiteLayout'))
 
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())
