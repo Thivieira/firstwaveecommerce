@@ -1,5 +1,5 @@
 import { Instagram, Facebook, WhatsApp, PhoneEnabled, Mail } from '@material-ui/icons'
-import NavLink from '../components/NavLink'
+import NavLink from '../NavLink'
 import { Carousel } from 'react-responsive-carousel'
 
 function Footer() {
@@ -22,7 +22,7 @@ function Footer() {
   return (
     <>
       <footer>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '100%', width: '100%' }}>
           <div className="container-col">
             <div className="sec aboutus">
               <NavLink href="/">

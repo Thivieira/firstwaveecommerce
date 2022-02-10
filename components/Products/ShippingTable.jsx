@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useRef, useContext, useState } from 'react'
+import { useRef, useContext, useState, useEffect } from 'react'
 import { CheckoutContext } from '../../contexts/CheckoutContext'
 import NavLink from '../NavLink'
 
@@ -22,6 +22,10 @@ export default function ShippingTable({ product }) {
         .then((res) => setShipping(res.data))
     }
   }
+
+  useEffect(() => {
+    setShipping([])
+  }, [product])
 
   return (
     <div className="shipping-calculator">

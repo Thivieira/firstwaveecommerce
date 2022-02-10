@@ -15,14 +15,14 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux'
 // import FloatCart from '../components/FloatCart/FloatCart'
-import Bag from '../components/FloatCart/Bag'
+import Bag from '../FloatCart/Bag'
 
-import api from '../services/api'
-import NavLink from '../components/NavLink'
-import { saveAccount, saveAddress } from '../store/actions/user'
-import { getAccount } from '../store/selectors/user'
-import useToken from '../contexts/TokenStorage'
-import Cart from '../components/FloatCart/Cart'
+import api from '../../services/api'
+import NavLink from '../NavLink'
+import { saveAccount, saveAddress } from '../../store/actions/user'
+import { getAccount } from '../../store/selectors/user'
+import useToken from '../../contexts/TokenStorage'
+import Cart from '../FloatCart/Cart'
 
 function Header() {
   const router = useRouter()
