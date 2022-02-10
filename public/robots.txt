@@ -7,3 +7,4 @@ Host: https://www.lifestylefloripa.com.br/
 
 # Sitemaps
 Sitemap: https://www.lifestylefloripa.com.br/sitemap.xml
+Sitemap: https://www.lifestylefloripa.com.br/sitemap-0.xml
