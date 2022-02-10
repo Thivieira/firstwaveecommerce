@@ -22,7 +22,7 @@ import NavLink from '../components/NavLink'
 import { saveAccount, saveAddress } from '../store/actions/user'
 import { getAccount } from '../store/selectors/user'
 import useToken from '../contexts/TokenStorage'
-import Cart from '../components/FloatCart/cart'
+import Cart from '../components/FloatCart/Cart'
 
 function Header() {
   const router = useRouter()
