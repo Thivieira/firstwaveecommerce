@@ -919,13 +919,11 @@ function Header() {
               )}
             </div>
           </span>
-          {/* <div className="nav-item-cart"> */}
-          {/* <FloatCart /> */}
+
           <div className="ml-4">
             <Bag />
           </div>
           <Cart />
-          {/* </div> */}
         </nav>
       </nav>
 

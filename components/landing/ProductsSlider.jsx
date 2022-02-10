@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import Link from 'next/link'
+
 import { useRouter } from 'next/router'
 
 import Slider from 'react-slick'
@@ -21,7 +21,6 @@ export default function ProductsSlider({ prod }) {
   const settings = {
     dots: false,
     adaptiveHeight: true,
-    speed: 1000,
     infinite: true,
     speed: 500,
     slidesToShow: 4,
@@ -80,73 +79,69 @@ export default function ProductsSlider({ prod }) {
       .toFixed(2)
       .replace('.', ',')}`
 
+  if (loading) {
+    return (
+      <div className="spinner-carousel">
+        <FadeLoader
+          color="#0080A8"
+          loading={loading}
+          height={35}
+          width={7.5}
+          radius={5}
+          margin={15}
+        />
+      </div>
+    )
+  }
+
   return (
-    <>
-      {loading === true ? (
-        <div className="spinner-carousel">
-          <FadeLoader
-            color={'#0080A8'}
-            loading={loading}
-            height={35}
-            width={7.5}
-            radius={5}
-            margin={15}
-          />
-        </div>
-      ) : (
-        <Slider {...settings}>
-          {products.map((p, i) => {
-            const images = p.variations.map((el) => el.image)
+    <Slider {...settings}>
+      {products.map((p, i) => {
+        const images = p.variations.map((el) => el.image)
 
-            const imagesOk = images.filter((el) => el !== '[]')
+        const imagesOk = images.filter((el) => el !== '[]')
 
-            const imageOK = imagesOk.length > 0 ? JSON.parse(imagesOk[0])[0].link : false
+        const imageOK = imagesOk.length > 0 ? JSON.parse(imagesOk[0])[0].link : false
 
-            const image = imageOK ? imageOK : noImage.src
+        const image = imageOK || noImage.src
 
-            return (
-              <div
-                className="card-wrapper"
-                key={i}
-                onClick={() => router.push(`/produto/${p.code}`)}
-              >
-                <div className="card">
-                  <div className="card-image">
-                    <img src={image} alt="imagem do produto" className="image-slider" />
-                  </div>
-                  <div className="details">
-                    <h3 className="title-card">{p.description}</h3>
-                    <div className="price">
-                      {p.price !== p.variations[0].price ? (
-                        <div className="priceSale">
-                          <p className="firstPrice">
-                            R${parseFloat(p.price).toFixed(2).replace('.', ',')}{' '}
-                          </p>
-                          <p className="promoPrice">
-                            R$
-                            {parseFloat(p.variations[0].price).toFixed(2).replace('.', ',')}
-                          </p>
-                        </div>
-                      ) : (
-                        <p> R${parseFloat(p.price).toFixed(2).replace('.', ',')} </p>
-                      )}
-                    </div>
-                    <p className="installment-owl">
-                      <strong>6x</strong> de{' '}
-                      <strong>
-                        {installmentPrice(
-                          p.price !== p.variations[0].price ? p.variations[0].price : p.price
-                        )}
-                      </strong>{' '}
-                      sem juros no cartão.
-                    </p>
-                  </div>
-                </div>
+        return (
+          <div className="card-wrapper" key={i} onClick={() => router.push(`/produto/${p.code}`)}>
+            <div className="card">
+              <div className="card-image">
+                <img src={image} alt="imaged do produto" className="image-slider" />
               </div>
-            )
-          })}
-        </Slider>
-      )}
-    </>
+              <div className="details">
+                <h3 className="title-card">{p.description}</h3>
+                <div className="price">
+                  {p.price !== p.variations[0].price ? (
+                    <div className="priceSale">
+                      <p className="firstPrice">
+                        R${parseFloat(p.price).toFixed(2).replace('.', ',')}{' '}
+                      </p>
+                      <p className="promoPrice">
+                        R$
+                        {parseFloat(p.variations[0].price).toFixed(2).replace('.', ',')}
+                      </p>
+                    </div>
+                  ) : (
+                    <p> R${parseFloat(p.price).toFixed(2).replace('.', ',')} </p>
+                  )}
+                </div>
+                <p className="installment-owl">
+                  <strong>6x</strong> de{' '}
+                  <strong>
+                    {installmentPrice(
+                      p.price !== p.variations[0].price ? p.variations[0].price : p.price
+                    )}
+                  </strong>{' '}
+                  sem juros no cartes.
+                </p>
+              </div>
+            </div>
+          </div>
+        )
+      })}
+    </Slider>
   )
 }
