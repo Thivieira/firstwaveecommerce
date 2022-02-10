@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback, useContext } from 'react'
 import { useDispatch } from 'react-redux'
 import Router from 'next/router'
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
 import ShoppingCartSolid from '../ShoppingCartSolid'
 import FavoriteBtn from '../FavoriteBtn'
 import noImage from '../../public/noimage.png'
@@ -10,7 +8,8 @@ import { upFirst } from '../../helpers'
 
 import { addToCart, changeIsOpen } from '../../store/actions/products'
 import { ProductContext } from '../../contexts/ProductContextProvider'
-import ShippingCalculator from './ShippingCalculator'
+import ShippingTable from './ShippingTable'
+import Descriptions from './Descriptions'
 
 export default function Content() {
   const dispatch = useDispatch()
@@ -245,7 +244,7 @@ export default function Content() {
                   src={image}
                   width={48}
                   height={48}
-                  alt="Cor da imagem do produto."
+                  alt="Cor da image do produto."
                   title={`Cor ${color.toLowerCase()}.`}
                   style={{ height: '3rem' }}
                 />
@@ -266,15 +265,10 @@ export default function Content() {
         </div>
       ) : null}
 
-      <ShippingCalculator product={product} />
+      <ShippingTable product={product} />
 
-      <div className="info-product">
-        <h3>DESCRIÇÃO DO PRODUTO</h3>
-        <p>Marca: {product.brand}</p>
-        <div
-          className="description"
-          dangerouslySetInnerHTML={{ __html: product.short_description }}
-        />
+      <div className="flex pb-10 md:hidden">
+        <Descriptions product={product} />
       </div>
     </div>
   )

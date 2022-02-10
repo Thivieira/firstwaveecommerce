@@ -161,26 +161,26 @@ figure:hover img {
   padding: 30px 0;
 }
 
-.details-content .info-product {
+.info-product {
   padding: 1rem 0;
   max-width: 400px;
 }
 
-.details-content .info-product h3 {
+.info-product h3 {
   color: #0080a8;
 }
 
-.details-content .info-product p:nth-child(1) {
+.info-product p:nth-child(1) {
   margin-bottom: 0;
   font-family: Inter, sans-serif !important;
 }
 
-.details-content .info-product p:nth-child(2) {
+.info-product p:nth-child(2) {
   margin-bottom: 0;
   font-family: Inter, sans-serif !important;
 }
 
-.details-content .info-product p:nth-child(3) {
+.info-product p:nth-child(3) {
   margin-bottom: 0;
   font-family: Inter, sans-serif !important;
 }
