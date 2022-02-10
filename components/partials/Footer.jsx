@@ -1,5 +1,5 @@
 import { Instagram, Facebook, WhatsApp, PhoneEnabled, Mail } from '@material-ui/icons'
-import NavLink from '../components/NavLink'
+import NavLink from '../NavLink'
 import { Carousel } from 'react-responsive-carousel'
 
 function Footer() {
