@@ -6,6 +6,7 @@ import Slider from 'react-slick'
 import FadeLoader from 'react-spinners/FadeLoader'
 
 import noImage from '../../public/noimage.png'
+import NavLink from '../NavLink'
 
 export default function ProductsSlider({ prod }) {
   const [loading, setLoading] = useState(false)
@@ -106,7 +107,7 @@ export default function ProductsSlider({ prod }) {
         const image = imageOK || noImage.src
 
         return (
-          <div className="card-wrapper" key={i} onClick={() => router.push(`/produto/${p.code}`)}>
+          <NavLink className="card-wrapper" key={i} href={`/produto/${p.code}`}>
             <div className="card">
               <div className="card-image">
                 <img src={image} alt="imaged do produto" className="image-slider" />
@@ -139,7 +140,7 @@ export default function ProductsSlider({ prod }) {
                 </p>
               </div>
             </div>
-          </div>
+          </NavLink>
         )
       })}
     </Slider>

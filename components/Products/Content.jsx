@@ -11,11 +11,10 @@ import { ProductContext } from '../../contexts/ProductContextProvider'
 import ShippingTable from './ShippingTable'
 import Descriptions from './Descriptions'
 
-export default function Content() {
+export default function Content({ product }) {
   const dispatch = useDispatch()
 
   const {
-    product,
     setImages,
     selectedSize,
     setSelectedSize,

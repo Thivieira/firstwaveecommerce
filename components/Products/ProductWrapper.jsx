@@ -13,7 +13,7 @@ function ProductWrapper({ product }) {
             <Descriptions product={product} />
           </div>
         </div>
-        <Content />
+        <Content product={product} />
       </ProductContextProvider>
     </div>
   )

@@ -3,7 +3,6 @@ import { Badge } from 'antd'
 import { useSelector, useDispatch } from 'react-redux'
 import { ShoppingBagIcon } from '@heroicons/react/outline'
 
-import ShoppingCartSolid from '../ShoppingCartSolid'
 import { getCartState } from '../../store/selectors/products'
 import { changeIsOpen } from '../../store/actions/products'
 

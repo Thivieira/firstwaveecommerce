@@ -859,10 +859,10 @@ function Header() {
 
   return (
     <header id="header">
-      <nav className="header-top">
-        <div onClick={showSideBar} className="navbar">
+      <nav className="relative header-top">
+        <button type="button" onClick={showSideBar} className="navbar">
           <MenuOutlined />
-        </div>
+        </button>
         <NavLink href="/" className="header-logo">
           <img src="/logo-verde.png" alt="Logo do site" />
         </NavLink>
@@ -884,7 +884,6 @@ function Header() {
           </Dropdown>
 
           <span
-            // href={user.name ? "#" : "/login"}
             className="nav-item login"
             onClick={() => {
               setSidebar(false)
@@ -920,8 +919,8 @@ function Header() {
             </div>
           </span>
 
-          <div className="ml-4">
-            <Bag />
+          <div className="absolute top-0 right-0 ml-4 sm:flex">
+            <Bag className="w-12 h-12" />
           </div>
           <Cart />
         </nav>
