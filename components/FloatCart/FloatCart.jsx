@@ -72,7 +72,7 @@ function FloatCart() {
         confirmButtonText: 'OK'
       })
     } else {
-      router.push('/pagamento')
+      router.push('/checkout')
     }
   }
 
