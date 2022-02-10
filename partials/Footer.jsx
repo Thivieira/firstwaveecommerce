@@ -22,7 +22,7 @@ function Footer() {
   return (
     <>
       <footer>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '100%', width: '100%' }}>
           <div className="container-col">
             <div className="sec aboutus">
               <NavLink href="/">
