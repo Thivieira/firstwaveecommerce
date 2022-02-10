@@ -14,8 +14,7 @@ import { Payment, LocalShipping } from '@material-ui/icons'
 import { BarcodeOutlined } from '@ant-design/icons'
 
 const Index = ({ prodMasc, prodOutlet }) => {
-
-  console.log(prodOutlet)
+  // console.log(prodOutlet)
   return (
     <div className="landing-container">
       {/* <NextSeo title="Lifestyle Floripa by Billabong" description="Sua surf shop na Praia Mole." /> */}
