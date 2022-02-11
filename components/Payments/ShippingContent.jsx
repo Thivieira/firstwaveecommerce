@@ -12,33 +12,29 @@ function ShippingContent({ cep }) {
 
   useEffect(() => {
     if (cep && cart.length > 0) {
-      const width = cart
-        .map((el) => parseInt(el.width, 10))
-        .reduce((previousValue, currentValue) => previousValue + currentValue)
-
-      const height = cart
-        .map((el) => parseInt(el.height, 10))
-        .reduce((previousValue, currentValue) => previousValue + currentValue)
-
-      const length = cart
-        .map((el) => parseInt(el.length, 10))
-        .reduce((previousValue, currentValue) => previousValue + currentValue)
-
-      const weight = cart
-        .map((el) => parseInt(el.netWeight, 10))
-        .reduce((previousValue, currentValue) => previousValue + currentValue)
+      const shippingData = cart.map((product) => ({
+        width: product.width,
+        height: product.height,
+        length: product['length'],
+        weight: product.weight,
+        quantity: product.quantity
+      }))
 
       axios
-        .post(`${process.env.NEXT_PUBLIC_API_URL}/integrations/melhorenvio/shipping/calculate`, {
-          postal_code: cep,
-          width,
-          height,
-          length,
-          weight
-        })
+        .post(
+          `${process.env.NEXT_PUBLIC_API_URL}/integrations/melhorenvio/shipping/calculateCart`,
+          {
+            postal_code: cep,
+            products: shippingData
+          }
+        )
         .then((res) => setShipping(res.data))
     }
   }, [cart, cep, setShipping])
+
+  useEffect(() => {
+    setShipping([])
+  }, [cep])
 
   return (
     <div className="relative max-w-xl mx-auto border-b border-gray-200 sm:pb-0 lg:max-w-5xl">
