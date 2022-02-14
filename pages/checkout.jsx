@@ -138,12 +138,6 @@ export default function Checkout() {
   const address = useSelector(getAddress)
   const account = useSelector(getAccount)
 
-  // useEffect(async () => {
-  //   const res = await fetch('/api/mercadopago/payment-methods')
-  //   const data = await res.json()
-  //   setPaymentMethods(data)
-  // }, [])
-
   // useEffect(() => {
   //   setTimeout(() => {
   //     if (Object.keys(account).length === 0 || total === 0) {
@@ -293,11 +287,11 @@ export default function Checkout() {
     }
   }, [mp])
 
-  // useEffect(() => {
-  //   if (!account) {
-  //     router.push('/')
-  //   }
-  // }, [account])
+  useEffect(() => {
+    if (!account) {
+      router.push('/')
+    }
+  }, [account])
 
   useEffect(() => {
     loadMercadoPago(async () => {
