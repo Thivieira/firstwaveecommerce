@@ -1,5 +1,8 @@
-import { useState, useEffect, useCallback } from 'react'
-import { useRouter } from 'next/router'
+/* eslint-disable jsx-a11y/no-redundant-roles */
+import { Fragment, useState, useEffect, useCallback } from 'react'
+
+import { Dialog, Transition } from '@headlessui/react'
+import { XIcon, UserIcon, ArrowRightIcon, LogoutIcon } from '@heroicons/react/outline'
 
 import { Menu, Dropdown, Button, Input, Divider } from 'antd'
 import {
@@ -7,14 +10,12 @@ import {
   PhoneOutlined,
   MailOutlined,
   WhatsAppOutlined,
-  CaretRightOutlined,
   DownOutlined,
-  CloseCircleOutlined,
   MenuOutlined
 } from '@ant-design/icons'
 
 import { useDispatch, useSelector } from 'react-redux'
-// import FloatCart from '../components/FloatCart/FloatCart'
+import { useRouter } from 'next/router'
 import Bag from '../FloatCart/Bag'
 
 import api from '../../services/api'
@@ -26,19 +27,14 @@ import Cart from '../FloatCart/Cart'
 
 function Header() {
   const router = useRouter()
-  const [sidebar, setSidebar] = useState(false)
   const [showFilter, setShowFilter] = useState(0)
-  const [surfDropDown, setSurfDropDown] = useState(false)
-  const [mascDropDown, setMascDropDown] = useState(false)
-  const [femDropDown, setFemDropDown] = useState(false)
-  const [juvDropDown, setJuvDropDown] = useState(false)
   const [width, setWindowWidth] = useState(0)
   const dispatch = useDispatch()
   const user = useSelector(getAccount)
 
   const updateDimensions = () => {
-    const width = window.innerWidth
-    setWindowWidth(width)
+    const widthPage = window.innerWidth
+    setWindowWidth(widthPage)
   }
 
   useEffect(() => {
@@ -75,8 +71,6 @@ function Header() {
   }, [setToken, token])
 
   useEffect(() => getUserData(), [getUserData, token])
-
-  const showSideBar = () => setSidebar(!sidebar)
 
   function switchFilter() {
     switch (showFilter) {
@@ -578,221 +572,6 @@ function Header() {
     }
   }
 
-  const dropDownNav = (type) => {
-    const div = {
-      surf: (
-        <div className="navbar-mobile-surf">
-          <NavLink
-            href="/produtos/Surf/Wetsuit"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setSurfDropDown(false)
-            }}
-          >
-            <NavLink href="/produtos/Surf/">
-              <span>WETSUITS</span>
-            </NavLink>
-          </NavLink>
-          <NavLink
-            href="/produtos/Surf/Quilha"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setSurfDropDown(false)
-            }}
-          >
-            QUILHA
-          </NavLink>
-          <NavLink
-            href="/produtos/Surf/Leash"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setSurfDropDown(false)
-            }}
-          >
-            LEASH
-          </NavLink>
-          <NavLink
-            href="/produtos/Surf/Lycra"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setSurfDropDown(false)
-            }}
-          >
-            LYCRA
-          </NavLink>
-          <NavLink
-            href="/produtos/Surf/Prancha"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setSurfDropDown(false)
-            }}
-          >
-            PRANCHA
-          </NavLink>
-          <NavLink
-            href="/produtos/Surf/Capa"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setSurfDropDown(false)
-            }}
-          >
-            CAPA
-          </NavLink>
-          <NavLink
-            href="/produtos/Surf/Deck"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setSurfDropDown(false)
-            }}
-          >
-            DECK
-          </NavLink>
-          <NavLink
-            href="/produtos/Surf/Bone"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setSurfDropDown(false)
-            }}
-          >
-            BONÉS
-          </NavLink>
-        </div>
-      ),
-      masc: (
-        <div className="navbar-mobile-surf">
-          <NavLink
-            href="/produtos/Masculino/Vestuario"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setMascDropDown(false)
-            }}
-          >
-            VESTUARIO
-          </NavLink>
-          <NavLink
-            href="/produtos/Masculino/Acessorio"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setMascDropDown(false)
-            }}
-          >
-            ACESSÓRIOS
-          </NavLink>
-        </div>
-      ),
-      fem: (
-        <div className="navbar-mobile-surf">
-          <NavLink
-            href="/produtos/Feminino/Vestuario"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setFemDropDown(false)
-            }}
-          >
-            VESTUARIO
-          </NavLink>
-          <NavLink
-            href="/produtos/Feminino/Acessorio"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setFemDropDown(false)
-            }}
-          >
-            ACESSÓRIOS
-          </NavLink>
-        </div>
-      ),
-      juv: (
-        <div className="navbar-mobile-surf">
-          <NavLink
-            href="/produtos/Juvenil/Vestuario/Camiseta"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setjuvDropDown(false)
-            }}
-          >
-            CAMISETAS
-          </NavLink>
-          <NavLink
-            href="/produtos/Juvenil/Vestuario/Regata"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setjuvDropDown(false)
-            }}
-          >
-            REGATAS
-          </NavLink>
-          <NavLink
-            href="/produtos/Juvenil/Vestuario/Bermuda"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setjuvDropDown(false)
-            }}
-          >
-            BERMUDAS
-          </NavLink>
-          <NavLink
-            href="/produtos/Juvenil/Vestuario/Calca"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setjuvDropDown(false)
-            }}
-          >
-            CALÇAS
-          </NavLink>
-          <NavLink
-            href="/produtos/Juvenil/Vestuario/Jaqueta"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setjuvDropDown(false)
-            }}
-          >
-            JAQUETAS
-          </NavLink>
-          <NavLink
-            href="/produtos/Juvenil/Vestuario/Moletom"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setjuvDropDown(false)
-            }}
-          >
-            MOLETONS
-          </NavLink>
-          <NavLink
-            href="/produtos/Juvenil/Vestuario/Sunga"
-            className="navbar-mobile-surf-options"
-            onClick={() => {
-              showSideBar()
-              setjuvDropDown(false)
-            }}
-          >
-            SUNGAS
-          </NavLink>
-        </div>
-      )
-    }
-
-    return div[type]
-  }
-
   const logOut = async () => {
     localStorage.clear()
     dispatch(saveAccount({}))
@@ -857,10 +636,172 @@ function Header() {
 
   const onSearch = async (value) => router.replace(`/produtos?q=${value}`)
 
+  /// /////////////////////////////////////////
+  const [open, setOpen] = useState(false)
+
+  const [openOptions, setOpenOptions] = useState(false)
+
+  const navigation = {
+    category: [
+      {
+        id: 1,
+        name: 'Surf',
+        href: '/produtos/Surf',
+        more: true,
+        sections: [
+          {
+            id: 'categories',
+            name: 'Categorias',
+            items: [
+              { name: 'Wetsuits', href: '/produtos/Surf/Wetsuit' },
+              { name: 'Quilha', href: '/produtos/Surf/Quilha' },
+              { name: 'Leash', href: '/produtos/Surf/Leash' },
+              { name: 'Lycra', href: '/produtos/Surf/Lycra' },
+              { name: 'Prancha', href: '/produtos/Surf/Prancha' },
+              { name: 'Capa', href: '/produtos/Surf/Capa' },
+              { name: 'Deck', href: '/produtos/Surf/Deck' },
+              { name: 'Bonés', href: '/produtos/Surf/Bone' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 2,
+        name: 'Masculino',
+        href: '/produtos/Masculino',
+        more: true,
+        sections: [
+          {
+            id: 'clothing',
+            name: 'Vestuário',
+            items: [
+              { name: 'Bermudas', href: '/produtos/Masculino/Vestuario/Bermuda' },
+              { name: 'Camisetas', href: '/produtos/Masculino/Vestuario/Camiseta' },
+              { name: 'Camisas', href: '/produtos/Masculino/Vestuario/Camisa' },
+              { name: 'Regatas', href: '/produtos/Masculino/Vestuario/Regata' },
+              { name: 'Calças', href: '/produtos/Masculino/Vestuario/Calca' },
+              { name: 'Jaquetas', href: '/produtos/Masculino/Vestuario/Jaqueta' },
+              { name: 'Moletons', href: '/produtos/Masculino/Vestuario/Moletom' },
+              { name: 'Suéters', href: '/produtos/Masculino/Vestuario/Sueter' },
+              { name: 'Extra Grande', href: '/produtos/Masculino/Vestuario/ExtraGrande' },
+              { name: 'Sungas', href: '/produtos/Masculino/Vestuario/Sunga' }
+            ]
+          },
+          {
+            id: 'accessories',
+            name: 'Acessórios',
+            items: [
+              { name: 'Bonés', href: '/produtos/Masculino/Acessorio/Bone' },
+              { name: 'Mochilas', href: '/produtos/Masculino/Acessorio/Mochila' },
+              { name: 'Carteiras', href: '/produtos/Masculino/Acessorio/Carteira' },
+              { name: 'Cintos', href: '/produtos/Masculino/Acessorio/Cinto' },
+              { name: 'Pochetes', href: '/produtos/Masculino/Acessorio/Pochete' },
+              { name: 'Gorros', href: '/produtos/Masculino/Acessorio/Gorro' },
+              { name: 'Meias', href: '/produtos/Masculino/Acessorio/Meia' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 3,
+        name: 'Feminino',
+        href: '/produtos/Feminino',
+        more: true,
+        sections: [
+          {
+            id: 'clothing',
+            name: 'Vestuário',
+            items: [
+              { name: 'Shorts', href: '/produtos/Feminino/Vestuario/Short' },
+              { name: 'Saias', href: '/produtos/Feminino/Vestuario/Saia' },
+              { name: 'Calças', href: '/produtos/Feminino/Vestuario/Calça' },
+              { name: 'Camisetas', href: '/produtos/Feminino/Vestuario/Camiseta' },
+              { name: 'Regatas', href: '/produtos/Feminino/Vestuario/Regata' },
+              { name: 'Vestidos', href: '/produtos/Feminino/Vestuario/Vestido' },
+              { name: 'Macaquinhos', href: '/produtos/Feminino/Vestuario/Macaquinho' },
+              { name: 'Bodys', href: '/produtos/Feminino/Vestuario/Body' },
+              { name: 'Jaquetas', href: '/produtos/Feminino/Vestuario/Jaqueta' },
+              { name: 'Moletons', href: '/produtos/Feminino/Vestuario/Moletom' },
+              { name: 'Blusas', href: '/produtos/Feminino/Vestuario/Blusa' },
+              { name: 'Blusas Tricot', href: '/produtos/Feminino/Vestuario/BlusaTricot' },
+              { name: 'Biquinis e Maiôs', href: '/produtos/Feminino/Vestuario/Biquini' }
+            ]
+          },
+          {
+            id: 'accessories',
+            name: 'Acessórios',
+            items: [
+              { name: 'Bolsas', href: '/produtos/Feminino/Acessorio/Bolsa' },
+              { name: 'Pochetes', href: '/produtos/Feminino/Acessorio/Pochete' },
+              { name: 'Mochilas', href: '/produtos/Feminino/Acessorio/Mochila' },
+              { name: 'Bonés', href: '/produtos/Feminino/Acessorio/Bone' },
+              { name: 'Cintos', href: '/produtos/Feminino/Acessorio/Cinto' },
+              { name: 'Carteiras', href: '/produtos/Feminino/Acessorio/Carteira' },
+              { name: 'Gorros', href: '/produtos/Feminino/Acessorio/Gorro' },
+              { name: 'Necessaires', href: '/produtos/Feminino/Acessorio/Necessaire' },
+              { name: 'Meias', href: '/produtos/Feminino/Acessorio/Meia' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 4,
+        name: 'Juvenil e infantil',
+        href: '/produtos/Juvenil',
+        more: true,
+        sections: [
+          {
+            id: 'clothing',
+            name: 'Vestuário',
+            items: [
+              { name: 'Camisetas', href: '/produtos/Juvenil/Vestuario/Camiseta' },
+              { name: 'Regatas', href: '/produtos/Juvenil/Vestuario/Regata' },
+              { name: 'Bermudas', href: '/produtos/Juvenil/Vestuario/Bermuda' },
+              { name: 'Calças', href: '/produtos/Juvenil/Vestuario/Calca' },
+              { name: 'Jaquetas', href: '/produtos/Juvenil/Vestuario/Jaqueta' },
+              { name: 'Moletons', href: '/produtos/Juvenil/Vestuario/Moletom' },
+              { name: 'Sungas', href: '/produtos/Juvenil/Vestuario/Sunga' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'shoes',
+        name: 'Calçados',
+        href: '/produtos/Calcados',
+        more: false
+      },
+      {
+        id: 'accessories',
+        name: 'Acessórios',
+        href: '/produtos/Acessorio',
+        more: false
+      },
+      {
+        id: 'glass',
+        name: 'Óculos',
+        href: '/produtos/Acessorio/Oculos',
+        more: false
+      },
+      {
+        id: 'clock',
+        name: 'Relógio',
+        href: '/produtos/Acessorio/Relogio',
+        more: false
+      },
+      {
+        id: 'outlet',
+        name: 'Outlet',
+        href: '/produtos/Outlet',
+        more: false
+      }
+    ]
+  }
+
   return (
     <header id="header">
       <nav className="relative header-top">
-        <button type="button" onClick={showSideBar} className="navbar">
+        <button type="button" onClick={() => setOpen(true)} className="navbar">
           <MenuOutlined />
         </button>
         <NavLink href="/" className="header-logo">
@@ -883,16 +824,7 @@ function Header() {
             </Button>
           </Dropdown>
 
-          <span
-            className="nav-item login"
-            onClick={() => {
-              setSidebar(false)
-              setSurfDropDown(false)
-              setMascDropDown(false)
-              setFemDropDown(false)
-              setJuvDropDown(false)
-            }}
-          >
+          <span className="nav-item login">
             <div>
               {user.name ? (
                 <Dropdown.Button overlay={menuLoginOn} placement="bottomCenter">
@@ -919,168 +851,206 @@ function Header() {
             </div>
           </span>
 
-          <div className="absolute ml-4 top-5 right-5 sm:flex">
+          <div className="absolute sm:ml-8 top-5 right-5 sm:right-0 sm:top-0 sm:relative">
             <Bag />
           </div>
           <Cart />
         </nav>
       </nav>
 
+      <Transition.Root show={open} as={Fragment}>
+        <Dialog as="div" className="fixed inset-0 z-40 flex lg:hidden" onClose={setOpen}>
+          <Transition.Child
+            as={Fragment}
+            enter="transition-opacity ease-linear duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity ease-linear duration-300"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <Transition.Child
+            as={Fragment}
+            enter="transition ease-in-out duration-300 transform"
+            enterFrom="-translate-x-full"
+            enterTo="translate-x-0"
+            leave="transition ease-in-out duration-300 transform"
+            leaveFrom="translate-x-0"
+            leaveTo="-translate-x-full"
+          >
+            <div className="relative flex flex-col w-full max-w-sm pb-12 overflow-y-auto bg-white shadow-xl">
+              <div className="flex  justify-between px-4 pt-4">
+                <button
+                  type="button"
+                  className="inline-flex items-center bg-transparent justify-center p-2 -m-2 text-gray-400 rounded-md"
+                  onClick={() => setOpen(false)}
+                >
+                  <XIcon className="w-6 h-6" aria-hidden="true" />
+                </button>
+
+                <button
+                  type="button"
+                  className="inline-flex items-center bg-transparent justify-center p-2 -m-2 text-gray-400 rounded-md"
+                  onClick={() => {
+                    logOut()
+                    setOpen(false)
+                  }}
+                >
+                  Sair
+                  <LogoutIcon className="w-6 h-6 ml-1" aria-hidden="true" />
+                </button>
+              </div>
+              <div className="flex flex-col justify-center items-center">
+                <NavLink href="/" className="mb-6">
+                  <img src="/logo-verde.png" className="w-72 h-auto mt-6" alt="Logo do site" />
+                </NavLink>
+                <div className="flex items-center py-3">
+                  <UserIcon className="w-6 h-6 mr-1 text-[#0080A8]" />
+                  <p
+                    className="text-[#0080A8] text-xl mb-0"
+                    onClick={() => {
+                      user.name ? router.push('/dashboard') : router.push('/login')
+                      setOpen(false)
+                    }}
+                  >
+                    {user.name ? user.name : 'Entre ou cadastre-se'}
+                  </p>
+                </div>
+              </div>
+              <nav className="space-y-1 px-4 pt-8 divide-y divide-[rgba(0,128,168,0.4)] ">
+                {navigation.category.map((item) => (
+                  <div className="flex flex-col">
+                    <span
+                      key={item.id}
+                      className="flex items-center justify-between px-3 py-2 text-xl font-medium text-[#0080A8] hover:bg-blue-100"
+                    >
+                      <a className="truncate" href={item.href}>
+                        {item.name}
+                      </a>
+                      {item.more && (
+                        <ArrowRightIcon
+                          onClick={() => setOpenOptions(!openOptions)}
+                          className="w-5 h-5"
+                        />
+                      )}
+                    </span>
+
+                    {item.sections && openOptions && (
+                      <div className="grid grid-cols-2 gap-y-10 gap-x-8 px-10 py-4">
+                        {item.sections.map((section) => (
+                          <div key={section.name}>
+                            <p
+                              id={`${section.name}-heading`}
+                              className="mb-2 font-medium text-lg  text-[#ffa500]"
+                            >
+                              {section.name}
+                            </p>
+                            <ul
+                              role="list"
+                              aria-labelledby={`${section.name}-heading`}
+                              className="space-y-4"
+                            >
+                              {section.items.map((el) => (
+                                <li key={el.name} className="flex">
+                                  <a href={el.href} className="text-base">
+                                    {el.name}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </nav>
+              <div className="px-6 pt-10">
+                <h3
+                  className="text-lg leading-6 font-medium underline
+                  text-[#0080A8]"
+                >
+                  Atendimento
+                </h3>
+                <dl className="mt-1 text-base text-gray-500">
+                  <div>
+                    <dt className="text-[#0080A8]">Email</dt>
+                    <dd>contato@lifestyle.com.br</dd>
+                  </div>
+                  <div className="mt-1">
+                    <dt className="text-[#0080A8]">Loja Fisíca</dt>
+                    <dd>(48) 98828-1903</dd>
+                  </div>
+                  <div href="https://api.whatsapp.com/send?phone=5548988281903" className="mt-1">
+                    <dt className="text-[#0080A8]">WhatsApp</dt>
+                    <a
+                      className="text-gray-500"
+                      href="https://api.whatsapp.com/send?phone=5548988281903"
+                      target="blank"
+                    >
+                      <dd>(48) 98828-1903</dd>
+                    </a>
+                  </div>
+                  <div className="mt-1">
+                    <dd className="">
+                      Segunda a quarta feira das 10h às 19hs. Quinta a domingo das 10hs às 21hs
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </Transition.Child>
+        </Dialog>
+      </Transition.Root>
+
       <div onMouseLeave={() => setShowFilter(0)}>
-        <nav className={sidebar ? 'menu-container active' : 'menu-container'}>
-          <div className="sidebar-top">
-            <CloseCircleOutlined
-              onClick={() => {
-                setSidebar(false)
-                setSurfDropDown(false)
-                setMascDropDown(false)
-                setFemDropDown(false)
-                setJuvDropDown(false)
-              }}
-              className="closeNavbar"
-            />
-            <NavLink
-              href={user.name ? '/dashboard' : '/login'}
-              className="sidebar-item"
-              onClick={() => {
-                setSidebar(false)
-                setSurfDropDown(false)
-                setMascDropDown(false)
-                setFemDropDown(false)
-                setJuvDropDown(false)
-              }}
-            >
-              <>
-                <UserOutlined style={{ fontSize: '2rem' }} />
-                <p className="nav-item-legenda">{user.name ? user.name : 'Entre ou cadastre-se'}</p>
-              </>
-            </NavLink>
-
-            <Dropdown className="atend" overlay={menuAtendimento}>
-              <Button>
-                <PhoneOutlined /> Atendimento
-                <DownOutlined />
-              </Button>
-            </Dropdown>
-          </div>
-
+        <nav className="menu-container">
           <div className="flex">
             <NavLink
               href="/produtos/Surf"
-              onClick={() => {
-                setSidebar(false)
-                setSurfDropDown(false)
-                setMascDropDown(false)
-                setFemDropDown(false)
-                setJuvDropDown(false)
-              }}
               className={showFilter === 1 ? 'menu-item menu-item-active' : 'menu-item'}
               onMouseEnter={() => setShowFilter(1)}
             >
               {' '}
-              Surf {surfDropDown && dropDownNav('surf')}
+              Surf
             </NavLink>
-            <CaretRightOutlined
-              className="down"
-              onClick={() => {
-                setSurfDropDown(!surfDropDown)
-                setMascDropDown(false)
-                setFemDropDown(false)
-                setJuvDropDown(false)
-              }}
-            />
           </div>
 
           <div className="flex">
             <NavLink
               href="/produtos/Masculino"
-              onClick={() => {
-                setSidebar(false)
-                setSurfDropDown(false)
-                setMascDropDown(false)
-                setFemDropDown(false)
-                setJuvDropDown(false)
-              }}
               className={showFilter === 2 ? 'menu-item menu-item-active' : 'menu-item'}
               onMouseEnter={() => setShowFilter(2)}
             >
               Masculino
-              {mascDropDown && dropDownNav('masc')}
             </NavLink>
-            <CaretRightOutlined
-              className="down"
-              onClick={() => {
-                setMascDropDown(!mascDropDown)
-                setSurfDropDown(false)
-                setFemDropDown(false)
-                setJuvDropDown(false)
-              }}
-            />
           </div>
 
           <div className="flex">
             <NavLink
               href="/produtos/Feminino"
-              onClick={() => {
-                setSidebar(false)
-                setSurfDropDown(false)
-                setMascDropDown(false)
-                setFemDropDown(false)
-                setJuvDropDown(false)
-              }}
               className={showFilter === 3 ? 'menu-item menu-item-active' : 'menu-item'}
               onMouseEnter={() => setShowFilter(3)}
             >
               Feminino
-              {femDropDown && dropDownNav('fem')}
             </NavLink>
-            <CaretRightOutlined
-              className="down"
-              onClick={() => {
-                setMascDropDown(false)
-                setSurfDropDown(false)
-                setFemDropDown(!femDropDown)
-                setJuvDropDown(false)
-              }}
-            />
           </div>
 
           <div className="flex">
             <NavLink
               href="/produtos/Juvenil"
-              onClick={() => {
-                setSidebar(false)
-                setSurfDropDown(false)
-                setMascDropDown(false)
-                setFemDropDown(false)
-                setJuvDropDown(false)
-              }}
               className={showFilter === 4 ? 'menu-item menu-item-active' : 'menu-item'}
               onMouseEnter={() => setShowFilter(4)}
             >
               Juvenil e Infantil
-              {juvDropDown && dropDownNav('juv')}
             </NavLink>
-            <CaretRightOutlined
-              className="down"
-              onClick={() => {
-                setMascDropDown(false)
-                setSurfDropDown(false)
-                setFemDropDown(false)
-                setJuvDropDown(!juvDropDown)
-              }}
-            />
           </div>
 
           <NavLink
             href="/produtos/Calcado"
-            onClick={() => {
-              setSidebar(false)
-              setSurfDropDown(false)
-              setMascDropDown(false)
-              setFemDropDown(false)
-              setJuvDropDown(false)
-            }}
             className={showFilter === 5 ? 'menu-item menu-item-active' : 'menu-item'}
             onMouseEnter={() => setShowFilter(0)}
           >
@@ -1089,13 +1059,6 @@ function Header() {
 
           <NavLink
             href="/produtos/Acessorio"
-            onClick={() => {
-              setSidebar(false)
-              setSurfDropDown(false)
-              setMascDropDown(false)
-              setFemDropDown(false)
-              setJuvDropDown(false)
-            }}
             className={showFilter === 6 ? 'menu-item menu-item-active' : 'menu-item'}
             onMouseEnter={() => setShowFilter(0)}
           >
@@ -1104,13 +1067,6 @@ function Header() {
 
           <NavLink
             href="/produtos/Acessorio/Oculos"
-            onClick={() => {
-              setSidebar(false)
-              setSurfDropDown(false)
-              setMascDropDown(false)
-              setFemDropDown(false)
-              setJuvDropDown(false)
-            }}
             className={showFilter === 7 ? 'menu-item menu-item-active' : 'menu-item'}
             onMouseEnter={() => setShowFilter(0)}
           >
@@ -1119,13 +1075,6 @@ function Header() {
 
           <NavLink
             href="/produtos/Acessorio/Relogio"
-            onClick={() => {
-              setSidebar(false)
-              setSurfDropDown(false)
-              setMascDropDown(false)
-              setFemDropDown(false)
-              setJuvDropDown(false)
-            }}
             className={showFilter === 8 ? 'menu-item menu-item-active' : 'menu-item'}
             onMouseEnter={() => setShowFilter(0)}
           >
@@ -1136,13 +1085,6 @@ function Header() {
             href="/produtos/Outlet"
             className={showFilter === 9 ? 'menu-item menu-item-active' : 'menu-item'}
             onMouseEnter={() => setShowFilter(0)}
-            onClick={() => {
-              setSidebar(false)
-              setSurfDropDown(false)
-              setMascDropDown(false)
-              setFemDropDown(false)
-              setJuvDropDown(false)
-            }}
           >
             Outlet
           </NavLink>
@@ -1152,11 +1094,6 @@ function Header() {
               className="menu-item"
               onClick={() => {
                 logOut()
-                setSidebar(false)
-                setSurfDropDown(false)
-                setMascDropDown(false)
-                setFemDropDown(false)
-                setJuvDropDown(false)
               }}
             >
               Sair

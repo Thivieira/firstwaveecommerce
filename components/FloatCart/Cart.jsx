@@ -82,7 +82,7 @@ export default function Cart() {
         onClose={closeFloatCart}
       >
         <div className="absolute inset-0 overflow-hidden">
-          <Dialog.Overlay className="absolute inset-0 transition-opacity bg-gray-500 bg-opacity-75" />
+          <Dialog.Overlay className="absolute inset-0 transition-opacity bg-black bg-opacity-25" />
 
           <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
             <Transition.Child

@@ -290,8 +290,9 @@
     display: flex;
     z-index: 999;
     cursor: pointer;
-    font-size: 2rem;
+    font-size: 1.5rem;
     top: 1.3rem;
+    background: none;
   }
   .closeNavbar {
     display: flex;
@@ -310,12 +311,13 @@
   }
   .menu-container {
     background-color: #0080a8;
-    width: 200px;
+    width: 100%;
+    max-width: 20rem;
     height: 100%;
     position: fixed;
     top: 0;
     left: -100%;
-    transition: all ease-in-out 0.4s;
+    transition: all ease-in-out 0.5s;
     flex-direction: column;
     padding: 0;
     padding: 1rem 6rem;
@@ -324,7 +326,7 @@
   }
   .menu-container.active {
     left: 0;
-    transition: all ease-in-out 1s;
+    transition: all ease-in-out 0.5s;
   }
   .sidebar-top {
     display: flex;

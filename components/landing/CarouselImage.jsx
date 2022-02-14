@@ -1,14 +1,14 @@
-import NavLink from '../../components/NavLink'
 import { Carousel } from 'react-responsive-carousel'
+import NavLink from '../NavLink'
 import banner1 from '../../public/banner-topo1.jpg'
 import banner2 from '../../public/banner-topo2.jpg'
 import banner3 from '../../public/banner-topo3.jpg'
 
-const ImageSlider = () => {
+function ImageSlider() {
   const getConfigurableProps = () => ({
     showArrows: true,
     showStatus: false,
-    showIndicators: true,
+    showIndicators: false,
     infiniteLoop: true,
     showThumbs: false,
     useKeyboardArrows: true,
@@ -27,7 +27,7 @@ const ImageSlider = () => {
       <NavLink href="/produtos/Masculino/Vestuario/Camiseta">
         <div className="wrapper-carousel-landing">
           <img
-            src={'/banner-topo1.jpg'}
+            src="/banner-topo1.jpg"
             alt="banner1"
             className="image-next"
             width={1200}
@@ -38,7 +38,7 @@ const ImageSlider = () => {
       <NavLink href="/produtos/Masculino/Vestuario/Bermuda">
         <div className="wrapper-carousel-landing">
           <img
-            src={'/banner-topo2.jpg'}
+            src="/banner-topo2.jpg"
             alt="banner2"
             className="image-next"
             width={1200}
@@ -49,7 +49,7 @@ const ImageSlider = () => {
       <NavLink href="/produtos/Surf">
         <div className="wrapper-carousel-landing">
           <img
-            src={'/banner-topo3.jpg'}
+            src="/banner-topo3.jpg"
             alt="banner3"
             className="image-next"
             width={1200}
