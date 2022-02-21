@@ -27,7 +27,14 @@ export default function Checkout() {
   const total = useSelector(getCartTotal)
   const dispatch = useDispatch()
   const [jwt] = useToken()
-  const { paymentRes, setPaymentRes, selectedShippingPrice, loading } = useContext(CheckoutContext)
+  const {
+    paymentRes,
+    setPaymentRes,
+    selectedShippingPrice,
+    loading,
+    checkoutForm,
+    setCheckoutForm
+  } = useContext(CheckoutContext)
   const router = useRouter()
   const account = useSelector(getAccount)
   const totalToPay = parseFloat(total) + parseFloat(selectedShippingPrice)
@@ -205,12 +212,6 @@ export default function Checkout() {
 
         <section className="lg:max-w-lg lg:w-full lg:mx-auto lg:pt-0 lg:pb-24 lg:row-start-1 lg:col-start-1">
           <form id="form-checkout">
-            <input
-              type="hidden"
-              id="form-checkout__cardholderEmail"
-              className="hidden"
-              value={account.email ? account.email : ''}
-            />
             <div className="max-w-2xl px-4 py-16 mx-auto lg:py-0 lg:max-w-none lg:px-0">
               <div className="">
                 <h3 className="text-2xl font-bold text-[#0080A8]">Endereço de entrega</h3>
