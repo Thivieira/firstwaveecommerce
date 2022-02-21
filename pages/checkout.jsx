@@ -95,14 +95,14 @@ export default function Checkout() {
   //   }, 1000)
   // }, [account])
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (total === 0) {
-  //       console.log(total, 'seriously?')
-  //       router.push('/')
-  //     }
-  //   }, 2000)
-  // }, [account])
+  useEffect(() => {
+    // setTimeout(() => {
+    //   if (Object.keys(account).length === 0) {
+    //     console.log(total, 'seriously?')
+    //     router.push('/')
+    //   }
+    // }, 3000)
+  }, [account])
 
   return (
     <div className="relative bg-white">

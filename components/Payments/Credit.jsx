@@ -6,43 +6,46 @@ import { getAccount } from '../../store/selectors/user'
 
 function Credit() {
   const account = useSelector(getAccount)
-  const installments = useRef(null)
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
+  const installments = useRef(null)
   const emailInputRef = useRef(null)
   const nameInputRef = useRef(null)
+  const cpfInputRef = useRef(null)
 
-  const { setPaymentRes, mp, setLoaded, setMp, setMpState, mpState, cardForm, setCardForm } =
-    useContext(CheckoutContext)
+  const {
+    setPaymentRes,
+    mp,
+    current,
+    setLoaded,
+    setMp,
+    setMpState,
+    mpState,
+    cardForm,
+    setCardForm
+  } = useContext(CheckoutContext)
 
   useEffect(() => {
     if (installments.current[0]) {
       installments.current[0].innerText = 'Selecionar parcelas'
     }
-    if (account && nameInputRef) {
-      nameInputRef.current.value = account.name
-    }
-    if (account && emailInputRef) {
-      emailInputRef.current.value = account.email
-    }
   }, [])
 
-  function handleChange(e) {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value
-    })
-  }
+  useEffect(() => {
+    if (account) {
+      if (account.name && nameInputRef) {
+        nameInputRef.current.value = account.name
+      }
+      if (account.email && emailInputRef) {
+        emailInputRef.current.value = account.email
+      }
+      if (account.cpf && cpfInputRef) {
+        cpfInputRef.current.value = account.cpf
+      }
+    }
+  }, [account])
 
-  const [formState, setFormState] = useState({
-    cardholderName: '',
-    cardNumber: '',
-    cardExpirationDate: '',
-    securityCode: '',
-    identificationType: 'CPF',
-    identificationNumber: account.cpf,
-    installments: ''
-  })
+  const [issuer, setIssuer] = useState(null)
 
   const loadMercadoPago = (callback) => {
     const existingScript = document.getElementById('mercadoPagoSdkScript')
@@ -66,7 +69,7 @@ function Credit() {
     setMp(mpInstance)
 
     setMpState({ ...mpState })
-  }, [])
+  }, [mp, setMp])
 
   useEffect(() => {
     loadMercadoPago(async () => {
@@ -75,8 +78,7 @@ function Credit() {
     })
   }, [mpRun])
 
-  useEffect(() => {
-    console.log('i just ran', cardForm, total)
+  const mountCardForm = useCallback(() => {
     if (mp && !cardForm) {
       const cardFormInstance = mp.cardForm({
         amount: total.toString(),
@@ -118,7 +120,7 @@ function Credit() {
           },
           issuer: {
             id: 'form-checkout__issuer',
-            placeholder: 'Issuer'
+            placeholder: 'Bandeira'
           }
         },
         callbacks: {
@@ -138,6 +140,8 @@ function Credit() {
           onPaymentMethodsReceived: (error, paymentMethods) => {
             if (error) return console.warn('paymentMethods handling error: ', error)
             console.log('Payment Methods available: ', paymentMethods)
+
+            setIssuer(paymentMethods[0])
           },
           onIssuersReceived: (error, issuers) => {
             if (error) return console.warn('issuers handling error: ', error)
@@ -201,7 +205,7 @@ function Credit() {
               })
           },
           onFetching: (resource) => {
-            console.log('Fetching resource: ', resource)
+            console.log('Fetching resource: ', resource, cardForm, cardFormInstance)
 
             // Animate progress bar
             // const progressBar = document.querySelector('.progress-bar')
@@ -210,12 +214,44 @@ function Credit() {
             // return () => {
             //   progressBar.setAttribute('value', '0')
             // }
+          },
+          onError: (error, event) => {
+            console.log('onError', event, error)
+          },
+          onValidityChange: (error, field) => {
+            if (error) {
+              error.forEach((e) => {
+                console.log('onValidityChange', `${field}: ${JSON.stringify(e, null, 2)}`)
+              })
+            }
+          },
+          onReady: () => {
+            console.log('CardForm ready')
           }
         }
       })
       setCardForm(cardFormInstance)
     }
-  }, [mp])
+  }, [mp, cardForm, total, setCardForm, setPaymentRes])
+
+  useEffect(() => {
+    console.log('i just ran', mp, cardForm, total)
+    if (mp && !cardForm) {
+      mountCardForm()
+    }
+  }, [mp, cardForm])
+
+  useEffect(() => {
+    if (current === 3) {
+      console.log('mounting')
+      mountCardForm()
+      return true
+    }
+    if (cardForm) {
+      console.log('unmounting')
+      cardForm.unmount()
+    }
+  }, [current])
 
   return (
     <div className="mt-5">
@@ -264,15 +300,26 @@ function Credit() {
           <label htmlFor="cardNumber" className="block font-medium text-gray-700">
             Número do cartão
           </label>
-          <div className="mt-1">
+          <div className="relative mt-1">
             <input
               type="text"
               name="cardNumber"
               placeholder="Número do cartão"
               id="form-checkout__cardNumber"
+              maxLength="19"
               autoComplete="cc-number"
-              className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
+              className={`block ${
+                issuer && 'pr-14'
+              } w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] `}
             />
+            {issuer && (
+              <img
+                className="absolute object-cover w-10 h-8 transform -translate-y-1/2 pointer-events-none top-1/2 right-3"
+                title={issuer.issuer.name}
+                alt={issuer.issuer.name}
+                src={issuer.thumbnail}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -286,6 +333,7 @@ function Credit() {
             <input
               type="text"
               maxLength="7"
+              maxLength={issuer ? issuer.settings[0].security_code['length'] : '4'}
               placeholder="Data de vencimento"
               name="cardExpirationDate"
               id="form-checkout__cardExpirationDate"
@@ -303,6 +351,7 @@ function Credit() {
             <input
               type="text"
               name="securityCode"
+              maxLength={issuer ? issuer.settings[0].security_code['length'] : '4'}
               id="form-checkout__securityCode"
               autoComplete="csc"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
@@ -326,6 +375,7 @@ function Credit() {
           type="text"
           name="identificationNumber"
           placeholder="xxx.xxx.xxx-xx"
+          ref={cpfInputRef}
           id="form-checkout__identificationNumber"
           className="ml-2 py-2 border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] "
         />
