@@ -61,7 +61,7 @@ function Header() {
       .catch((e) => {})
   }, [dispatch])
 
-  const [token, setToken] = useToken()
+  const [token, setToken] = useToken('')
 
   useEffect(() => {
     if (token) {
@@ -882,10 +882,10 @@ function Header() {
             leaveTo="-translate-x-full"
           >
             <div className="relative flex flex-col w-full max-w-sm pb-12 overflow-y-auto bg-white shadow-xl">
-              <div className="flex  justify-between px-4 pt-4">
+              <div className="flex justify-between px-4 pt-4">
                 <button
                   type="button"
-                  className="inline-flex items-center bg-transparent justify-center p-2 -m-2 text-gray-400 rounded-md"
+                  className="inline-flex items-center justify-center p-2 -m-2 text-gray-400 bg-transparent rounded-md"
                   onClick={() => setOpen(false)}
                 >
                   <XIcon className="w-6 h-6" aria-hidden="true" />
@@ -893,7 +893,7 @@ function Header() {
 
                 <button
                   type="button"
-                  className="inline-flex items-center bg-transparent justify-center p-2 -m-2 text-gray-400 rounded-md"
+                  className="inline-flex items-center justify-center p-2 -m-2 text-gray-400 bg-transparent rounded-md"
                   onClick={() => {
                     logOut()
                     setOpen(false)
@@ -903,9 +903,9 @@ function Header() {
                   <LogoutIcon className="w-6 h-6 ml-1" aria-hidden="true" />
                 </button>
               </div>
-              <div className="flex flex-col justify-center items-center">
+              <div className="flex flex-col items-center justify-center">
                 <NavLink href="/" className="mb-6">
-                  <img src="/logo-verde.png" className="w-72 h-auto mt-6" alt="Logo do site" />
+                  <img src="/logo-verde.png" className="h-auto mt-6 w-72" alt="Logo do site" />
                 </NavLink>
                 <div className="flex items-center py-3">
                   <UserIcon className="w-6 h-6 mr-1 text-[#0080A8]" />
@@ -922,7 +922,7 @@ function Header() {
               </div>
               <nav className="space-y-1 px-4 pt-8 divide-y divide-[rgba(0,128,168,0.4)] ">
                 {navigation.category.map((item) => (
-                  <div className="flex flex-col">
+                  <div className="flex flex-col" key={item.id}>
                     <span
                       key={item.id}
                       className="flex items-center justify-between px-3 py-2 text-xl font-medium text-[#0080A8] hover:bg-blue-100"
@@ -939,7 +939,7 @@ function Header() {
                     </span>
 
                     {item.sections && openOptions && (
-                      <div className="grid grid-cols-2 gap-y-10 gap-x-8 px-10 py-4">
+                      <div className="grid grid-cols-2 px-10 py-4 gap-y-10 gap-x-8">
                         {item.sections.map((section) => (
                           <div key={section.name}>
                             <p
