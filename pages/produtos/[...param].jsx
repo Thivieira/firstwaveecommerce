@@ -1,13 +1,15 @@
-import { useContext, useEffect, useState } from 'react'
+import { Fragment, useContext, useEffect, useState } from 'react'
+
+import { Dialog, Transition } from '@headlessui/react'
+import { XIcon, FilterIcon } from '@heroicons/react/outline'
+
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 
-import NoProductsAlert from '../../components/NoProductsAlert'
 import FadeLoader from 'react-spinners/FadeLoader'
 import ReactPaginate from 'react-paginate'
 import { useDispatch, useSelector } from 'react-redux'
-import { Drawer, Button } from 'antd'
-import { FilterOutlined } from '@ant-design/icons'
+import NoProductsAlert from '../../components/NoProductsAlert'
 
 import { CategoryContext } from '../../contexts/CategoryContext'
 import Breadcrumb from '../../components/Breadcrumb'
@@ -15,9 +17,13 @@ import Filter from '../../components/Filter'
 import ProductCard from '../../components/Products/ProductCard'
 import api from '../../services/api'
 
-import { getFilterMode, getFilterUrl } from '../../store/selectors/products'
-
-import { getAllProducts, getLoading, getPaginationData } from '../../store/selectors/products'
+import {
+  getFilterMode,
+  getFilterUrl,
+  getAllProducts,
+  getLoading,
+  getPaginationData
+} from '../../store/selectors/products'
 
 import {
   setProducts,
@@ -42,7 +48,7 @@ export async function getStaticPaths(ctx) {
 }
 
 export async function getStaticProps(ctx) {
-  let category = ctx.params.param[0]
+  const category = ctx.params.param[0]
   let subcategory = ctx.params.param[1]
   let type = ctx.params.param[2]
 
@@ -144,14 +150,13 @@ export default function Products({
   const loading = useSelector(getLoading)
   const [sort, setSort] = useState('menor')
   const [showFilter, setShowFilter] = useState(true)
-  const [visible, setVisible] = useState(false)
   const [width, setWindowWidth] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
   const filterUrl = useSelector(getFilterUrl)
   const filterMode = useSelector(getFilterMode)
   const router = useRouter()
-
-  // console.log(products)
+  // const [visible, setVisible] = useState(false)
+  const [openFilters, setOpenFilters] = useState(false)
 
   const updateDimensions = () => {
     const width = window.innerWidth
@@ -191,11 +196,11 @@ export default function Products({
 
   useEffect(() => {
     setCurrentPage(0)
-    setCategory({ category: category, subcategory: subcategory, type: type })
+    setCategory({ category, subcategory, type })
   }, [setCurrentPage, setCategory, category, subcategory, type, filterUrl])
 
   useEffect(() => {
-    let page = currentPage + 1
+    const page = currentPage + 1
     dispatch(setLoading(false))
     dispatch(setProducts(prod))
     dispatch(setPaginationProducts(totalPages, page, per_page, total))
@@ -203,7 +208,7 @@ export default function Products({
 
   useEffect(() => {
     if (currentPage != 1) {
-      let page = currentPage + 1
+      const page = currentPage + 1
       let url = ''
 
       if (filterUrl) {
@@ -230,22 +235,18 @@ export default function Products({
   }, [dispatch, filterMode, filterUrl, currentPage, category, subcategory, type])
 
   const handleChangeSort = (item) => {
-    let sortValue = item.props.value
+    const sortValue = item.props.value
     setSort(sortValue)
 
-    let productsToSort = products
+    const productsToSort = products
 
     if (sortValue === 'maior') {
-      productsToSort.sort((a, b) => {
-        return parseFloat(b.price) - parseFloat(a.price)
-      })
+      productsToSort.sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
       dispatch(sortProducts(productsToSort, sortValue))
       return true
     }
 
-    productsToSort.sort((a, b) => {
-      return parseFloat(a.price) - parseFloat(b.price)
-    })
+    productsToSort.sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
 
     dispatch(sortProducts(productsToSort, sortValue))
 
@@ -277,23 +278,23 @@ export default function Products({
               ))}
               {paginationRedux.totalPages > 1 ? (
                 <ReactPaginate
-                  previousLabel={'<'}
-                  nextLabel={'>'}
+                  previousLabel="<"
+                  nextLabel=">"
                   pageCount={paginationRedux.totalPages}
                   onPageChange={(selected) => changePage(selected)}
                   forcePage={currentPage}
-                  containerClassName={'paginationsBttn'}
-                  previousLinkClassName={'previousBttn'}
-                  nextLinkClassName={'nextBttn'}
-                  disabledClassName={'paginationDisabled'}
-                  activeClassName={'paginationActive'}
+                  containerClassName="paginationsBttn"
+                  previousLinkClassName="previousBttn"
+                  nextLinkClassName="nextBttn"
+                  disabledClassName="paginationDisabled"
+                  activeClassName="paginationActive"
                 />
               ) : null}
             </>
           ) : loading === true ? (
             <FadeLoader
               className="spinner-products"
-              color={'#0080A8'}
+              color="#0080A8"
               loading={loading}
               height={35}
               width={7.5}
@@ -320,34 +321,65 @@ export default function Products({
             </>
           ) : (
             <div className="site-drawer-render-in-current-wrapper">
-              <Button
-                type="text"
-                size="small"
-                icon={<FilterOutlined />}
-                onClick={() => setVisible(true)}
-                className="btn-filter-mobile"
-              >
-                FILTROS
-              </Button>
+              <button onClick={() => setOpenFilters(true)} className="btn-filter-mobile">
+                FILTROS <FilterIcon className="w-5 h-5 ml-1" />
+              </button>
 
-              <Drawer
-                placement="left"
-                closable={true}
-                onClose={() => setVisible(false)}
-                visible={visible}
-                getContainer={false}
-              >
-                <div className="filter-mobile">
-                  <Filter
-                    category={category}
-                    subcategory={subcategory}
-                    type={type}
-                    brands={brands}
-                    sizes={sizes}
-                    colors={colors}
-                  />
-                </div>
-              </Drawer>
+              <Transition.Root show={openFilters} as={Fragment}>
+                <Dialog
+                  as="div"
+                  className="fixed inset-0 flex "
+                  style={{ zIndex: 9999 }}
+                  onClose={setOpenFilters}
+                >
+                  <Transition.Child
+                    as={Fragment}
+                    enter="transition-opacity ease-linear duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="transition-opacity ease-linear duration-300"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-25" />
+                  </Transition.Child>
+
+                  <Transition.Child
+                    as={Fragment}
+                    enter="transition ease-in-out duration-300 transform"
+                    enterFrom="-translate-x-full"
+                    enterTo="translate-x-0"
+                    leave="transition ease-in-out duration-300 transform"
+                    leaveFrom="translate-x-0"
+                    leaveTo="-translate-x-full"
+                  >
+                    <div className="relative flex flex-col w-full max-w-xs pb-12 overflow-y-auto bg-white shadow-xl">
+                      <div className="flex justify-between px-4 pt-4">
+                        <button
+                          type="button"
+                          className="inline-flex items-center justify-center p-2 -m-2 text-gray-400 bg-transparent rounded-md"
+                          onClick={() => setOpenFilters(false)}
+                        >
+                          <XIcon className="w-6 h-6" aria-hidden="true" />
+                        </button>
+                      </div>
+
+                      <nav className="space-y-1 px-4 pt-8 divide-y divide-[rgba(0,128,168,0.4)] ">
+                        <div className="filter-mobile">
+                          <Filter
+                            category={category}
+                            subcategory={subcategory}
+                            type={type}
+                            brands={brands}
+                            sizes={sizes}
+                            colors={colors}
+                          />
+                        </div>
+                      </nav>
+                    </div>
+                  </Transition.Child>
+                </Dialog>
+              </Transition.Root>
             </div>
           )}
         </div>

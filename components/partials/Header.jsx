@@ -859,7 +859,7 @@ function Header() {
       </nav>
 
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="fixed inset-0 z-40 flex lg:hidden" onClose={setOpen}>
+        <Dialog as="div" className="fixed inset-0 flex lg:hidden" style={{zIndex: 9999}} onClose={setOpen}>
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
