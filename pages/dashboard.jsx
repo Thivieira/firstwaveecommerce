@@ -29,7 +29,7 @@ function Dashboard() {
 
   useEffect(() => {
     if (token) {
-      api.defaults.headers.common['Authorization'] = 'Bearer ' + token
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
     } else {
       localStorage.removeItem('token')
       dispatch(saveAccount({}))

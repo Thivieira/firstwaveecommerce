@@ -65,8 +65,8 @@ function Header() {
 
   useEffect(() => {
     if (token) {
-      api.defaults.headers.common.Authorization = `Bearer ${token}`
-      setToken(token)
+      api.defaults.headers.common.Authorization = `Bearer ${token.replace(/['"]+/g, '')}`
+      setToken(token.replace(/['"]+/g, ''))
     }
   }, [setToken, token])
 

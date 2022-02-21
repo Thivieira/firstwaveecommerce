@@ -137,13 +137,13 @@ export default function Checkout() {
   const address = useSelector(getAddress)
   const account = useSelector(getAccount)
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (Object.keys(account).length === 0 || total === 0) {
-  //       router.push('/')
-  //     }
-  //   }, 1000)
-  // }, [account])
+  useEffect(() => {
+    setTimeout(() => {
+      if (Object.keys(account).length === 0 || total === 0) {
+        router.push('/')
+      }
+    }, 1000)
+  }, [account])
 
   const mpRun = useCallback(async () => {
     const mpInstance = new MercadoPago(process.env.NEXT_PUBLIC_PUBLIC_KEY, {
@@ -412,7 +412,7 @@ export default function Checkout() {
               className="hidden"
               value={account.email}
             />
-            <div className="max-w-2xl px-4 py-16 mx-auto sm:py-0 lg:max-w-none lg:px-0">
+            <div className="max-w-2xl px-4 py-16 mx-auto md:py-0 lg:max-w-none lg:px-0">
               <div className="">
                 <h3 className="text-2xl font-bold text-[#0080A8]">Endereço de entrega</h3>
 
@@ -426,6 +426,7 @@ export default function Checkout() {
                         type="text"
                         onChange={(e) => setStreet(e.target.value)}
                         value={street}
+                        placeholder="Endereço de entrega"
                         id="address"
                         name="address"
                         autoComplete="street-address"
@@ -445,6 +446,7 @@ export default function Checkout() {
                       <input
                         type="number"
                         onChange={(e) => setNumber(e.target.value)}
+                        placeholder="Número"
                         value={number}
                         id="number"
                         name="number"
@@ -465,6 +467,7 @@ export default function Checkout() {
                         type="text"
                         onChange={(e) => setComplement(e.target.value)}
                         value={complement}
+                        placeholder="Complemento"
                         id="complement"
                         name="complement"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
@@ -484,6 +487,7 @@ export default function Checkout() {
                         type="text"
                         onChange={(e) => setCep(e.target.value)}
                         value={cep}
+                        placeholder="CEP"
                         id="cep"
                         name="cep"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
@@ -500,6 +504,7 @@ export default function Checkout() {
                         type="text"
                         onChange={(e) => setState(e.target.value)}
                         value={state}
+                        placeholder="Estado"
                         id="state"
                         name="state"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
@@ -516,6 +521,7 @@ export default function Checkout() {
                         type="text"
                         onChange={(e) => setCity(e.target.value)}
                         value={city}
+                        placeholder="Cidade"
                         id="city"
                         name="city"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"

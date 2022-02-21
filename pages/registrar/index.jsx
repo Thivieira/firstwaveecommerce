@@ -70,8 +70,9 @@ function Form() {
         })
         .then((res) => {
           const token = res.data.access_token
+          console.log(token)
           setToken(token)
-          api.defaults.headers.common['Authorization'] = 'Bearer ' + token
+          api.defaults.headers.common['Authorization'] = `Bearer ${token}`
           resolve()
         })
         .catch(() => {

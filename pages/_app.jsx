@@ -61,8 +61,9 @@ export default function App({ Component, pageProps }) {
 
   if (typeof window !== 'undefined') {
     const token = window.localStorage.getItem('token')
+    console.log(token, 'token')
     if (token) {
-      api.defaults.headers.common.Authorization = `Bearer ${token}`
+      api.defaults.headers.common.Authorization = `Bearer ${token.replace(/['"]+/g, '')}`
     }
 
     api.interceptors.response.use(

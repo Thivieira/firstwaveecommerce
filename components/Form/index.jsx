@@ -53,7 +53,7 @@ function Form() {
           const token = res.data.access_token
           localStorage.setItem('token', token)
 
-          api.defaults.headers.common['Authorization'] = 'Bearer ' + token
+          api.defaults.headers.common['Authorization'] = `Bearer ${token}`
           resolve()
         })
         .catch(() => {

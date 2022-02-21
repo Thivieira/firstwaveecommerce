@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/selectors/user'
 
@@ -11,6 +11,23 @@ function Credit() {
       installments.current[0].innerText = 'Selecionar parcelas'
     }
   }, [])
+
+  function handleChange(e) {
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const [formState, setFormState] = useState({
+    cardholderName: '',
+    cardNumber: '',
+    cardExpirationDate: '',
+    securityCode: '',
+    identificationType: 'CPF',
+    identificationNumber: account.cpf,
+    installments: ''
+  })
 
   return (
     <div className="mt-5">
@@ -29,6 +46,8 @@ function Credit() {
               placeholder="Nome impresso no cartão"
               id="form-checkout__cardholderName"
               autoComplete="name"
+              onChange={handleChange}
+              value={formState.cardholderName}
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
           </div>
@@ -45,6 +64,8 @@ function Credit() {
               placeholder="Número do cartão"
               id="form-checkout__cardNumber"
               autoComplete="cc-number"
+              onChange={handleChange}
+              value={formState.cardNumber}
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
           </div>
@@ -64,6 +85,8 @@ function Credit() {
               name="cardExpirationDate"
               id="form-checkout__cardExpirationDate"
               autoComplete="cc-exp"
+              onChange={handleChange}
+              value={formState.cardExpirationDate}
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
           </div>
@@ -79,6 +102,8 @@ function Credit() {
               name="securityCode"
               id="form-checkout__securityCode"
               autoComplete="csc"
+              onChange={handleChange}
+              value={formState.securityCode}
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
           </div>
@@ -90,7 +115,8 @@ function Credit() {
         <select
           name="identificationType"
           id="form-checkout__identificationType"
-          defaultValue="CPF"
+          onChange={handleChange}
+          value={formState.identificationType}
           className="py-2 pl-3 pr-10 font-medium text-left border border-gray-300 rounded-md shadow-sm cursor-default relativebg-white focus:outline-none focus:ring-1 focus:ring-[#0080A8] focus:border-[#0080A8]"
         />
         <input
@@ -99,13 +125,16 @@ function Credit() {
           placeholder="xxx.xxx.xxx-xx"
           id="form-checkout__identificationNumber"
           className="ml-2 py-2 border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] "
-          value={account.cpf}
+          onChange={handleChange}
+          value={formState.identificationNumber}
         />
       </div>
 
       <select
         name="installments"
         ref={installments}
+        onChange={handleChange}
+        value={formState.installments}
         id="form-checkout__installments"
         className="py-2 pl-3 pr-10 mt-5 font-medium text-left border border-gray-300 rounded-md shadow-sm cursor-default relativebg-white focus:outline-none focus:ring-1 focus:ring-[#0080A8] focus:border-[#0080A8]"
       />

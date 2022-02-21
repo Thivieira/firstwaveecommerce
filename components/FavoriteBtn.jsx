@@ -28,7 +28,7 @@ export default function FavoriteBtn({ product }) {
 
   useEffect(() => {
     if (token) {
-      api.defaults.headers.common['Authorization'] = 'Bearer ' + token
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
       setToken(token)
     }
   }, [setToken, token])

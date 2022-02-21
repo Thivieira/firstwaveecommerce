@@ -81,7 +81,7 @@ export default function ShippingTable({ product }) {
                     {shipping
                       .filter((el) => !el.error)
                       .map((el) => (
-                        <tr>
+                        <tr key={el.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className="text-sm font-medium text-gray-900">{el.name}</span>
                           </td>
