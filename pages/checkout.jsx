@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { LocalShipping, Payment } from '@material-ui/icons'
 import { BarcodeOutlined } from '@ant-design/icons'
-import { getFeaturedImage } from '../helpers'
+import { getFeaturedImage, nullToString } from '../helpers'
 import api from '../services/api'
 import { getCartTotal, getCartState } from '../store/selectors/products'
 import { getAccount, getAddress } from '../store/selectors/user'
@@ -55,22 +55,22 @@ export default function Checkout() {
     api
       .get('/auth/address')
       .then((res) => {
-        setStreet(res.data.address)
-        setNumber(res.data.addressNumber)
-        setComplement(res.data.complement)
-        setCep(res.data.postalCode)
-        setState(res.data.uf)
-        setCity(res.data.city)
-        setNeighborhood(res.data.province)
+        setStreet(nullToString(res.data.address))
+        setNumber(nullToString(res.data.addressNumber))
+        setComplement(nullToString(res.data.complement))
+        setCep(nullToString(res.data.postalCode))
+        setState(nullToString(res.data.uf))
+        setCity(nullToString(res.data.city))
+        setNeighborhood(nullToString(res.data.province))
         dispatch(
           saveAddress({
-            street: res.data.address,
-            number: res.data.addressNumber,
-            complement: res.data.complement,
-            zipcode: res.data.postalCode,
-            state: res.data.uf,
-            city: res.data.city,
-            neighborhood: res.data.province
+            street: nullToString(res.data.address),
+            number: rnullToString(es.data.addressNumber),
+            complement: nullToString(res.data.complement),
+            zipcode: nullToString(res.data.postalCode),
+            state: nullToString(res.data.uf),
+            city: nullToString(res.data.city),
+            neighborhood: nullToString(res.data.province)
           })
         )
       })
@@ -317,8 +317,6 @@ export default function Checkout() {
       />
 
       <div className="relative grid grid-cols-1 mx-auto gap-x-16 max-w-7xl lg:px-8 lg:grid-cols-2 lg:pt-16">
-        {/* <h1 className="sr-only">Checkout</h1> */}
-
         <section
           aria-labelledby="summary-heading"
           className="bg-[#0080A8] text-white py-12 md:px-10 lg:max-w-lg lg:w-full lg:mx-auto lg:px-0 lg:pt-0 lg:pb-24 lg:bg-transparent lg:row-start-1 lg:col-start-2"
@@ -410,7 +408,7 @@ export default function Checkout() {
               type="hidden"
               id="form-checkout__cardholderEmail"
               className="hidden"
-              value={account.email}
+              value={account.email ? account.email : ''}
             />
             <div className="max-w-2xl px-4 py-16 mx-auto lg:py-0 lg:max-w-none lg:px-0">
               <div className="">
@@ -446,8 +444,8 @@ export default function Checkout() {
                       <input
                         type="number"
                         onChange={(e) => setNumber(e.target.value)}
-                        placeholder="Número"
                         value={number}
+                        placeholder="Número"
                         id="number"
                         name="number"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"

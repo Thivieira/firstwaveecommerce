@@ -145,3 +145,7 @@ export function getFeaturedImage(imageJson) {
 export function upFirst(text) {
   return text.charAt(0).toUpperCase() + text.toLowerCase().slice(1)
 }
+
+export function nullToString(value) {
+  return value === null ? '' : value
+}
