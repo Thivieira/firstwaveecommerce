@@ -130,8 +130,7 @@ export default function Checkout() {
   const [mp, setMp] = useState(false)
   const [mpState, setMpState] = useState({})
 
-  const { paymentMethods, setPaymentMethods, paymentRes, setPaymentRes, selectedShippingPrice } =
-    useContext(CheckoutContext)
+  const { paymentRes, setPaymentRes, selectedShippingPrice } = useContext(CheckoutContext)
 
   const totalToPay = parseFloat(total) + parseFloat(selectedShippingPrice)
 
