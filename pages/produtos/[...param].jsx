@@ -155,12 +155,10 @@ export default function Products({
   const filterUrl = useSelector(getFilterUrl)
   const filterMode = useSelector(getFilterMode)
   const router = useRouter()
-  // const [visible, setVisible] = useState(false)
   const [openFilters, setOpenFilters] = useState(false)
 
   const updateDimensions = () => {
-    const width = window.innerWidth
-    setWindowWidth(width)
+    setWindowWidth(window.innerWidth)
   }
 
   useEffect(() => {
