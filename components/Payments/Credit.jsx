@@ -69,7 +69,7 @@ function Credit() {
     setMp(mpInstance)
 
     setMpState({ ...mpState })
-  }, [mp, setMp])
+  }, [mp])
 
   useEffect(() => {
     loadMercadoPago(async () => {
@@ -232,7 +232,7 @@ function Credit() {
       })
       setCardForm(cardFormInstance)
     }
-  }, [mp, cardForm, total, setCardForm, setPaymentRes])
+  }, [mp, cardForm])
 
   useEffect(() => {
     console.log('i just ran', mp, cardForm, total)
