@@ -15,7 +15,6 @@ import { CheckoutContext } from '../contexts/CheckoutContext'
 import useToken from '../contexts/TokenStorage'
 
 export default function Checkout() {
-  const [loading, setLoading] = useState(false)
   const [edit, setEdit] = useState(false)
   const [street, setStreet] = useState('')
   const [number, setNumber] = useState('')
@@ -28,6 +27,12 @@ export default function Checkout() {
   const total = useSelector(getCartTotal)
   const dispatch = useDispatch()
   const [jwt] = useToken()
+  const { paymentRes, setPaymentRes, selectedShippingPrice, loading } = useContext(CheckoutContext)
+  const router = useRouter()
+  const account = useSelector(getAccount)
+  const totalToPay = parseFloat(total) + parseFloat(selectedShippingPrice)
+  const price = (product) => `R$${parseFloat(product.product.price).toFixed(2).replace('.', ',')}`
+  const priceSale = (product) => `R$${parseFloat(product.price).toFixed(2).replace('.', ',')}`
 
   const getUserData = useCallback(() => {
     api
@@ -82,226 +87,22 @@ export default function Checkout() {
     getAddressData()
   }, [edit, getUserData, getAddressData])
 
-  const loadMercadoPago = (callback) => {
-    const existingScript = document.getElementById('mercadoPagoSdkScript')
-    if (!existingScript) {
-      const script = document.createElement('script')
-      script.src = 'https://sdk.mercadopago.com/js/v2'
-      script.id = 'mercadoPagoSdkScript'
-      document.body.appendChild(script)
-      script.onload = () => {
-        if (callback) callback()
-      }
-    }
-    if (existingScript && callback) callback()
-  }
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (Object.keys(account).length === 0 || total === 0) {
+  //       router.push('/')
+  //     }
+  //   }, 1000)
+  // }, [account])
 
-  async function handleEditAddress() {
-    if (edit) {
-      await api
-        .post('/auth/address', {
-          province: neighborhood,
-          postalCode: cep,
-          city,
-          complement,
-          uf: state,
-          addressNumber: number,
-          address: street
-        })
-        .then(() => {
-          MySwal.fire({
-            title: <p>Endereço editado com sucesso!</p>,
-            confirmButtonText: 'OK'
-          })
-        })
-        .catch(() => {
-          MySwal.fire({
-            title: <p>Falha ao editar endereço!</p>,
-            confirmButtonText: 'OK'
-          })
-        })
-    } else {
-      setEdit(true)
-    }
-  }
-
-  const router = useRouter()
-  const [loaded, setLoaded] = useState(false)
-  const [mp, setMp] = useState(false)
-  const [mpState, setMpState] = useState({})
-
-  const { paymentRes, setPaymentRes, selectedShippingPrice } = useContext(CheckoutContext)
-
-  const totalToPay = parseFloat(total) + parseFloat(selectedShippingPrice)
-
-  const address = useSelector(getAddress)
-  const account = useSelector(getAccount)
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (Object.keys(account).length === 0 || total === 0) {
-        router.push('/')
-      }
-    }, 1000)
-  }, [account])
-
-  const mpRun = useCallback(async () => {
-    const mpInstance = new MercadoPago(process.env.NEXT_PUBLIC_PUBLIC_KEY, {
-      locale: 'pt-BR'
-    })
-
-    setMp(mpInstance)
-
-    setMpState({ ...mpState })
-  }, [])
-
-  useEffect(() => {
-    if (mp) {
-      const cardForm = mp.cardForm({
-        amount: total.toString(),
-        autoMount: true,
-        form: {
-          id: 'form-checkout',
-          cardholderName: {
-            id: 'form-checkout__cardholderName',
-            placeholder: 'Card Holder'
-          },
-          cardholderEmail: {
-            id: 'form-checkout__cardholderEmail',
-            placeholder: 'E-mail'
-          },
-          cardNumber: {
-            id: 'form-checkout__cardNumber',
-            placeholder: 'Card Number'
-          },
-          cardExpirationDate: {
-            id: 'form-checkout__cardExpirationDate',
-            placeholder: 'Expiration date (MM/YYYY)'
-          },
-          securityCode: {
-            id: 'form-checkout__securityCode',
-            placeholder: 'CVV'
-          },
-          installments: {
-            id: 'form-checkout__installments',
-            placeholder: 'Installments'
-          },
-          identificationType: {
-            id: 'form-checkout__identificationType',
-            placeholder: 'Document Type'
-          },
-          identificationNumber: {
-            id: 'form-checkout__identificationNumber',
-            placeholder: 'Document Number'
-          },
-          issuer: {
-            id: 'form-checkout__issuer',
-            placeholder: 'Issuer'
-          }
-        },
-        callbacks: {
-          onFormMounted: (error) => {
-            if (error) return console.warn('Form Mounted handling error: ', error)
-            console.log('Form mounted')
-          },
-
-          onFormUnmounted: (error) => {
-            if (error) return console.warn('Form Unmounted handling error: ', error)
-            console.log('Form unmounted')
-          },
-          onIdentificationTypesReceived: (error, identificationTypes) => {
-            if (error) return console.warn('identificationTypes handling error: ', error)
-            console.log('Identification types available: ', identificationTypes)
-          },
-          onPaymentMethodsReceived: (error, paymentMethods) => {
-            if (error) return console.warn('paymentMethods handling error: ', error)
-            console.log('Payment Methods available: ', paymentMethods)
-          },
-          onIssuersReceived: (error, issuers) => {
-            if (error) return console.warn('issuers handling error: ', error)
-            console.log('Issuers available: ', issuers)
-          },
-          onInstallmentsReceived: (error, installments) => {
-            if (error) return console.warn('installments handling error: ', error)
-            console.log('Installments available: ', installments)
-          },
-          onCardTokenReceived: (error, token) => {
-            if (error) return console.warn('Token handling error: ', error)
-            console.log('Token available: ', token)
-          },
-          onSubmit: (event) => {
-            event.preventDefault()
-            setLoading(true)
-
-            const {
-              paymentMethodId,
-              issuerId,
-              cardholderEmail,
-              amount,
-              token,
-              installments,
-              identificationNumber,
-              identificationType
-            } = cardForm.getCardFormData()
-
-            fetch('/api/payments', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${jwt}`
-              },
-              body: JSON.stringify({
-                token,
-                cart,
-                address,
-                account,
-                issuer_id: issuerId,
-                payment_method_id: paymentMethodId,
-                transaction_amount: Number(amount),
-                installments: Number(installments),
-                payer: {
-                  email: cardholderEmail,
-                  identification: {
-                    type: identificationType,
-                    number: identificationNumber
-                  }
-                }
-              })
-            })
-              .then((res) => res.json())
-              .then((res) => {
-                router.push(`/status/${res.action}`)
-                setPaymentRes(res)
-              })
-              .catch((res) => {
-                router.push(`/status/${res.action}`)
-                setPaymentRes(res)
-              })
-          },
-          onFetching: (resource) => {
-            console.log('Fetching resource: ', resource)
-          }
-        }
-      })
-    }
-  }, [mp])
-
-  useEffect(() => {
-    if (!account) {
-      router.push('/')
-    }
-  }, [account])
-
-  useEffect(() => {
-    loadMercadoPago(async () => {
-      setLoaded(true)
-      mpRun()
-    })
-  }, [mpRun])
-
-  const price = (product) => `R$${parseFloat(product.product.price).toFixed(2).replace('.', ',')}`
-
-  const priceSale = (product) => `R$${parseFloat(product.price).toFixed(2).replace('.', ',')}`
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (total === 0) {
+  //       console.log(total, 'seriously?')
+  //       router.push('/')
+  //     }
+  //   }, 2000)
+  // }, [account])
 
   return (
     <div className="relative bg-white">
