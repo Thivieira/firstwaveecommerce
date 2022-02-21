@@ -49,6 +49,8 @@ a {
   position: absolute;
   margin-top: 35px;
   left: 0;
+  align-items: center;
+  margin-left: 1rem;
 }
 
 .paginationsBttn {
@@ -119,13 +121,18 @@ a {
 
   .btn-filter-mobile {
     position: fixed !important;
+    align-items: center;
+    display: flex;
+    justify-content: center;
     top: 9.5rem !important;
+    left: 2rem;
     background-color: #ff8b00;
     color: #fff;
     width: 6.5rem;
     height: 2rem;
-    border-radius: 1rem;
+    border-radius: 0.6rem;
     font-weight: 600;
+    font-size: 1rem;
     padding: 0.2rem;
   }
 
@@ -151,14 +158,8 @@ a {
   }
 }
 
-/* @media (max-width: 380px) { */
 .filter-sort {
-  padding-top: 3rem;
+  padding-top: 4rem;
   margin: 0;
   font-size: 0.9rem;
 }
-
-/* .filter-sort p {
-    margin-left: 0;
-  } */
-/* } */

@@ -379,7 +379,7 @@ export default function Checkout() {
             </dl>
           </div>
 
-          <div className="flex flex-row items-start justify-center px-10 pt-20 sm:px-0">
+          <div className="flex flex-row items-start justify-center px-8 pt-10 sm:px-16 md:px:0">
             <div className="flex flex-col px-0 payment-information">
               <Payment className="w-10 h-10 payment-information-image" />
               <p className="mt-1 text-center payment-information-text">
@@ -394,7 +394,7 @@ export default function Checkout() {
             </div>
             <div className="flex flex-col px-0 payment-information">
               <BarcodeOutlined
-                className="w-10 h-10 payment-information-image"
+                className="w-10 h-6 payment-information-image"
                 style={{ fontSize: '2rem' }}
               />
               <p className="mt-0 text-center payment-information-text">
@@ -412,11 +412,11 @@ export default function Checkout() {
               className="hidden"
               value={account.email}
             />
-            <div className="max-w-2xl px-4 py-16 mx-auto md:py-0 lg:max-w-none lg:px-0">
+            <div className="max-w-2xl px-4 py-16 mx-auto lg:py-0 lg:max-w-none lg:px-0">
               <div className="">
                 <h3 className="text-2xl font-bold text-[#0080A8]">Endereço de entrega</h3>
 
-                <div className="grid grid-cols-1 mt-6 gap-y-6 gap-x-4 sm:grid-cols-3">
+                <div className="grid grid-cols-1 mt-6 gap-y-6 gap-x-4 lg:grid-cols-3">
                   <div>
                     <label htmlFor="address" className="block text-sm font-medium text-gray-700">
                       Endereço de entrega

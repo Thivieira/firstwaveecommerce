@@ -46,15 +46,15 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
     }
   }, [setBrandsArr, setSizesArr, setColorsArr, brands, sizes, colors])
 
-  var filtersSize =
+  const filtersSize =
     selectedSize.length > 0
       ? selectedSize.map((el) => (typeof el === 'object' ? el.value : el))
       : selectedSize
-  var filtersColor =
+  const filtersColor =
     selectedColor.length > 0
       ? selectedColor.map((el) => (typeof el === 'object' ? el.value : el))
       : selectedColor
-  var filtersBrand =
+  const filtersBrand =
     selectedBrand.length > 0
       ? selectedBrand.map((el) => (typeof el === 'object' ? el.value : el))
       : selectedBrand
@@ -133,7 +133,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           className="basic-multi-select size"
           name="marcas"
           components={animatedComponents}
-          isMulti={true}
+          isMulti
           options={
             sizesArr.length > 0
               ? sizesArr.map((el) => ({
@@ -157,7 +157,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           className="basic-multi-select color"
           name="marcas"
           components={animatedComponents}
-          isMulti={true}
+          isMulti
           options={
             colorsArr.length > 0
               ? removeFromArray(colorsArr, ['']).map((el) => ({
@@ -181,7 +181,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
           className="basic-multi-select brand"
           name="marcas"
           components={animatedComponents}
-          isMulti={true}
+          isMulti
           options={
             brandsArr.length > 0
               ? removeFromArray(brandsArr, ['']).map((el) => ({
@@ -199,7 +199,7 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
       </div>
 
       <div className="filter-option-price">
-        <h4 style={{ color: '#FF8B00' }}>Filtro de preço</h4>
+        {/* <h4 style={{ color: '#FF8B00' }}>Filtro de preço</h4> */}
         <Slider
           style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}
           range
