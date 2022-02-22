@@ -24,8 +24,14 @@ function CheckoutContextProvider(props) {
     issuer: '',
     identificationType: '',
     identificationNumber: '',
-    installments: ''
+    installments: '',
+    cardTokenId: ''
   })
+  const [identificationTypes, setIdentificationTypes] = useState([])
+  const [paymentMethods, setPaymentMethods] = useState([])
+  const [issuer, setIssuer] = useState(null)
+  const [installments, setInstallments] = useState([])
+  const [cardToken, setCardToken] = useState({})
 
   const [tabs, setTabs] = useState([
     {
@@ -67,7 +73,17 @@ function CheckoutContextProvider(props) {
         selectedShippingPrice,
         setSelectedShippingPrice,
         checkoutForm,
-        setCheckoutForm
+        setCheckoutForm,
+        identificationTypes,
+        setIdentificationTypes,
+        paymentMethods,
+        setPaymentMethods,
+        installments,
+        setInstallments,
+        issuer,
+        setIssuer,
+        cardToken,
+        setCardToken
       }}
     >
       {props.children}

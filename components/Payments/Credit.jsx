@@ -3,58 +3,44 @@ import { useSelector } from 'react-redux'
 import { CheckoutContext } from '../../contexts/CheckoutContext'
 import { getCartState, getCartTotal } from '../../store/selectors/products'
 import { getAccount } from '../../store/selectors/user'
+import InputMask from 'react-input-mask'
 
 function Credit() {
   const account = useSelector(getAccount)
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
-  const installments = useRef(null)
-  const emailInputRef = useRef(null)
-  const nameInputRef = useRef(null)
-  const cpfInputRef = useRef(null)
 
-  const { mp, current, setLoaded, setMp, setMpState, mpState, checkoutForm, setCheckoutForm } =
-    useContext(CheckoutContext)
-
-  useEffect(() => {
-    if (installments.current[0]) {
-      installments.current[0].innerText = 'Selecionar parcelas'
-    }
-  }, [])
+  const {
+    mp,
+    current,
+    setLoaded,
+    setMp,
+    setMpState,
+    mpState,
+    checkoutForm,
+    setCheckoutForm,
+    identificationTypes,
+    setIdentificationTypes,
+    paymentMethods,
+    setPaymentMethods,
+    installments,
+    setInstallments,
+    cardToken,
+    setCardToken,
+    issuer,
+    setIssuer
+  } = useContext(CheckoutContext)
 
   useEffect(() => {
     if (account) {
-      // if (account.name && nameInputRef) {
-      //   // nameInputRef.current.value = account.name
-      //   setCheckoutForm({
-      //     ...checkoutForm,
-      //     cardholderName: account.name
-      //   })
-      // }
-      // if (account.email && emailInputRef) {
-      //   // emailInputRef.current.value = account.email
-      //   setCheckoutForm({
-      //     ...checkoutForm,
-      //     cardholderEmail: account.email
-      //   })
-      // }
-      // if (account.cpf && cpfInputRef) {
-      //   // cpfInputRef.current.value = account.cpf
-      //   setCheckoutForm({
-      //     ...checkoutForm,
-      //     identificationNumber: account.cpf
-      //   })
-      // }
       setCheckoutForm({
         ...checkoutForm,
-        cardholderName: account.name,
-        cardholderEmail: account.email,
-        identificationNumber: account.cpf
+        // cardholderName: account.name ? account.name : '',
+        cardholderEmail: account.email ? account.email : '',
+        identificationNumber: account.cpf ? account.cpf : ''
       })
     }
   }, [account])
-
-  const [issuer, setIssuer] = useState(null)
 
   const loadMercadoPago = (callback) => {
     const existingScript = document.getElementById('mercadoPagoSdkScript')
@@ -87,200 +73,71 @@ function Credit() {
     })
   }, [mpRun])
 
-  // const mountCardForm = useCallback(() => {
-  //   if (mp && !cardForm) {
-  //     const cardFormInstance = mp.cardForm({
-  //       amount: total.toString(),
-  //       autoMount: true,
-  //       processingMode: 'aggregator',
-  //       form: {
-  //         id: 'form-checkout',
-  //         cardholderName: {
-  //           id: 'form-checkout__cardholderName',
-  //           placeholder: 'Nome impresso no cartão'
-  //         },
-  //         cardholderEmail: {
-  //           id: 'form-checkout__cardholderEmail',
-  //           placeholder: 'E-mail'
-  //         },
-  //         cardNumber: {
-  //           id: 'form-checkout__cardNumber',
-  //           placeholder: 'Número do cartão'
-  //         },
-  //         cardExpirationDate: {
-  //           id: 'form-checkout__cardExpirationDate',
-  //           placeholder: 'Data de vencimento (MM/YYYY)'
-  //         },
-  //         securityCode: {
-  //           id: 'form-checkout__securityCode',
-  //           placeholder: 'CVV'
-  //         },
-  //         installments: {
-  //           id: 'form-checkout__installments',
-  //           placeholder: 'Parcelamentos'
-  //         },
-  //         identificationType: {
-  //           id: 'form-checkout__identificationType',
-  //           placeholder: 'Tipo de documento'
-  //         },
-  //         identificationNumber: {
-  //           id: 'form-checkout__identificationNumber',
-  //           placeholder: 'Número do documento'
-  //         },
-  //         issuer: {
-  //           id: 'form-checkout__issuer',
-  //           placeholder: 'Bandeira'
-  //         }
-  //       },
-  //       callbacks: {
-  //         onFormMounted: (error) => {
-  //           if (error) return console.warn('Form Mounted handling error: ', error)
-  //           console.log('Form mounted')
-  //         },
-
-  //         onFormUnmounted: (error) => {
-  //           if (error) return console.warn('Form Unmounted handling error: ', error)
-  //           console.log('Form unmounted')
-  //         },
-  //         onIdentificationTypesReceived: (error, identificationTypes) => {
-  //           if (error) return console.warn('identificationTypes handling error: ', error)
-  //           console.log('Identification types available: ', identificationTypes)
-  //         },
-  //         onPaymentMethodsReceived: (error, paymentMethods) => {
-  //           if (error) return console.warn('paymentMethods handling error: ', error)
-  //           console.log('Payment Methods available: ', paymentMethods)
-
-  //           setIssuer(paymentMethods[0])
-  //         },
-  //         onIssuersReceived: (error, issuers) => {
-  //           if (error) return console.warn('issuers handling error: ', error)
-  //           console.log('Issuers available: ', issuers)
-  //         },
-  //         onInstallmentsReceived: (error, installments) => {
-  //           if (error) return console.warn('installments handling error: ', error)
-  //           console.log('Installments available: ', installments)
-  //         },
-  //         onCardTokenReceived: (error, token) => {
-  //           if (error) return console.warn('Token handling error: ', error)
-  //           console.log('Token available: ', token)
-  //         },
-  //         onSubmit: (event) => {
-  //           event.preventDefault()
-  //           setLoading(true)
-
-  //           const {
-  //             paymentMethodId,
-  //             issuerId,
-  //             cardholderEmail,
-  //             amount,
-  //             token,
-  //             installments,
-  //             identificationNumber,
-  //             identificationType
-  //           } = cardFormInstance.getCardFormData()
-
-  //           fetch('/api/payments', {
-  //             method: 'POST',
-  //             headers: {
-  //               'Content-Type': 'application/json',
-  //               Authorization: `Bearer ${jwt}`
-  //             },
-  //             body: JSON.stringify({
-  //               token,
-  //               cart,
-  //               address,
-  //               account,
-  //               issuer_id: issuerId,
-  //               payment_method_id: paymentMethodId,
-  //               transaction_amount: Number(amount),
-  //               installments: Number(installments),
-  //               payer: {
-  //                 email: cardholderEmail,
-  //                 identification: {
-  //                   type: identificationType,
-  //                   number: identificationNumber
-  //                 }
-  //               }
-  //             })
-  //           })
-  //             .then((res) => res.json())
-  //             .then((res) => {
-  //               router.push(`/status/${res.action}`)
-  //               setPaymentRes(res)
-  //             })
-  //             .catch((res) => {
-  //               router.push(`/status/${res.action}`)
-  //               setPaymentRes(res)
-  //             })
-  //         },
-  //         onFetching: (resource) => {
-  //           console.log('Fetching resource: ', resource, cardForm, cardFormInstance)
-
-  //           // Animate progress bar
-  //           // const progressBar = document.querySelector('.progress-bar')
-  //           // progressBar.removeAttribute('value')
-
-  //           // return () => {
-  //           //   progressBar.setAttribute('value', '0')
-  //           // }
-  //         },
-  //         onError: (error, event) => {
-  //           console.log('onError', event, error)
-  //         },
-  //         onValidityChange: (error, field) => {
-  //           if (error) {
-  //             error.forEach((e) => {
-  //               console.log('onValidityChange', `${field}: ${JSON.stringify(e, null, 2)}`)
-  //             })
-  //           }
-  //         },
-  //         onReady: () => {
-  //           console.log('CardForm ready')
-  //         }
-  //       }
-  //     })
-  //     setCardForm(cardFormInstance)
-  //   }
-  // }, [mp])
-
-  // useEffect(() => {
-  //   console.log('i just ran', mp, cardForm, total)
-  //   // if (mp && !cardForm) {
-  //   //   mountCardForm()
-  //   // }
-  // }, [mp])
-
   async function mountForm() {
     if (mp) {
       const identificationTypes = await mp.getIdentificationTypes()
+      setIdentificationTypes(identificationTypes)
 
-      const paymentMethods = await mp.getPaymentMethods({ bin: '411111' })
+      if (checkoutForm.cardNumber) {
+        const cardNumber = checkoutForm.cardNumber.replace(/\s/g, '')
+        const bin = cardNumber.substr(0, 6)
+        const cardExpirationDate = checkoutForm.cardExpirationDate
+          ? checkoutForm.cardExpirationDate.replace(/[^a-z^0-9]+/g, ' ').replace(/\s/g, '')
+          : ''
+        const month = cardExpirationDate.substr(0, 2)
+        const year = cardExpirationDate.substr(2, 6)
+        const identificationNumber = checkoutForm.identificationNumber
+          ? checkoutForm.identificationNumber.replace(/[^a-z^0-9]+/g, ' ').replace(/\s/g, '')
+          : ''
 
-      // const issuers = await mp.getIssuers({ paymentMethodId: 'visa', bin: '4111111' })
+        const paymentMethods = await mp.getPaymentMethods({ bin })
 
-      const installments = await mp.getInstallments({
-        amount: '1000',
-        locale: 'pt-BR',
-        bin: '411111',
-        processingMode: 'aggregator'
-      })
+        setPaymentMethods(paymentMethods.results)
 
-      const cardToken = await mp.createCardToken({
-        cardNumber: '5031433215406351',
-        cardholderName: 'APRO',
-        cardExpirationMonth: '11',
-        cardExpirationYear: '2025',
-        securityCode: '123',
-        identificationType: 'CPF',
-        identificationNumber: '12345678912'
-      })
+        setIssuer(paymentMethods.results[0])
+
+        if (total && bin) {
+          const installments = await mp.getInstallments({
+            amount: total.toString(),
+            locale: 'pt-BR',
+            bin,
+            processingMode: 'aggregator'
+          })
+
+          setInstallments(installments)
+        }
+
+        if (
+          cardNumber &&
+          checkoutForm.cardholderName &&
+          month &&
+          year &&
+          checkoutForm.securityCode &&
+          checkoutForm.identificationType &&
+          identificationNumber
+        ) {
+          const cardToken = await mp.createCardToken({
+            cardNumber: cardNumber,
+            cardholderName: checkoutForm.cardholderName,
+            cardExpirationMonth: month,
+            cardExpirationYear: year,
+            securityCode: checkoutForm.securityCode,
+            identificationType: checkoutForm.identificationType,
+            identificationNumber: identificationNumber
+          })
+
+          setCardToken(cardToken)
+
+          setCheckoutForm({ ...checkoutForm, cardTokenId: cardToken.id })
+        }
+      }
     }
   }
 
   function handleChange(e) {
     setCheckoutForm({
       ...checkoutForm,
-      [e.target.name]: [e.target.value]
+      [e.target.name]: e.target.value
     })
   }
 
@@ -289,7 +146,7 @@ function Credit() {
       await mountForm()
       return true
     }
-  }, [current])
+  }, [current, checkoutForm, total])
 
   return (
     <div className="mt-5">
@@ -307,33 +164,31 @@ function Credit() {
               name="cardholderName"
               placeholder="Nome impresso no cartão"
               id="form-checkout__cardholderName"
-              ref={nameInputRef}
               onChange={handleChange}
-              value={checkoutForm.cardHolderName}
+              value={checkoutForm.cardholderName}
               autoComplete="name"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
           </div>
         </div>
 
-        <div className="col-span-3">
+        <div className="hidden col-span-3">
           <label
             htmlFor="form-checkout__cardholderName"
-            className="block font-medium text-gray-700"
+            className="hidden font-medium text-gray-700"
           >
             Email
           </label>
           <div className="mt-1">
             <input
               type="text"
-              ref={emailInputRef}
               onChange={handleChange}
-              value={checkoutForm.cardholderEmail}
+              // value={checkoutForm.cardholderEmail}
               name="cardholderEmail"
               placeholder="Email"
               id="form-checkout__cardholderEmail"
               autoComplete="email"
-              className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
+              className=" hidden w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
           </div>
         </div>
@@ -347,7 +202,7 @@ function Credit() {
               type="text"
               name="cardNumber"
               onChange={handleChange}
-              value={checkoutForm.cardNumber}
+              // value={checkoutForm.cardNumber}
               placeholder="Número do cartão"
               id="form-checkout__cardNumber"
               maxLength="19"
@@ -374,14 +229,15 @@ function Credit() {
             Validade (MM/YYYY)
           </label>
           <div className="mt-1">
-            <input
-              type="text"
-              maxLength="7"
-              maxLength={issuer ? issuer.settings[0].security_code['length'] : '4'}
-              placeholder="Data de vencimento"
+            <InputMask
+              mask="99/9999"
+              maskChar=" "
               name="cardExpirationDate"
               onChange={handleChange}
-              value={checkoutForm.cardExpirationDate}
+              // value={checkoutForm.cardExpirationDate}
+              type="text"
+              placeholder="Data de vencimento"
+              name="cardExpirationDate"
               id="form-checkout__cardExpirationDate"
               autoComplete="cc-exp"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
@@ -398,7 +254,7 @@ function Credit() {
               type="text"
               name="securityCode"
               onChange={handleChange}
-              value={checkoutForm.securityCode}
+              // value={checkoutForm.securityCode}
               maxLength={issuer ? issuer.settings[0].security_code['length'] : '4'}
               id="form-checkout__securityCode"
               autoComplete="csc"
@@ -411,38 +267,68 @@ function Credit() {
       <div className="mt-5">
         <select
           name="issuer"
-          className="py-2 pl-3 pr-10 font-medium text-left border border-gray-300 rounded-md shadow-sm cursor-default relativebg-white focus:outline-none focus:ring-1 focus:ring-[#0080A8] focus:border-[#0080A8]"
+          className={`bg-none hidden py-2 pl-3 pr-10 font-medium text-left border border-gray-300 rounded-md shadow-sm cursor-default relativebg-white focus:outline-none focus:ring-1 focus:ring-[#0080A8] focus:border-[#0080A8]`}
           id="form-checkout__issuer"
           onChange={handleChange}
           value={checkoutForm.issuer}
-        />
+          disabled
+        >
+          {issuer && <option value={issuer.id}>{issuer.name}</option>}
+        </select>
         <select
           name="identificationType"
           id="form-checkout__identificationType"
           onChange={handleChange}
           value={checkoutForm.identificationType}
-          className="py-2 pl-3 pr-10 font-medium text-left border border-gray-300 rounded-md shadow-sm cursor-default relativebg-white focus:outline-none focus:ring-1 focus:ring-[#0080A8] focus:border-[#0080A8]"
-        />
-        <input
+          disabled={identificationTypes.length === 0}
+          className={`py-2 pl-3 pr-10 ${
+            identificationTypes.length === 0 && 'bg-none appearance-none'
+          } font-medium text-left border border-gray-300 rounded-md shadow-sm cursor-default relativebg-white focus:outline-none focus:ring-1 focus:ring-[#0080A8] focus:border-[#0080A8]`}
+        >
+          {identificationTypes.map((idtype) => {
+            return (
+              <option key={idtype.id} value={idtype.id}>
+                {idtype.name}
+              </option>
+            )
+          })}
+        </select>
+        <InputMask
+          mask={checkoutForm.identificationType == 'CNPJ' ? '99.999.999/9999-99' : '999.999.999-99'}
+          maskChar=" "
           type="text"
           name="identificationNumber"
-          placeholder="xxx.xxx.xxx-xx"
+          placeholder={
+            checkoutForm.identificationType == 'CNPJ' ? 'xx.xxx.xxx/xxxx-xx' : 'xxx.xxx.xxx-xx'
+          }
           onChange={handleChange}
           value={checkoutForm.identificationNumber}
-          ref={cpfInputRef}
           id="form-checkout__identificationNumber"
-          className="ml-2 py-2 border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] "
+          className="ml-1 py-2 border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] "
         />
+        <select
+          name="installments"
+          onChange={handleChange}
+          // value={checkoutForm.installments}
+          id="form-checkout__installments"
+          disabled={installments.length === 0}
+          className={`py-2 pl-3 pr-10 ml-2 mt-5 ${
+            installments.length === 0 && 'bg-none appearance-none'
+          } font-medium text-left border border-gray-300 rounded-md shadow-sm cursor-default relativebg-white focus:outline-none focus:ring-1 focus:ring-[#0080A8] focus:border-[#0080A8]`}
+        >
+          {installments.length > 0 &&
+            installments[0].payer_costs.map((ins) => {
+              return (
+                <option key={ins.installments} value={ins.installments}>
+                  {ins.recommended_message}
+                </option>
+              )
+            })}
+          {installments.length === 0 && (
+            <option value="null">Digite o número do cartão primeiro</option>
+          )}
+        </select>
       </div>
-
-      <select
-        name="installments"
-        ref={installments}
-        onChange={handleChange}
-        value={checkoutForm.installments}
-        id="form-checkout__installments"
-        className="py-2 pl-3 pr-10 mt-5 font-medium text-left border border-gray-300 rounded-md shadow-sm cursor-default relativebg-white focus:outline-none focus:ring-1 focus:ring-[#0080A8] focus:border-[#0080A8]"
-      />
 
       <div className="flex justify-start pt-6 mt-10 border-t border-gray-200">
         <button
