@@ -331,12 +331,20 @@ export default function Checkout() {
                 </div>
               </div>
 
-              <div className="mt-10">
+              <div className="mt-5">
                 <ShippingContent cep={cep} />
               </div>
-
-              <div className="mt-10">
+              <div className="mt-5">
                 <Tabs />
+              </div>
+              <div className="flex justify-start pt-6 mt-10 border-t border-gray-200">
+                <button
+                  type="submit"
+                  id="form-checkout__submit"
+                  className="bg-[#0080a8] border border-transparent uppercase rounded-md shadow-sm py-2 px-4  font-medium text-white hover:bg-[#0080a8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-[#0080A8]"
+                >
+                  Finalizar Pedido
+                </button>
               </div>
             </div>
             {loading && <p>Carregando...</p>}

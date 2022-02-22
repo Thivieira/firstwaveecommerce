@@ -150,7 +150,7 @@ function Credit() {
 
   return (
     <div className="mt-5">
-      <div className="grid mt-6 sm:grid-cols-2 gap-y-6 gap-x-4">
+      <div className="grid mt-3 sm:grid-cols-2 gap-y-3 gap-x-4">
         <div className="col-span-3">
           <label
             htmlFor="form-checkout__cardholderName"
@@ -223,7 +223,7 @@ function Credit() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 mt-6 gap-y-6 gap-x-4">
+      <div className="grid grid-cols-2 mt-3 gap-y-3 gap-x-4">
         <div className="">
           <label htmlFor="cardExpirationDate" className="block font-medium text-gray-700">
             Validade (MM/YYYY)
@@ -254,6 +254,7 @@ function Credit() {
               type="text"
               name="securityCode"
               onChange={handleChange}
+              placeholder="Código de seguraça"
               // value={checkoutForm.securityCode}
               maxLength={issuer ? issuer.settings[0].security_code['length'] : '4'}
               id="form-checkout__securityCode"
@@ -264,7 +265,7 @@ function Credit() {
         </div>
       </div>
 
-      <div className="mt-5">
+      <div className="mt-3">
         <select
           name="issuer"
           className={`bg-none hidden py-2 pl-3 pr-10 font-medium text-left border border-gray-300 rounded-md shadow-sm cursor-default relativebg-white focus:outline-none focus:ring-1 focus:ring-[#0080A8] focus:border-[#0080A8]`}
@@ -328,16 +329,6 @@ function Credit() {
             <option value="null">Digite o número do cartão primeiro</option>
           )}
         </select>
-      </div>
-
-      <div className="flex justify-start pt-6 mt-10 border-t border-gray-200">
-        <button
-          type="submit"
-          id="form-checkout__submit"
-          className="bg-[#0080a8] border border-transparent uppercase rounded-md shadow-sm py-2 px-4  font-medium text-white hover:bg-[#0080a8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-[#0080A8]"
-        >
-          Finalizar Pedido
-        </button>
       </div>
     </div>
   )
