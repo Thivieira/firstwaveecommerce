@@ -30,6 +30,7 @@ export default function Checkout() {
   const {
     paymentRes,
     setPaymentRes,
+    selectedShipping,
     selectedShippingPrice,
     loading,
     checkoutForm,
@@ -101,6 +102,17 @@ export default function Checkout() {
   //     }
   //   }, 1000)
   // }, [account])
+
+  async function onSubmit() {
+    const res = await axios.post('', {
+      form: checkoutForm,
+      shippingMethod: selectedShipping,
+      shippingAddress: address,
+      total: totalToPay
+    })
+
+    const data = res.data
+  }
 
   useEffect(() => {
     // setTimeout(() => {
@@ -211,7 +223,7 @@ export default function Checkout() {
         </section>
 
         <section className="lg:max-w-lg lg:w-full lg:mx-auto lg:pt-0 lg:pb-24 lg:row-start-1 lg:col-start-1">
-          <form id="form-checkout">
+          <form id="form-checkout" onSubmit={onSubmit}>
             <div className="max-w-2xl px-4 py-16 mx-auto lg:py-0 lg:max-w-none lg:px-0">
               <div className="">
                 <h3 className="text-2xl font-bold text-[#0080A8]">Endereço de entrega</h3>
