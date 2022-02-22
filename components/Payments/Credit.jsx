@@ -1,14 +1,17 @@
-import { useRef, useEffect, useState, useCallback, useContext } from 'react'
+import { useRef, useEffect, useState, useCallback, useContext, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { CheckoutContext } from '../../contexts/CheckoutContext'
 import { getCartState, getCartTotal } from '../../store/selectors/products'
 import { getAccount } from '../../store/selectors/user'
 import InputMask from 'react-input-mask'
+import debounce from 'lodash.debounce'
 
 function Credit() {
   const account = useSelector(getAccount)
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
+
+  const context = useContext(CheckoutContext)
 
   const {
     mp,
@@ -29,7 +32,7 @@ function Credit() {
     setCardToken,
     issuer,
     setIssuer
-  } = useContext(CheckoutContext)
+  } = context
 
   useEffect(() => {
     if (account) {
@@ -141,6 +144,8 @@ function Credit() {
     })
   }
 
+  const debouncedChangeHandler = useMemo((e) => debounce(handleChange, 1000), [context])
+
   useEffect(async () => {
     if (current === 3) {
       await mountForm()
@@ -164,8 +169,8 @@ function Credit() {
               name="cardholderName"
               placeholder="Nome impresso no cartão"
               id="form-checkout__cardholderName"
-              onChange={handleChange}
-              value={checkoutForm.cardholderName}
+              onChange={debouncedChangeHandler}
+              // value={checkoutForm.cardholderName}
               autoComplete="name"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
@@ -182,7 +187,7 @@ function Credit() {
           <div className="mt-1">
             <input
               type="text"
-              onChange={handleChange}
+              onChange={debouncedChangeHandler}
               // value={checkoutForm.cardholderEmail}
               name="cardholderEmail"
               placeholder="Email"
@@ -201,7 +206,7 @@ function Credit() {
             <input
               type="text"
               name="cardNumber"
-              onChange={handleChange}
+              onChange={debouncedChangeHandler}
               // value={checkoutForm.cardNumber}
               placeholder="Número do cartão"
               id="form-checkout__cardNumber"
@@ -233,7 +238,7 @@ function Credit() {
               mask="99/9999"
               maskChar=" "
               name="cardExpirationDate"
-              onChange={handleChange}
+              onChange={debouncedChangeHandler}
               // value={checkoutForm.cardExpirationDate}
               type="text"
               placeholder="Data de vencimento"
@@ -253,7 +258,7 @@ function Credit() {
             <input
               type="text"
               name="securityCode"
-              onChange={handleChange}
+              onChange={debouncedChangeHandler}
               placeholder="Código de seguraça"
               // value={checkoutForm.securityCode}
               maxLength={issuer ? issuer.settings[0].security_code['length'] : '4'}
@@ -270,7 +275,7 @@ function Credit() {
           name="issuer"
           className={`bg-none hidden py-2 pl-3 pr-10 font-medium text-left border border-gray-300 rounded-md shadow-sm cursor-default relativebg-white focus:outline-none focus:ring-1 focus:ring-[#0080A8] focus:border-[#0080A8]`}
           id="form-checkout__issuer"
-          onChange={handleChange}
+          onChange={debouncedChangeHandler}
           value={checkoutForm.issuer}
           disabled
         >
@@ -279,8 +284,8 @@ function Credit() {
         <select
           name="identificationType"
           id="form-checkout__identificationType"
-          onChange={handleChange}
-          value={checkoutForm.identificationType}
+          onChange={debouncedChangeHandler}
+          // value={checkoutForm.identificationType}
           disabled={identificationTypes.length === 0}
           className={`py-2 pl-3 pr-10 ${
             identificationTypes.length === 0 && 'bg-none appearance-none'
@@ -302,14 +307,14 @@ function Credit() {
           placeholder={
             checkoutForm.identificationType == 'CNPJ' ? 'xx.xxx.xxx/xxxx-xx' : 'xxx.xxx.xxx-xx'
           }
-          onChange={handleChange}
-          value={checkoutForm.identificationNumber}
+          onChange={debouncedChangeHandler}
+          // value={checkoutForm.identificationNumber}
           id="form-checkout__identificationNumber"
           className="ml-1 py-2 border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] "
         />
         <select
           name="installments"
-          onChange={handleChange}
+          onChange={debouncedChangeHandler}
           // value={checkoutForm.installments}
           id="form-checkout__installments"
           disabled={installments.length === 0}

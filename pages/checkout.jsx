@@ -330,14 +330,13 @@ export default function Checkout() {
                   </div>
                 </div>
               </div>
-
               <div className="mt-5">
                 <ShippingContent cep={cep} />
               </div>
               <div className="mt-5">
                 <Tabs />
               </div>
-              <div className="flex justify-start pt-6 mt-10 border-t border-gray-200">
+              <div className="flex justify-start pt-6 mt-5 border-t border-gray-200">
                 <button
                   type="submit"
                   id="form-checkout__submit"
