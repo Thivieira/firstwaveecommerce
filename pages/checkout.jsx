@@ -95,20 +95,24 @@ export default function Checkout() {
     getAddressData()
   }, [edit, getUserData, getAddressData])
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (Object.keys(account).length === 0 || total === 0) {
-  //       router.push('/')
-  //     }
-  //   }, 1000)
-  // }, [account])
+  useEffect(() => {
+    setTimeout(() => {
+      if (Object.keys(account).length === 0) {
+        router.push('/')
+      }
+    }, 2000)
+  }, [account])
 
   async function onSubmit() {
     const res = await axios.post('', {
       form: checkoutForm,
-      shippingMethod: selectedShipping,
+      shippingMethod: {
+        name: selectedShipping,
+        price: selectedShippingPrice
+      },
       shippingAddress: address,
-      total: totalToPay
+      originalAmount: total,
+      amountWithShipping: totalToPay
     })
 
     const data = res.data
