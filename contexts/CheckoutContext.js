@@ -25,7 +25,8 @@ function CheckoutContextProvider(props) {
     identificationType: '',
     identificationNumber: '',
     installments: '',
-    cardTokenId: ''
+    cardTokenId: '',
+    billingType: 'creditcard'
   })
   const [identificationTypes, setIdentificationTypes] = useState([])
   const [paymentMethods, setPaymentMethods] = useState([])
@@ -36,13 +37,20 @@ function CheckoutContextProvider(props) {
   const [tabs, setTabs] = useState([
     {
       id: 1,
-      name: 'Boleto',
+      title: 'Boleto',
+      name: 'ticket',
       icon: <BarcodeOutlined className="pt-1" style={{ fontSize: '1.5rem' }} />
     },
-    { id: 2, name: 'Pix', icon: <img src="/pix.svg" className="w-5 h-5" alt="pix" /> },
+    {
+      id: 2,
+      title: 'Pix',
+      name: 'pix',
+      icon: <img src="/pix.svg" className="w-5 h-5" alt="pix" />
+    },
     {
       id: 3,
-      name: 'Cartão de crédto',
+      title: 'Cartão de crédto',
+      name: 'creditcard',
       icon: <CreditCard style={{ height: '2rem !important', marginTop: '0.3rem' }} />
     }
   ])

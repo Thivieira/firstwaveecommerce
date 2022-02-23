@@ -14,8 +14,8 @@ import InputContainer from '../../components/Utils/InputContainer'
 import ButtonsContainer from '../../components/Utils/ButtonsContainer'
 import { useDispatch } from 'react-redux'
 import { saveAccount } from '../../store/actions/user'
-import useToken from '../../contexts/TokenStorage'
 import Link from 'next/link'
+import useLocalStorageState from 'use-local-storage-state'
 
 function Login() {
   const router = useRouter()
@@ -24,7 +24,7 @@ function Login() {
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
 
-  const [token, setToken] = useToken()
+  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
 
   useEffect(() => {
     if (token) {

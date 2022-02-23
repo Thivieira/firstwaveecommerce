@@ -9,10 +9,9 @@ import { Badge } from 'antd'
 import { changeIsOpen, updateCart } from '../../store/actions/products'
 import { CloseSquareOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/router'
-import useCart from '../../contexts/CartStorage'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import useToken from '../../contexts/TokenStorage'
+import useLocalStorageState from 'use-local-storage-state'
 
 function FloatCart() {
   const dispatch = useDispatch()
@@ -24,11 +23,14 @@ function FloatCart() {
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
 
-  const [cartStorage, setCartStorage] = useCart('cart')
+  const [cartStorage, setCartStorage] = useLocalStorageState('cart', {
+    ssr: true,
+    defaultValue: { cart: [], total: 0 }
+  })
 
   const MySwal = withReactContent(Swal)
 
-  const [token] = useToken()
+  const [token] = useLocalStorageState('token', { ssr: true, defaultValue: null })
 
   const itemQuantity = cart.map((item) => item.quantity).reduce((item, total) => item + total, 0)
 

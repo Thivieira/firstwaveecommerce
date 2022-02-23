@@ -47,8 +47,9 @@ import '../components/Utils/PaymentBox/paymentBox.css'
 
 import api from '../services/api'
 import CheckoutContextProvider from '../contexts/CheckoutContext'
+import SiteLayout from '../components/layouts/SiteLayout'
 
-const SiteLayout = dynamic(() => import('../components/layouts/SiteLayout'))
+// const SiteLayout = dynamic(() => import('../components/layouts/SiteLayout'))
 
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())

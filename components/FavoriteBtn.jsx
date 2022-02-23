@@ -16,7 +16,7 @@ import {
 import { getFavoritesProd } from '../store/selectors/products'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import useToken from '../contexts/TokenStorage'
+import useLocalStorageState from 'use-local-storage-state'
 
 export default function FavoriteBtn({ product }) {
   const router = useRouter()
@@ -24,7 +24,7 @@ export default function FavoriteBtn({ product }) {
 
   const productsFavorites = useSelector(getFavoritesProd)
 
-  const [token, setToken] = useToken()
+  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
 
   useEffect(() => {
     if (token) {

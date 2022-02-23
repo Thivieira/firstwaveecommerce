@@ -22,8 +22,8 @@ import api from '../../services/api'
 import NavLink from '../NavLink'
 import { saveAccount, saveAddress } from '../../store/actions/user'
 import { getAccount } from '../../store/selectors/user'
-import useToken from '../../contexts/TokenStorage'
 import Cart from '../FloatCart/Cart'
+import useLocalStorageState from 'use-local-storage-state'
 
 function Header() {
   const router = useRouter()
@@ -61,14 +61,14 @@ function Header() {
       .catch((e) => {})
   }, [dispatch])
 
-  const [token, setToken] = useToken('')
+  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
 
   useEffect(() => {
     if (token) {
       api.defaults.headers.common.Authorization = `Bearer ${token.replace(/['"]+/g, '')}`
       setToken(token.replace(/['"]+/g, ''))
     }
-  }, [setToken, token])
+  }, [token])
 
   useEffect(() => getUserData(), [getUserData, token])
 
@@ -859,7 +859,12 @@ function Header() {
       </nav>
 
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="fixed inset-0 flex lg:hidden" style={{zIndex: 9999}} onClose={setOpen}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 flex lg:hidden"
+          style={{ zIndex: 9999 }}
+          onClose={setOpen}
+        >
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"

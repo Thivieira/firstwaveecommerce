@@ -8,10 +8,9 @@ import withReactContent from 'sweetalert2-react-content'
 
 import Swal from 'sweetalert2'
 import { getCartState, getCartTotal, getIsOpen } from '../../store/selectors/products'
-import useCart from '../../contexts/CartStorage'
-import useToken from '../../contexts/TokenStorage'
 import { changeIsOpen, updateCart } from '../../store/actions/products'
 import CartProduct from './CartProduct'
+import useLocalStorageState from 'use-local-storage-state'
 
 export default function Cart() {
   const dispatch = useDispatch()
@@ -23,17 +22,20 @@ export default function Cart() {
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
 
-  const [cartStorage, setCartStorage] = useCart('cart')
+  const [cartStorage, setCartStorage] = useLocalStorageState('cart', {
+    ssr: true,
+    defaultValue: { cart: [], total: 0 }
+  })
 
   const MySwal = withReactContent(Swal)
 
-  const [token] = useToken()
+  const [token] = useLocalStorageState('token', { ssr: true, defaultValue: null })
 
   const closeFloatCart = () => dispatch(changeIsOpen(false))
 
   useEffect(() => {
     setCartStorage({ cart, total })
-  }, [cart, setCartStorage, total])
+  }, [cart, total])
 
   useEffect(() => {
     dispatch(updateCart({ cart: cartStorage.cart, total: cartStorage.total }))

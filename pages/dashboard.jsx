@@ -14,7 +14,7 @@ import { saveAccount, saveAddress } from '../store/actions/user'
 import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import useToken from '../contexts/TokenStorage'
+import useLocalStorageState from 'use-local-storage-state'
 
 function Dashboard() {
   const [formOption, setFormOption] = useState(1)
@@ -25,7 +25,7 @@ function Dashboard() {
   const dispatch = useDispatch()
   const MySwal = withReactContent(Swal)
 
-  const [token, setToken] = useToken()
+  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
 
   useEffect(() => {
     if (token) {

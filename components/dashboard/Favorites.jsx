@@ -6,7 +6,6 @@ import { getFavoritesProd } from '../../store/selectors/products'
 import { removeFromFavorites, setFavorites } from '../../store/actions/products'
 import { List, Avatar, Empty } from 'antd'
 import { CloseCircleTwoTone } from '@ant-design/icons'
-import useToken from '../../contexts/TokenStorage'
 import useSWR from 'swr'
 
 export default function Favorites() {
@@ -14,7 +13,7 @@ export default function Favorites() {
   const productsFavorites = useSelector(getFavoritesProd)
   const [products, setProducts] = useState([])
 
-  const [token, setToken] = useToken()
+  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
 
   useEffect(() => {
     if (token) {

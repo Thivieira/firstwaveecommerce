@@ -13,16 +13,18 @@ import PaymentBtn from '../components/PaymentBtn'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import useToken from '../contexts/TokenStorage'
-import useCart from '../contexts/CartStorage'
 import { extractColorFromVariation, extractSizeFromVariation, getFeaturedImage } from '../helpers'
 import PaymentPlaceholder from '../components/Payments/PaymentPlaceholder'
+import useLocalStorageState from 'use-local-storage-state'
 
 function Payment() {
   const router = useRouter()
   const cart = useSelector(getCartState)
   const cartTotal = useSelector(getCartTotal)
-  const [cartStorage, setCartStorage] = useCart('cart')
+  const [cartStorage, setCartStorage] = useLocalStorageState('cart', {
+    ssr: true,
+    defaultValue: { cart: [], total: 0 }
+  })
 
   const [personalData, setPersonalData] = useState({
     name: '',
@@ -42,7 +44,7 @@ function Payment() {
   const dispatch = useDispatch()
   const MySwal = withReactContent(Swal)
 
-  const [token, setToken] = useToken()
+  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
 
   const getUserData = useCallback(() => {
     api

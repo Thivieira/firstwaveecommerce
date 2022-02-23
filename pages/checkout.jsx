@@ -12,7 +12,7 @@ import { saveAccount, saveAddress } from '../store/actions/user'
 import Tabs from '../components/Payments/Tabs'
 import ShippingContent from '../components/Payments/ShippingContent'
 import { CheckoutContext } from '../contexts/CheckoutContext'
-import useToken from '../contexts/TokenStorage'
+import useLocalStorageState from 'use-local-storage-state'
 
 export default function Checkout() {
   const [edit, setEdit] = useState(false)
@@ -26,7 +26,7 @@ export default function Checkout() {
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
   const dispatch = useDispatch()
-  const [jwt] = useToken()
+  const [jwt] = useLocalStorageState('token', { ssr: true, defaultValue: null })
   const {
     paymentRes,
     setPaymentRes,

@@ -12,7 +12,7 @@ import withReactContent from 'sweetalert2-react-content'
 import { NextSeo } from 'next-seo'
 import { saveAccount } from '../../store/actions/user'
 import { useDispatch } from 'react-redux'
-import useToken from '../../contexts/TokenStorage'
+import useLocalStorageState from 'use-local-storage-state'
 
 function Form() {
   const [currentStep, setCurrentStep] = useState(0)
@@ -39,7 +39,7 @@ function Form() {
 
   const goBack = () => setCurrentStep(currentStep - 1)
 
-  const [token, setToken] = useToken()
+  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
 
   useEffect(() => {
     if (token) {
