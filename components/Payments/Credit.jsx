@@ -177,8 +177,8 @@ function Credit({ register, setValue, errors }) {
               autoComplete="name"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
-            <ErrorComponent errors={errors} name="cardholderName" />
           </div>
+          <ErrorComponent errors={errors['checkoutForm']} name="cardholderName" />
         </div>
 
         <div className="hidden col-span-3">
@@ -199,8 +199,8 @@ function Credit({ register, setValue, errors }) {
               autoComplete="email"
               className=" hidden w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
-            <ErrorComponent errors={errors} name="cardholderEmail" />
           </div>
+          {/* <ErrorComponent errors={errors['checkoutForm']} name="cardholderEmail" /> */}
         </div>
 
         <div className="col-span-3">
@@ -229,8 +229,8 @@ function Credit({ register, setValue, errors }) {
                 src={issuer.thumbnail}
               />
             )}
-            <ErrorComponent errors={errors} name="cardNumber" />
           </div>
+          <ErrorComponent errors={errors['checkoutForm']} name="cardNumber" />
         </div>
       </div>
 
@@ -253,8 +253,8 @@ function Credit({ register, setValue, errors }) {
               autoComplete="cc-exp"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
-            <ErrorComponent errors={errors} name="cardExpirationDate" />
           </div>
+          <ErrorComponent errors={errors['checkoutForm']} name="cardExpirationDate" />
         </div>
 
         <div className="">
@@ -273,8 +273,8 @@ function Credit({ register, setValue, errors }) {
               autoComplete="csc"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
-            <ErrorComponent errors={errors} name="securityCode" />
           </div>
+          <ErrorComponent errors={errors['checkoutForm']} name="securityCode" />
         </div>
       </div>
 
@@ -289,7 +289,7 @@ function Credit({ register, setValue, errors }) {
         >
           {issuer && <option value={issuer.id}>{issuer.name}</option>}
         </select>
-        <ErrorComponent errors={errors} name="issuer" />
+        {/* <ErrorComponent errors={errors['checkoutForm']} name="issuer" /> */}
         <select
           name="identificationType"
           id="form-checkout__identificationType"
@@ -308,7 +308,7 @@ function Credit({ register, setValue, errors }) {
             )
           })}
         </select>
-        <ErrorComponent errors={errors} name="identificationType" />
+        <ErrorComponent errors={errors['checkoutForm']} name="identificationType" />
         <InputMask
           mask={checkoutForm.identificationType == 'CNPJ' ? '99.999.999/9999-99' : '999.999.999-99'}
           maskChar=" "
@@ -322,7 +322,7 @@ function Credit({ register, setValue, errors }) {
           id="form-checkout__identificationNumber"
           className="ml-1 py-2 border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] "
         />
-        <ErrorComponent errors={errors} name="identificationNumber" />
+        <ErrorComponent errors={errors['checkoutForm']} name="identificationNumber" />
         <select
           name="installments"
           onChange={debouncedChangeHandler}

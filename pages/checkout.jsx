@@ -19,11 +19,18 @@ import { pt } from 'yup-locale-pt'
 import useLocalStorageState from 'use-local-storage-state'
 
 export const ErrorComponent = ({ errors, name }) => {
-  return errors[name] ? <span>{errors[name]?.message}</span> : null
+  if (!errors) {
+    return null
+  }
+  if (Object.keys(errors).length == 0) {
+    return null
+  }
+  return errors[name] ? <span className="text-sm text-red-600">{errors[name]?.message}</span> : null
 }
 
 export default function Checkout() {
-  const [edit, setEdit] = useState(false)
+  const router = useRouter()
+  const account = useSelector(getAccount)
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
   const dispatch = useDispatch()
@@ -42,35 +49,42 @@ export default function Checkout() {
   yup.setLocale(pt)
   const schema = yup
     .object({
-      shippingAddress: yup.object({
-        address: yup.string().required(),
-        number: yup.string().required(),
-        complement: yup.string().nullable(),
-        cep: yup.string().required(),
-        state: yup.string().required(),
-        city: yup.string().required(),
-        neighborhood: yup.string().required()
-      }),
-      shippingMethod: yup.object({
-        id: yup.string().required(),
-        name: yup.string().required(),
-        price: yup.string().required()
-      }),
-      billingType: yup.string().required(),
-      checkoutForm: yup.object({
-        cardholderName: yup.string().required(),
-        cardholderEmail: yup.string().email().required(),
-        cardNumber: yup.string().required(),
-        cardExpirationDate: yup.string().required(),
-        securityCode: yup.string().required(),
-        issuer: yup.string().required(),
-        identificationType: yup.string().required(),
-        identificationNumber: yup.string().required(),
-        installments: yup.string().required(),
-        cardTokenId: yup.string().required()
-      }),
-      originalAmount: yup.string().required(),
-      amountWithShipping: yup.string().required()
+      shippingAddress: yup
+        .object({
+          address: yup.string().required().label('endereço'),
+          number: yup.string().required().label('número'),
+          complement: yup.string().nullable().label('complemento'),
+          cep: yup.string().required().label('CEP'),
+          state: yup.string().required().label('estado'),
+          city: yup.string().required().label('cidade'),
+          neighborhood: yup.string().required().label('bairro')
+        })
+        .label('endereço de envio'),
+      shippingMethod: yup
+        .object({
+          // id: yup.string().required().label('id'),
+          // name: yup.string().required().label('name'),
+          // price: yup.string().required().label('price')
+        })
+        .required()
+        .label('método de envio'),
+      billingType: yup.string().required().label('método de pagamento'),
+      checkoutForm: yup
+        .object({
+          cardholderName: yup.string().required().label('nome do dono do cartão'),
+          cardholderEmail: yup.string().email().required().label('email de faturamento'),
+          cardNumber: yup.string().required().label('número do cartão'),
+          cardExpirationDate: yup.string().required().label('data de expiração'),
+          securityCode: yup.string().required().label('código de segurança'),
+          issuer: yup.string().required().label('bandeira'),
+          identificationType: yup.string().required().label('documento de identificação'),
+          identificationNumber: yup.string().required().label('número da identificação'),
+          installments: yup.string().required().label('parcelamento'),
+          cardTokenId: yup.string().required().label('token')
+        })
+        .label('formulário de pagamento em cartão'),
+      originalAmount: yup.string().required().label('valor total sem frete'),
+      amountWithShipping: yup.string().required().label('valor total com frete')
     })
     .required()
 
@@ -101,7 +115,7 @@ export default function Checkout() {
       billingType: 'creditcard',
       checkoutForm: {
         cardholderName: '',
-        cardholderEmail: '',
+        cardholderEmail: account.email ? account.email : '',
         cardNumber: '',
         cardExpirationDate: '',
         securityCode: '',
@@ -115,10 +129,10 @@ export default function Checkout() {
       amountWithShipping: ''
     }
   })
+
   const cep = watch('shippingAddress.cep')
   const shippingMethod = watch('shippingMethod')
-  const router = useRouter()
-  const account = useSelector(getAccount)
+
   const totalToPay = watch('amountWithShipping')
     ? watch('amountWithShipping')
     : parseFloat(total) + parseFloat(selectedShippingPrice)
@@ -184,7 +198,7 @@ export default function Checkout() {
   useEffect(() => {
     getUserData()
     getAddressData()
-  }, [edit, getUserData, getAddressData])
+  }, [])
 
   useEffect(() => {
     setTimeout(() => {
@@ -204,11 +218,11 @@ export default function Checkout() {
 
   useEffect(() => {
     setTimeout(() => {
-      if (total == 0 || !token) {
+      if (total == 0) {
         router.push('/')
       }
     }, 3000)
-  }, [total, token])
+  }, [total])
 
   return (
     <div className="relative bg-white">
@@ -324,13 +338,13 @@ export default function Checkout() {
                       <input
                         type="text"
                         placeholder="Endereço de entrega"
-                        {...register('address')}
+                        {...register('shippingAddress.address')}
                         id="address"
                         name="address"
                         autoComplete="street-address"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
-                      <ErrorComponent errors={errors} name="address" />
+                      <ErrorComponent errors={errors['shippingAddress']} name="address" />
                     </div>
                   </div>
 
@@ -346,11 +360,11 @@ export default function Checkout() {
                         type="number"
                         placeholder="Número"
                         id="number"
-                        {...register('number')}
+                        {...register('shippingAddress.number')}
                         name="number"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
-                      <ErrorComponent errors={errors} name="number" />
+                      <ErrorComponent errors={errors['shippingAddress']} name="number" />
                     </div>
                   </div>
 
@@ -366,11 +380,11 @@ export default function Checkout() {
                         type="text"
                         placeholder="Complemento"
                         id="complement"
-                        {...register('complement')}
+                        {...register('shippingAddress.complement')}
                         name="complement"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
-                      <ErrorComponent errors={errors} name="complement" />
+                      <ErrorComponent errors={errors['shippingAddress']} name="complement" />
                     </div>
                   </div>
 
@@ -387,10 +401,10 @@ export default function Checkout() {
                         placeholder="CEP"
                         id="cep"
                         name="cep"
-                        {...register('cep')}
+                        {...register('shippingAddress.cep')}
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
-                      <ErrorComponent errors={errors} name="cep" />
+                      <ErrorComponent errors={errors['shippingAddress']} name="cep" />
                     </div>
                   </div>
 
@@ -404,10 +418,10 @@ export default function Checkout() {
                         placeholder="Estado"
                         id="state"
                         name="state"
-                        {...register('state')}
+                        {...register('shippingAddress.state')}
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
-                      <ErrorComponent errors={errors} name="state" />
+                      <ErrorComponent errors={errors['shippingAddress']} name="state" />
                     </div>
                   </div>
 
@@ -421,10 +435,10 @@ export default function Checkout() {
                         placeholder="Cidade"
                         id="city"
                         name="city"
-                        {...register('city')}
+                        {...register('shippingAddress.city')}
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
-                      <ErrorComponent errors={errors} name="city" />
+                      <ErrorComponent errors={errors['shippingAddress']} name="city" />
                     </div>
                   </div>
                 </div>
