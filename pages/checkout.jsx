@@ -25,7 +25,9 @@ export const ErrorComponent = ({ errors, name }) => {
   if (Object.keys(errors).length == 0) {
     return null
   }
-  return errors[name] ? <span className="text-sm text-red-600">{errors[name]?.message}</span> : null
+  return errors[name] ? (
+    <span className="m-1 text-sm text-red-600">{errors[name]?.message}</span>
+  ) : null
 }
 
 export default function Checkout() {
@@ -357,7 +359,7 @@ export default function Checkout() {
                     </label>
                     <div className="mt-1">
                       <input
-                        type="number"
+                        type="text"
                         placeholder="Número"
                         id="number"
                         {...register('shippingAddress.number')}
@@ -393,18 +395,35 @@ export default function Checkout() {
                       htmlFor="postal-code"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      CEP
+                      Bairro
                     </label>
                     <div className="mt-1">
                       <input
                         type="text"
-                        placeholder="CEP"
-                        id="cep"
-                        name="cep"
-                        {...register('shippingAddress.cep')}
+                        placeholder="Bairro"
+                        id="neighborhood"
+                        name="neighborhood"
+                        {...register('shippingAddress.neighborhood')}
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
-                      <ErrorComponent errors={errors['shippingAddress']} name="cep" />
+                      <ErrorComponent errors={errors['shippingAddress']} name="neighborhood" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+                      Cidade
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        type="text"
+                        placeholder="Cidade"
+                        id="city"
+                        name="city"
+                        {...register('shippingAddress.city')}
+                        className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
+                      />
+                      <ErrorComponent errors={errors['shippingAddress']} name="city" />
                     </div>
                   </div>
 
@@ -426,19 +445,22 @@ export default function Checkout() {
                   </div>
 
                   <div>
-                    <label htmlFor="city" className="block text-sm font-medium text-gray-700">
-                      Cidade
+                    <label
+                      htmlFor="postal-code"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      CEP
                     </label>
                     <div className="mt-1">
                       <input
                         type="text"
-                        placeholder="Cidade"
-                        id="city"
-                        name="city"
-                        {...register('shippingAddress.city')}
+                        placeholder="CEP"
+                        id="cep"
+                        name="cep"
+                        {...register('shippingAddress.cep')}
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
-                      <ErrorComponent errors={errors['shippingAddress']} name="city" />
+                      <ErrorComponent errors={errors['shippingAddress']} name="cep" />
                     </div>
                   </div>
                 </div>

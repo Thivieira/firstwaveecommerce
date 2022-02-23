@@ -99,6 +99,7 @@ function Credit({ register, setValue, errors }) {
         setPaymentMethods(paymentMethods.results)
 
         setIssuer(paymentMethods.results[0])
+        setValue('checkoutForm.issuer', paymentMethods.results[0])
 
         if (total && bin) {
           const installments = await mp.getInstallments({
@@ -284,7 +285,7 @@ function Credit({ register, setValue, errors }) {
           className={`bg-none hidden py-2 pl-3 pr-10 font-medium text-left border border-gray-300 rounded-md shadow-sm cursor-default relativebg-white focus:outline-none focus:ring-1 focus:ring-[#0080A8] focus:border-[#0080A8]`}
           id="form-checkout__issuer"
           onChange={debouncedChangeHandler}
-          value={checkoutForm.issuer}
+          // value={checkoutForm.issuer}
           disabled
         >
           {issuer && <option value={issuer.id}>{issuer.name}</option>}
@@ -308,7 +309,6 @@ function Credit({ register, setValue, errors }) {
             )
           })}
         </select>
-        <ErrorComponent errors={errors['checkoutForm']} name="identificationType" />
         <InputMask
           mask={checkoutForm.identificationType == 'CNPJ' ? '99.999.999/9999-99' : '999.999.999-99'}
           maskChar=" "
@@ -322,7 +322,6 @@ function Credit({ register, setValue, errors }) {
           id="form-checkout__identificationNumber"
           className="ml-1 py-2 border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] "
         />
-        <ErrorComponent errors={errors['checkoutForm']} name="identificationNumber" />
         <select
           name="installments"
           onChange={debouncedChangeHandler}
@@ -345,6 +344,10 @@ function Credit({ register, setValue, errors }) {
             <option value="null">Digite o número do cartão primeiro</option>
           )}
         </select>
+      </div>
+      <div className="flex flex-col justify-center">
+        <ErrorComponent errors={errors['checkoutForm']} name="identificationType" />
+        <ErrorComponent errors={errors['checkoutForm']} name="identificationNumber" />
         <ErrorComponent errors={errors} name="installments" />
       </div>
     </div>
