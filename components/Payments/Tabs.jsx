@@ -5,7 +5,7 @@ import Ticket from './Ticket'
 import { CheckoutContext } from '../../contexts/CheckoutContext'
 
 export default function TabSolutions() {
-  const { tabs, current, setCurrent } = useContext(CheckoutContext)
+  const { tabs, current, setCurrent, setCheckoutForm, checkoutForm } = useContext(CheckoutContext)
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')

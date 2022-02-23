@@ -2,9 +2,10 @@ import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { CheckoutContext } from '../../contexts/CheckoutContext'
+import { ErrorComponent } from '../../pages/checkout'
 import { getCartState } from '../../store/selectors/products'
 
-function ShippingContent({ cep }) {
+function ShippingContent({ cep, register, errors, setValue, shippingMethod }) {
   const { shipping, setShipping, selectedShipping, setSelectedShipping, setSelectedShippingPrice } =
     useContext(CheckoutContext)
 
@@ -30,11 +31,13 @@ function ShippingContent({ cep }) {
         )
         .then((res) => setShipping(res.data))
     }
-  }, [cart, cep, setShipping])
+  }, [cart, cep])
 
   useEffect(() => {
     setShipping([])
-  }, [cep])
+  }, [])
+
+  console.log(shippingMethod, 'shippingMethod')
 
   return (
     <div className="relative max-w-xl border-b border-gray-200 sm:pb-0 lg:max-w-5xl">
@@ -46,17 +49,24 @@ function ShippingContent({ cep }) {
               {shipping
                 .filter((el) => !el.error)
                 .map((el, i) => (
-                  <div className="radio" key={i}>
+                  <div className="radio" key={el.id}>
                     <input
                       type="radio"
-                      name={el.name}
+                      name={'shippingMethod'}
                       id={el.name}
-                      value={el.name}
+                      value={el.id}
                       onChange={(e) => {
                         setSelectedShipping(e.target.value)
                         setSelectedShippingPrice(el.price)
+                        console.log()
+                        setValue('shippingMethod', {
+                          id: el.id,
+                          name: el.name,
+                          price: el.price
+                        })
                       }}
-                      checked={selectedShipping === el.name}
+                      // {...register('shippingMethod')}
+                      checked={shippingMethod?.id === el.id}
                     />
                     <label htmlFor={el.name} className="radio-label">
                       <div className="shipping-result">
@@ -69,6 +79,7 @@ function ShippingContent({ cep }) {
                 ))}
             </div>
           )}
+          <ErrorComponent errors={errors} name="shippingMethod" />
         </div>
       </div>
     </div>

@@ -12,21 +12,19 @@ import { saveAccount, saveAddress } from '../store/actions/user'
 import Tabs from '../components/Payments/Tabs'
 import ShippingContent from '../components/Payments/ShippingContent'
 import { CheckoutContext } from '../contexts/CheckoutContext'
-import useLocalStorageState from 'use-local-storage-state'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+
+export const ErrorComponent = ({ errors, name }) => {
+  return errors[name] ? <span>{errors[name]?.message}</span> : null
+}
 
 export default function Checkout() {
   const [edit, setEdit] = useState(false)
-  const [street, setStreet] = useState('')
-  const [number, setNumber] = useState('')
-  const [complement, setComplement] = useState('')
-  const [cep, setCep] = useState('')
-  const [state, setState] = useState('')
-  const [city, setCity] = useState('')
-  const [neighborhood, setNeighborhood] = useState('')
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
   const dispatch = useDispatch()
-  const [jwt] = useLocalStorageState('token', { ssr: true, defaultValue: null })
   const {
     paymentRes,
     setPaymentRes,
@@ -36,8 +34,43 @@ export default function Checkout() {
     checkoutForm,
     setCheckoutForm
   } = useContext(CheckoutContext)
+
+  const schema = yup
+    .object({
+      firstName: yup.string().required(),
+      age: yup.number().positive().integer().required()
+    })
+    .required()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    getValues,
+    watch
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      address: '',
+      number: '',
+      complement: '',
+      cep: '',
+      state: '',
+      city: '',
+      neighborhood: '',
+      shippingMethod: {
+        id: '',
+        name: '',
+        price: ''
+      }
+    }
+  })
+  const cep = watch('cep')
+  const shippingMethod = watch('shippingMethod')
   const router = useRouter()
   const account = useSelector(getAccount)
+
   const totalToPay = parseFloat(total) + parseFloat(selectedShippingPrice)
   const price = (product) => `R$${parseFloat(product.product.price).toFixed(2).replace('.', ',')}`
   const priceSale = (product) => `R$${parseFloat(product.price).toFixed(2).replace('.', ',')}`
@@ -68,13 +101,13 @@ export default function Checkout() {
     api
       .get('/auth/address')
       .then((res) => {
-        setStreet(nullToString(res.data.address))
-        setNumber(nullToString(res.data.addressNumber))
-        setComplement(nullToString(res.data.complement))
-        setCep(nullToString(res.data.postalCode))
-        setState(nullToString(res.data.uf))
-        setCity(nullToString(res.data.city))
-        setNeighborhood(nullToString(res.data.province))
+        setValue('address', nullToString(res.data.address))
+        setValue('number', nullToString(res.data.addressNumber))
+        setValue('complement', nullToString(res.data.complement))
+        setValue('cep', nullToString(res.data.postalCode))
+        setValue('state', nullToString(res.data.uf))
+        setValue('city', nullToString(res.data.city))
+        setValue('neighborhood', nullToString(res.data.province))
         dispatch(
           saveAddress({
             street: nullToString(res.data.address),
@@ -227,7 +260,7 @@ export default function Checkout() {
         </section>
 
         <section className="lg:max-w-lg lg:w-full lg:mx-auto lg:pt-0 lg:pb-24 lg:row-start-1 lg:col-start-1">
-          <form id="form-checkout" onSubmit={onSubmit}>
+          <form id="form-checkout" onSubmit={handleSubmit(onSubmit)}>
             <div className="max-w-2xl px-4 py-16 mx-auto lg:py-0 lg:max-w-none lg:px-0">
               <div className="">
                 <h3 className="text-2xl font-bold text-[#0080A8]">Endereço de entrega</h3>
@@ -240,14 +273,14 @@ export default function Checkout() {
                     <div className="mt-1">
                       <input
                         type="text"
-                        onChange={(e) => setStreet(e.target.value)}
-                        value={street}
                         placeholder="Endereço de entrega"
+                        {...register('address')}
                         id="address"
                         name="address"
                         autoComplete="street-address"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
+                      <ErrorComponent errors={errors} name="address" />
                     </div>
                   </div>
 
@@ -261,13 +294,13 @@ export default function Checkout() {
                     <div className="mt-1">
                       <input
                         type="number"
-                        onChange={(e) => setNumber(e.target.value)}
-                        value={number}
                         placeholder="Número"
                         id="number"
+                        {...register('number')}
                         name="number"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
+                      <ErrorComponent errors={errors} name="number" />
                     </div>
                   </div>
 
@@ -281,13 +314,13 @@ export default function Checkout() {
                     <div className="mt-1">
                       <input
                         type="text"
-                        onChange={(e) => setComplement(e.target.value)}
-                        value={complement}
                         placeholder="Complemento"
                         id="complement"
+                        {...register('complement')}
                         name="complement"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
+                      <ErrorComponent errors={errors} name="complement" />
                     </div>
                   </div>
 
@@ -301,13 +334,13 @@ export default function Checkout() {
                     <div className="mt-1">
                       <input
                         type="text"
-                        onChange={(e) => setCep(e.target.value)}
-                        value={cep}
                         placeholder="CEP"
                         id="cep"
                         name="cep"
+                        {...register('cep')}
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
+                      <ErrorComponent errors={errors} name="cep" />
                     </div>
                   </div>
 
@@ -318,13 +351,13 @@ export default function Checkout() {
                     <div className="mt-1">
                       <input
                         type="text"
-                        onChange={(e) => setState(e.target.value)}
-                        value={state}
                         placeholder="Estado"
                         id="state"
                         name="state"
+                        {...register('state')}
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
+                      <ErrorComponent errors={errors} name="state" />
                     </div>
                   </div>
 
@@ -335,19 +368,25 @@ export default function Checkout() {
                     <div className="mt-1">
                       <input
                         type="text"
-                        onChange={(e) => setCity(e.target.value)}
-                        value={city}
                         placeholder="Cidade"
                         id="city"
                         name="city"
+                        {...register('city')}
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
                       />
+                      <ErrorComponent errors={errors} name="city" />
                     </div>
                   </div>
                 </div>
               </div>
               <div className="mt-5">
-                <ShippingContent cep={cep} />
+                <ShippingContent
+                  cep={cep}
+                  register={register}
+                  setValue={setValue}
+                  errors={errors}
+                  shippingMethod={shippingMethod}
+                />
               </div>
               <div className="mt-5">
                 <Tabs />
