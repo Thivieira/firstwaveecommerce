@@ -38,8 +38,34 @@ export default function Checkout() {
   yup.setLocale(pt)
   const schema = yup
     .object({
-      firstName: yup.string().required(),
-      age: yup.number().positive().integer().required()
+      shippingAddress: yup.object({
+        address: '',
+        number: '',
+        complement: '',
+        cep: '',
+        state: '',
+        city: '',
+        neighborhood: ''
+      }),
+      shippingMethod: yup.object({
+        id: '',
+        name: '',
+        price: ''
+      }),
+      checkoutForm: yup.object({
+        cardholderName: '',
+        cardholderEmail: '',
+        cardNumber: '',
+        cardExpirationDate: '',
+        securityCode: '',
+        issuer: '',
+        identificationType: '',
+        identificationNumber: '',
+        installments: '',
+        cardTokenId: ''
+      }),
+      originalAmount: yup.string().required(),
+      amountWithShipping: yup.string().required()
     })
     .required()
 
@@ -87,10 +113,15 @@ export default function Checkout() {
   const shippingMethod = watch('shippingMethod')
   const router = useRouter()
   const account = useSelector(getAccount)
-
-  const totalToPay = parseFloat(total) + parseFloat(selectedShippingPrice)
+  const totalToPay = watch('amountWithShipping')
+    ? watch('amountWithShipping')
+    : parseFloat(total) + parseFloat(selectedShippingPrice)
   const price = (product) => `R$${parseFloat(product.product.price).toFixed(2).replace('.', ',')}`
   const priceSale = (product) => `R$${parseFloat(product.price).toFixed(2).replace('.', ',')}`
+
+  useEffect(() => {
+    setValue('amountWithShipping', parseFloat(total) + parseFloat(selectedShippingPrice))
+  }, [selectedShippingPrice])
 
   const getUserData = useCallback(() => {
     api
