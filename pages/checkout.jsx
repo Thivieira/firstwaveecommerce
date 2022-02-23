@@ -39,30 +39,30 @@ export default function Checkout() {
   const schema = yup
     .object({
       shippingAddress: yup.object({
-        address: '',
-        number: '',
-        complement: '',
-        cep: '',
-        state: '',
-        city: '',
-        neighborhood: ''
+        address: yup.string().required(),
+        number: yup.string().required(),
+        complement: yup.string(),
+        cep: yup.string().required(),
+        state: yup.string().required(),
+        city: yup.string().required(),
+        neighborhood: yup.string().required()
       }),
       shippingMethod: yup.object({
-        id: '',
-        name: '',
-        price: ''
+        id: yup.string().required(),
+        name: yup.string().required(),
+        price: yup.string().required()
       }),
       checkoutForm: yup.object({
-        cardholderName: '',
-        cardholderEmail: '',
-        cardNumber: '',
-        cardExpirationDate: '',
-        securityCode: '',
-        issuer: '',
-        identificationType: '',
-        identificationNumber: '',
-        installments: '',
-        cardTokenId: ''
+        cardholderName: yup.string().required(),
+        cardholderEmail: yup.string().email().required(),
+        cardNumber: yup.string().required(),
+        cardExpirationDate: yup.string().required(),
+        securityCode: yup.string().required(),
+        issuer: yup.string().required(),
+        identificationType: yup.string().required(),
+        identificationNumber: yup.string().required(),
+        installments: yup.string().required(),
+        cardTokenId: yup.string().required()
       }),
       originalAmount: yup.string().required(),
       amountWithShipping: yup.string().required()
@@ -122,6 +122,10 @@ export default function Checkout() {
   useEffect(() => {
     setValue('amountWithShipping', parseFloat(total) + parseFloat(selectedShippingPrice))
   }, [selectedShippingPrice])
+
+  useEffect(() => {
+    setValue('originalAmount', total.toString())
+  }, [total])
 
   const getUserData = useCallback(() => {
     api

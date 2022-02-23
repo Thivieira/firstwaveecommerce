@@ -23,10 +23,20 @@ export default function Tabs({ register, setValue, errors }) {
               id="current-tab"
               name="current-tab"
               className="block w-full py-2 pl-3 pr-10 text-base border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-              defaultValue={tabs.find((tab) => tab.id === current).name}
+              defaultValue={tabs.find((tab) => tab.id == current).name}
+              onChange={(e) => {
+                console.log(e)
+                const id = e.target.value
+                const currentTab = tabs.find((tab) => tab.id == id)
+                console.log(currentTab)
+                setCurrent(id)
+                setCheckoutForm({ ...checkoutForm, billingType: currentTab.name })
+              }}
             >
               {tabs.map((tab) => (
-                <option key={tab.id}>{tab.name}</option>
+                <option value={tab.id} key={tab.id}>
+                  {tab.title}
+                </option>
               ))}
             </select>
           </div>
@@ -55,12 +65,12 @@ export default function Tabs({ register, setValue, errors }) {
         </div>
       </div>
 
-      {current === 1 ? (
+      {current == 1 ? (
         <Ticket register={register} setValue={setValue} errors={errors} />
-      ) : current === 2 ? (
+      ) : current == 2 ? (
         <Pix register={register} setValue={setValue} errors={errors} />
       ) : (
-        current === 3 && <Credit register={register} setValue={setValue} errors={errors} />
+        current == 3 && <Credit register={register} setValue={setValue} errors={errors} />
       )}
     </>
   )
