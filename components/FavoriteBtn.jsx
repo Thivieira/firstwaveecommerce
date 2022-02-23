@@ -31,7 +31,7 @@ export default function FavoriteBtn({ product }) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`
       setToken(token)
     }
-  }, [setToken, token])
+  }, [token])
 
   const MySwal = withReactContent(Swal)
   const [favorite, setFavoriteState] = useState(product.favorite)

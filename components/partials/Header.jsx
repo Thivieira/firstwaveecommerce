@@ -24,6 +24,7 @@ import { saveAccount, saveAddress } from '../../store/actions/user'
 import { getAccount } from '../../store/selectors/user'
 import Cart from '../FloatCart/Cart'
 import useLocalStorageState from 'use-local-storage-state'
+import Link from 'next/link'
 
 function Header() {
   const router = useRouter()
@@ -932,9 +933,9 @@ function Header() {
                       key={item.id}
                       className="flex items-center justify-between px-3 py-2 text-xl font-medium text-[#0080A8] hover:bg-blue-100"
                     >
-                      <a className="truncate" href={item.href}>
-                        {item.name}
-                      </a>
+                      <Link href={item.href} passHref>
+                        <a className="truncate">{item.name}</a>
+                      </Link>
                       {item.more && (
                         <ArrowRightIcon
                           onClick={() => setOpenOptions(!openOptions)}
@@ -960,9 +961,9 @@ function Header() {
                             >
                               {section.items.map((el) => (
                                 <li key={el.name} className="flex">
-                                  <a href={el.href} className="text-base">
-                                    {el.name}
-                                  </a>
+                                  <Link href={el.href} passHref>
+                                    <a className="text-base">{el.name}</a>
+                                  </Link>
                                 </li>
                               ))}
                             </ul>
