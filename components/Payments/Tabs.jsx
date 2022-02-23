@@ -25,10 +25,8 @@ export default function Tabs({ register, setValue, errors }) {
               className="block w-full py-2 pl-3 pr-10 text-base border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
               defaultValue={tabs.find((tab) => tab.id == current).name}
               onChange={(e) => {
-                console.log(e)
                 const id = e.target.value
                 const currentTab = tabs.find((tab) => tab.id == id)
-                console.log(currentTab)
                 setCurrent(id)
                 setCheckoutForm({ ...checkoutForm, billingType: currentTab.name })
               }}

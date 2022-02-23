@@ -16,6 +16,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { pt } from 'yup-locale-pt'
+import useLocalStorageState from 'use-local-storage-state'
 
 export const ErrorComponent = ({ errors, name }) => {
   return errors[name] ? <span>{errors[name]?.message}</span> : null
@@ -33,15 +34,18 @@ export default function Checkout() {
     selectedShippingPrice,
     loading,
     checkoutForm,
-    setCheckoutForm
+    setCheckoutForm,
+    current,
+    tabs
   } = useContext(CheckoutContext)
+
   yup.setLocale(pt)
   const schema = yup
     .object({
       shippingAddress: yup.object({
         address: yup.string().required(),
         number: yup.string().required(),
-        complement: yup.string(),
+        complement: yup.string().nullable(),
         cep: yup.string().required(),
         state: yup.string().required(),
         city: yup.string().required(),
@@ -52,6 +56,7 @@ export default function Checkout() {
         name: yup.string().required(),
         price: yup.string().required()
       }),
+      billingType: yup.string().required(),
       checkoutForm: yup.object({
         cardholderName: yup.string().required(),
         cardholderEmail: yup.string().email().required(),
@@ -93,6 +98,7 @@ export default function Checkout() {
         name: '',
         price: ''
       },
+      billingType: 'creditcard',
       checkoutForm: {
         cardholderName: '',
         cardholderEmail: '',
@@ -194,13 +200,15 @@ export default function Checkout() {
     const resData = res.data
   }
 
+  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
+
   useEffect(() => {
     setTimeout(() => {
-      if (total == 0) {
+      if (total == 0 || !token) {
         router.push('/')
       }
     }, 3000)
-  }, [account])
+  }, [total, token])
 
   return (
     <div className="relative bg-white">
