@@ -195,12 +195,11 @@ export default function Checkout() {
   }
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   if (Object.keys(account).length === 0) {
-    //     console.log(total, 'seriously?')
-    //     router.push('/')
-    //   }
-    // }, 3000)
+    setTimeout(() => {
+      if (total == 0) {
+        router.push('/')
+      }
+    }, 3000)
   }, [account])
 
   return (
