@@ -4,7 +4,7 @@ import Pix from './Pix'
 import Ticket from './Ticket'
 import { CheckoutContext } from '../../contexts/CheckoutContext'
 
-export default function TabSolutions() {
+export default function Tabs({ register, setValue, errors }) {
   const { tabs, current, setCurrent, setCheckoutForm, checkoutForm } = useContext(CheckoutContext)
 
   function classNames(...classes) {
@@ -55,7 +55,13 @@ export default function TabSolutions() {
         </div>
       </div>
 
-      {current === 1 ? <Ticket /> : current === 2 ? <Pix /> : current === 3 && <Credit />}
+      {current === 1 ? (
+        <Ticket register={register} setValue={setValue} errors={errors} />
+      ) : current === 2 ? (
+        <Pix register={register} setValue={setValue} errors={errors} />
+      ) : (
+        current === 3 && <Credit register={register} setValue={setValue} errors={errors} />
+      )}
     </>
   )
 }

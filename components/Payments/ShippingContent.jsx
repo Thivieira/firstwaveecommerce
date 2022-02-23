@@ -37,8 +37,6 @@ function ShippingContent({ cep, register, errors, setValue, shippingMethod }) {
     setShipping([])
   }, [])
 
-  console.log(shippingMethod, 'shippingMethod')
-
   return (
     <div className="relative max-w-xl border-b border-gray-200 sm:pb-0 lg:max-w-5xl">
       <div className="max-w-md mx-auto sm:max-w-3xl lg:max-w-7xl">
@@ -58,7 +56,6 @@ function ShippingContent({ cep, register, errors, setValue, shippingMethod }) {
                       onChange={(e) => {
                         setSelectedShipping(e.target.value)
                         setSelectedShippingPrice(el.price)
-                        console.log()
                         setValue('shippingMethod', {
                           id: el.id,
                           name: el.name,

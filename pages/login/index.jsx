@@ -44,7 +44,6 @@ function Login() {
       })
       const token = res.data.access_token
       setToken(token)
-      // console.log(token)
       api.defaults.headers.common['Authorization'] = `Bearer ${token.replace(/['"]+/g, '')}`
       try {
         const { data } = await api.get('/auth/me')

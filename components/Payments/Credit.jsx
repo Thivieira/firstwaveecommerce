@@ -5,8 +5,9 @@ import { getCartState, getCartTotal } from '../../store/selectors/products'
 import { getAccount } from '../../store/selectors/user'
 import InputMask from 'react-input-mask'
 import debounce from 'lodash.debounce'
+import { ErrorComponent } from '../../pages/checkout'
 
-function Credit() {
+function Credit({ register, setValue, errors }) {
   const account = useSelector(getAccount)
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
@@ -131,6 +132,7 @@ function Credit() {
 
           setCardToken(cardToken)
 
+          setValue('checkoutForm.cardTokenId', cardToken.id)
           setCheckoutForm({ ...checkoutForm, cardTokenId: cardToken.id })
         }
       }
@@ -142,6 +144,7 @@ function Credit() {
       ...checkoutForm,
       [e.target.name]: e.target.value
     })
+    setValue('checkoutForm.' + e.target.name, e.target.value)
   }
 
   const debouncedChangeHandler = useMemo((e) => debounce(handleChange, 1000), [context])
@@ -174,6 +177,7 @@ function Credit() {
               autoComplete="name"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
+            <ErrorComponent errors={errors} name="cardholderName" />
           </div>
         </div>
 
@@ -195,6 +199,7 @@ function Credit() {
               autoComplete="email"
               className=" hidden w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
+            <ErrorComponent errors={errors} name="cardholderEmail" />
           </div>
         </div>
 
@@ -224,6 +229,7 @@ function Credit() {
                 src={issuer.thumbnail}
               />
             )}
+            <ErrorComponent errors={errors} name="cardNumber" />
           </div>
         </div>
       </div>
@@ -247,6 +253,7 @@ function Credit() {
               autoComplete="cc-exp"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
+            <ErrorComponent errors={errors} name="cardExpirationDate" />
           </div>
         </div>
 
@@ -266,6 +273,7 @@ function Credit() {
               autoComplete="csc"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
+            <ErrorComponent errors={errors} name="securityCode" />
           </div>
         </div>
       </div>
@@ -281,6 +289,7 @@ function Credit() {
         >
           {issuer && <option value={issuer.id}>{issuer.name}</option>}
         </select>
+        <ErrorComponent errors={errors} name="issuer" />
         <select
           name="identificationType"
           id="form-checkout__identificationType"
@@ -299,6 +308,7 @@ function Credit() {
             )
           })}
         </select>
+        <ErrorComponent errors={errors} name="identificationType" />
         <InputMask
           mask={checkoutForm.identificationType == 'CNPJ' ? '99.999.999/9999-99' : '999.999.999-99'}
           maskChar=" "
@@ -312,6 +322,7 @@ function Credit() {
           id="form-checkout__identificationNumber"
           className="ml-1 py-2 border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] "
         />
+        <ErrorComponent errors={errors} name="identificationNumber" />
         <select
           name="installments"
           onChange={debouncedChangeHandler}
@@ -334,6 +345,7 @@ function Credit() {
             <option value="null">Digite o número do cartão primeiro</option>
           )}
         </select>
+        <ErrorComponent errors={errors} name="installments" />
       </div>
     </div>
   )

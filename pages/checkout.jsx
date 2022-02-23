@@ -15,6 +15,7 @@ import { CheckoutContext } from '../contexts/CheckoutContext'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import { pt } from 'yup-locale-pt'
 
 export const ErrorComponent = ({ errors, name }) => {
   return errors[name] ? <span>{errors[name]?.message}</span> : null
@@ -34,7 +35,7 @@ export default function Checkout() {
     checkoutForm,
     setCheckoutForm
   } = useContext(CheckoutContext)
-
+  yup.setLocale(pt)
   const schema = yup
     .object({
       firstName: yup.string().required(),
@@ -52,21 +53,37 @@ export default function Checkout() {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      address: '',
-      number: '',
-      complement: '',
-      cep: '',
-      state: '',
-      city: '',
-      neighborhood: '',
+      shippingAddress: {
+        address: '',
+        number: '',
+        complement: '',
+        cep: '',
+        state: '',
+        city: '',
+        neighborhood: ''
+      },
       shippingMethod: {
         id: '',
         name: '',
         price: ''
-      }
+      },
+      checkoutForm: {
+        cardholderName: '',
+        cardholderEmail: '',
+        cardNumber: '',
+        cardExpirationDate: '',
+        securityCode: '',
+        issuer: '',
+        identificationType: '',
+        identificationNumber: '',
+        installments: '',
+        cardTokenId: ''
+      },
+      originalAmount: total.toString(),
+      amountWithShipping: ''
     }
   })
-  const cep = watch('cep')
+  const cep = watch('shippingAddress.cep')
   const shippingMethod = watch('shippingMethod')
   const router = useRouter()
   const account = useSelector(getAccount)
@@ -101,13 +118,13 @@ export default function Checkout() {
     api
       .get('/auth/address')
       .then((res) => {
-        setValue('address', nullToString(res.data.address))
-        setValue('number', nullToString(res.data.addressNumber))
-        setValue('complement', nullToString(res.data.complement))
-        setValue('cep', nullToString(res.data.postalCode))
-        setValue('state', nullToString(res.data.uf))
-        setValue('city', nullToString(res.data.city))
-        setValue('neighborhood', nullToString(res.data.province))
+        setValue('shippingAddress.address', nullToString(res.data.address))
+        setValue('shippingAddress.number', nullToString(res.data.addressNumber))
+        setValue('shippingAddress.complement', nullToString(res.data.complement))
+        setValue('shippingAddress.cep', nullToString(res.data.postalCode))
+        setValue('shippingAddress.state', nullToString(res.data.uf))
+        setValue('shippingAddress.city', nullToString(res.data.city))
+        setValue('shippingAddress.neighborhood', nullToString(res.data.province))
         dispatch(
           saveAddress({
             street: nullToString(res.data.address),
@@ -136,19 +153,10 @@ export default function Checkout() {
     }, 2000)
   }, [account])
 
-  async function onSubmit() {
-    const res = await axios.post('', {
-      form: checkoutForm,
-      shippingMethod: {
-        name: selectedShipping,
-        price: selectedShippingPrice
-      },
-      shippingAddress: address,
-      originalAmount: total,
-      amountWithShipping: totalToPay
-    })
+  async function onSubmit(data) {
+    const res = await axios.post('', data)
 
-    const data = res.data
+    const resData = res.data
   }
 
   useEffect(() => {
@@ -389,7 +397,7 @@ export default function Checkout() {
                 />
               </div>
               <div className="mt-5">
-                <Tabs />
+                <Tabs register={register} setValue={setValue} errors={errors} />
               </div>
               <div className="flex justify-start pt-6 mt-5 border-t border-gray-200">
                 <button
