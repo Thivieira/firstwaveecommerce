@@ -38,13 +38,21 @@ function Credit({ errors }) {
   } = context
 
   useEffect(() => {
-    if (account && !checkoutForm.identificationNumber && !checkoutForm.cardholderEmail) {
-      setCheckoutForm({
-        ...checkoutForm,
-        // cardholderName: account.name ? account.name : '',
-        cardholderEmail: account.email ? account.email : '',
-        identificationNumber: account.cpf ? account.cpf : ''
-      })
+    const values = getValues()
+    if (
+      account &&
+      !values.checkoutForm.identificationNumber &&
+      !values.checkoutForm.cardholderEmail
+    ) {
+      setValue('checkoutForm.cardholderEmail', account.email ? account.email : '')
+      setValue('checkoutForm.identificationType', account.cpf ? 'CPF' : '')
+      setValue('checkoutForm.identificationNumber', account.cpf ? account.cpf : '')
+      // setCheckoutForm({
+      //   ...checkoutForm,
+      //   // cardholderName: account.name ? account.name : '',
+      //   cardholderEmail: ,
+      //   identificationNumber: account.cpf ? account.cpf : ''
+      // })
     }
   }, [account])
 
@@ -79,19 +87,21 @@ function Credit({ errors }) {
     })
   }, [mpRun])
 
+  async function mountIdentificationTypes() {
+    const identificationTypes = await mp.getIdentificationTypes()
+    setIdentificationTypes(identificationTypes)
+    if (identificationTypes.length > 0) {
+      setValue('checkoutForm.identificationType', identificationTypes[0].id)
+      // setCheckoutForm({ ...checkoutForm, identificationType: identificationTypes[0].id })
+    } else {
+      setValue('checkoutForm.identificationType', 'CPF')
+      // setCheckoutForm({ ...checkoutForm, identificationType: 'CPF' })
+    }
+  }
+
   async function mountForm() {
     if (mp) {
       const values = getValues()
-      const identificationTypes = await mp.getIdentificationTypes()
-      setIdentificationTypes(identificationTypes)
-      if (identificationTypes.length > 0) {
-        setValue('checkoutForm.identificationType', identificationTypes[0].id)
-        // setCheckoutForm({ ...checkoutForm, identificationType: identificationTypes[0].id })
-      } else {
-        setValue('checkoutForm.identificationType', 'CPF')
-        // setCheckoutForm({ ...checkoutForm, identificationType: 'CPF' })
-      }
-
       if (values.checkoutForm.cardNumber) {
         const cardNumber = values.checkoutForm.cardNumber.replace(/\s/g, '')
         const bin = cardNumber.substr(0, 6)
@@ -136,26 +146,26 @@ function Credit({ errors }) {
           }
         }
 
-        // console.log(
-        //   {
-        //     cardNumber,
-        //     cardholderName: values.checkoutForm.cardholderName,
-        //     month,
-        //     year,
-        //     securityCode: values.checkoutForm.securityCode,
-        //     identificationType: values.checkoutForm.identificationType,
-        //     identificationNumber,
-        //     condition:
-        //       cardNumber &&
-        //       values.checkoutForm.cardholderName &&
-        //       month &&
-        //       year &&
-        //       values.checkoutForm.securityCode &&
-        //       values.checkoutForm.identificationType &&
-        //       identificationNumber
-        //   },
-        //   'THE MOST IMPORTANT'
-        // )
+        console.log(
+          {
+            cardNumber,
+            cardholderName: values.checkoutForm.cardholderName,
+            month,
+            year,
+            securityCode: values.checkoutForm.securityCode,
+            identificationType: values.checkoutForm.identificationType,
+            identificationNumber,
+            condition:
+              cardNumber &&
+              values.checkoutForm.cardholderName &&
+              month &&
+              year &&
+              values.checkoutForm.securityCode &&
+              values.checkoutForm.identificationType &&
+              identificationNumber
+          },
+          'THE MOST IMPORTANT'
+        )
         if (
           cardNumber &&
           values.checkoutForm.cardholderName &&
@@ -185,23 +195,38 @@ function Credit({ errors }) {
   }
 
   function handleChange(e) {
+    const values = getValues()
     setCheckoutForm({
       ...checkoutForm,
       [e.target.name]: e.target.value
     })
     console.log(`checkoutForm.${e.target.name}`, e.target.value)
-    console.log('checkoutFormObj', checkoutForm)
+    // console.log('checkoutFormObj', checkoutForm)
+    console.log(values.checkoutForm, '202')
     setValue(`checkoutForm.${e.target.name}`, e.target.value)
+    console.log(values.checkoutForm, '204')
   }
 
   const debouncedChangeHandler = useMemo((e) => debounce(handleChange, 1000), [context])
+
+  useEffect(() => {
+    if (current === 3) {
+      mountIdentificationTypes()
+    }
+  }, [])
+
+  useEffect(() => {
+    if (current === 3) {
+      mountIdentificationTypes()
+    }
+  }, [current])
 
   useEffect(async () => {
     if (current === 3) {
       await mountForm()
       return true
     }
-  }, [current, checkoutForm, total])
+  }, [checkoutForm, total])
 
   return (
     <div className="mt-5">
@@ -220,6 +245,7 @@ function Credit({ errors }) {
               placeholder="Nome impresso no cartão"
               id="form-checkout__cardholderName"
               onChange={debouncedChangeHandler}
+              // value={getValues('checkoutForm.cardholderName')}
               // value={checkoutForm.cardholderName}
               autoComplete="name"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
@@ -243,6 +269,7 @@ function Credit({ errors }) {
               name="cardholderEmail"
               placeholder="Email"
               id="form-checkout__cardholderEmail"
+              // value={getValues('checkoutForm.cardholderEmail')}
               autoComplete="email"
               className=" hidden w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
@@ -260,6 +287,7 @@ function Credit({ errors }) {
               name="cardNumber"
               onChange={debouncedChangeHandler}
               // value={checkoutForm.cardNumber}
+              // value={getValues('checkoutForm.cardNumber')}
               placeholder="Número do cartão"
               id="form-checkout__cardNumber"
               maxLength="19"
@@ -292,6 +320,7 @@ function Credit({ errors }) {
               maskChar=" "
               name="cardExpirationDate"
               onChange={debouncedChangeHandler}
+              // value={getValues('checkoutForm.cardExpirationDate')}
               // value={checkoutForm.cardExpirationDate}
               type="text"
               placeholder="Data de vencimento"
@@ -314,6 +343,7 @@ function Credit({ errors }) {
               name="securityCode"
               onChange={debouncedChangeHandler}
               placeholder="Código de seguraça"
+              // value={getValues('checkoutForm.securityCode')}
               // value={checkoutForm.securityCode}
               maxLength={issuer ? issuer.settings[0].security_code['length'] : '4'}
               id="form-checkout__securityCode"
@@ -331,6 +361,7 @@ function Credit({ errors }) {
           className={`bg-none hidden py-2 pl-3 pr-10 font-medium text-left border border-gray-300 rounded-md shadow-sm cursor-default relativebg-white focus:outline-none focus:ring-1 focus:ring-[#0080A8] focus:border-[#0080A8]`}
           id="form-checkout__issuer"
           onChange={debouncedChangeHandler}
+          // value={getValues('checkoutForm.issuer')}
           // value={checkoutForm.issuer}
           disabled
         >
@@ -341,6 +372,7 @@ function Credit({ errors }) {
           name="identificationType"
           id="form-checkout__identificationType"
           onChange={debouncedChangeHandler}
+          // value={getValues('checkoutForm.identificationType')}
           // value={checkoutForm.identificationType}
           disabled={identificationTypes.length === 0}
           className={`py-2 pl-3 pr-10 ${
@@ -359,6 +391,7 @@ function Credit({ errors }) {
           mask={checkoutForm.identificationType == 'CNPJ' ? '99.999.999/9999-99' : '999.999.999-99'}
           maskChar=" "
           type="text"
+          // value={getValues('checkoutForm.identificationNumber')}
           name="identificationNumber"
           placeholder={
             checkoutForm.identificationType == 'CNPJ' ? 'xx.xxx.xxx/xxxx-xx' : 'xxx.xxx.xxx-xx'
@@ -372,6 +405,7 @@ function Credit({ errors }) {
           name="installments"
           onChange={debouncedChangeHandler}
           // value={checkoutForm.installments}
+          // value={getValues('checkoutForm.installments')}
           id="form-checkout__installments"
           disabled={installments.length === 0}
           className={`py-2 pl-3 pr-10 ml-2 mt-5 ${
