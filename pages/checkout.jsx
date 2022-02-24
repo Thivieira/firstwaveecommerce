@@ -75,19 +75,28 @@ export default function Checkout() {
         .label('método de envio'),
       billingType: yup.string().required().label('método de pagamento'),
       checkoutForm: yup
-        .object({
-          cardholderName: yup.string().required().label('nome do dono do cartão'),
-          cardholderEmail: yup.string().email().required().label('email de faturamento'),
-          cardNumber: yup.string().required().label('número do cartão'),
-          cardExpirationDate: yup.string().required().label('data de expiração'),
-          securityCode: yup.string().required().label('código de segurança'),
-          issuer: yup.string().required().label('bandeira'),
-          identificationType: yup.string().required().label('documento de identificação'),
-          identificationNumber: yup.string().required().label('número da identificação'),
-          installments: yup.string().required().label('parcelamento'),
-          cardTokenId: yup.string().required().label('token')
-        })
-        .label('formulário de pagamento em cartão'),
+        .object()
+        .optional()
+        .when('billingType', {
+          is: (val) => val == 'creditcard',
+          then: (schema) =>
+            schema
+              .object({
+                cardholderName: yup.string().required().label('nome do dono do cartão'),
+                cardholderEmail: yup.string().email().required().label('email de faturamento'),
+                cardNumber: yup.string().required().label('número do cartão'),
+                cardExpirationDate: yup.string().required().label('data de expiração'),
+                securityCode: yup.string().required().label('código de segurança'),
+                issuer: yup.string().required().label('bandeira'),
+                identificationType: yup.string().required().label('documento de identificação'),
+                identificationNumber: yup.string().required().label('número da identificação'),
+                installments: yup.string().required().label('parcelamento'),
+                cardTokenId: yup.string().required().label('token')
+              })
+              .label('formulário de pagamento em cartão'),
+          otherwise: (schema) => schema
+        }),
+
       originalAmount: yup.string().required().label('valor total sem frete'),
       amountWithShipping: yup.string().required().label('valor total com frete')
     })
@@ -216,7 +225,7 @@ export default function Checkout() {
   }, [account])
 
   async function onSubmit(data) {
-    const res = await axios.post('', data)
+    const res = await axios.post('', { ...data, account })
 
     const resData = res.data
   }

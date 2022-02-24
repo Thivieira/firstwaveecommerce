@@ -88,14 +88,16 @@ function Credit({ errors }) {
   }, [mpRun])
 
   async function mountIdentificationTypes() {
-    const identificationTypes = await mp.getIdentificationTypes()
-    setIdentificationTypes(identificationTypes)
-    if (identificationTypes.length > 0) {
-      setValue('checkoutForm.identificationType', identificationTypes[0].id)
-      // setCheckoutForm({ ...checkoutForm, identificationType: identificationTypes[0].id })
-    } else {
-      setValue('checkoutForm.identificationType', 'CPF')
-      // setCheckoutForm({ ...checkoutForm, identificationType: 'CPF' })
+    if (mp) {
+      const identificationTypes = await mp.getIdentificationTypes()
+      setIdentificationTypes(identificationTypes)
+      if (identificationTypes.length > 0) {
+        setValue('checkoutForm.identificationType', identificationTypes[0].id)
+        // setCheckoutForm({ ...checkoutForm, identificationType: identificationTypes[0].id })
+      } else {
+        setValue('checkoutForm.identificationType', 'CPF')
+        // setCheckoutForm({ ...checkoutForm, identificationType: 'CPF' })
+      }
     }
   }
 
@@ -213,13 +215,13 @@ function Credit({ errors }) {
     if (current === 3) {
       mountIdentificationTypes()
     }
-  }, [])
+  }, [mp])
 
   useEffect(() => {
     if (current === 3) {
       mountIdentificationTypes()
     }
-  }, [current])
+  }, [current, mp])
 
   useEffect(async () => {
     if (current === 3) {
