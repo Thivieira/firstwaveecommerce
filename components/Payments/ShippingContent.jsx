@@ -1,13 +1,15 @@
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
+import { useFormContext } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { CheckoutContext } from '../../contexts/CheckoutContext'
 import { ErrorComponent } from '../../pages/checkout'
 import { getCartState } from '../../store/selectors/products'
 
-function ShippingContent({ cep, register, errors, setValue, shippingMethod }) {
+function ShippingContent({ cep, errors, shippingMethod }) {
   const { shipping, setShipping, selectedShipping, setSelectedShipping, setSelectedShippingPrice } =
     useContext(CheckoutContext)
+  const { setValue } = useFormContext() // retrieve all hook methods
 
   const cart = useSelector(getCartState)
 
@@ -87,7 +89,8 @@ function ShippingContent({ cep, register, errors, setValue, shippingMethod }) {
                 ))}
             </div>
           )}
-          <ErrorComponent errors={errors['shippingMethod']} name="shippingMethod" />
+          {console.log('errors', errors)}
+          <ErrorComponent errors={errors['shippingMethod']} name="id" />
         </div>
       </div>
     </div>

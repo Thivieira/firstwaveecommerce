@@ -3,9 +3,11 @@ import Credit from './Credit'
 import Pix from './Pix'
 import Ticket from './Ticket'
 import { CheckoutContext } from '../../contexts/CheckoutContext'
+import { useFormContext } from 'react-hook-form'
 
-export default function Tabs({ register, setValue, errors }) {
+export default function Tabs({ errors }) {
   const { tabs, current, setCurrent, setCheckoutForm, checkoutForm } = useContext(CheckoutContext)
+  const { setValue, register } = useFormContext() // retrieve all hook methods
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -64,11 +66,11 @@ export default function Tabs({ register, setValue, errors }) {
       </div>
 
       {current == 1 ? (
-        <Ticket register={register} setValue={setValue} errors={errors} />
+        <Ticket errors={errors} />
       ) : current == 2 ? (
-        <Pix register={register} setValue={setValue} errors={errors} />
+        <Pix errors={errors} />
       ) : (
-        current == 3 && <Credit register={register} setValue={setValue} errors={errors} />
+        current == 3 && <Credit errors={errors} />
       )}
     </>
   )

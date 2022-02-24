@@ -6,8 +6,10 @@ import { getAccount } from '../../store/selectors/user'
 import InputMask from 'react-input-mask'
 import debounce from 'lodash.debounce'
 import { ErrorComponent } from '../../pages/checkout'
+import { useFormContext } from 'react-hook-form'
 
-function Credit({ register, setValue, errors }) {
+function Credit({ errors }) {
+  const { setValue, getValues } = useFormContext() // retrieve all hook methods
   const account = useSelector(getAccount)
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
@@ -36,7 +38,7 @@ function Credit({ register, setValue, errors }) {
   } = context
 
   useEffect(() => {
-    if (account) {
+    if (account && !checkoutForm.identificationNumber && !checkoutForm.cardholderEmail) {
       setCheckoutForm({
         ...checkoutForm,
         // cardholderName: account.name ? account.name : '',
@@ -79,27 +81,39 @@ function Credit({ register, setValue, errors }) {
 
   async function mountForm() {
     if (mp) {
+      const values = getValues()
       const identificationTypes = await mp.getIdentificationTypes()
       setIdentificationTypes(identificationTypes)
+      if (identificationTypes.length > 0) {
+        setValue('checkoutForm.identificationType', identificationTypes[0].id)
+        // setCheckoutForm({ ...checkoutForm, identificationType: identificationTypes[0].id })
+      } else {
+        setValue('checkoutForm.identificationType', 'CPF')
+        // setCheckoutForm({ ...checkoutForm, identificationType: 'CPF' })
+      }
 
-      if (checkoutForm.cardNumber) {
-        const cardNumber = checkoutForm.cardNumber.replace(/\s/g, '')
+      if (values.checkoutForm.cardNumber) {
+        const cardNumber = values.checkoutForm.cardNumber.replace(/\s/g, '')
         const bin = cardNumber.substr(0, 6)
-        const cardExpirationDate = checkoutForm.cardExpirationDate
-          ? checkoutForm.cardExpirationDate.replace(/[^a-z^0-9]+/g, ' ').replace(/\s/g, '')
+        const cardExpirationDate = values.checkoutForm.cardExpirationDate
+          ? values.checkoutForm.cardExpirationDate.replace(/[^a-z^0-9]+/g, ' ').replace(/\s/g, '')
           : ''
         const month = cardExpirationDate.substr(0, 2)
         const year = cardExpirationDate.substr(2, 6)
-        const identificationNumber = checkoutForm.identificationNumber
-          ? checkoutForm.identificationNumber.replace(/[^a-z^0-9]+/g, ' ').replace(/\s/g, '')
+        const identificationNumber = values.checkoutForm.identificationNumber
+          ? values.checkoutForm.identificationNumber.replace(/[^a-z^0-9]+/g, ' ').replace(/\s/g, '')
           : ''
+
+        setValue('checkoutForm.identificationNumber', identificationNumber)
+        // setCheckoutForm({ ...checkoutForm, identificationNumber })
 
         const paymentMethods = await mp.getPaymentMethods({ bin })
 
         setPaymentMethods(paymentMethods.results)
 
         setIssuer(paymentMethods.results[0])
-        setValue('checkoutForm.issuer', paymentMethods.results[0])
+        setValue('checkoutForm.issuer', paymentMethods.results[0].id)
+        // setCheckoutForm({ ...checkoutForm, issuer: paymentMethods.results[0].id })
 
         if (total && bin) {
           const installments = await mp.getInstallments({
@@ -110,31 +124,61 @@ function Credit({ register, setValue, errors }) {
           })
 
           setInstallments(installments)
+          if (installments.length > 0) {
+            setValue('checkoutForm.installments', installments[0].payer_costs[0].installments)
+            // setCheckoutForm({
+            //   ...checkoutForm,
+            //   installments: installments[0].payer_costs[0].installments
+            // })
+          } else {
+            setValue('checkoutForm.installments', '1')
+            // setCheckoutForm({ ...checkoutForm, installments: '1' })
+          }
         }
 
+        // console.log(
+        //   {
+        //     cardNumber,
+        //     cardholderName: values.checkoutForm.cardholderName,
+        //     month,
+        //     year,
+        //     securityCode: values.checkoutForm.securityCode,
+        //     identificationType: values.checkoutForm.identificationType,
+        //     identificationNumber,
+        //     condition:
+        //       cardNumber &&
+        //       values.checkoutForm.cardholderName &&
+        //       month &&
+        //       year &&
+        //       values.checkoutForm.securityCode &&
+        //       values.checkoutForm.identificationType &&
+        //       identificationNumber
+        //   },
+        //   'THE MOST IMPORTANT'
+        // )
         if (
           cardNumber &&
-          checkoutForm.cardholderName &&
+          values.checkoutForm.cardholderName &&
           month &&
           year &&
-          checkoutForm.securityCode &&
-          checkoutForm.identificationType &&
+          values.checkoutForm.securityCode &&
+          values.checkoutForm.identificationType &&
           identificationNumber
         ) {
           const cardToken = await mp.createCardToken({
             cardNumber: cardNumber,
-            cardholderName: checkoutForm.cardholderName,
+            cardholderName: values.checkoutForm.cardholderName,
             cardExpirationMonth: month,
             cardExpirationYear: year,
-            securityCode: checkoutForm.securityCode,
-            identificationType: checkoutForm.identificationType,
+            securityCode: values.checkoutForm.securityCode,
+            identificationType: values.checkoutForm.identificationType,
             identificationNumber: identificationNumber
           })
 
           setCardToken(cardToken)
 
           setValue('checkoutForm.cardTokenId', cardToken.id)
-          setCheckoutForm({ ...checkoutForm, cardTokenId: cardToken.id })
+          // setCheckoutForm({ ...checkoutForm, cardTokenId: cardToken.id })
         }
       }
     }
@@ -145,7 +189,9 @@ function Credit({ register, setValue, errors }) {
       ...checkoutForm,
       [e.target.name]: e.target.value
     })
-    setValue('checkoutForm.' + e.target.name, e.target.value)
+    console.log(`checkoutForm.${e.target.name}`, e.target.value)
+    console.log('checkoutFormObj', checkoutForm)
+    setValue(`checkoutForm.${e.target.name}`, e.target.value)
   }
 
   const debouncedChangeHandler = useMemo((e) => debounce(handleChange, 1000), [context])
