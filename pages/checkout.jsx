@@ -66,7 +66,7 @@ export default function Checkout() {
         .label('endereço de envio'),
       shippingMethod: yup
         .object({
-          id: yup.string().required().label('método de envio'),
+          id: yup.string().required('escolha um frete').label('método de envio'),
           name: yup.string().required().label('nome do método de envio'),
           price: yup.string().required().label('preço do método de envio')
         })

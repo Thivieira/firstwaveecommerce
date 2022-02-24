@@ -56,11 +56,11 @@ function ShippingContent({ cep, errors, shippingMethod }) {
         <h2 className="text-2xl font-bold text-[#0080A8]">Escolha a forma de entrega</h2>
         <div className="shipping-calculator">
           {shipping.length > 0 && (
-            <div>
+            <div className="block">
               {shipping
                 .filter((el) => !el.error)
                 .map((el, i) => (
-                  <div className="radio" key={el.id}>
+                  <div className="block radio" key={el.id}>
                     <input
                       type="radio"
                       name={'shippingMethod'}
@@ -79,7 +79,7 @@ function ShippingContent({ cep, errors, shippingMethod }) {
                       checked={shippingMethod?.id === el.id}
                     />
                     <label htmlFor={el.name} className="radio-label">
-                      <div className="shipping-result">
+                      <div className="relative flex l-3 sm:grid shipping-result">
                         <span>{el.name}</span>
                         <p>R${el.price.replace('.', ',')}</p>
                         <p>Em até {el.delivery_time} dias úteis</p>
