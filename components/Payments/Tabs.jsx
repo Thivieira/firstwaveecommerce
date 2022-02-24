@@ -31,6 +31,7 @@ export default function Tabs({ errors }) {
                 const currentTab = tabs.find((tab) => tab.id == id)
                 setCurrent(id)
                 setCheckoutForm({ ...checkoutForm, billingType: currentTab.name })
+                setValue('billingType', currentTab.name)
               }}
             >
               {tabs.map((tab) => (
@@ -54,6 +55,7 @@ export default function Tabs({ errors }) {
                   onClick={() => {
                     setCurrent(tab.id)
                     setCheckoutForm({ ...checkoutForm, billingType: tab.name })
+                    setValue('billingType', tab.name)
                   }}
                 >
                   <span className="mr-1">{tab.icon}</span>

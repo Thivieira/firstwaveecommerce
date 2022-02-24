@@ -74,13 +74,10 @@ export default function Checkout() {
         .default(undefined)
         .label('método de envio'),
       billingType: yup.string().required().label('método de pagamento'),
-      checkoutForm: yup
-        .object()
-        .optional()
-        .when('billingType', {
-          is: (val) => val == 'creditcard',
-          then: (schema) =>
-            schema
+      checkoutForm: yup.object().when('billingType', (val) => {
+        console.log(val, 'teste')
+        return val == 'creditcard'
+          ? yup
               .object({
                 cardholderName: yup.string().required().label('nome do dono do cartão'),
                 cardholderEmail: yup.string().email().required().label('email de faturamento'),
@@ -93,9 +90,9 @@ export default function Checkout() {
                 installments: yup.string().required().label('parcelamento'),
                 cardTokenId: yup.string().required().label('token')
               })
-              .label('formulário de pagamento em cartão'),
-          otherwise: (schema) => schema
-        }),
+              .label('formulário de pagamento em cartão')
+          : yup.object({}).optional()
+      }),
 
       originalAmount: yup.string().required().label('valor total sem frete'),
       amountWithShipping: yup.string().required().label('valor total com frete')
