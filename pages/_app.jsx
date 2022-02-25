@@ -69,12 +69,12 @@ export default function App({ Component, pageProps }) {
 
     api.interceptors.response.use(
       (response) => response,
-      (error) => {
-        if (error.response.status === 401) {
+      (res) => {
+        if (res.status == 401) {
           // console.log(window.localStorage);
           window.localStorage.removeItem('token')
         }
-        return error
+        return res
       }
     )
   }
