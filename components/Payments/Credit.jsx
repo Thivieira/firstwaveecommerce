@@ -104,6 +104,7 @@ function Credit({ errors }) {
   async function mountForm() {
     if (mp) {
       const values = getValues()
+      console.log(values.checkoutForm.cardNumber, 'hi there')
       if (values.checkoutForm.cardNumber) {
         const cardNumber = values.checkoutForm.cardNumber.replace(/\s/g, '')
         const bin = cardNumber.substr(0, 6)
@@ -204,10 +205,16 @@ function Credit({ errors }) {
       value = value.toUpperCase()
     }
 
+    console.log({
+      ...checkoutForm,
+      [name]: value
+    })
     setCheckoutForm({
       ...checkoutForm,
       [name]: value
     })
+
+    console.log(`checkoutForm.${name}`, value)
 
     setValue(`checkoutForm.${name}`, value)
   }
@@ -227,7 +234,7 @@ function Credit({ errors }) {
   }, [current, mp])
 
   useEffect(async () => {
-    if (current === 3) {
+    if (current == 3) {
       await mountForm()
       return true
     }
