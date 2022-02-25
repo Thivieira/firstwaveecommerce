@@ -217,7 +217,11 @@ export default function Checkout() {
   }, [account])
 
   async function onSubmit(data) {
-    const res = await api.post(`${process.env.NEXT_PUBLIC_API_URL}/orders`, { ...data, account })
+    const res = await api.post(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
+      ...data,
+      cart,
+      account
+    })
 
     if (res.status == 401) {
       router.push('/login')
