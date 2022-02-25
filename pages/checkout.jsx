@@ -85,8 +85,14 @@ export default function Checkout() {
                 cardExpirationDate: yup.string().required().label('data de expiração'),
                 securityCode: yup.string().required().label('código de segurança'),
                 issuer: yup.string().required().label('bandeira'),
-                identificationType: yup.string().required().label('documento de identificação'),
-                identificationNumber: yup.string().required().label('número da identificação'),
+                identificationType: yup
+                  .string()
+                  .required()
+                  .label('tipo de documento de identificação'),
+                identificationNumber: yup
+                  .string()
+                  .required()
+                  .label('número do documento de identificação'),
                 installments: yup.string().required().label('parcelamento'),
                 cardTokenId: yup.string().required().label('token')
               })

@@ -423,7 +423,9 @@ function Credit({ errors }) {
               )
             })}
           {installments.length === 0 && (
-            <option value="null">Digite o número do cartão primeiro</option>
+            <option value="null">
+              Opções de parcelamento (digite o número do cartão primeiro)
+            </option>
           )}
         </select>
       </div>
