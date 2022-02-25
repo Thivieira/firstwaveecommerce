@@ -180,26 +180,30 @@ export default function Checkout() {
     api
       .get('/auth/address')
       .then((res) => {
-        setValue('shippingAddress.address', nullToString(res.data.address))
-        setValue('shippingAddress.number', nullToString(res.data.addressNumber))
-        setValue('shippingAddress.complement', nullToString(res.data.complement))
-        setValue('shippingAddress.cep', nullToString(res.data.postalCode))
-        setValue('shippingAddress.state', nullToString(res.data.uf))
-        setValue('shippingAddress.city', nullToString(res.data.city))
-        setValue('shippingAddress.neighborhood', nullToString(res.data.province))
+        const data = res.data
+        console.log(res)
+        setValue('shippingAddress.address', nullToString(data.address))
+        setValue('shippingAddress.number', nullToString(data.addressNumber))
+        setValue('shippingAddress.complement', nullToString(data.complement))
+        setValue('shippingAddress.cep', nullToString(data.postalCode))
+        setValue('shippingAddress.state', nullToString(data.uf))
+        setValue('shippingAddress.city', nullToString(data.city))
+        setValue('shippingAddress.neighborhood', nullToString(data.province))
         dispatch(
           saveAddress({
-            street: nullToString(res.data.address),
-            number: nullToString(es.data.addressNumber),
-            complement: nullToString(res.data.complement),
-            zipcode: nullToString(res.data.postalCode),
-            state: nullToString(res.data.uf),
-            city: nullToString(res.data.city),
-            neighborhood: nullToString(res.data.province)
+            street: nullToString(data.address),
+            number: nullToString(data.addressNumber),
+            complement: nullToString(data.complement),
+            zipcode: nullToString(data.postalCode),
+            state: nullToString(data.uf),
+            city: nullToString(data.city),
+            neighborhood: nullToString(data.province)
           })
         )
       })
-      .catch(() => {})
+      .catch((e) => {
+        console.log(e)
+      })
   }, [dispatch])
 
   useEffect(() => {
