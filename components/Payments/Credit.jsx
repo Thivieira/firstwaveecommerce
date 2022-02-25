@@ -197,16 +197,19 @@ function Credit({ errors }) {
   }
 
   function handleChange(e) {
-    const values = getValues()
+    let value = e.target.value
+    let name = e.target.name
+
+    if (name == 'cardHolderName') {
+      value = value.toUpperCase()
+    }
+
     setCheckoutForm({
       ...checkoutForm,
-      [e.target.name]: e.target.value
+      [name]: value
     })
-    console.log(`checkoutForm.${e.target.name}`, e.target.value)
-    // console.log('checkoutFormObj', checkoutForm)
-    console.log(values.checkoutForm, '202')
-    setValue(`checkoutForm.${e.target.name}`, e.target.value)
-    console.log(values.checkoutForm, '204')
+
+    setValue(`checkoutForm.${name}`, value)
   }
 
   const debouncedChangeHandler = useMemo((e) => debounce(handleChange, 1000), [context])
@@ -250,7 +253,7 @@ function Credit({ errors }) {
               // value={getValues('checkoutForm.cardholderName')}
               // value={checkoutForm.cardholderName}
               autoComplete="name"
-              className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
+              className="block uppercase w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:"
             />
           </div>
           <ErrorComponent errors={errors['checkoutForm']} name="cardholderName" />

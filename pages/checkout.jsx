@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState, useContext } from 'react'
+import { useCallback, useEffect, useState, useContext, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { LocalShipping, Payment } from '@material-ui/icons'
 import { BarcodeOutlined } from '@ant-design/icons'
@@ -12,12 +12,12 @@ import { saveAccount, saveAddress } from '../store/actions/user'
 import Tabs from '../components/Payments/Tabs'
 import ShippingContent from '../components/Payments/ShippingContent'
 import { CheckoutContext } from '../contexts/CheckoutContext'
-import { useForm, FormProvider, useFormContext } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { pt } from 'yup-locale-pt'
-import useLocalStorageState from 'use-local-storage-state'
 import axios from 'axios'
+import debounce from 'lodash.debounce'
 
 export const ErrorComponent = ({ errors, name }) => {
   if (!errors) {
@@ -37,17 +37,7 @@ export default function Checkout() {
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
   const dispatch = useDispatch()
-  const {
-    paymentRes,
-    setPaymentRes,
-    selectedShipping,
-    selectedShippingPrice,
-    loading,
-    checkoutForm,
-    setCheckoutForm,
-    current,
-    tabs
-  } = useContext(CheckoutContext)
+  const { selectedShippingPrice, loading } = useContext(CheckoutContext)
 
   yup.setLocale(pt)
 
@@ -145,7 +135,6 @@ export default function Checkout() {
     handleSubmit,
     formState: { errors },
     setValue,
-    getValues,
     watch
   } = methods
 
@@ -228,12 +217,10 @@ export default function Checkout() {
   }, [account])
 
   async function onSubmit(data) {
-    const res = await axios.post('', { ...data, account })
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/orders`, { ...data, account })
 
     const resData = res.data
   }
-
-  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
 
   useEffect(() => {
     setTimeout(() => {

@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import Credit from './Credit'
 import Pix from './Pix'
 import Ticket from './Ticket'
@@ -7,7 +7,7 @@ import { useFormContext } from 'react-hook-form'
 
 export default function Tabs({ errors }) {
   const { tabs, current, setCurrent, setCheckoutForm, checkoutForm } = useContext(CheckoutContext)
-  const { setValue, register } = useFormContext() // retrieve all hook methods
+  const { setValue, getValues, register } = useFormContext() // retrieve all hook methods
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -25,7 +25,7 @@ export default function Tabs({ errors }) {
               id="current-tab"
               name="current-tab"
               className="block w-full py-2 pl-3 pr-10 text-base border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-              defaultValue={tabs.find((tab) => tab.id == current).name}
+              defaultValue={current}
               onChange={(e) => {
                 const id = e.target.value
                 const currentTab = tabs.find((tab) => tab.id == id)
@@ -66,14 +66,9 @@ export default function Tabs({ errors }) {
           </div>
         </div>
       </div>
-
-      {current == 1 ? (
-        <Ticket errors={errors} />
-      ) : current == 2 ? (
-        <Pix errors={errors} />
-      ) : (
-        current == 3 && <Credit errors={errors} />
-      )}
+      {current == 1 && <Ticket errors={errors} />}
+      {current == 2 && <Pix errors={errors} />}
+      {current == 3 && <Credit errors={errors} />}
     </>
   )
 }
