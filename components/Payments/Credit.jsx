@@ -158,6 +158,7 @@ function Credit({ errors }) {
             securityCode: values.checkoutForm.securityCode,
             identificationType: values.checkoutForm.identificationType,
             identificationNumber,
+            cardExpirationDate,
             condition:
               cardNumber &&
               values.checkoutForm.cardholderName &&
@@ -219,7 +220,7 @@ function Credit({ errors }) {
     setValue(`checkoutForm.${name}`, value)
   }
 
-  const debouncedChangeHandler = useMemo((e) => debounce(handleChange, 1000), [context])
+  const debouncedChangeHandler = useMemo((e) => debounce(handleChange, 1000), [checkoutForm])
 
   useEffect(() => {
     if (current === 3) {

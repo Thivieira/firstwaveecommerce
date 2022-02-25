@@ -16,8 +16,6 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { pt } from 'yup-locale-pt'
-import axios from 'axios'
-import debounce from 'lodash.debounce'
 
 export const ErrorComponent = ({ errors, name }) => {
   if (!errors) {
@@ -34,6 +32,7 @@ export const ErrorComponent = ({ errors, name }) => {
 export default function Checkout() {
   const router = useRouter()
   const account = useSelector(getAccount)
+  const accountAddress = useSelector(getAddress)
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
   const dispatch = useDispatch()
@@ -191,7 +190,7 @@ export default function Checkout() {
         dispatch(
           saveAddress({
             street: nullToString(res.data.address),
-            number: rnullToString(es.data.addressNumber),
+            number: nullToString(es.data.addressNumber),
             complement: nullToString(res.data.complement),
             zipcode: nullToString(res.data.postalCode),
             state: nullToString(res.data.uf),
@@ -220,7 +219,8 @@ export default function Checkout() {
     const res = await api.post(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
       ...data,
       cart,
-      account
+      account,
+      accountAddress
     })
 
     if (res.status == 401) {
