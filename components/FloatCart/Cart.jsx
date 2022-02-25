@@ -34,7 +34,9 @@ export default function Cart() {
   const closeFloatCart = () => dispatch(changeIsOpen(false))
 
   useEffect(() => {
-    setCartStorage({ cart, total })
+    if (cart.length > 0) {
+      setCartStorage({ cart, total })
+    }
   }, [cart, total])
 
   useEffect(() => {
