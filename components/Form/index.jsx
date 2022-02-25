@@ -8,8 +8,10 @@ import FormValidations from '../../contexts/FormValidations'
 import api from '../../services/api'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import useLocalStorageState from 'use-local-storage-state'
 
 function Form() {
+  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
   const history = useRouter()
   const [currentStep, setCurrentStep] = useState(0)
   const [collectedData, setCollectedData] = useState({
@@ -51,9 +53,8 @@ function Form() {
         })
         .then((res) => {
           const token = res.data.access_token
-          localStorage.setItem('token', token)
-
           api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+          setToken(token)
           resolve()
         })
         .catch(() => {

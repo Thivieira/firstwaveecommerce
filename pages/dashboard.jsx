@@ -25,13 +25,16 @@ function Dashboard() {
   const dispatch = useDispatch()
   const MySwal = withReactContent(Swal)
 
-  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
+  const [token, setToken, { removeItem, isPersistent }] = useLocalStorageState('token', {
+    ssr: true,
+    defaultValue: null
+  })
 
   useEffect(() => {
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`
     } else {
-      localStorage.removeItem('token')
+      removeItem('token')
       dispatch(saveAccount({}))
       dispatch(saveAddress({}))
       router.replace('/')

@@ -75,7 +75,6 @@ function ShippingContent({ cep, errors, shippingMethod }) {
                           price: el.price
                         })
                       }}
-                      // {...register('shippingMethod')}
                       checked={shippingMethod?.id === el.id}
                     />
                     <label htmlFor={el.name} className="radio-label">
