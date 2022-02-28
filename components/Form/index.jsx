@@ -52,9 +52,9 @@ function Form() {
           password: password
         })
         .then((res) => {
-          const token = res.data.access_token
-          api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-          setToken(token)
+          const accessToken = res.data.access_token
+          api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+          setToken(accessToken)
           resolve()
         })
         .catch(() => {

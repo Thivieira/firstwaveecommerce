@@ -69,9 +69,12 @@ function Form() {
           password: password
         })
         .then((res) => {
-          const token = res.data.access_token
-          api.defaults.headers.common['Authorization'] = `Bearer ${token.replace(/['"]+/g, '')}`
-          setToken(token)
+          const accessToken = res.data.access_token
+          api.defaults.headers.common['Authorization'] = `Bearer ${accessToken.replace(
+            /['"]+/g,
+            ''
+          )}`
+          setToken(accessToken)
           resolve()
         })
         .catch(() => {

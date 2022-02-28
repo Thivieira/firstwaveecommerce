@@ -42,9 +42,10 @@ function Login() {
         email: email,
         password: password
       })
-      const token = res.data.access_token
-      setToken(token)
-      api.defaults.headers.common['Authorization'] = `Bearer ${token.replace(/['"]+/g, '')}`
+      const accessToken = res.data.access_token
+      console.log(accessToken)
+      setToken(accessToken)
+      api.defaults.headers.common['Authorization'] = `Bearer ${accessToken.replace(/['"]+/g, '')}`
       try {
         const { data } = await api.get('/auth/me')
         dispatch(
