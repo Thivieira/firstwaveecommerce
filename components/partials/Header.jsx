@@ -62,7 +62,7 @@ function Header() {
       .catch((e) => {})
   }, [dispatch])
 
-  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
+  const [token, setToken] = useLocalStorageState('token', { ssr: true })
 
   useEffect(() => {
     if (token) {

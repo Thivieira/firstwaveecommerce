@@ -24,7 +24,7 @@ function Login() {
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
 
-  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
+  const [token, setToken] = useLocalStorageState('token', { ssr: true })
 
   useEffect(() => {
     if (token) {

@@ -26,8 +26,7 @@ function Dashboard() {
   const MySwal = withReactContent(Swal)
 
   const [token, setToken, { removeItem, isPersistent }] = useLocalStorageState('token', {
-    ssr: true,
-    defaultValue: null
+    ssr: true
   })
 
   useEffect(() => {

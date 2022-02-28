@@ -11,7 +11,7 @@ import withReactContent from 'sweetalert2-react-content'
 import useLocalStorageState from 'use-local-storage-state'
 
 function Form() {
-  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
+  const [token, setToken] = useLocalStorageState('token', { ssr: true })
   const history = useRouter()
   const [currentStep, setCurrentStep] = useState(0)
   const [collectedData, setCollectedData] = useState({

@@ -29,7 +29,7 @@ export default function Cart() {
 
   const MySwal = withReactContent(Swal)
 
-  const [token] = useLocalStorageState('token', { ssr: true, defaultValue: null })
+  const [token] = useLocalStorageState('token', { ssr: true })
 
   const closeFloatCart = () => dispatch(changeIsOpen(false))
 

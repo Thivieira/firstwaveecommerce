@@ -39,7 +39,7 @@ function Form() {
 
   const goBack = () => setCurrentStep(currentStep - 1)
 
-  const [token, setToken] = useLocalStorageState('token', { ssr: true, defaultValue: null })
+  const [token, setToken] = useLocalStorageState('token', { ssr: true })
 
   useEffect(() => {
     if (token) {
