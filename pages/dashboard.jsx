@@ -30,15 +30,16 @@ function Dashboard() {
   })
 
   useEffect(() => {
+    console.log('token', token)
     if (token) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+      api.defaults.headers.common['Authorization'] = `Bearer ${token.replace(/['"]+/g, '')}`
     } else {
-      removeItem('token')
-      dispatch(saveAccount({}))
-      dispatch(saveAddress({}))
-      router.replace('/')
+      // dispatch(saveAccount({}))
+      // dispatch(saveAddress({}))
+      // router.replace('/')
+      console.log(token, 'why????')
     }
-  }, [token, router, dispatch])
+  }, [token])
 
   const getUserData = useCallback(async () => {
     try {

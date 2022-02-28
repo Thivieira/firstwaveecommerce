@@ -7,6 +7,7 @@ import { removeFromFavorites, setFavorites } from '../../store/actions/products'
 import { List, Avatar, Empty } from 'antd'
 import { CloseCircleTwoTone } from '@ant-design/icons'
 import useSWR from 'swr'
+import useLocalStorageState from 'use-local-storage-state'
 
 export default function Favorites() {
   const dispatch = useDispatch()
@@ -17,7 +18,7 @@ export default function Favorites() {
 
   useEffect(() => {
     if (token) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+      api.defaults.headers.common['Authorization'] = `Bearer ${token.replace(/['"]+/g, '')}`
       // setToken(token)
     }
   }, [setToken, token])
