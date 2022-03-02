@@ -896,18 +896,19 @@ function Header() {
                 >
                   <XIcon className="w-6 h-6" aria-hidden="true" />
                 </button>
-
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center p-2 -m-2 text-gray-400 bg-transparent rounded-md"
-                  onClick={() => {
-                    logOut()
-                    setOpen(false)
-                  }}
-                >
-                  Sair
-                  <LogoutIcon className="w-6 h-6 ml-1" aria-hidden="true" />
-                </button>
+                {Object.keys(user).length != 0 && (
+                  <button
+                    type="button"
+                    className="inline-flex items-center justify-center p-2 -m-2 text-gray-400 bg-transparent rounded-md"
+                    onClick={() => {
+                      logOut()
+                      setOpen(false)
+                    }}
+                  >
+                    Sair
+                    <LogoutIcon className="w-6 h-6 ml-1" aria-hidden="true" />
+                  </button>
+                )}
               </div>
               <div className="flex flex-col items-center justify-center">
                 <NavLink href="/" className="mb-6">

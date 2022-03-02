@@ -1,4 +1,4 @@
-import axios from 'axios'
+import api from '../../services/api'
 import MercadoPago from '../../services/mercadopago'
 import { getFeaturedImage } from '../../helpers'
 
@@ -101,7 +101,7 @@ export default function handler(req, res) {
           point_of_interaction
         } = response.body
 
-        axios
+        api
           .post(
             `${process.env.API_URL}/orders`,
             { payment_id: id },

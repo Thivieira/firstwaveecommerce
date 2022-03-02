@@ -23,8 +23,8 @@ export default function Cart() {
   const total = useSelector(getCartTotal)
 
   const [cartStorage, setCartStorage] = useLocalStorageState('cart', {
-    ssr: true,
-    defaultValue: { cart: [], total: 0 }
+    ssr: true
+    // defaultValue: { cart: [], total: 0 }
   })
 
   const MySwal = withReactContent(Swal)
@@ -40,8 +40,10 @@ export default function Cart() {
   }, [cart, total])
 
   useEffect(() => {
-    console.log({ cart: cartStorage.cart, total: cartStorage.total })
-    dispatch(updateCart({ cart: cartStorage.cart, total: cartStorage.total }))
+    if (cartStorage) {
+      console.log({ cart: cartStorage.cart, total: cartStorage.total })
+      dispatch(updateCart({ cart: cartStorage.cart, total: cartStorage.total }))
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

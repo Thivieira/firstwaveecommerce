@@ -1,4 +1,4 @@
-import axios from 'axios'
+import api from '../../services/api'
 import { useContext, useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useSelector } from 'react-redux'
@@ -23,7 +23,7 @@ function ShippingContent({ cep, errors, shippingMethod }) {
         quantity: product.quantity
       }))
 
-      axios
+      api
         .post(
           `${process.env.NEXT_PUBLIC_API_URL}/integrations/melhorenvio/shipping/calculateCart`,
           {

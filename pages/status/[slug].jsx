@@ -1,4 +1,4 @@
-import axios from 'axios'
+import api from '../../services/api'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Status from '../../components/Status'
@@ -44,7 +44,7 @@ export default function Index(props) {
       case 'processando':
         dispatch(clearCart())
         if (payment_id) {
-          axios
+          api
             .get(`/api/payments?payment_id=${payment_id}`)
             .then((data) => {
               setPaymentData(data)
