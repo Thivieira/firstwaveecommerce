@@ -1,6 +1,7 @@
 import api from '../../services/api'
 import MercadoPago from '../../services/mercadopago'
 import { getFeaturedImage } from '../../helpers'
+import axios from 'axios'
 
 function getToken(req) {
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
@@ -101,7 +102,7 @@ export default function handler(req, res) {
           point_of_interaction
         } = response.body
 
-        api
+        axios
           .post(
             `${process.env.API_URL}/orders`,
             { payment_id: id },

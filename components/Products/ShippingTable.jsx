@@ -1,4 +1,4 @@
-import api from '../../services/api'
+import axios from 'axios'
 import { useRef, useContext, useState, useEffect } from 'react'
 import { CheckoutContext } from '../../contexts/CheckoutContext'
 import NavLink from '../NavLink'
@@ -11,7 +11,7 @@ export default function ShippingTable({ product }) {
 
   const calculate = () => {
     if (cep) {
-      api
+      axios
         .post(`${process.env.NEXT_PUBLIC_API_URL}/integrations/melhorenvio/shipping/calculate`, {
           postal_code: cep,
           width: product.width,
