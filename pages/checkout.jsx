@@ -40,6 +40,7 @@ export default function Checkout() {
   const dispatch = useDispatch()
   const { selectedShippingPrice, loading } = useContext(CheckoutContext)
   const [checkoutTotal, setCheckoutTotal] = useState(total ? total : 0)
+  const [allPaymentMethods, setPaymentMethods] = useState([])
 
   const [token, setToken, { removeItem, isPersistent }] = useLocalStorageState('token', {
     ssr: false
@@ -170,6 +171,15 @@ export default function Checkout() {
     if (billingType != 'creditcard') {
       const deductedValue = total * 0.88
       setCheckoutTotal(deductedValue)
+      // if(allPaymentMethods.length > 0){
+      if (billingType == 'ticket') {
+        setValue('checkoutForm.issuer', 'bolbradesco')
+      }
+
+      if (billingType == 'pix') {
+        setValue('checkoutForm.issuer', 'pix')
+      }
+      // }
     } else {
       setCheckoutTotal(total)
     }
@@ -185,9 +195,9 @@ export default function Checkout() {
 
   useEffect(() => {
     axios
-      .get('/api/mercadopago/payment_methods')
+      .get('/api/mercadopago/payment-methods')
       .then((res) => {
-        console.log(res)
+        setPaymentMethods(res)
       })
       .catch((err) => {
         console.log(err)
