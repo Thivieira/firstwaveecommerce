@@ -1,5 +1,4 @@
 import Router from 'next/router'
-import dynamic from 'next/dynamic'
 import { Provider } from 'react-redux'
 import NProgress from 'nprogress'
 import { ConfigProvider } from 'antd'
@@ -44,8 +43,6 @@ import '../components/Utils/Container/container.css'
 import '../components/Utils/Title/title.css'
 import '../components/Utils/NumeratedTitle/numeratedTitle.css'
 import '../components/Utils/PaymentBox/paymentBox.css'
-
-import api from '../services/api'
 import CheckoutContextProvider from '../contexts/CheckoutContext'
 import SiteLayout from '../components/layouts/SiteLayout'
 
@@ -59,25 +56,6 @@ export default function App({ Component, pageProps }) {
   const store = useStore(pageProps.initialReduxState)
 
   const getLayout = Component.getLayout || ((page) => <SiteLayout children={page} />)
-
-  if (typeof window !== 'undefined') {
-    const token = window.localStorage.getItem('token')
-
-    if (token) {
-      api.defaults.headers.common.Authorization = `Bearer ${token.replace(/['"]+/g, '')}`
-    }
-
-    api.interceptors.response.use(
-      (response) => response,
-      (res) => {
-        if (res.status == 401) {
-          // console.log(window.localStorage);
-          window.localStorage.removeItem('token')
-        }
-        return res
-      }
-    )
-  }
 
   return (
     <Provider store={store}>

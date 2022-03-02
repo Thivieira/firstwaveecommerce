@@ -30,14 +30,12 @@ function Dashboard() {
   })
 
   useEffect(() => {
-    console.log('token', token)
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token.replace(/['"]+/g, '')}`
     } else {
-      // dispatch(saveAccount({}))
-      // dispatch(saveAddress({}))
-      // router.replace('/')
-      console.log(token, 'why????')
+      dispatch(saveAccount({}))
+      dispatch(saveAddress({}))
+      router.replace('/')
     }
   }, [token])
 
