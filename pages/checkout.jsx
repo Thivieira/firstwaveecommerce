@@ -161,9 +161,10 @@ export default function Checkout() {
 
   const shippingMethod = watch('shippingMethod')
 
-  const totalToPay = watch('amountWithShipping')
-    ? watch('amountWithShipping')
-    : parseFloat(checkoutTotal) + parseFloat(selectedShippingPrice)
+  const totalToPay = useMemo(
+    () => parseFloat(checkoutTotal) + parseFloat(selectedShippingPrice),
+    [checkoutTotal, selectedShippingPrice, billingType]
+  )
   const price = (product) => `R$${parseFloat(product.product.price).toFixed(2).replace('.', ',')}`
   const priceSale = (product) => `R$${parseFloat(product.price).toFixed(2).replace('.', ',')}`
 
