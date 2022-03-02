@@ -8,7 +8,6 @@ import UserData from '../components/Form/UserData'
 import AddressData from '../components/Form/AddressData'
 import Orders from '../components/dashboard/Orders'
 import Favorites from '../components/dashboard/Favorites'
-import Title from '../components/Utils/Title'
 import { getAccount } from '../store/selectors/user'
 import { saveAccount, saveAddress } from '../store/actions/user'
 import { useDispatch, useSelector } from 'react-redux'
@@ -26,7 +25,7 @@ function Dashboard() {
   const MySwal = withReactContent(Swal)
 
   const [token, setToken, { removeItem, isPersistent }] = useLocalStorageState('token', {
-    ssr: true
+    ssr: false
   })
 
   useEffect(() => {
@@ -37,7 +36,7 @@ function Dashboard() {
       dispatch(saveAddress({}))
       router.replace('/')
     }
-  }, [token])
+  }, [])
 
   const getUserData = useCallback(async () => {
     try {
@@ -178,7 +177,7 @@ function Dashboard() {
   return (
     <div className="dashboard-container">
       <div id="edit-account">
-        <Title title={pageTitle()} />
+        <h2 className="title">{pageTitle()}</h2>
         <div className="edit-account-container">
           <ul className="edit-account-list" style={{ overflow: 'auto' }}>
             <li className={formOption === 1 ? 'edit-bordered' : ''}>

@@ -6,12 +6,12 @@ import InputMask from 'react-input-mask'
 function AddressData({ data, onSubmit, goBack, signup }) {
   const [cep, setCep] = useState(data.cep)
   const [cepError, setCepError] = useState({ error: false, text: '' })
-  const [street, setStreet] = useState(data.rua)
-  const [number, setNumber] = useState(data.numero)
-  const [complement, setComplement] = useState(data.complemento)
-  const [neighborhood, setNeighborhood] = useState(data.bairro)
-  const [city, setCity] = useState(data.cidade)
-  const [state, setState] = useState(data.estado)
+  const [street, setStreet] = useState(data.rua ? data.rua : '')
+  const [number, setNumber] = useState(data.numero ? data.numero : '')
+  const [complement, setComplement] = useState(data.complemento ? data.complemento : '')
+  const [neighborhood, setNeighborhood] = useState(data.bairro ? data.bairro : '')
+  const [city, setCity] = useState(data.cidade ? data.cidade : '')
+  const [state, setState] = useState(data.estado ? data.estado : '')
 
   async function cepValidator() {
     await cepApi
