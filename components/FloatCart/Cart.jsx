@@ -23,13 +23,13 @@ export default function Cart() {
   const total = useSelector(getCartTotal)
 
   const [cartStorage, setCartStorage] = useLocalStorageState('cart', {
-    ssr: true
+    ssr: false
     // defaultValue: { cart: [], total: 0 }
   })
 
   const MySwal = withReactContent(Swal)
 
-  const [token] = useLocalStorageState('token', { ssr: true })
+  const [token] = useLocalStorageState('token', { ssr: false })
 
   const closeFloatCart = () => dispatch(changeIsOpen(false))
 

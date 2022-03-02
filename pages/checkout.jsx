@@ -17,6 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { pt } from 'yup-locale-pt'
 import useLocalStorageState from 'use-local-storage-state'
+import axios from 'axios'
 
 export const ErrorComponent = ({ errors, name }) => {
   if (!errors) {
@@ -183,7 +184,14 @@ export default function Checkout() {
   }, [checkoutTotal])
 
   useEffect(() => {
-    api.get('')
+    axios
+      .get('/api/mercadopago/payment_methods')
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [])
 
   const getUserData = useCallback(() => {

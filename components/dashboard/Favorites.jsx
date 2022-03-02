@@ -14,7 +14,7 @@ export default function Favorites() {
   const productsFavorites = useSelector(getFavoritesProd)
   const [products, setProducts] = useState([])
 
-  const [token, setToken] = useLocalStorageState('token', { ssr: true })
+  const [token, setToken] = useLocalStorageState('token', { ssr: false })
 
   useEffect(() => {
     if (token) {
