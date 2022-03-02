@@ -191,6 +191,11 @@ export default function Checkout() {
   }, [selectedShippingPrice])
 
   useEffect(() => {
+    setCheckoutTotal(total)
+  }, [total])
+
+  useEffect(() => {
+    console.log(checkoutTotal)
     setValue('originalAmount', checkoutTotal.toString())
   }, [checkoutTotal])
 
