@@ -182,6 +182,10 @@ export default function Checkout() {
     setValue('originalAmount', checkoutTotal.toString())
   }, [checkoutTotal])
 
+  useEffect(() => {
+    api.get('')
+  }, [])
+
   const getUserData = useCallback(() => {
     api
       .get('/auth/me')
