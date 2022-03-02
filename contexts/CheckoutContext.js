@@ -49,7 +49,7 @@ function CheckoutContextProvider(props) {
     },
     {
       id: 3,
-      title: 'Cartão de crédto',
+      title: 'Cartão de crédito',
       name: 'creditcard',
       icon: <CreditCard style={{ height: '2rem !important', marginTop: '0.3rem' }} />
     }

@@ -16,6 +16,7 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { pt } from 'yup-locale-pt'
+import useLocalStorageState from 'use-local-storage-state'
 
 export const ErrorComponent = ({ errors, name }) => {
   if (!errors) {
@@ -37,6 +38,21 @@ export default function Checkout() {
   const total = useSelector(getCartTotal)
   const dispatch = useDispatch()
   const { selectedShippingPrice, loading } = useContext(CheckoutContext)
+  const [checkoutTotal, setCheckoutTotal] = useState(total ? total : 0)
+
+  const [token, setToken, { removeItem, isPersistent }] = useLocalStorageState('token', {
+    ssr: false
+  })
+
+  useEffect(() => {
+    if (token) {
+      api.defaults.headers.common['Authorization'] = `Bearer ${token.replace(/['"]+/g, '')}`
+    } else {
+      dispatch(saveAccount({}))
+      dispatch(saveAddress({}))
+      router.replace('/')
+    }
+  }, [])
 
   yup.setLocale(pt)
 
@@ -138,21 +154,33 @@ export default function Checkout() {
   } = methods
 
   const cep = watch('shippingAddress.cep')
+
+  const billingType = watch('billingType')
+
   const shippingMethod = watch('shippingMethod')
 
   const totalToPay = watch('amountWithShipping')
     ? watch('amountWithShipping')
-    : parseFloat(total) + parseFloat(selectedShippingPrice)
+    : parseFloat(checkoutTotal) + parseFloat(selectedShippingPrice)
   const price = (product) => `R$${parseFloat(product.product.price).toFixed(2).replace('.', ',')}`
   const priceSale = (product) => `R$${parseFloat(product.price).toFixed(2).replace('.', ',')}`
+
+  useEffect(() => {
+    if (billingType != 'creditcard') {
+      const deductedValue = total * 0.88
+      setCheckoutTotal(deductedValue)
+    } else {
+      setCheckoutTotal(total)
+    }
+  }, [billingType])
 
   useEffect(() => {
     setValue('amountWithShipping', parseFloat(total) + parseFloat(selectedShippingPrice))
   }, [selectedShippingPrice])
 
   useEffect(() => {
-    setValue('originalAmount', total.toString())
-  }, [total])
+    setValue('originalAmount', checkoutTotal.toString())
+  }, [checkoutTotal])
 
   const getUserData = useCallback(() => {
     api
@@ -234,14 +262,6 @@ export default function Checkout() {
     const resData = res.data
   }
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (total == 0) {
-        router.push('/')
-      }
-    }, 3000)
-  }, [total])
-
   return (
     <FormProvider {...methods}>
       <div className="relative bg-white">
@@ -299,7 +319,7 @@ export default function Checkout() {
               <dl className="pt-6 space-y-6 text-sm font-medium border-t border-white border-opacity-10">
                 <div className="flex items-center justify-between">
                   <dt>Subtotal</dt>
-                  <dd>{`R$${total.toFixed(2).replace('.', ',')}`}</dd>
+                  <dd>{`R$${checkoutTotal.toFixed(2).replace('.', ',')}`}</dd>
                 </div>
 
                 <div className="flex items-center justify-between">
