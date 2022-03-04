@@ -126,6 +126,7 @@ function Credit({ errors }) {
 
         setIssuer(paymentMethods.results[0])
         setValue('checkoutForm.issuer', paymentMethods.results[0].id)
+        setValue('checkoutForm.issuer_id', paymentMethods.results[0].issuer.id)
         // setCheckoutForm({ ...checkoutForm, issuer: paymentMethods.results[0].id })
 
         if (total && bin) {

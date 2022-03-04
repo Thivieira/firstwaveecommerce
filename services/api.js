@@ -18,7 +18,7 @@ if (typeof window !== 'undefined') {
         // console.log(window.localStorage);
         window.localStorage.removeItem('token')
       }
-      return res
+      return error
     }
   )
 }

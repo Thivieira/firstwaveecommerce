@@ -137,6 +137,7 @@ export default function Checkout() {
         cardExpirationDate: '',
         securityCode: '',
         issuer: '',
+        issuer_id: '',
         identificationType: '',
         identificationNumber: '',
         installments: '',
