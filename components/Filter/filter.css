@@ -11,10 +11,11 @@
   align-items: flex-start;
   justify-content: center;
   padding-bottom: 1rem;
+  width: 80%;
 }
 
 .filter-option-price {
-  width: 170px;
+  width: 150px;
 }
 
 .basic-multi-select {
