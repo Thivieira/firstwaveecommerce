@@ -31,7 +31,7 @@
 
 .card .card-image img {
   width: 250px;
-  height: 230px;
+  height: 220px;
   object-fit: contain;
 }
 
@@ -46,7 +46,7 @@
 .card .details .title-card {
   color: #0080a8;
   font-size: 0.9rem;
-  width: 85%;
+  /* width: 85%; */
   font-weight: 600;
   margin-bottom: 0;
   align-items: center;
@@ -86,7 +86,7 @@
 .card .details .installment-owl {
   margin-top: 0.3rem;
   font-size: 0.777rem;
-  max-width: 200px;
+  /* max-width: 200px; */
   /* text-align: center; */
   color: #1b1a20;
 }
