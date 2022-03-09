@@ -14,7 +14,8 @@ if (typeof window !== 'undefined') {
   api.interceptors.response.use(
     (response) => response,
     (error) => {
-      if (error.response.status === 401) {
+      if (!error) return error
+      if (error.responses.status === 401) {
         // console.log(window.localStorage);
         window.localStorage.removeItem('token')
       }

@@ -10,9 +10,9 @@ import FadeLoader from 'react-spinners/FadeLoader'
 import ReactPaginate from 'react-paginate'
 import { useDispatch, useSelector } from 'react-redux'
 import NoProductsAlert from '../../components/NoProductsAlert'
+import BreadCrumb from '../../components/Breadcrumb'
 
 import { CategoryContext } from '../../contexts/CategoryContext'
-import Breadcrumb from '../../components/Breadcrumb'
 import Filter from '../../components/Filter'
 import ProductCard from '../../components/Products/ProductCard'
 import api from '../../services/api'
@@ -157,6 +157,8 @@ export default function Products({
   const router = useRouter()
   const [openFilters, setOpenFilters] = useState(false)
 
+  console.log(products)
+
   const updateDimensions = () => {
     setWindowWidth(window.innerWidth)
   }
@@ -232,6 +234,8 @@ export default function Products({
     }
   }, [dispatch, filterMode, filterUrl, currentPage, category, subcategory, type])
 
+  console.log(paginationRedux)
+
   const handleChangeSort = (item) => {
     const sortValue = item.props.value
     setSort(sortValue)
@@ -257,23 +261,114 @@ export default function Products({
         title={`${category} - Lifestyle Floripa by Billabong`}
         description={`${category} / ${subcategory} / ${type} - Sua surf shop na Praia Mole.`}
       />
-      <div className="products-wrapper">
-        <div className="filter-sort">
-          {products.length > 0 && (
-            <>
-              <p>{paginationRedux.theTotal} Produto(s) Encontrados</p>
 
-              <FilterSort handleChangeSort={handleChangeSort} sort={sort} />
+      <div className="relative flex xl:grid-cols-5 items-start justify-center">
+        <div className="relative w-auto flex flex-col justify-center items-center my-10">
+          {showFilter && loading !== true && (
+            <>
+              <BreadCrumb category={category} subcategory={subcategory} type={type} />
+              <Filter
+                category={category}
+                subcategory={subcategory}
+                type={type}
+                brands={brands}
+                sizes={sizes}
+                colors={colors}
+              />
             </>
           )}
         </div>
 
-        <div className="products">
+        <div className="relative flex flex-col xl:col-span-4 my-5 sm:mx-10 sm:my-6 max-w-6xl">
+          <div className="flex items-center justify-between xl:mr-10 xl:justify-end px-2 py-6 sm:pb-6">
+            {products.length > 0 && (
+              <>
+                {!showFilter && (
+                  <>
+                    <button
+                      onClick={() => setOpenFilters(true)}
+                      className="flex items-center justify-center bg-transparent text-sm sm:text-base text-[#ff8b00] sm:ml-2"
+                    >
+                      FILTROS <FilterIcon className="w-5 h-5 ml-1" />
+                    </button>
+
+                    <Transition.Root show={openFilters} as={Fragment}>
+                      <Dialog
+                        as="div"
+                        className="fixed inset-0 flex "
+                        style={{ zIndex: 9999 }}
+                        onClose={setOpenFilters}
+                      >
+                        <Transition.Child
+                          as={Fragment}
+                          enter="transition-opacity ease-linear duration-300"
+                          enterFrom="opacity-0"
+                          enterTo="opacity-100"
+                          leave="transition-opacity ease-linear duration-300"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-25" />
+                        </Transition.Child>
+
+                        <Transition.Child
+                          as={Fragment}
+                          enter="transition ease-in-out duration-300 transform"
+                          enterFrom="-translate-x-full"
+                          enterTo="translate-x-0"
+                          leave="transition ease-in-out duration-300 transform"
+                          leaveFrom="translate-x-0"
+                          leaveTo="-translate-x-full"
+                        >
+                          <div className="relative flex flex-col w-full max-w-xs pb-12 overflow-y-auto bg-white shadow-xl">
+                            <div className="flex justify-between px-4 pt-4">
+                              <button
+                                type="button"
+                                className="inline-flex items-center justify-center p-2 -m-2 text-gray-400 bg-transparent rounded-md"
+                                onClick={() => setOpenFilters(false)}
+                              >
+                                <XIcon className="w-6 h-6" aria-hidden="true" />
+                              </button>
+                            </div>
+
+                            <nav className="space-y-1 px-4 pt-8 divide-y divide-[rgba(0,128,168,0.4)] ">
+                              <div className="filter-mobile">
+                                <Filter
+                                  category={category}
+                                  subcategory={subcategory}
+                                  type={type}
+                                  brands={brands}
+                                  sizes={sizes}
+                                  colors={colors}
+                                />
+                              </div>
+                            </nav>
+                          </div>
+                        </Transition.Child>
+                      </Dialog>
+                    </Transition.Root>
+                  </>
+                )}
+
+                <div className="flex items-center justify-end text-sm">
+                  <p className=" mb-0 text-[#0080a8]">
+                    {paginationRedux.theTotal} Produto(s) Encontrados
+                  </p>
+                  <div className="pl-3 sm:pl-6">
+                    <FilterSort handleChangeSort={handleChangeSort} sort={sort} />
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
           {products.length > 0 ? (
-            <>
-              {products.map((product) => (
-                <ProductCard product={product} key={removeIdDuplicate(product.id)} />
-              ))}
+            <div className="flex flex-col">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {products.map((product) => (
+                  <ProductCard product={product} key={removeIdDuplicate(product.id)} />
+                ))}
+              </div>
+
               {paginationRedux.totalPages > 1 ? (
                 <ReactPaginate
                   previousLabel="<"
@@ -288,97 +383,21 @@ export default function Products({
                   activeClassName="paginationActive"
                 />
               ) : null}
-            </>
+            </div>
           ) : loading === true ? (
-            <FadeLoader
-              className="spinner-products"
-              color="#0080A8"
-              loading={loading}
-              height={35}
-              width={7.5}
-              radius={5}
-              margin={15}
-            />
+            <div className="h-96">
+              <FadeLoader
+                className="spinner-products"
+                color="#0080A8"
+                loading={loading}
+                height={35}
+                width={7.5}
+                radius={5}
+                margin={15}
+              />
+            </div>
           ) : (
             <NoProductsAlert category={category} currentPage={currentPage} />
-          )}
-        </div>
-
-        <div className="filter">
-          {showFilter ? (
-            <>
-              <Breadcrumb category={category} subcategory={subcategory} type={type} />
-              <Filter
-                category={category}
-                subcategory={subcategory}
-                type={type}
-                brands={brands}
-                sizes={sizes}
-                colors={colors}
-              />
-            </>
-          ) : (
-            <div className="site-drawer-render-in-current-wrapper">
-              <button onClick={() => setOpenFilters(true)} className="btn-filter-mobile">
-                FILTROS <FilterIcon className="w-5 h-5 ml-1" />
-              </button>
-
-              <Transition.Root show={openFilters} as={Fragment}>
-                <Dialog
-                  as="div"
-                  className="fixed inset-0 flex "
-                  style={{ zIndex: 9999 }}
-                  onClose={setOpenFilters}
-                >
-                  <Transition.Child
-                    as={Fragment}
-                    enter="transition-opacity ease-linear duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="transition-opacity ease-linear duration-300"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-25" />
-                  </Transition.Child>
-
-                  <Transition.Child
-                    as={Fragment}
-                    enter="transition ease-in-out duration-300 transform"
-                    enterFrom="-translate-x-full"
-                    enterTo="translate-x-0"
-                    leave="transition ease-in-out duration-300 transform"
-                    leaveFrom="translate-x-0"
-                    leaveTo="-translate-x-full"
-                  >
-                    <div className="relative flex flex-col w-full max-w-xs pb-12 overflow-y-auto bg-white shadow-xl">
-                      <div className="flex justify-between px-4 pt-4">
-                        <button
-                          type="button"
-                          className="inline-flex items-center justify-center p-2 -m-2 text-gray-400 bg-transparent rounded-md"
-                          onClick={() => setOpenFilters(false)}
-                        >
-                          <XIcon className="w-6 h-6" aria-hidden="true" />
-                        </button>
-                      </div>
-
-                      <nav className="space-y-1 px-4 pt-8 divide-y divide-[rgba(0,128,168,0.4)] ">
-                        <div className="filter-mobile">
-                          <Filter
-                            category={category}
-                            subcategory={subcategory}
-                            type={type}
-                            brands={brands}
-                            sizes={sizes}
-                            colors={colors}
-                          />
-                        </div>
-                      </nav>
-                    </div>
-                  </Transition.Child>
-                </Dialog>
-              </Transition.Root>
-            </div>
           )}
         </div>
       </div>

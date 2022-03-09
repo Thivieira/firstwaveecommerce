@@ -16,7 +16,7 @@ export default function FilterSort({ handleChangeSort, sort }) {
   return (
     <Dropdown overlay={menu}>
       <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-        Ordernar por preço <DownOutlined />
+        Ordernar <DownOutlined />
       </a>
     </Dropdown>
   )

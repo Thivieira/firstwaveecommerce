@@ -123,8 +123,8 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
       : []
 
   return (
-    <div className="filter">
-      <h3>FILTROS</h3>
+    <div className="relative flex flex-col justify-center items-center mt-4">
+      <h3 className="text-[#ff8b00] mb-5">FILTROS</h3>
 
       <div className="filter-option">
         <Select
