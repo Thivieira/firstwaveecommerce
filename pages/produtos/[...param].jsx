@@ -10,7 +10,7 @@ import FadeLoader from 'react-spinners/FadeLoader'
 import ReactPaginate from 'react-paginate'
 import { useDispatch, useSelector } from 'react-redux'
 import NoProductsAlert from '../../components/NoProductsAlert'
-import BreadCrumb from '../../components/Breadcrumb'
+import BreadCrumb from '../../components/BreadCrumb'
 
 import { CategoryContext } from '../../contexts/CategoryContext'
 import Filter from '../../components/Filter'
