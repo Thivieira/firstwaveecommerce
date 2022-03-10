@@ -157,8 +157,6 @@ export default function Products({
   const router = useRouter()
   const [openFilters, setOpenFilters] = useState(false)
 
-  console.log(products, 'products')
-
   const updateDimensions = () => {
     setWindowWidth(window.innerWidth)
   }
@@ -229,13 +227,11 @@ export default function Products({
         dispatch(setLoading(false))
         dispatch(setProducts(data.data))
         dispatch(
-          setPaginationProducts(data.last_page, data.current_page, data.per_page, data.total)
+          setPaginationProducts(data.meta.last_page, page, data.meta.per_page, data.meta.total)
         )
       })
     }
   }, [dispatch, filterMode, filterUrl, currentPage, category, subcategory, type])
-
-  console.log(paginationRedux)
 
   const handleChangeSort = (item) => {
     const sortValue = item.props.value
@@ -263,7 +259,7 @@ export default function Products({
         description={`${category} / ${subcategory} / ${type} - Sua surf shop na Praia Mole.`}
       />
 
-      <div className="relative flex xl:grid-cols-5 items-start justify-center">
+      <div className="relative flex xl:grid-cols-5 items-start justify-center mb-10">
         <div className="relative w-auto flex flex-col justify-center items-center my-10">
           {showFilter && loading !== true && (
             <>

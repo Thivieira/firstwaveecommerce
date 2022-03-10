@@ -100,9 +100,9 @@ function Filter({ category, subcategory, type, brands, sizes, colors }) {
   const animatedComponents = makeAnimated()
 
   const cleanFilters = useCallback(() => {
-    selectInputRefSize.current.select.clearValue()
-    selectInputRefColor.current.select.clearValue()
-    selectInputRefBrand.current.select.clearValue()
+    setSelectedSize('')
+    setSelectedColor('')
+    setSelectedBrand('')
 
     setSelectedPriceMin(0)
     setSelectedPriceMax(2000)

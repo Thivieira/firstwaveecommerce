@@ -169,7 +169,9 @@ export default function Index() {
     api.get(url).then(({ data }) => {
       dispatch(setLoading(false))
       dispatch(setProducts(data.data))
-      dispatch(setPaginationProducts(data.last_page, data.current_page, data.per_page, data.total))
+      dispatch(
+        setPaginationProducts(data.meta.last_page, page, data.meta.per_page, data.meta.total)
+      )
     })
   }, [
     filterUrl,
