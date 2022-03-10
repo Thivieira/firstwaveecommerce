@@ -157,7 +157,7 @@ export default function Products({
   const router = useRouter()
   const [openFilters, setOpenFilters] = useState(false)
 
-  console.log(products)
+  console.log(products, 'products')
 
   const updateDimensions = () => {
     setWindowWidth(window.innerWidth)
@@ -225,10 +225,11 @@ export default function Products({
       dispatch(clearProducts())
 
       api.get(url).then(({ data }) => {
+        console.log(data, 'data')
         dispatch(setLoading(false))
         dispatch(setProducts(data.data))
         dispatch(
-          setPaginationProducts(data.meta.last_page, page, data.meta.per_page, data.meta.total)
+          setPaginationProducts(data.last_page, data.current_page, data.per_page, data.total)
         )
       })
     }
