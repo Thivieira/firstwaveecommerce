@@ -142,7 +142,7 @@ function Dashboard() {
   useEffect(() => {
     getUserData()
     getAdressData()
-  }, [getUserData, getAdressData])
+  }, [])
 
   function pageTitle() {
     switch (formOption) {

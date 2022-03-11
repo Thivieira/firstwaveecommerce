@@ -18,7 +18,8 @@ import * as yup from 'yup'
 import { pt } from 'yup-locale-pt'
 import useLocalStorageState from 'use-local-storage-state'
 import axios from 'axios'
-
+import withReactContent from 'sweetalert2-react-content'
+import Swal from 'sweetalert2'
 export const ErrorComponent = ({ errors, name }) => {
   if (!errors) {
     return null
@@ -156,6 +157,8 @@ export default function Checkout() {
     watch
   } = methods
 
+  const MySwal = withReactContent(Swal)
+
   const cep = watch('shippingAddress.cep')
 
   const billingType = watch('billingType')
@@ -271,7 +274,14 @@ export default function Checkout() {
   useEffect(() => {
     setTimeout(() => {
       if (Object.keys(account).length === 0) {
-        router.push('/')
+        MySwal.fire({
+          title: <p>Faça login ou cadastre-se antes de finalizar no carrinho</p>,
+          confirmButtonText: 'OK'
+        }).then((res) => {
+          if (res.isConfirmed) {
+            router.push('/login')
+          }
+        })
       }
     }, 2000)
   }, [account])

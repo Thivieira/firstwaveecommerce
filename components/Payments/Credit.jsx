@@ -221,7 +221,7 @@ function Credit({ errors }) {
     setValue(`checkoutForm.${name}`, value)
   }
 
-  const debouncedChangeHandler = useMemo((e) => debounce(handleChange, 1000), [checkoutForm])
+  const debouncedChangeHandler = useMemo((e) => debounce(handleChange, 500), [checkoutForm])
 
   useEffect(() => {
     if (current === 3) {

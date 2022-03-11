@@ -15,7 +15,9 @@ if (typeof window !== 'undefined') {
     (response) => response,
     (error) => {
       if (!error) return error
-      if (error.responses.status === 401) {
+      console.log(error, 'error')
+      console.log(error.response, 'response')
+      if (error.response.status === 401) {
         // console.log(window.localStorage);
         window.localStorage.removeItem('token')
       }
