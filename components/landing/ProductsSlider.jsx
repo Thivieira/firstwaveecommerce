@@ -136,7 +136,7 @@ export default function ProductsSlider({ prod }) {
                       p.price !== p.variations[0].price ? p.variations[0].price : p.price
                     )}
                   </strong>{' '}
-                  sem juros no cartes.
+                  sem juros no cartão.
                 </p>
               </div>
             </div>
