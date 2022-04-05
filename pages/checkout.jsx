@@ -20,6 +20,7 @@ import useLocalStorageState from 'use-local-storage-state'
 import axios from 'axios'
 import withReactContent from 'sweetalert2-react-content'
 import Swal from 'sweetalert2'
+import Ellipsis from '../components/Ellipsis'
 export const ErrorComponent = ({ errors, name }) => {
   if (!errors) {
     return null
@@ -39,7 +40,7 @@ export default function Checkout() {
   const cart = useSelector(getCartState)
   const total = useSelector(getCartTotal)
   const dispatch = useDispatch()
-  const { selectedShippingPrice, loading } = useContext(CheckoutContext)
+  const { selectedShippingPrice, loading, setLoading } = useContext(CheckoutContext)
   const [checkoutTotal, setCheckoutTotal] = useState(total ? total : 0)
   const [allPaymentMethods, setPaymentMethods] = useState([])
 
@@ -287,18 +288,39 @@ export default function Checkout() {
   }, [account])
 
   async function onSubmit(data) {
-    const res = await api.post(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
+    setLoading(true)
+    const submit = await api.post(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
       ...data,
       cart,
       account,
       accountAddress
     })
 
-    if (res.status == 401) {
+    if (submit.status == 401) {
       router.push('/login')
     }
 
-    const resData = res.data
+    if (submit.status != 200) {
+      setLoading(false)
+      MySwal.fire({
+        title: <p>Tivemos um problema com seu pedido, tente novamente mais tarde.</p>,
+        confirmButtonText: 'OK'
+      }).then((res) => {
+        if (res.isConfirmed) {
+          router.reload()
+        }
+      })
+    }
+
+    setLoading(false)
+    MySwal.fire({
+      title: <p>{submit.data.message}</p>,
+      confirmButtonText: 'OK'
+    }).then((res) => {
+      if (res.isConfirmed) {
+        router.push('/status/sucesso?payment_id=' + submit.data.order.mercadopago_id)
+      }
+    })
   }
 
   return (
@@ -553,11 +575,11 @@ export default function Checkout() {
                     id="form-checkout__submit"
                     className="bg-[#0080a8] border border-transparent uppercase rounded-md shadow-sm py-2 px-4  font-medium text-white hover:bg-[#0080a8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-[#0080A8]"
                   >
-                    Finalizar Pedido
+                    {loading ? <Ellipsis /> : 'Finalizar Pedido'}
                   </button>
                 </div>
               </div>
-              {loading && <p>Carregando...</p>}
+              {/* {loading && <p>Carregando...</p>} */}
             </form>
           </section>
         </div>

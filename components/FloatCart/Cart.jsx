@@ -56,7 +56,7 @@ export default function Cart() {
       })
     } else {
       MySwal.fire({
-        title: <p>Faça login ou cadastre-se antes de finalizar no carrinho</p>,
+        title: <p>Faça login ou cadastre-se antes de finalizar o carrinho</p>,
         confirmButtonText: 'OK'
       }).then((res) => {
         if (res.isConfirmed) {
