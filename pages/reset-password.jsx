@@ -33,7 +33,7 @@ function ResetPassword() {
   })
 
   useEffect(() => {
-    if (!router.query.token) {
+    if (router.isReady && !router.query.token) {
       router.push('/forgot-password')
     }
   }, [router])
@@ -91,11 +91,12 @@ function ResetPassword() {
   })
 
   return (
-    <Container>
+    <div className="flex flex-col mb-16 justify-center items-center h-[500px] mx-auto">
       <NextSeo
         title="Resetar senha - Lifestyle Floripa by Billabong"
         description={'Resetar senha - Sua surf shop na Praia Mole.'}
       />
+      <Title>Criar uma nova senha</Title>
       <Box>
         <InputContainer onSubmit={formik.handleSubmit}>
           <Typography variant="subtitle1" component="h2" gutterBottom>
@@ -159,7 +160,7 @@ function ResetPassword() {
           </ButtonsContainer>
         </InputContainer>
       </Box>
-    </Container>
+    </div>
   )
 }
 

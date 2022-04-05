@@ -43,7 +43,7 @@ export default function Index(props) {
         break
       case 'processando':
         dispatch(clearCart())
-        if (payment_id) {
+        if (router.isReady && payment_id) {
           api
             .get(`/api/payments?payment_id=${payment_id}`)
             .then((data) => {
@@ -56,7 +56,7 @@ export default function Index(props) {
         }
         break
     }
-  }, [dispatch, props.slug])
+  }, [dispatch, props.slug, router.isReady])
 
   const renderStatus = () => {
     switch (props.slug) {

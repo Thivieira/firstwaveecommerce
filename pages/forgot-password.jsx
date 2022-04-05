@@ -32,7 +32,7 @@ function ForgotPassword() {
   }
 
   return (
-    <Container>
+    <div className="flex flex-col mb-16 justify-center items-center h-[400px] mx-auto">
       <NextSeo
         title="Recuperar senha ou email - Lifestyle Floripa by Billabong"
         description={'Recuperar senha ou email - Sua surf shop na Praia Mole.'}
@@ -65,7 +65,7 @@ function ForgotPassword() {
           </ButtonsContainer>
         </InputContainer>
       </Box>
-    </Container>
+    </div>
   )
 }
 
