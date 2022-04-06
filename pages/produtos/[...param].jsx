@@ -382,7 +382,7 @@ export default function Products({
               ) : null}
             </div>
           ) : loading === true ? (
-            <div className="h-96">
+            <div className="flex items-center justify-center h-[200px] mb-10">
               <FadeLoader
                 className="spinner-products"
                 color="#0080A8"
