@@ -64,7 +64,7 @@ export default function Checkout() {
         }
       })
     }
-  }, [account])
+  }, [])
 
   yup.setLocale(pt)
 
@@ -411,7 +411,7 @@ export default function Checkout() {
               <div className="flex flex-col px-0 payment-information" style={{ border: 'none' }}>
                 <LocalShipping className="w-10 h-10 payment-information-image" />
                 <h2>
-                  <strong className="pt-5 text-white" />
+                  <strong className="flex items-center justify-center pt-1 text-white" />
                 </h2>
               </div>
               <div className="flex flex-col px-0 payment-information">
@@ -419,7 +419,7 @@ export default function Checkout() {
                   className="w-10 h-6 payment-information-image"
                   style={{ fontSize: '2rem' }}
                 />
-                <p className="mt-0 text-center payment-information-text">
+                <p className="mt-1 text-center payment-information-text">
                   12% DE DESCONTO NO BOLETO E PIX
                 </p>
               </div>
