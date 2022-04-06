@@ -53,7 +53,7 @@ function ShippingContent({ cep, errors, shippingMethod }) {
 
   return (
     <div className="relative max-w-xl border-b border-gray-200 sm:pb-0 lg:max-w-5xl">
-      <div className="max-w-md mx-auto sm:max-w-3xl lg:max-w-7xl">
+      <div className="max-w-md sm:mx-auto sm:max-w-3xl lg:max-w-7xl">
         <h2 className="text-2xl font-bold text-[#0080A8]">Escolha a forma de entrega</h2>
         <div className="shipping-calculator">
           {shipping.length > 0 && (
@@ -79,10 +79,10 @@ function ShippingContent({ cep, errors, shippingMethod }) {
                       checked={shippingMethod?.id === el.id}
                     />
                     <label htmlFor={el.name} className="radio-label">
-                      <div className="relative flex l-3 sm:grid shipping-result">
-                        <span>{el.name}</span>
-                        <p>R${el.price.replace('.', ',')}</p>
-                        <p>Em até {el.delivery_time} dias úteis</p>
+                      <div className="relative flex items-center justify-center shipping-result">
+                        <p className="w-24 pr-2 mb-0 mr-2 sm:w-72">{el.name}</p>
+                        <p className="px-2 mx-2 mb-0">R${el.price.replace('.', ',')}</p>
+                        <p className="pl-2 mb-0 ml-2">Em até {el.delivery_time} dias úteis</p>
                       </div>
                     </label>
                   </div>

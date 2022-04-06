@@ -42,6 +42,7 @@ export default function Checkout() {
   const dispatch = useDispatch()
   const { selectedShippingPrice, loading, setLoading } = useContext(CheckoutContext)
   const [checkoutTotal, setCheckoutTotal] = useState(total ? total : 0)
+  const [deductedValue, setDeductedValue] = useState(0)
   const [allPaymentMethods, setPaymentMethods] = useState([])
 
   const [token, setToken, { removeItem, isPersistent }] = useLocalStorageState('token', {
@@ -174,16 +175,17 @@ export default function Checkout() {
   const shippingMethod = watch('shippingMethod')
 
   const totalToPay = useMemo(
-    () => parseFloat(checkoutTotal) + parseFloat(selectedShippingPrice),
-    [checkoutTotal, selectedShippingPrice, billingType]
+    () => parseFloat(checkoutTotal) - parseFloat(deductedValue) + parseFloat(selectedShippingPrice),
+    [checkoutTotal, deductedValue, selectedShippingPrice, billingType]
   )
   const price = (product) => `R$${parseFloat(product.product.price).toFixed(2).replace('.', ',')}`
   const priceSale = (product) => `R$${parseFloat(product.price).toFixed(2).replace('.', ',')}`
 
   useEffect(() => {
     if (billingType != 'creditcard') {
-      const deductedValue = total * 0.88
-      setCheckoutTotal(deductedValue)
+      const deductedValue = total * 0.12
+      // setCheckoutTotal(deductedValue)
+      setDeductedValue(deductedValue)
       // if(allPaymentMethods.length > 0){
       if (billingType == 'ticket') {
         setValue('checkoutForm.issuer', 'bolbradesco')
@@ -195,11 +197,15 @@ export default function Checkout() {
       // }
     } else {
       setCheckoutTotal(total)
+      setDeductedValue(0)
     }
   }, [billingType])
 
   useEffect(() => {
-    setValue('amountWithShipping', parseFloat(total) + parseFloat(selectedShippingPrice))
+    setValue(
+      'amountWithShipping',
+      parseFloat(total) - parseFloat(deductedValue) + parseFloat(selectedShippingPrice)
+    )
   }, [selectedShippingPrice])
 
   useEffect(() => {
@@ -278,14 +284,6 @@ export default function Checkout() {
     getUserData()
     getAddressData()
   }, [])
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (Object.keys(account).length === 0) {
-
-  //     }
-  //   }, 2000)
-  // }, [account])
 
   async function onSubmit(data) {
     setLoading(true)
@@ -382,7 +380,12 @@ export default function Checkout() {
                   <dt>Subtotal</dt>
                   <dd>{`R$${checkoutTotal.toFixed(2).replace('.', ',')}`}</dd>
                 </div>
-
+                {billingType != 'creditcard' && (
+                  <div className="flex items-center justify-between line-through">
+                    <dt>12% de desconto</dt>
+                    <dd>{`R$${deductedValue.toFixed(2).replace('.', ',')}`}</dd>
+                  </div>
+                )}
                 <div className="flex items-center justify-between">
                   <dt>Entrega</dt>
                   <dd>{`R$${selectedShippingPrice && selectedShippingPrice.replace('.', ',')}`}</dd>
