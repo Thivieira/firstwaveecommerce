@@ -183,16 +183,23 @@
 }
 
 .float-cart__shelf-container .shelf-item .change-product-button {
-  color: hsl(194, 100%, 33%);
+  color: #ffa500;
   font-weight: 700;
   border: none;
   border-radius: 4px;
   background-color: #000;
   margin-left: 5px;
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   cursor: pointer;
   margin-top: 0.6rem;
+}
+
+@media screen and (min-width: 768px) {
+  .float-cart__shelf-container .shelf-item .change-product-button {
+    width: 2rem;
+    height: 2rem;
+  }
 }
 
 .float-cart__shelf-container .shelf-item .change-product-button:disabled {
