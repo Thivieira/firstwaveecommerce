@@ -54,9 +54,16 @@ export default function Checkout() {
     } else {
       dispatch(saveAccount({}))
       dispatch(saveAddress({}))
-      router.replace('/')
+      MySwal.fire({
+        title: <p>Faça login ou cadastre-se antes de finalizar no carrinho</p>,
+        confirmButtonText: 'OK'
+      }).then((res) => {
+        if (res.isConfirmed) {
+          router.push('/login')
+        }
+      })
     }
-  }, [])
+  }, [account])
 
   yup.setLocale(pt)
 
@@ -272,20 +279,13 @@ export default function Checkout() {
     getAddressData()
   }, [])
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (Object.keys(account).length === 0) {
-        MySwal.fire({
-          title: <p>Faça login ou cadastre-se antes de finalizar no carrinho</p>,
-          confirmButtonText: 'OK'
-        }).then((res) => {
-          if (res.isConfirmed) {
-            router.push('/login')
-          }
-        })
-      }
-    }, 2000)
-  }, [account])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (Object.keys(account).length === 0) {
+
+  //     }
+  //   }, 2000)
+  // }, [account])
 
   async function onSubmit(data) {
     setLoading(true)
