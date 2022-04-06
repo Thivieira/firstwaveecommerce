@@ -137,7 +137,7 @@
 
 @media (max-width: 425px) {
   .card-grid {
-    width: 150px;
+    width: auto;
   }
 
   .img-content img {

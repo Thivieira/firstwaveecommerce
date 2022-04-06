@@ -207,8 +207,8 @@ export default function Index() {
         description={`${getCategory.category} / ${getCategory.subcategory} / ${getCategory.type} - Sua surf shop na Praia Mole.`}
       />
 
-      <div className="relative flex xl:grid-cols-5 items-start justify-center">
-        <div className="relative w-auto flex flex-col justify-center items-center my-10">
+      <div className="relative flex items-start justify-center xl:grid-cols-5">
+        <div className="relative flex flex-col items-center justify-center w-auto my-10">
           {showFilter && loading !== true && (
             <Filter
               category={getCategory.category}
@@ -221,8 +221,8 @@ export default function Index() {
           )}
         </div>
 
-        <div className="relative flex flex-col xl:col-span-4 my-5 sm:mx-10 sm:my-6 max-w-6xl">
-          <div className="flex items-center justify-between xl:mr-10 xl:justify-end px-2 py-6 sm:pb-6">
+        <div className="relative flex flex-col w-full max-w-6xl mx-5 my-5 xl:col-span-4 sm:mx-10 sm:my-6">
+          <div className="flex items-center justify-between px-2 py-6 xl:mr-10 xl:justify-end sm:pb-6">
             {products.length > 0 && (
               <>
                 {!showFilter && (
