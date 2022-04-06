@@ -44,6 +44,37 @@ export default function Checkout() {
   const [checkoutTotal, setCheckoutTotal] = useState(total ? total : 0)
   const [deductedValue, setDeductedValue] = useState(0)
   const [allPaymentMethods, setPaymentMethods] = useState([])
+  const [states, setStates] = useState([
+    { name: 'Acre', id: 'AC' },
+    { name: 'Alagoas', id: 'AL' },
+    { name: 'Amapá', id: 'AP' },
+    { name: 'Amazonas', id: 'AM' },
+    { name: 'Bahia', id: 'BA' },
+    { name: 'Ceará', id: 'CE' },
+    { name: 'Distrito Federal', id: 'DF' },
+    { name: 'Espírito Santo', id: 'ES' },
+    { name: 'Goiás', id: 'GO' },
+    { name: 'Maranhão', id: 'MA' },
+    { name: 'Mato Grosso', id: 'MT' },
+    { name: 'Mato Grosso do Sul', id: 'MS' },
+    { name: 'Minas Gerais', id: 'MG' },
+    { name: 'Pará', id: 'PA' },
+    { name: 'Paraíba', id: 'PB' },
+    { name: 'Paraná', id: 'PR' },
+    { name: 'Pernambuco', id: 'PE' },
+    { name: 'Piauí', id: 'PI' },
+    { name: 'Rio de Janeiro', id: 'RJ' },
+    { name: 'Rio Grande do Norte', id: 'RN' },
+    { name: 'Rio Grande do Sul', id: 'RS' },
+    { name: 'Rondônia', id: 'RO' },
+    { name: 'Roraima', id: 'RR' },
+    { name: 'Santa Catarina', id: 'SC' },
+    { name: 'São Paulo', id: 'SP' },
+    { name: 'Sergipe', id: 'SE' },
+    { name: 'Tocantins', id: 'TO' }
+  ])
+
+  const freeShippingStates = ['MG', 'PR', 'RJ', 'RS', 'SC', 'SP']
 
   const [token, setToken, { removeItem, isPersistent }] = useLocalStorageState('token', {
     ssr: false
@@ -87,7 +118,6 @@ export default function Checkout() {
           name: yup.string().required().label('nome do método de envio'),
           price: yup.string().required().label('preço do método de envio')
         })
-        .required()
         .default(undefined)
         .label('método de envio'),
       billingType: yup.string().required().label('método de pagamento'),
@@ -173,6 +203,8 @@ export default function Checkout() {
   const billingType = watch('billingType')
 
   const shippingMethod = watch('shippingMethod')
+
+  const shippingAddress = watch('shippingAddress')
 
   const totalToPay = useMemo(
     () => parseFloat(checkoutTotal) - parseFloat(deductedValue) + parseFloat(selectedShippingPrice),
@@ -533,14 +565,31 @@ export default function Checkout() {
                         Estado
                       </label>
                       <div className="mt-1">
-                        <input
+                        <select
+                          id="state"
+                          name="state"
+                          {...register('shippingAddress.state')}
+                          className="block w-full py-2 pl-3 pr-10 text-base border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                        >
+                          <option value="null" disabled hidden>
+                            Selecione o estado
+                          </option>
+                          {states.map((state) => {
+                            return (
+                              <option key={state.id} value={state.id}>
+                                {state.name}
+                              </option>
+                            )
+                          })}
+                        </select>
+                        {/* <input
                           type="text"
                           placeholder="Estado"
                           id="state"
                           name="state"
                           {...register('shippingAddress.state')}
                           className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#0080A8] focus:border-[#0080A8] sm:text-sm"
-                        />
+                        /> */}
                         <ErrorComponent errors={errors['shippingAddress']} name="state" />
                       </div>
                     </div>
@@ -567,7 +616,13 @@ export default function Checkout() {
                   </div>
                 </div>
                 <div className="mt-5">
-                  <ShippingContent cep={cep} errors={errors} shippingMethod={shippingMethod} />
+                  <ShippingContent
+                    freeShippingStates={freeShippingStates}
+                    state={shippingAddress.state}
+                    cep={cep}
+                    errors={errors}
+                    shippingMethod={shippingMethod}
+                  />
                 </div>
                 <div className="mt-5">
                   <Tabs errors={errors} />

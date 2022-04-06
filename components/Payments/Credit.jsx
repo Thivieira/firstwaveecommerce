@@ -422,7 +422,7 @@ function Credit({ errors }) {
           // value={getValues('checkoutForm.installments')}
           id="form-checkout__installments"
           disabled={installments.length === 0}
-          className={`py-2 pl-3 pr-10 ml-2 mt-5 ${
+          className={`py-2 pl-3 pr-10 w-full sm:w-auto sm:ml-2 mt-5 ${
             installments.length === 0 && 'bg-none appearance-none'
           } font-medium text-left border border-gray-300 rounded-md shadow-sm cursor-default relativebg-white focus:outline-none focus:ring-1 focus:ring-[#0080A8] focus:border-[#0080A8]`}
         >
