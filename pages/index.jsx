@@ -55,21 +55,23 @@ function Index({ prodMasc, prodOutlet }) {
         <NavLink href="/produtos/Juvenil">
           <img className="bottom-image" src="/Categorias-Juvenil.jpg" alt="" />
         </NavLink>
-        <div className="flex justify-center sm:hidden">
-          <NavLink href="/produtos/Calcado">
-            <img
-              className="flex max-w-[230px] max-h-[400px] sm:hidden image-right"
-              src="/Categorias-Calcados.jpg"
-              alt=""
-            />
-          </NavLink>
-          <NavLink href="/produtos/Surf">
-            <img
-              className="flex max-w-[230px] max-h-[400px] sm:hidden"
-              src="/Categorias-Surf.jpg"
-              alt=""
-            />
-          </NavLink>
+        <div className="three-images sm:hidden">
+          <div className="flex justify-center two-images">
+            <NavLink href="/produtos/Calcado">
+              <img
+                className="second-image flex max-w-[160px] sm:max-w-[330px] max-h-[400px] sm:max-h-[500px] sm:hidden"
+                src="/Categorias-Calcados.jpg"
+                alt=""
+              />
+            </NavLink>
+            <NavLink href="/produtos/Surf">
+              <img
+                className="second-image flex max-w-[160px] sm:max-w-[330px] max-h-[400px] sm:max-h-[500px] sm:hidden"
+                src="/Categorias-Surf.jpg"
+                alt=""
+              />
+            </NavLink>
+          </div>
         </div>
       </div>
 
