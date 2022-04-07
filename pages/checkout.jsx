@@ -343,14 +343,51 @@ export default function Checkout() {
     }
 
     setLoading(false)
-    MySwal.fire({
-      title: <p>{submit.data.message}</p>,
-      confirmButtonText: 'OK'
-    }).then((res) => {
-      if (res.isConfirmed) {
-        router.push('/status/sucesso?payment_id=' + submit.data.order.mercadopago_id)
-      }
-    })
+
+    const order = submit.data.order
+
+    let slug = 'processando'
+    switch (order.status) {
+      case 'pending':
+        slug = 'processando'
+        break
+      case 'approved':
+        slug = 'sucesso'
+        break
+      case 'authorized':
+        slug = 'sucesso'
+        break
+      case 'in_process':
+        slug = 'processando'
+        break
+      case 'in_mediation':
+        slug = 'erro'
+        break
+      case 'rejected':
+        slug = 'erro'
+        break
+      case 'cancelled':
+        slug = 'erro'
+        break
+      case 'refunded':
+        slug = 'erro'
+        break
+      case 'charged_back':
+        slug = 'erro'
+        break
+    }
+    // sucesso
+    // processando
+    // erro
+    router.push(`/status/${slug}?payment_id=${order.mercadopago_id}`)
+    // MySwal.fire({
+    //   title: <p>{submit.data.message}</p>,
+    //   confirmButtonText: 'OK'
+    // }).then((res) => {
+    //   if (res.isConfirmed) {
+    //     router.push('/status/sucesso?payment_id=' + submit.data.order.mercadopago_id)
+    //   }
+    // })
   }
 
   return (

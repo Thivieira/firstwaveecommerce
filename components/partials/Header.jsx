@@ -46,7 +46,7 @@ function Header() {
     return () => window.removeEventListener('resize', updateDimensions)
   }, [width])
 
-  const getUserData = useCallback(async () => {
+  const getUserData = useCallback(() => {
     api
       .get('/auth/me')
       .then((res) => {

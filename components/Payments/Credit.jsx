@@ -70,7 +70,7 @@ function Credit({ errors }) {
     if (existingScript && callback) callback()
   }
 
-  const mpRun = useCallback(async () => {
+  const mpRun = useCallback(() => {
     const mpInstance = new MercadoPago(process.env.NEXT_PUBLIC_PUBLIC_KEY, {
       locale: 'pt-BR'
     })
@@ -81,7 +81,7 @@ function Credit({ errors }) {
   }, [])
 
   useEffect(() => {
-    loadMercadoPago(async () => {
+    loadMercadoPago(() => {
       setLoaded(true)
       mpRun()
     })
@@ -238,7 +238,6 @@ function Credit({ errors }) {
   useEffect(async () => {
     if (current == 3) {
       await mountForm()
-      return true
     }
   }, [checkoutForm, total])
 

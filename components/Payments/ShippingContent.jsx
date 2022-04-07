@@ -91,7 +91,7 @@ function ShippingContent({ freeShippingStates, state, cep, errors, shippingMetho
                     />
                     <label htmlFor={el.name} className="radio-label">
                       <div className="relative flex items-center justify-center shipping-result">
-                        <p className="w-24 pr-2 mb-0 mr-2 sm:w-72">{el.name}</p>
+                        <p className="w-24 pr-2 mb-0 mr-2 md:w-72">{el.name}</p>
                         <p className="px-2 mx-2 mb-0">R${el.price.replace('.', ',')}</p>
                         <p className="pl-2 mb-0 ml-2">Em até {el.delivery_time} dias úteis</p>
                       </div>

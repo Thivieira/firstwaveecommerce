@@ -34,7 +34,7 @@ function Dashboard() {
     } else {
       dispatch(saveAccount({}))
       dispatch(saveAddress({}))
-      router.replace('/')
+      router.replace('/login')
     }
   }, [])
 
@@ -47,6 +47,7 @@ function Dashboard() {
         name: res.data.name,
         phone: res.data.mobile
       })
+
       dispatch(
         saveAccount({
           cpf: res.data.cpf,
@@ -55,7 +56,9 @@ function Dashboard() {
           phone: res.data.mobile
         })
       )
-    } catch (e) {}
+    } catch (e) {
+      console.log(e, 'TESTE')
+    }
   }, [setPersonalData, dispatch])
 
   const getAdressData = useCallback(async () => {
