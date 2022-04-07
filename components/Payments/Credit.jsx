@@ -224,15 +224,7 @@ function Credit({ errors }) {
   const debouncedChangeHandler = useMemo((e) => debounce(handleChange, 500), [checkoutForm])
 
   useEffect(() => {
-    if (current === 3) {
-      mountIdentificationTypes()
-    }
-  }, [mp])
-
-  useEffect(() => {
-    if (current === 3) {
-      mountIdentificationTypes()
-    }
+    mountIdentificationTypes()
   }, [current, mp])
 
   useEffect(async () => {

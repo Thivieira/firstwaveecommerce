@@ -828,7 +828,7 @@ function Header() {
           <span className="nav-item login">
             <div>
               {user.name ? (
-                <Dropdown.Button overlay={menuLoginOn} placement="bottomCenter">
+                <Dropdown.Button overlay={menuLoginOn} placement="bottom">
                   <span
                     onClick={() => {
                       router.push('/dashboard')
@@ -842,7 +842,7 @@ function Header() {
                   onClick={() => {
                     router.push('/login')
                   }}
-                  placement="bottomCenter"
+                  placement="bottom"
                   icon={<UserOutlined />}
                 >
                   {' '}

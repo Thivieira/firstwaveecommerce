@@ -1,4 +1,4 @@
-import api from '../../services/api'
+import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Status from '../../components/Status'
@@ -10,31 +10,30 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NextSeo } from 'next-seo'
 const { Paragraph, Text } = Typography
 
-export async function getStaticPaths(ctx) {
-  const paths = [
-    { params: { slug: 'sucesso' } },
-    { params: { slug: 'processando' } },
-    { params: { slug: 'erro' } }
-  ]
-  return {
-    paths,
-    fallback: 'blocking'
+export async function getServerSideProps(ctx) {
+  const payment_id = ctx.query.payment_id
+  if (payment_id) {
+    console.log('before trying')
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/mercadopago/payment?payment_id=${payment_id}`
+      )
+      return { props: { paymentData: res.data, pix: res.data.pix, slug: ctx.query.slug } }
+    } catch (e) {
+      console.error(e)
+      return { props: { paymentData: null, pix: null, slug: ctx.params.slug } }
+    }
   }
-}
-
-export async function getStaticProps(ctx) {
-  return { props: { slug: ctx.params.slug } }
+  return { props: { paymentData: null, pix: null, slug: ctx.params.slug } }
 }
 
 export default function Index(props) {
   const router = useRouter()
-  const { payment_id } = router.query
   const dispatch = useDispatch()
-  const cart = useSelector(getCartState)
-  const user = useSelector(getAccount)
-  const address = useSelector(getAddress)
-  const [pixData, setPixData] = useState(null)
-  const [paymentData, setPaymentData] = useState(null)
+  const [pixData, setPixData] = useState(props.pix)
+  const [paymentData, setPaymentData] = useState(props.paymentData)
+
+  console.log(props)
 
   useEffect(() => {
     switch (props.slug) {
@@ -43,17 +42,7 @@ export default function Index(props) {
         break
       case 'processando':
         dispatch(clearCart())
-        if (router.isReady && payment_id) {
-          api
-            .get(`/api/payments?payment_id=${payment_id}`)
-            .then((data) => {
-              setPaymentData(data)
-              if (data.pix) {
-                setPixData(data.pix)
-              }
-            })
-            .catch((err) => {})
-        }
+
         break
     }
   }, [dispatch, props.slug, router.isReady])
@@ -102,26 +91,11 @@ export default function Index(props) {
             />
             <Result
               title="Seu pedido está sendo processado!"
-              subTitle="Pode levar até 3 dias úteis após o pagamento do boleto. Você será notificado quando o pedido for liberado."
-              extra={[
-                <Button
-                  type="primary"
-                  key="console"
-                  onClick={() => {
-                    router.push('/')
-                  }}
-                >
-                  Ver mais produtos
-                </Button>,
-                <Button
-                  key="buy"
-                  onClick={() => {
-                    router.push('/dashboard')
-                  }}
-                >
-                  Conferir pedido
-                </Button>
-              ]}
+              subTitle={
+                pixData
+                  ? 'Pagamentos em PIX são quase instantâneos para processar. Você será notificado quando o pedido for liberado.'
+                  : 'Pode levar até 3 dias úteis para processar o pagamento do boleto. Você será notificado quando o pedido for liberado.'
+              }
             >
               {pixData && (
                 <div
@@ -163,16 +137,17 @@ export default function Index(props) {
                         marginTop: '1em'
                       }}
                     >
-                      Ou você também pode usar o seguinte código como copiar e colar
+                      Ou você pode usar o seguinte código como copiar e colar
                     </Paragraph>
                     <div
+                      className="w-full p-4 mb-4 bg-gray-200 md:w-1/2"
                       style={{
-                        overFlow: 'scroll',
-                        width: '300px'
+                        overFlow: 'scroll'
                       }}
                     >
                       <Paragraph
                         style={{
+                          marginBottom: '0px',
                           overFlow: 'scroll'
                         }}
                       >
@@ -196,6 +171,7 @@ export default function Index(props) {
                       Ou você também pode usar a nossa chave pix de email
                     </Paragraph>
                     <Paragraph
+                      className="flex justify-center w-full p-4 mb-4 bg-gray-200 md:w-1/2"
                       style={{
                         overFlow: 'scroll'
                       }}
@@ -208,6 +184,51 @@ export default function Index(props) {
                         title="Ou você também pode usar a nossa chave pix de email"
                       >
                         comercial@lifestylefloripa.com.br
+                      </Text>
+                    </Paragraph>
+                  </div>
+                </div>
+              )}
+              {paymentData && !pixData && (
+                <div
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                    display: 'flex'
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 'auto',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      display: 'flex'
+                    }}
+                  >
+                    <Paragraph
+                      style={{
+                        fontSize: 16
+                      }}
+                    >
+                      Acessar o boleto pelo link:
+                    </Paragraph>
+                    <Paragraph
+                      style={{
+                        overFlow: 'scroll'
+                      }}
+                    >
+                      <Text
+                        strong
+                        style={{
+                          fontSize: 14
+                        }}
+                        title="acessar o boleto acessando este link"
+                      >
+                        <a target="_blank" href={paymentData.ticket_url}>
+                          Ver boleto
+                        </a>
                       </Text>
                     </Paragraph>
                   </div>
