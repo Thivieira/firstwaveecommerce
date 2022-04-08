@@ -1,0 +1,12 @@
+{
+  "extends": ["next/core-web-vitals", "airbnb", "prettier"],
+  "plugins": ["prettier"],
+  "rules": {
+    "@next/next/no-img-element": "off",
+    "react/no-children-prop": "off",
+    "react/no-unescaped-entities": "off",
+    "prettier/prettier": ["error"],
+    "react/react-in-jsx-scope": "off",
+    "global-require": "off"
+  }
+}

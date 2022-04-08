@@ -1,0 +1,69 @@
+.wrapper-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 3rem;
+  padding-bottom: 10rem;
+}
+
+.wrapper-login h2 {
+  color: #0080a8;
+  padding-bottom: 1rem;
+}
+
+.sign-up {
+  width: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.wrapper-login .login-button {
+  background-color: #0080a8;
+  color: #fff;
+  /* width: 260px; */
+  padding: 6px !important;
+  height: 40px;
+}
+
+.wrapper-login .create-google {
+  background-color: #ea4335;
+  color: #fff;
+  margin-bottom: 10px;
+  height: 40px;
+  width: 260px;
+  padding: 6px !important;
+}
+
+.wrapper-login .login-button:hover {
+  background-color: #0080a8;
+}
+
+.wrapper-login .create-google:hover {
+  background-color: #ea4335;
+}
+
+.wrapper-login .create-google img {
+  margin-right: 5px;
+}
+
+.forget-password {
+  width: 100%;
+  border-top: 1px solid #0080a8;
+  padding: 1rem;
+  text-align: center;
+}
+
+.forget-password a {
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+@media (max-width: 850px) {
+  .sign-up {
+    margin: 2rem 0;
+  }
+}

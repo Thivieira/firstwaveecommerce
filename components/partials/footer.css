@@ -1,0 +1,241 @@
+footer {
+  position: relative;
+  width: 100%;
+  height: auto;
+  padding: 1rem;
+  background: #221e20;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+footer .container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  flex-direction: row;
+  height: auto;
+  width: 100% !important;
+}
+
+footer .container-col {
+  display: flex;
+}
+
+footer .container .sec {
+  margin-right: 35px;
+}
+
+footer .container .sec.aboutus .footer-logo {
+  width: 25rem;
+  height: auto;
+  padding-right: 1rem;
+}
+
+footer .container h2 {
+  position: relative;
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+footer .container h2::before {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: #005772;
+}
+
+footer p {
+  color: #999;
+}
+
+.sci {
+  margin-top: 20px;
+  display: flex;
+}
+
+.sci li {
+  list-style: none;
+}
+
+.sci li a {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.sci li a:hover {
+  color: #fff;
+  font-size: 20px;
+}
+
+.quicklinks {
+  position: relative;
+  /* width: 25%; */
+}
+
+.quicklinks ul li {
+  list-style: none;
+}
+
+.quicklinks ul li a {
+  color: #999;
+  text-decoration: none;
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.quicklinks ul li a:hover {
+  color: #fff;
+}
+
+/* .contact {
+    width: calc(35% - 60px);
+    margin-right: 0 !important;
+} */
+
+.contact .info {
+  position: relative;
+}
+
+.contact .info .wrapper-img {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.contact .info .wrapper-img img {
+  width: 100%;
+  height: auto;
+}
+
+.contact .info span {
+  display: flex;
+  color: #999 !important;
+  margin-top: 10px;
+  /* width: 400px; */
+  cursor: pointer;
+}
+
+.contact .info .sliderFooter {
+  width: 400px !important;
+  max-height: 265px !important;
+}
+
+.contact .info .adress {
+  color: #999 !important;
+  width: 300px;
+}
+
+.contact .info .adress:hover {
+  color: #fff !important;
+}
+
+.contact .info span img {
+  height: 1.2rem;
+  margin-right: 5px;
+  margin-top: 0.3rem;
+}
+
+.institucional li {
+  color: #999;
+  cursor: pointer;
+}
+
+.institucional li:hover {
+  color: #fff;
+}
+
+.payments img {
+  width: 15rem;
+  height: auto;
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
+.certificate img {
+  width: 7rem;
+  height: auto;
+  margin-top: 5px;
+}
+
+.copyrightText {
+  width: 100%;
+  background: #0f0f0f;
+  padding: 8px 100px;
+  text-align: center;
+  color: #999;
+  margin-bottom: 0em;
+}
+
+.copyrightText p {
+  margin-bottom: 0em;
+}
+
+.copyrightText span {
+  font-size: 12px;
+}
+
+@media (max-width: 1450px) {
+  footer .container-col {
+    flex-direction: column;
+  }
+  footer .container-col .contact {
+    margin-top: 1.5rem;
+  }
+}
+
+@media (max-width: 991px) {
+  footer {
+    padding: 40px;
+  }
+  footer .container {
+    flex-direction: column;
+  }
+  footer .container .sec {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+  footer .container .sec.aboutus,
+  .quicklinks,
+  .contact {
+    width: 100%;
+  }
+  .copyrightText {
+    padding: 8px 40px;
+  }
+  .contact .info .sliderFooter {
+    width: 100% !important;
+  }
+  footer .container .sec.aboutus .footer-logo {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .contact .info .wrapper-img {
+    width: 100%;
+  }
+  .contact .info .wrapper-img img {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 375px) {
+  footer .container-col {
+    width: 100% !important;
+  }
+}

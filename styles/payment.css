@@ -1,0 +1,277 @@
+.payment-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* padding: 2rem; */
+  padding-bottom: 10rem;
+  padding-top: 2rem;
+}
+
+.payment-top-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  font-size: 1rem;
+  flex-direction: row;
+}
+
+.cart-footer-payment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.payment-top-container .column {
+  margin: 0rem 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 576px) {
+  .payment-container {
+    /* padding: 0px; */
+    padding: 0rem;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .payment-top-container {
+    flex-direction: column;
+  }
+
+  .payment-top-container .column {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .cart-payment-container {
+    padding: 0.25rem !important;
+  }
+
+  .sub-price {
+    top: 0px !important;
+  }
+
+  .cart-payment__details {
+    width: 100% !important;
+  }
+}
+
+.payment-box-data {
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+}
+
+.payment-data {
+  display: flex;
+  align-items: flex-start;
+}
+
+.white-background {
+  background-color: rgba(255, 165, 0, 0.5);
+}
+
+.line-input {
+  display: flex;
+}
+
+.first-line-input {
+  width: 35%;
+  margin-right: 1rem;
+}
+
+.cart-payment-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #e5e5e5;
+  border: 1px solid #0080a8;
+  border-radius: 6px;
+  padding: 1rem;
+  height: 425px;
+}
+
+.cart-payment {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 23.25rem;
+  overflow-y: auto;
+}
+
+.thumb-cart-pay {
+  height: auto;
+  width: 3rem;
+  /* margin-right: 0.5rem; */
+}
+
+.cart-payment__details {
+  display: flex;
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  /* width: 375px; */
+}
+
+.cart-payment__details h3.title-cart {
+  color: #0080a8;
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.cart-payment__details .desc {
+  color: #5b5a5e;
+  margin: 0px 1rem;
+}
+
+.color-size {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.cart-payment__details .desc p {
+  margin: 0;
+  color: #333;
+}
+
+.sub-price {
+  position: relative;
+  top: 10px;
+  /* bottom: 0px;
+    right: 0px; */
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sub-price p {
+  margin-bottom: 0px;
+}
+
+.payment-bottom-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.pure-material-button-contained {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 4px;
+  padding: 3px 30px;
+  /* min-width: 80px;
+  height: 36px; */
+  vertical-align: middle;
+  text-align: center;
+  text-overflow: ellipsis;
+  /* text-transform: uppercase; */
+  color: white;
+  background-color: #0080a8;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  font-family: var(
+    --pure-material-font,
+    'Roboto',
+    'Segoe UI',
+    BlinkMacSystemFont,
+    system-ui,
+    -apple-system
+  );
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 36px;
+  overflow: hidden;
+  outline: none;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.pure-material-button-contained::-moz-focus-inner {
+  border: none;
+}
+
+/* Overlay */
+.pure-material-button-contained::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* Ripple */
+.pure-material-button-contained::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  padding: 50%;
+  width: 32px; /* Safari */
+  height: 32px; /* Safari */
+  background-color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+  transition: opacity 1s, transform 0.5s;
+}
+
+/* Hover, Focus */
+.pure-material-button-contained:hover,
+.pure-material-button-contained:focus {
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.pure-material-button-contained:hover::before {
+  opacity: 0.08;
+}
+
+.pure-material-button-contained:focus::before {
+  opacity: 0.24;
+}
+
+.pure-material-button-contained:hover:focus::before {
+  opacity: 0.3;
+}
+
+/* Active */
+.pure-material-button-contained:active {
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.pure-material-button-contained:active::after {
+  opacity: 0.32;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0s;
+}
+
+/* Disabled */
+.pure-material-button-contained:disabled {
+  color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.38);
+  background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.12);
+  box-shadow: none;
+  cursor: initial;
+}
+
+.pure-material-button-contained:disabled::before {
+  opacity: 0;
+}
+
+.pure-material-button-contained:disabled::after {
+  opacity: 0;
+}

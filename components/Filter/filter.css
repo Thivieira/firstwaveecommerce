@@ -1,0 +1,102 @@
+.filter h3 {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ff8b00;
+  color: #0080a8;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.filter-option {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-bottom: 1rem;
+  width: 80%;
+}
+
+.filter-option-price {
+  width: 150px;
+}
+
+.basic-multi-select {
+  width: 200px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #ff8b00;
+  transition: all ease-in-out 0.3s;
+}
+
+.size {
+  z-index: 40;
+}
+
+.color {
+  z-index: 30;
+}
+
+.brand {
+  z-index: 20;
+}
+
+.btn-actions-filter {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 5rem;
+}
+
+.btn-filter {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 6px 15px;
+  border-radius: 6px;
+  outline: none;
+  background: #0080a8;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all ease-in-out 0.3s;
+  margin-right: 10px;
+}
+
+.btn-filter:hover {
+  opacity: 0.8;
+}
+
+.btn-filter-clean {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 6px 15px;
+  border-radius: 6px;
+  outline: none;
+  background: #ff8b00;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all ease-in-out 0.3s;
+}
+
+.btn-filter-clean:hover {
+  opacity: 0.8;
+}
+
+.ant-tooltip.ant-slider-tooltip {
+  z-index: 9999 !important;
+}
+
+@media (max-width: 1280px) {
+  .filter {
+    margin-left: 0rem !important;
+    width: auto;
+    height: auto;
+    margin-top: 0;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+  }
+}
