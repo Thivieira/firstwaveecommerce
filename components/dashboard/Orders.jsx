@@ -117,58 +117,38 @@ function Orders() {
       key: 'billingType'
     }
     // {
-    //   title: "Ações",
-    //   dataIndex: "operation",
-    //   key: "operation",
+    //   title: 'Ações',
+    //   dataIndex: 'operation',
+    //   key: 'operation',
     //   render: function render(text, record) {
     //     return (
     //       <div className="table-operation">
     //         <Row>
     //           <Col>
-    //             <Button
-    //               title="Abrir pedido"
-    //               onClick={() => setActiveOrder(record)}
-    //             >
-    //               Abrir
-    //             </Button>
-    //           </Col>
-    //           <Col>
-    //             <Button
-    //               title="Tentar Pagamento"
-    //               onClick={() => setActiveOrder(record)}
-    //             >
-    //               Tentar novamente
+    //             <Button title="Abrir pedido" onClick={() => setActiveOrder(record)}>
+    //               Detalhes
     //             </Button>
     //           </Col>
     //         </Row>
     //       </div>
-    //     );
-    //   },
-    // },
+    //     )
+    //   }
+    // }
   ]
 
   if (activeOrder) {
+    console.log(activeOrder)
     return (
       <>
         <Row type="flex" justify="center" align="middle">
           <Col span={24}>
-            <Card
-            // cover={
-            //   // <img
-            //   //   alt="example"
-            //   //   src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-            //   // />
-            // }
-            >
+            <Card>
               <Card.Meta
-                avatar={
-                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                }
-                title="Card title"
-                description="This is the description"
+                title={'Pedido #' + activeOrder.id}
+                description={'Realizado em ' + activeOrder.created_at}
               />
             </Card>
-            <Descriptions title="User Info">
+            <Descriptions title="Detalhes">
               <Descriptions.Item label="UserName"></Descriptions.Item>
               <Descriptions.Item label="Telephone"></Descriptions.Item>
               <Descriptions.Item label="Live"></Descriptions.Item>
