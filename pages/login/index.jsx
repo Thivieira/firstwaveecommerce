@@ -43,7 +43,7 @@ function Login() {
         password: password
       })
       const accessToken = res.data.access_token
-      console.log(accessToken)
+      // console.log(accessToken)
       setToken(accessToken)
       api.defaults.headers.common['Authorization'] = `Bearer ${accessToken.replace(/['"]+/g, '')}`
       try {

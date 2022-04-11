@@ -223,7 +223,7 @@ export default function Products({
       dispatch(clearProducts())
 
       api.get(url).then(({ data }) => {
-        console.log(data, 'data')
+        // console.log(data, 'data')
         dispatch(setLoading(false))
         dispatch(setProducts(data.data))
         dispatch(

@@ -104,7 +104,7 @@ function Credit({ errors }) {
   async function mountForm() {
     if (mp) {
       const values = getValues()
-      console.log(values.checkoutForm.cardNumber, 'hi there')
+      // console.log(values.checkoutForm.cardNumber, 'hi there')
       if (values.checkoutForm.cardNumber) {
         const cardNumber = values.checkoutForm.cardNumber.replace(/\s/g, '')
         const bin = cardNumber.substr(0, 6)
@@ -150,27 +150,27 @@ function Credit({ errors }) {
           }
         }
 
-        console.log(
-          {
-            cardNumber,
-            cardholderName: values.checkoutForm.cardholderName,
-            month,
-            year,
-            securityCode: values.checkoutForm.securityCode,
-            identificationType: values.checkoutForm.identificationType,
-            identificationNumber,
-            cardExpirationDate,
-            condition:
-              cardNumber &&
-              values.checkoutForm.cardholderName &&
-              month &&
-              year &&
-              values.checkoutForm.securityCode &&
-              values.checkoutForm.identificationType &&
-              identificationNumber
-          },
-          'THE MOST IMPORTANT'
-        )
+        // console.log(
+        //   {
+        //     cardNumber,
+        //     cardholderName: values.checkoutForm.cardholderName,
+        //     month,
+        //     year,
+        //     securityCode: values.checkoutForm.securityCode,
+        //     identificationType: values.checkoutForm.identificationType,
+        //     identificationNumber,
+        //     cardExpirationDate,
+        //     condition:
+        //       cardNumber &&
+        //       values.checkoutForm.cardholderName &&
+        //       month &&
+        //       year &&
+        //       values.checkoutForm.securityCode &&
+        //       values.checkoutForm.identificationType &&
+        //       identificationNumber
+        //   },
+        //   'THE MOST IMPORTANT'
+        // )
         if (
           cardNumber &&
           values.checkoutForm.cardholderName &&
@@ -207,16 +207,16 @@ function Credit({ errors }) {
       value = value.toUpperCase()
     }
 
-    console.log({
-      ...checkoutForm,
-      [name]: value
-    })
+    // console.log({
+    //   ...checkoutForm,
+    //   [name]: value
+    // })
     setCheckoutForm({
       ...checkoutForm,
       [name]: value
     })
 
-    console.log(`checkoutForm.${name}`, value)
+    // console.log(`checkoutForm.${name}`, value)
 
     setValue(`checkoutForm.${name}`, value)
   }

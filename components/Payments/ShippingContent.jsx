@@ -100,7 +100,7 @@ function ShippingContent({ freeShippingStates, state, cep, errors, shippingMetho
                 ))}
             </div>
           )}
-          {console.log('errors', errors)}
+          {/* {console.log('errors', errors)} */}
           <ErrorComponent errors={errors['shippingMethod']} name="id" />
         </div>
       </div>
