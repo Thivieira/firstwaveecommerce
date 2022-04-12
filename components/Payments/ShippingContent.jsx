@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { CheckoutContext } from '../../contexts/CheckoutContext'
 import { ErrorComponent } from '../../pages/checkout'
-import { getCartState } from '../../store/selectors/products'
+import { getCartState, getCartTotal } from '../../store/selectors/products'
 
 function ShippingContent({ freeShippingStates, state, cep, errors, shippingMethod }) {
   const { shipping, setShipping, selectedShipping, setSelectedShipping, setSelectedShippingPrice } =
@@ -13,6 +13,7 @@ function ShippingContent({ freeShippingStates, state, cep, errors, shippingMetho
   const { setValue } = useFormContext() // retrieve all hook methods
 
   const cart = useSelector(getCartState)
+  const total = useSelector(getCartTotal)
 
   useEffect(() => {
     if (cep && cart.length > 0) {
@@ -40,7 +41,7 @@ function ShippingContent({ freeShippingStates, state, cep, errors, shippingMetho
     setShipping([])
   }, [])
 
-  if (freeShippingStates.includes(state)) {
+  if (freeShippingStates.includes(state) && total > 200) {
     return (
       <div className="relative max-w-xl border-b border-gray-200 sm:pb-0 lg:max-w-5xl">
         <div className="max-w-md mx-auto sm:max-w-3xl lg:max-w-7xl">
