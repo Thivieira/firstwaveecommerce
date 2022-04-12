@@ -41,7 +41,7 @@ function ShippingContent({ freeShippingStates, state, cep, errors, shippingMetho
     setShipping([])
   }, [])
 
-  if (freeShippingStates.includes(state) && total > 200) {
+  if (freeShippingStates.includes(state) && total > 199) {
     return (
       <div className="relative max-w-xl border-b border-gray-200 sm:pb-0 lg:max-w-5xl">
         <div className="max-w-md mx-auto sm:max-w-3xl lg:max-w-7xl">
