@@ -104,11 +104,7 @@ function Credit({ errors }) {
   async function mountForm() {
     if (mp) {
       const values = getValues()
-<<<<<<< HEAD
       // console.log(values.checkoutForm.cardNumber, 'hi there')
-=======
-      console.log(values.checkoutForm.cardNumber, 'hi there')
->>>>>>> 45cf8f3d2ce883b2c220d9339352f7482bfc92da
       if (values.checkoutForm.cardNumber) {
         const cardNumber = values.checkoutForm.cardNumber.replace(/\s/g, '')
         const bin = cardNumber.substr(0, 6)
@@ -154,7 +150,6 @@ function Credit({ errors }) {
           }
         }
 
-<<<<<<< HEAD
         // console.log(
         //   {
         //     cardNumber,
@@ -176,29 +171,6 @@ function Credit({ errors }) {
         //   },
         //   'THE MOST IMPORTANT'
         // )
-=======
-        console.log(
-          {
-            cardNumber,
-            cardholderName: values.checkoutForm.cardholderName,
-            month,
-            year,
-            securityCode: values.checkoutForm.securityCode,
-            identificationType: values.checkoutForm.identificationType,
-            identificationNumber,
-            cardExpirationDate,
-            condition:
-              cardNumber &&
-              values.checkoutForm.cardholderName &&
-              month &&
-              year &&
-              values.checkoutForm.securityCode &&
-              values.checkoutForm.identificationType &&
-              identificationNumber
-          },
-          'THE MOST IMPORTANT'
-        )
->>>>>>> 45cf8f3d2ce883b2c220d9339352f7482bfc92da
         if (
           cardNumber &&
           values.checkoutForm.cardholderName &&
@@ -235,27 +207,16 @@ function Credit({ errors }) {
       value = value.toUpperCase()
     }
 
-<<<<<<< HEAD
     // console.log({
     //   ...checkoutForm,
     //   [name]: value
     // })
-=======
-    console.log({
-      ...checkoutForm,
-      [name]: value
-    })
->>>>>>> 45cf8f3d2ce883b2c220d9339352f7482bfc92da
     setCheckoutForm({
       ...checkoutForm,
       [name]: value
     })
 
-<<<<<<< HEAD
     // console.log(`checkoutForm.${name}`, value)
-=======
-    console.log(`checkoutForm.${name}`, value)
->>>>>>> 45cf8f3d2ce883b2c220d9339352f7482bfc92da
 
     setValue(`checkoutForm.${name}`, value)
   }

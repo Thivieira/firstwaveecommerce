@@ -137,11 +137,7 @@ function Orders() {
   ]
 
   if (activeOrder) {
-<<<<<<< HEAD
     // console.log(activeOrder)
-=======
-    console.log(activeOrder)
->>>>>>> 45cf8f3d2ce883b2c220d9339352f7482bfc92da
     return (
       <>
         <Row type="flex" justify="center" align="middle">
