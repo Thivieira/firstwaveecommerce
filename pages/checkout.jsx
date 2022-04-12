@@ -122,7 +122,11 @@ export default function Checkout() {
         .label('método de envio'),
       billingType: yup.string().required().label('método de pagamento'),
       checkoutForm: yup.object().when('billingType', (val) => {
+<<<<<<< HEAD
         // console.log(val, 'teste')
+=======
+        console.log(val, 'teste')
+>>>>>>> 45cf8f3d2ce883b2c220d9339352f7482bfc92da
         return val == 'creditcard'
           ? yup
               .object({
@@ -245,7 +249,11 @@ export default function Checkout() {
   }, [total])
 
   useEffect(() => {
+<<<<<<< HEAD
     // console.log(checkoutTotal)
+=======
+    console.log(checkoutTotal)
+>>>>>>> 45cf8f3d2ce883b2c220d9339352f7482bfc92da
     setValue('originalAmount', checkoutTotal.toString())
   }, [checkoutTotal])
 
@@ -287,7 +295,11 @@ export default function Checkout() {
       .get('/auth/address')
       .then((res) => {
         const data = res.data
+<<<<<<< HEAD
         // console.log(res)
+=======
+        console.log(res)
+>>>>>>> 45cf8f3d2ce883b2c220d9339352f7482bfc92da
         setValue('shippingAddress.address', nullToString(data.address))
         setValue('shippingAddress.number', nullToString(data.addressNumber))
         setValue('shippingAddress.complement', nullToString(data.complement))
@@ -391,7 +403,11 @@ export default function Checkout() {
       router.push(`/status/${slug}?payment_id=${order.mercadopago_id}`)
     } catch (e) {
       setLoading(false)
+<<<<<<< HEAD
       // console.log(e, 'error submit')
+=======
+      console.log(e, 'error submit')
+>>>>>>> 45cf8f3d2ce883b2c220d9339352f7482bfc92da
 
       MySwal.fire({
         title: <p>Tivemos um problema com seu pedido, tente novamente mais tarde.</p>,

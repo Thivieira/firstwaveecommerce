@@ -41,7 +41,11 @@ export default function Cart() {
 
   useEffect(() => {
     if (cartStorage) {
+<<<<<<< HEAD
       // console.log({ cart: cartStorage.cart, total: cartStorage.total })
+=======
+      console.log({ cart: cartStorage.cart, total: cartStorage.total })
+>>>>>>> 45cf8f3d2ce883b2c220d9339352f7482bfc92da
       dispatch(updateCart({ cart: cartStorage.cart, total: cartStorage.total }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

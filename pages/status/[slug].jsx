@@ -13,7 +13,11 @@ const { Paragraph, Text } = Typography
 export async function getServerSideProps(ctx) {
   const payment_id = ctx.query.payment_id
   if (payment_id) {
+<<<<<<< HEAD
     // console.log('before trying')
+=======
+    console.log('before trying')
+>>>>>>> 45cf8f3d2ce883b2c220d9339352f7482bfc92da
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_SITE_URL}/api/mercadopago/payment?payment_id=${payment_id}`
@@ -33,7 +37,11 @@ export default function Index(props) {
   const [pixData, setPixData] = useState(props.pix)
   const [paymentData, setPaymentData] = useState(props.paymentData)
 
+<<<<<<< HEAD
   // console.log(props)
+=======
+  console.log(props)
+>>>>>>> 45cf8f3d2ce883b2c220d9339352f7482bfc92da
 
   useEffect(() => {
     switch (props.slug) {
