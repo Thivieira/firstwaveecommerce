@@ -1,8 +1,8 @@
 import { Carousel } from 'react-responsive-carousel'
 import NavLink from '../NavLink'
-import banner1 from '../../public/banner-topo1.jpg'
-import banner2 from '../../public/banner-topo2.jpg'
-import banner3 from '../../public/banner-topo3.jpg'
+// import banner1 from '../../public/banner-topo1.jpg'
+// import banner2 from '../../public/banner-topo2.jpg'
+// import banner3 from '../../public/banner-topo3.jpg'
 
 function ImageSlider() {
   const getConfigurableProps = () => ({
